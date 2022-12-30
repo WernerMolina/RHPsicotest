@@ -69,3 +69,6 @@ C:\Users\WernerMolina\Source\Repos\RHPsicotest\RHPsicotest.WebSite\obj\Debug\net
 C:\Users\WernerMolina\Source\Repos\RHPsicotest\RHPsicotest.WebSite\obj\Debug\net5.0\ref\RHPsicotest.WebSite.dll
 C:\Users\WernerMolina\Source\Repos\RHPsicotest\RHPsicotest.WebSite\obj\Debug\net5.0\Razor\Views\Home\Dashboard.cshtml.g.cs
 C:\Users\WernerMolina\Source\Repos\RHPsicotest\RHPsicotest.WebSite\obj\Debug\net5.0\Razor\Views\User\Login.cshtml.g.cs
+C:\Users\WernerMolina\source\repos\RHPsicotest\RHPsicotest.WebSite\obj\Debug\net5.0\Razor\Views\Shared\_HeaderAdmin.cshtml.g.cs
+C:\Users\WernerMolina\source\repos\RHPsicotest\RHPsicotest.WebSite\obj\Debug\net5.0\Razor\Views\Shared\_LayoutAdmin.cshtml.g.cs
+C:\Users\WernerMolina\source\repos\RHPsicotest\RHPsicotest.WebSite\obj\Debug\net5.0\Razor\Views\Shared\_SidebarAdmin.cshtml.g.cs

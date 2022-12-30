@@ -49,13 +49,18 @@ namespace RHPsicotest.WebSite.Controllers
 
                 if (user != null)
                 {
-                    var claims = new List<Claim>
-                    {
-                        new Claim(ClaimTypes.Email, user.Email),
-                        new Claim(ClaimTypes.Role, user.RoleName)
-                    };
+                    //var claims = new List<Claim>
+                    //{
+                    //    new Claim(ClaimTypes.Email, user.Email),
+                    //    new Claim(ClaimTypes.Role, user.RoleName)
+                    //};
 
-                    await HttpContext.SignInAsync(new ClaimsPrincipal(new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme, ClaimTypes.Email, ClaimTypes.Role)));
+                    //await HttpContext.SignInAsync(new ClaimsPrincipal(new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme, ClaimTypes.Email, ClaimTypes.Role)));
+
+                    var claims = new[] { new Claim(ClaimTypes.Name, user.Email), new Claim(ClaimTypes.Role, user.RoleName) };
+                    var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
 
                     if (Url.IsLocalUrl(returnUrl))
                     {

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RHPsicotest.WebSite.Data;
 
 namespace RHPsicotest.WebSite.Migrations
 {
     [DbContext(typeof(RHPsicotestDbContext))]
-    partial class RHPsicotestDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230104001928_RolesAndPermissionsMigration")]
+    partial class RolesAndPermissionsMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

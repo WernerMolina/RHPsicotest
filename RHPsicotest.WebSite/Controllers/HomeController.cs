@@ -2,13 +2,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using RHPsicotest.WebSite.Models;
-using RHPsicotest.WebSite.Repositories;
-using System;
-using System.Collections.Generic;
+using RHPsicotest.WebSite.ViewModels;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace RHPsicotest.WebSite.Controllers
 {

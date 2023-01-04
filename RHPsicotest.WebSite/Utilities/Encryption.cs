@@ -1,4 +1,4 @@
-﻿using RHPsicotest.WebSite.Models;
+﻿using RHPsicotest.WebSite.ViewModels;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -6,7 +6,7 @@ namespace RHPsicotest.WebSite.Utilities
 {
     public class Encryption
     {
-        public static void EncryptMD5(UserLogin userLogin)
+        public static void EncryptMD5(Login userLogin)
         {
             using (var md5 = MD5.Create())
             {

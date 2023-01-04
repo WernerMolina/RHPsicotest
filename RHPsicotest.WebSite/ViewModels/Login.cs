@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace RHPsicotest.WebSite.Models
+namespace RHPsicotest.WebSite.ViewModels
 {
-    public class UserLogin
+    public class Login
     {
         [Required(ErrorMessage = "El Email es Obligatorio")]
         [RegularExpression(@"^[^@]+@[^@]+\.[a-zA-Z]{2,}$", ErrorMessage = "El Correo no es válido")]

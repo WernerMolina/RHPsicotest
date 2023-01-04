@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
-using RHPsicotest.WebSite.Models;
 using RHPsicotest.WebSite.Repositories.Contracts;
 using RHPsicotest.WebSite.Utilities;
+using RHPsicotest.WebSite.ViewModels;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -36,50 +36,43 @@ namespace RHPsicotest.WebSite.Controllers
             return View();
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Login(UserLogin userLogin, string returnUrl = null)
-        {
-            ViewData["ReturnUrl"] = returnUrl;
+        //[HttpPost]
+        //public async Task<IActionResult> Login(Login userLogin, string returnUrl = null)
+        //{
+        //    ViewData["ReturnUrl"] = returnUrl;
 
-            if (ModelState.IsValid)
-            {
-                Encryption.EncryptMD5(userLogin);
+        //    if (ModelState.IsValid)
+        //    {
+        //        Encryption.EncryptMD5(userLogin);
 
-                var user = await userRepository.GetUserLogin(userLogin);
+        //        var user = await userRepository.GetUserLogin(userLogin);
 
-                if (user != null)
-                {
-                    //var claims = new List<Claim>
-                    //{
-                    //    new Claim(ClaimTypes.Email, user.Email),
-                    //    new Claim(ClaimTypes.Role, user.RoleName)
-                    //};
+        //        if (user != null)
+        //        {
+        //            var claims = new[] { new Claim(ClaimTypes.Name, user.Email), 
+        //                                 new Claim(ClaimTypes.Role, user.RoleName) };
+        //            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
-                    //await HttpContext.SignInAsync(new ClaimsPrincipal(new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme, ClaimTypes.Email, ClaimTypes.Role)));
+        //            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
 
-                    var claims = new[] { new Claim(ClaimTypes.Name, user.Email), new Claim(ClaimTypes.Role, user.RoleName) };
-                    var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+        //            if (Url.IsLocalUrl(returnUrl))
+        //            {
+        //                return Redirect(returnUrl);
+        //            }
 
-                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
+        //            if (user.RoleName == "Administrador")
+        //            {
+        //                return RedirectToAction("Dashboard", "Home");
+        //            }
+        //            else
+        //            {
+        //                return RedirectToAction("Index", "Home");
+        //            }
+        //        }
+        //    }
 
-                    if (Url.IsLocalUrl(returnUrl))
-                    {
-                        return Redirect(returnUrl);
-                    }
-
-                    if (user.RoleName == "Administrador")
-                    {
-                        return RedirectToAction("Dashboard", "Home");
-                    }
-                    else
-                    {
-                        return RedirectToAction("Index", "Home");
-                    }
-                }
-            }
-
-            return View(userLogin);
-        }
+        //    return View(userLogin);
+        //}
 
         public async Task<IActionResult> Logout()
         {

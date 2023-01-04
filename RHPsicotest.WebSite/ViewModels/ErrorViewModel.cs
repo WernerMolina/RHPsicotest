@@ -1,6 +1,6 @@
 using System;
 
-namespace RHPsicotest.WebSite.Models
+namespace RHPsicotest.WebSite.ViewModels
 {
     public class ErrorViewModel
     {

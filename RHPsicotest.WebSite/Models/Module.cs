@@ -12,7 +12,7 @@ namespace RHPsicotest.WebSite.Models
 
         public string ModuleName { get; set; }
 
-        public virtual ICollection<Permission> Permissions { get; set; }
+        public virtual IEnumerable<Permission> Permissions { get; set; }
 
     }
 }

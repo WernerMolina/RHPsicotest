@@ -22,7 +22,7 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
 
-                        @if(User.Identity.IsAuthenticated && User.IsInRole("Administrador"))
+                        @if(true @*User.Identity.IsAuthenticated && User.IsInRole("Administrador")*@)
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark font-weight-bold" asp-area="" asp-controller="Home" asp-action="Dashboard">Dashboard</a>

@@ -33,7 +33,11 @@ namespace RHPsicotest.WebSite
 
             services.AddDbContextPool<RHPsicotestDbContext>(option => option.UseSqlServer(Configuration.GetConnectionString("RHPsicotestConnection")));
 
+            services.AddScoped<DbContext, RHPsicotestDbContext>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IRoleRepository, RoleRepository>();
+            services.AddScoped<IPermissionRepository, PermissionRepository>();
+            services.AddScoped<IStallRepository, StallRepository>();
 
             //services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
             //.AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>

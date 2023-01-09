@@ -23,7 +23,7 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpGet]
         [Route("Dashboard")]
-        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Administrador")]
+        //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Administrador")]
         public ActionResult Dashboard()
         {
             return View();

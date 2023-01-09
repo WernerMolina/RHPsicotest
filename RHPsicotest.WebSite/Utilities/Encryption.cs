@@ -6,16 +6,18 @@ namespace RHPsicotest.WebSite.Utilities
 {
     public class Encryption
     {
-        public static void EncryptMD5(Login userLogin)
+        public static string EncryptMD5(string password)
         {
             using (var md5 = MD5.Create())
             {
-                var result = md5.ComputeHash(Encoding.ASCII.GetBytes(userLogin.Password));
+                var result = md5.ComputeHash(Encoding.ASCII.GetBytes(password));
                 var encryptedString = "";
 
                 for (int i = 0; i < result.Length; i++) encryptedString += result[i].ToString("x2").ToLower();
 
-                userLogin.Password = encryptedString;
+                password = encryptedString;
+
+                return password;
             }
         }
     }

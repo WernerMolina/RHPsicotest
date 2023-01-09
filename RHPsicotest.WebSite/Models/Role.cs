@@ -10,9 +10,13 @@ namespace RHPsicotest.WebSite.Models
         [Key]
         public int IdRole { get; set; }
 
+        public int IdPermission { get; set; }
+
         public string RoleName { get; set; }
 
-        public virtual ICollection<Role_User> Role_Users { get; set; }
+        public Permission Permission { get; set; }
+
+        public virtual IEnumerable<Role_User> Role_Users { get; set; }
 
     }
 }

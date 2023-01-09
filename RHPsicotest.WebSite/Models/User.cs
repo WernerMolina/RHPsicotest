@@ -12,8 +12,6 @@ namespace RHPsicotest.WebSite.Models
         [Key]
         public int IdUser { get; set; }
 
-        public int IdRole { get; set; }
-
         public string Name { get; set; }
 
         public string Email { get; set; }
@@ -22,7 +20,8 @@ namespace RHPsicotest.WebSite.Models
 
         public DateTime RegistrationDate { get; set; } = DateTime.Now;
 
-        public virtual ICollection<Role_User> Role_Users { get; set; }
+        public virtual IEnumerable<Role_User> Role_Users { get; set; }
+
 
     }
 }

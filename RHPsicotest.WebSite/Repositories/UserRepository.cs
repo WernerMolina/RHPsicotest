@@ -80,9 +80,11 @@ namespace RHPsicotest.WebSite.Repositories
             return userDTOs;
         }
 
-        public async Task<IEnumerable<Role>> GetAllRoles()
+        public async Task<MultiSelectList> GetAllRoles()
         {
-            return await context.Roles.ToListAsync();
+            var roles = await context.Roles.ToListAsync();
+
+            return new MultiSelectList(roles, "IdRole", "RoleName");
         }
 
         public async Task<UserDTO> GetUserWithRoles(int id)

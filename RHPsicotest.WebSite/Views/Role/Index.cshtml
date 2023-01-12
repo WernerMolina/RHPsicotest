@@ -5,24 +5,24 @@
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h1>Index</h1>
+<h1 class="fw-bold">Lista de Roles</h1>
 
-<p>
-    <a asp-action="Create" class="btn btn-success">Create New</a>
+<p class="mt-4">
+    <a asp-action="Create" class="btn btn-success fw-bold fs-5">Crear Rol</a>
 </p>
-<table class="table table-striped">
-    <thead>
-        <tr>
+<table class="table table-striped align-middle">
+    <thead class="table-dark">
+        <tr class="text-center">
             <th>
                 @Html.DisplayNameFor(model => model.RoleName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Permission)
             </th>
-            <th></th>
+            <th>Acciones</th>
         </tr>
     </thead>
-    <tbody>
+    <tbody class="text-center">
         @foreach (var item in Model)
         {
             <tr>
@@ -33,11 +33,12 @@
                     @Html.DisplayFor(modelItem => item.Permission.PermissionName)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.IdRole" class="btn btn-warning">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.IdRole" class="btn btn-primary">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.IdRole" class="btn btn-danger">Delete</a>
+                    <a asp-action="Edit" asp-route-id="@item.IdRole" class="btn bg-warning fw-bold"><i class="bi bi-pencil-fill"></i></a> |
+                    <a asp-action="Details" asp-route-id="@item.IdRole" class="btn btn-primary fw-bold"><i class="bi bi-eye-fill"></i></a> |
+                    <a asp-action="Delete" asp-route-id="@item.IdRole" class="btn btn-danger fw-bold"><i class="bi bi-trash3-fill"></i></a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
+

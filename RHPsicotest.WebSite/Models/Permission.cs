@@ -10,10 +10,13 @@ namespace RHPsicotest.WebSite.Models
         [Key]
         public int IdPermission { get; set; }
 
+        [Display(Name = "Módulo")]
         public int IdModule { get; set; }
 
+        [Display(Name = "Nombre")]
         public string PermissionName { get; set; }
 
+        [Display(Name = "Módulo")]
         public virtual Module Module { get; set; }
 
         public virtual IEnumerable<Role> Roles { get; set; }

@@ -11,7 +11,7 @@ namespace RHPsicotest.WebSite.Repositories.Contracts
     {
         public Task<IEnumerable<UserDTO>> GetAllUsers();
 
-        public Task<IEnumerable<Role>> GetAllRoles();
+        public Task<MultiSelectList> GetAllRoles();
 
         public Task<MultiSelectList> GetRolesSelected(int userId);
 

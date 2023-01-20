@@ -8,7 +8,7 @@ namespace RHPsicotest.WebSite.Models
         [Key]
         public int IdStall { get; set; }
 
-        [Display(Name = "Nombre")]
+        [Display(Name = "Puesto")]
         public string StallName { get; set; }
 
         [Display(Name = "Puesto Superior")]

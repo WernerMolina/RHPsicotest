@@ -9,15 +9,15 @@ namespace RHPsicotest.WebSite.Repositories.Contracts
 {
     public interface IUserRepository
     {
-        public Task<IEnumerable<UserDTO>> GetAllUsers();
+        public Task<IEnumerable<User>> GetAllUsers();
 
         public Task<MultiSelectList> GetAllRoles();
 
         public Task<MultiSelectList> GetRolesSelected(int userId);
 
-        public Task<User> GetUser(int id);
+        public Task<User> GetUserWithRoles(int id);
 
-        public Task<UserDTO> GetUserWithRoles(int id);
+        public Task<UserDTO> GetUserDTO(int id);
 
         public Task<User> AddUser(User user, List<int> roles);
 
@@ -25,6 +25,7 @@ namespace RHPsicotest.WebSite.Repositories.Contracts
 
         public Task<bool> DeleteUser(int id);
 
-        public Task<User> GetUserLogin(Login userLogin);
+        public Task<UserDTO> GetUserLogin(Login userLogin);
+
     }
 }

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<UserDTO>
+﻿@model IEnumerable<User>
 
 @{
     ViewData["Title"] = "Usurios";
@@ -7,9 +7,15 @@
 
 <h1 class="fw-bold">Lista de Usuarios</h1>
 
-<p class="mt-4">
+@if ((await AuthorizationService.AuthorizeAsync(User, "Create-User-Policy")).Succeeded)
+{
+    <p class="mt-4">
+        <a asp-action="Create" class="btn btn-success fw-bold fs-5">Crear Usuario</a>
+    </p>
+}
+@*<p class="mt-4">
     <a asp-action="Create" class="btn btn-success fw-bold fs-5">Crear Usuario</a>
-</p>
+</p>*@
 <table class="table table-striped align-middle">
     <thead class="table-dark">
         <tr class="text-center">
@@ -44,13 +50,18 @@
                 <td>
                     @foreach (var role in item.Roles)
                     {
-                        <p><i class="bi bi-circle"></i>@role.RoleName</p>
+                        <p>@role.Role.RoleName</p>
                     }
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.IdUser" class="btn bg-warning fw-bold"><i class="bi bi-pencil-fill"></i></a> |
-                    <a asp-action="Details" asp-route-id="@item.IdUser" class="btn btn-primary fw-bold"><i class="bi bi-eye-fill"></i></a> |
-                    <a asp-action="Delete" asp-route-id="@item.IdUser" class="btn btn-danger fw-bold"><i class="bi bi-trash3-fill"></i></a>
+                    @if ((await AuthorizationService.AuthorizeAsync(User, "Edit-User-Policy")).Succeeded)
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.IdUser" class="btn bg-warning fw-bold"><i class="bi bi-pencil-fill"></i></a> <span class="fw-bold">|</span>
+                    }
+                    @if ((await AuthorizationService.AuthorizeAsync(User, "Delete-User-Policy")).Succeeded)
+                    {
+                        <a asp-action="Delete" asp-route-id="@item.IdUser" class="btn btn-danger fw-bold"><i class="bi bi-trash3-fill"></i></a>
+                    }
                 </td>
             </tr>
         }

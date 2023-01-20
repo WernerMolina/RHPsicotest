@@ -22,10 +22,11 @@ namespace RHPsicotest.WebSite.Models
         public string Password { get; set; }
 
         [Display(Name = "Fehca de Registro")]
-        public DateTime RegistrationDate { get; set; } = DateTime.Now;
+        public DateTime RegistrationDate { get; set; } = DateTime.Now.Date;
 
-        public virtual IEnumerable<Role_User> Role_Users { get; set; }
-
+        [Display(Name = "Roles")]
+        [InverseProperty(nameof(Role_User.User))]
+        public virtual IEnumerable<Role_User> Roles { get; set; }
 
     }
 }

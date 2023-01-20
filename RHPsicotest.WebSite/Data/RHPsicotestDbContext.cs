@@ -9,9 +9,9 @@ namespace RHPsicotest.WebSite.Data
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Permission> Permissions { get; set; }
-        public DbSet<Module> Modules { get; set; }
-        public DbSet<Role_User> Role_Users { get; set; }
         public DbSet<Stall> Stalls { get; set; }
+        public DbSet<Permission_Role> Permission_Roles { get; set; }
+        public DbSet<Role_User> Role_Users { get; set; }
 
         public RHPsicotestDbContext(DbContextOptions<RHPsicotestDbContext> options) : base(options)
         {
@@ -28,46 +28,40 @@ namespace RHPsicotest.WebSite.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Permission>()
-                        .HasOne(p => p.Module)
-                        .WithMany(m => m.Permissions)
-                        .HasForeignKey(p => p.IdModule);
-
-            modelBuilder.Entity<Role>()
-                        .HasOne(r => r.Permission)
-                        .WithMany(p => p.Roles)
-                        .HasForeignKey(r => r.IdPermission);
-
+            modelBuilder.Entity<Permission_Role>()
+                        .HasKey(pr => new { pr.IdPermission, pr.IdRole });
+            
             modelBuilder.Entity<Role_User>()
                         .HasKey(ru => new { ru.IdRole, ru.IdUser });
 
-            modelBuilder.Entity<Role_User>()
-                        .HasOne(ru => ru.Role)
-                        .WithMany(r => r.Role_Users)
-                        .HasForeignKey(ru => ru.IdRole);
-            
-            modelBuilder.Entity<Role_User>()
-                        .HasOne(ru => ru.User)
-                        .WithMany(u => u.Role_Users)
-                        .HasForeignKey(ru => ru.IdUser);
-
-            modelBuilder.Entity<Module>().HasData(new Module
-            {
-                IdModule = 1,
-                ModuleName = "Pues no se"
-            });
 
             modelBuilder.Entity<Permission>().HasData(new Permission
             {
                 IdPermission = 1,
-                IdModule = 1,
-                PermissionName = "Todo",
+                PermissionName = "Lista-Usuarios",
+            });
+            
+            modelBuilder.Entity<Permission>().HasData(new Permission
+            {
+                IdPermission = 2,
+                PermissionName = "Crear-Usuario",
+            });
+            
+            modelBuilder.Entity<Permission>().HasData(new Permission
+            {
+                IdPermission = 3,
+                PermissionName = "Editar-Usuario",
+            });
+            
+            modelBuilder.Entity<Permission>().HasData(new Permission
+            {
+                IdPermission = 4,
+                PermissionName = "Eliminar-Usuario",
             });
 
             modelBuilder.Entity<Role>().HasData(new Role
             {
                 IdRole = 1,
-                IdPermission = 1,
                 RoleName = "Super-Admin",
             });
 
@@ -77,13 +71,37 @@ namespace RHPsicotest.WebSite.Data
                 Name = "Werner Molina",
                 Email = "Wm25@gmail.com",
                 Password = "827ccb0eea8a706c4c34a16891f84e7b",
-                RegistrationDate = DateTime.Now
+                RegistrationDate = DateTime.Now.Date
             });
 
             modelBuilder.Entity<Role_User>().HasData(new Role_User
             {
                 IdRole = 1,
                 IdUser = 1
+            });
+            
+            modelBuilder.Entity<Permission_Role>().HasData(new Permission_Role
+            {
+                IdRole = 1,
+                IdPermission = 1
+            });
+            
+            modelBuilder.Entity<Permission_Role>().HasData(new Permission_Role
+            {
+                IdRole = 1,
+                IdPermission = 2
+            });
+            
+            modelBuilder.Entity<Permission_Role>().HasData(new Permission_Role
+            {
+                IdRole = 1,
+                IdPermission = 3
+            });
+            
+            modelBuilder.Entity<Permission_Role>().HasData(new Permission_Role
+            {
+                IdRole = 1,
+                IdPermission = 4
             });
         }
     }

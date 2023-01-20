@@ -46,19 +46,14 @@ namespace RHPsicotest.WebSite.Repositories
             return result;
         }
 
-        public async Task<IEnumerable<Module>> GetAllModules()
-        {
-            return await context.Modules.ToListAsync();
-        }
-
         public async Task<IEnumerable<Permission>> GetAllPermissions()
         {
-            return await context.Permissions.Include(p => p.Module).ToListAsync();
+            return await context.Permissions.ToListAsync();
         }
 
         public async Task<Permission> GetPermission(int id)
         {
-            return await context.Permissions.AsNoTracking().Include(r => r.Module).FirstOrDefaultAsync(r => r.IdPermission == id);
+            return await context.Permissions.AsNoTracking().FirstOrDefaultAsync(r => r.IdPermission == id);
         }
 
         public async Task<bool> UpdatePermission(Permission permission)

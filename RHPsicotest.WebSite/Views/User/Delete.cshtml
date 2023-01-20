@@ -33,9 +33,18 @@
                     @Html.DisplayNameFor(model => model.Roles)
                 </dt>
                 <dd class="col-sm-6 text-center">
-                    @foreach (var role in Model.Roles)
+                    @foreach (var item in Model.Roles)
                     {
-                        <span>@role.RoleName</span>
+                        <p>@item.RoleName</p>
+                    }
+                </dd>
+                <dt class="col-sm-6">
+                    @Html.DisplayNameFor(model => model.Permissions)
+                </dt>
+                <dd class="col-sm-6 text-center">
+                    @foreach (var item in Model.Permissions)
+                    {
+                        <p>@item.PermissionName</p>
                     }
                 </dd>
             </dl>
@@ -43,7 +52,7 @@
         <div class="d-flex justify-content-end mt-5">
             <form asp-action="Delete">
                 <input type="hidden" asp-for="IdUser" />
-                <a  class="btn btn-dark">Volver a la Lista</a>
+                <a class="btn btn-dark">Volver a la Lista</a>
                 <span class="fs-4 fw-bold">|</span>
                 <input type="submit" value="Eliminar" class="btn btn-danger" /> |
             </form>

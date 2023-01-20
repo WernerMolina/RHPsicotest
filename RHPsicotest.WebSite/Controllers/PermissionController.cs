@@ -36,10 +36,8 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpGet]
         [Route("/Permiso/Crear")]
-        public async Task<IActionResult> Create()
+        public IActionResult Create()
         {
-            ViewBag.Modules = await permissionRepository.GetAllModules();
-
             return View();
         }
 
@@ -59,8 +57,6 @@ namespace RHPsicotest.WebSite.Controllers
                     }
                 }
 
-                ViewBag.Modules = await permissionRepository.GetAllModules();
-
                 return View(permission);
             }
             catch (Exception ex)
@@ -74,7 +70,6 @@ namespace RHPsicotest.WebSite.Controllers
         public async Task<IActionResult> Edit(int id)
         {
             Permission permission = await permissionRepository.GetPermission(id);
-            ViewBag.Modules = await permissionRepository.GetAllModules();
 
             return View(permission);
         }
@@ -94,8 +89,6 @@ namespace RHPsicotest.WebSite.Controllers
                         return RedirectToAction("Index", "Permission");
                     }
                 }
-
-                ViewBag.Modules = await permissionRepository.GetAllModules();
 
                 return View(permission);
             }

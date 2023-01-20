@@ -7,9 +7,15 @@
 
 <h1 class="fw-bold">Lista de Roles</h1>
 
-<p class="mt-4">
+@if ((await AuthorizationService.AuthorizeAsync(User, "Create-Role-Policy")).Succeeded)
+{
+    <p class="mt-4">
+        <a asp-action="Create" class="btn btn-success fw-bold fs-5">Crear Rol</a>
+    </p>
+}
+@*<p class="mt-4">
     <a asp-action="Create" class="btn btn-success fw-bold fs-5">Crear Rol</a>
-</p>
+</p>*@
 <table class="table table-striped align-middle">
     <thead class="table-dark">
         <tr class="text-center">
@@ -17,7 +23,7 @@
                 @Html.DisplayNameFor(model => model.RoleName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Permission)
+                @Html.DisplayNameFor(model => model.Permissions)
             </th>
             <th>Acciones</th>
         </tr>
@@ -30,13 +36,23 @@
                     @Html.DisplayFor(modelItem => item.RoleName)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Permission.PermissionName)
+                    @foreach (var permission in item.Permissions)
+                    {
+                        <p>@permission.Permission.PermissionName</p>
+                    }
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.IdRole" class="btn bg-warning fw-bold"><i class="bi bi-pencil-fill"></i></a> |
-                    <a asp-action="Details" asp-route-id="@item.IdRole" class="btn btn-primary fw-bold"><i class="bi bi-eye-fill"></i></a> |
-                    <a asp-action="Delete" asp-route-id="@item.IdRole" class="btn btn-danger fw-bold"><i class="bi bi-trash3-fill"></i></a>
-                </td>
+                    @if ((await AuthorizationService.AuthorizeAsync(User, "Edit-Role-Policy")).Succeeded)
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.IdRole" class="btn bg-warning fw-bold"><i class="bi bi-pencil-fill"></i></a> <span class="fw-bold">|</span>
+                    }
+@*                        <a asp-action="Edit" asp-route-id="@item.IdRole" class="btn bg-warning fw-bold"><i class="bi bi-pencil-fill"></i></a> <span class="fw-bold">|</span>
+*@                    @if ((await AuthorizationService.AuthorizeAsync(User, "Delete-Role-Policy")).Succeeded)
+                    {
+                        <a asp-action="Delete" asp-route-id="@item.IdRole" class="btn btn-danger fw-bold"><i class="bi bi-trash3-fill"></i></a>
+                    }
+@*                        <a asp-action="Delete" asp-route-id="@item.IdRole" class="btn btn-danger fw-bold"><i class="bi bi-trash3-fill"></i></a>
+*@                </td>
             </tr>
         }
     </tbody>

@@ -29,7 +29,7 @@ namespace RHPsicotest.WebSite.Repositories
 
             if (!userExists)
             {
-                user.Password = Encryption.EncryptMD5(user.Password);
+                user.Password = Helper.EncryptMD5(user.Password);
 
                 var result = await context.Users.AddAsync(user);
                 await context.SaveChangesAsync();
@@ -56,28 +56,27 @@ namespace RHPsicotest.WebSite.Repositories
             return result;
         }
 
-        public async Task<IEnumerable<UserDTO>> GetAllUsers()
+        public async Task<IEnumerable<User>> GetAllUsers()
         {
-            var users = await context.Users.Include(u => u.Role_Users).ToListAsync();
-            var roles = await context.Roles.ToListAsync();
+            var users = await context.Users.Include("Roles.Role").ToListAsync();
 
-            List<UserDTO> userDTOs = new List<UserDTO>();
+            //List<UserDTO> userDTOs = new List<UserDTO>();
 
-            foreach (var user in users)
-            {
-                List<Role> _roles = new List<Role>();
+            //foreach (var user in users)
+            //{
+            //    List<Role> _roles = new List<Role>();
 
-                foreach (var role in user.Role_Users)
-                {
-                    _roles.Add(context.Roles.Find(role.IdRole));
-                }
+            //    foreach (var role in user.Roles)
+            //    {
+            //        _roles.Add(context.Roles.Find(role.IdRole));
+            //    }
 
-                var userDTO = ConversionDTO.ConvertToDTO(user, _roles);
+            //    var userDTO = ConversionDTO.ConvertToDTO(user, _roles);
 
-                userDTOs.Add(userDTO);
-            }
+            //    userDTOs.Add(userDTO);
+            //}
 
-            return userDTOs;
+            return users;
         }
 
         public async Task<MultiSelectList> GetAllRoles()
@@ -87,29 +86,60 @@ namespace RHPsicotest.WebSite.Repositories
             return new MultiSelectList(roles, "IdRole", "RoleName");
         }
 
-        public async Task<UserDTO> GetUserWithRoles(int id)
+        public async Task<UserDTO> GetUserDTO(int id)
         {
-            List<Role> roles = new List<Role>();
-            var user = await context.Users.Include(u => u.Role_Users.Where(u => u.IdUser == id)).FirstOrDefaultAsync(u => u.IdUser == id);
+            User user = await GetUserWithRoles(id);
+            List<Role> roleList = new List<Role>();
+            List<Permission> permissionList = new List<Permission>();
+            List<Permission_Role> permission_roles = new List<Permission_Role>();
 
-            foreach (var role in user.Role_Users)
+            foreach (var item in user.Roles)
             {
-                roles.Add(context.Roles.Find(role.IdRole));
+                roleList.Add(await GetRole(item.IdRole));
             }
 
-            var userDTO = ConversionDTO.ConvertToDTO(user, roles);
+            foreach (var item in roleList)
+            {
+                permission_roles.AddRange(await context.Permission_Roles.Where(pr => pr.IdRole == item.IdRole).ToListAsync());
+            }
+
+            foreach (var permission in permission_roles)
+            {
+                permissionList.Add(await context.Permissions.FindAsync(permission.IdPermission));
+            }
+
+            var userDTO = ConversionDTO.ConvertToDTO(user, roleList, permissionList);
 
             return userDTO;
         }
-        
-        public async Task<User> GetUser(int id)
+
+        private async Task<User> GetUser(int id)
         {
             return await context.Users.FirstOrDefaultAsync(u => u.IdUser == id);
         }
 
-        public async Task<User> GetUserLogin(Login userLogin)
+        public async Task<User> GetUserWithRoles(int id)
         {
-            return await context.Users.FirstOrDefaultAsync(u => u.Email == userLogin.Email && u.Password == userLogin.Password);
+            return await context.Users.Include("Roles.Role").FirstOrDefaultAsync(u => u.IdUser == id);
+        }
+
+        private async Task<Role> GetRole(int id)
+        {
+            return await context.Roles.FirstOrDefaultAsync(u => u.IdRole == id);
+        }
+
+        public async Task<UserDTO> GetUserLogin(Login userLogin)
+        {
+            var user = await context.Users.FirstOrDefaultAsync(u => u.Email == userLogin.Email && u.Password == userLogin.Password);
+
+            UserDTO userDTO = null;
+
+            if (user != null)
+            {
+                userDTO = await GetUserDTO(user.IdUser);
+            }
+
+            return userDTO;
         }
 
         public async Task<bool> UpdateUser(UserDTO userDTO, List<int> rolesId)
@@ -119,7 +149,7 @@ namespace RHPsicotest.WebSite.Repositories
 
             var result = false;
 
-            if(_user == null || _user.IdUser == userDTO.IdUser)
+            if (_user == null || _user.IdUser == userDTO.IdUser)
             {
                 user.Name = userDTO.Name;
                 user.Email = userDTO.Email;
@@ -138,43 +168,43 @@ namespace RHPsicotest.WebSite.Repositories
             return await context.Users.AnyAsync(u => u.Email == user.Email);
         }
 
-        private void AddRole_User(int userId, List<int> rolesId, bool delete = false)
+        private void AddRole_User(int userId, List<int> roles, bool delete = false)
         {
             if (delete)
             {
-                var rolesUsers = context.Role_Users.Where(ru => ru.IdUser == userId).ToList();
+                var rolesUser = context.Role_Users.Where(ru => ru.IdUser == userId).ToList();
 
-                context.Role_Users.RemoveRange(rolesUsers);
+                context.Role_Users.RemoveRange(rolesUser);
                 context.SaveChanges();
             }
 
-            foreach (var item in rolesId)
+            foreach (int id in roles)
             {
                 context.Role_Users.Add(new Role_User
                 {
-                    IdUser = userId,
-                    IdRole = item
+                    IdRole = id,
+                    IdUser = userId
                 });
-
             }
-            
+
             context.SaveChanges();
         }
 
         public async Task<MultiSelectList> GetRolesSelected(int userId)
         {
-            var user = await GetUserWithRoles(userId);
+            var user = await GetUserDTO(userId);
             var roleUser = user.Roles;
             var roles = await context.Roles.ToListAsync();
 
-            List<int> rolesSelected = new List<int>();
+            List<int> selectedRoles = new List<int>();
 
             foreach (var role in roleUser)
             {
-                rolesSelected.Add(role.IdRole);
+                selectedRoles.Add(role.IdRole);
             }
 
-            return new MultiSelectList(roles, "IdRole", "RoleName", rolesSelected);
+            return new MultiSelectList(roles, "IdRole", "RoleName", selectedRoles);
         }
+
     }
 }

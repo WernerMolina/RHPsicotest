@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using RHPsicotest.WebSite.DTOs;
 using RHPsicotest.WebSite.Models;
-using RHPsicotest.WebSite.Repositories;
 using RHPsicotest.WebSite.Repositories.Contracts;
 using RHPsicotest.WebSite.Utilities;
 using RHPsicotest.WebSite.ViewModels;
@@ -24,24 +25,42 @@ namespace RHPsicotest.WebSite.Controllers
             this.userRepository = userRepository;
         }
 
+        [HttpGet]
         [Route("/Usuarios")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "List-Users-Policy")]
         public async Task<IActionResult> Index()
         {
-            IEnumerable<UserDTO> users = await userRepository.GetAllUsers();
+            IEnumerable<User> users = await userRepository.GetAllUsers();
 
             return View(users);
         }
+        
+        [HttpGet]
+        [Route("/Usuarioss")]
+        public async Task<IActionResult> Indexs()
+        {
+            IEnumerable<User> users = await userRepository.GetAllUsers();
 
+            string json = JsonConvert.SerializeObject(users, new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            });
+
+            return Ok(json);
+        }
+
+        [HttpGet]
         [Route("/Usuario/Detalles/{id:int}")]
         public async Task<IActionResult> Details(int id)
         {
-            UserDTO user = await userRepository.GetUserWithRoles(id);
+            UserDTO user = await userRepository.GetUserDTO(id);
 
             return View(user);
         }
 
         [HttpGet]
         [Route("/Usuario/Crear")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "Create-User-Policy")]
         public async Task<IActionResult> Create()
         {
             ViewBag.Roles = await userRepository.GetAllRoles();
@@ -75,9 +94,10 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpGet]
         [Route("/Usuario/Editar/{id:int}")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "Edit-User-Policy")]
         public async Task<IActionResult> Edit(int id)
         {
-            UserDTO user = await userRepository.GetUserWithRoles(id);
+            UserDTO user = await userRepository.GetUserDTO(id);
             ViewBag.Roles = await userRepository.GetRolesSelected(id);
 
             return View(user);
@@ -112,9 +132,10 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpGet]
         [Route("/Usuario/Eliminar/{id:int}")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "Delete-User-Policy")]
         public async Task<IActionResult> Delete(int id)
         {
-            UserDTO user = await userRepository.GetUserWithRoles(id);
+            UserDTO user = await userRepository.GetUserDTO(id);
 
             return View(user);
         }
@@ -141,6 +162,7 @@ namespace RHPsicotest.WebSite.Controllers
         }
 
         [HttpGet]
+        [Route("/Login")]
         public IActionResult Login(string returnUrl = null)
         {
             if (User.Identity.IsAuthenticated)
@@ -152,43 +174,46 @@ namespace RHPsicotest.WebSite.Controllers
             return View();
         }
 
-        //[HttpPost]
-        //public async Task<IActionResult> Login(Login userLogin, string returnUrl = null)
-        //{
-        //    ViewData["ReturnUrl"] = returnUrl;
+        [HttpPost]
+        [Route("/Login")]
+        public async Task<IActionResult> Login(Login userLogin, string returnUrl = null)
+        {
+            ViewData["ReturnUrl"] = returnUrl;
 
-        //    if (ModelState.IsValid)
-        //    {
-        //        Encryption.EncryptMD5(userLogin);
+            if (ModelState.IsValid)
+            {
+                userLogin.Password = Helper.EncryptMD5(userLogin.Password);
 
-        //        var user = await userRepository.GetUserLogin(userLogin);
+                var user = await userRepository.GetUserLogin(userLogin);
 
-        //        if (user != null)
-        //        {
-        //            var claims = new[] { new Claim(ClaimTypes.Name, user.Email), 
-        //                                 new Claim(ClaimTypes.user, user.userName) };
-        //            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                if (user != null)
+                {
+                    var identity = Helper.Authenticate(user);
 
-        //            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
 
-        //            if (Url.IsLocalUrl(returnUrl))
-        //            {
-        //                return Redirect(returnUrl);
-        //            }
+                    if (Url.IsLocalUrl(returnUrl))
+                    {
+                        return Redirect(returnUrl);
+                    }
 
-        //            if (user.userName == "Administrador")
-        //            {
-        //                return RedirectToAction("Dashboard", "Home");
-        //            }
-        //            else
-        //            {
-        //                return RedirectToAction("Index", "Home");
-        //            }
-        //        }
-        //    }
+                    var isAdmin = Helper.IsAdmin(user);
 
-        //    return View(userLogin);
-        //}
+                    if (isAdmin)
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
+                }
+            }
+
+            userLogin.Password = string.Empty;
+
+            return View(userLogin);
+        }
 
         public async Task<IActionResult> Logout()
         {

@@ -19,28 +19,6 @@ namespace RHPsicotest.WebSite.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.0");
 
-            modelBuilder.Entity("RHPsicotest.WebSite.Models.Module", b =>
-                {
-                    b.Property<int>("IdModule")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<string>("ModuleName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("IdModule");
-
-                    b.ToTable("Module");
-
-                    b.HasData(
-                        new
-                        {
-                            IdModule = 1,
-                            ModuleName = "Pues no se"
-                        });
-                });
-
             modelBuilder.Entity("RHPsicotest.WebSite.Models.Permission", b =>
                 {
                     b.Property<int>("IdPermission")
@@ -48,15 +26,10 @@ namespace RHPsicotest.WebSite.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<int>("IdModule")
-                        .HasColumnType("int");
-
                     b.Property<string>("PermissionName")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("IdPermission");
-
-                    b.HasIndex("IdModule");
 
                     b.ToTable("Permission");
 
@@ -64,8 +37,59 @@ namespace RHPsicotest.WebSite.Migrations
                         new
                         {
                             IdPermission = 1,
-                            IdModule = 1,
-                            PermissionName = "Todo"
+                            PermissionName = "Lista-Usuarios"
+                        },
+                        new
+                        {
+                            IdPermission = 2,
+                            PermissionName = "Crear-Usuario"
+                        },
+                        new
+                        {
+                            IdPermission = 3,
+                            PermissionName = "Editar-Usuario"
+                        },
+                        new
+                        {
+                            IdPermission = 4,
+                            PermissionName = "Eliminar-Usuario"
+                        });
+                });
+
+            modelBuilder.Entity("RHPsicotest.WebSite.Models.Permission_Role", b =>
+                {
+                    b.Property<int>("IdPermission")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdRole")
+                        .HasColumnType("int");
+
+                    b.HasKey("IdPermission", "IdRole");
+
+                    b.HasIndex("IdRole");
+
+                    b.ToTable("Permission_Role");
+
+                    b.HasData(
+                        new
+                        {
+                            IdPermission = 1,
+                            IdRole = 1
+                        },
+                        new
+                        {
+                            IdPermission = 2,
+                            IdRole = 1
+                        },
+                        new
+                        {
+                            IdPermission = 3,
+                            IdRole = 1
+                        },
+                        new
+                        {
+                            IdPermission = 4,
+                            IdRole = 1
                         });
                 });
 
@@ -76,15 +100,10 @@ namespace RHPsicotest.WebSite.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<int>("IdPermission")
-                        .HasColumnType("int");
-
                     b.Property<string>("RoleName")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("IdRole");
-
-                    b.HasIndex("IdPermission");
 
                     b.ToTable("Role");
 
@@ -92,7 +111,6 @@ namespace RHPsicotest.WebSite.Migrations
                         new
                         {
                             IdRole = 1,
-                            IdPermission = 1,
                             RoleName = "Super-Admin"
                         });
                 });
@@ -173,22 +191,11 @@ namespace RHPsicotest.WebSite.Migrations
                             Email = "Wm25@gmail.com",
                             Name = "Werner Molina",
                             Password = "827ccb0eea8a706c4c34a16891f84e7b",
-                            RegistrationDate = new DateTime(2023, 1, 9, 17, 3, 17, 202, DateTimeKind.Local).AddTicks(9364)
+                            RegistrationDate = new DateTime(2023, 1, 17, 0, 0, 0, 0, DateTimeKind.Local)
                         });
                 });
 
-            modelBuilder.Entity("RHPsicotest.WebSite.Models.Permission", b =>
-                {
-                    b.HasOne("RHPsicotest.WebSite.Models.Module", "Module")
-                        .WithMany("Permissions")
-                        .HasForeignKey("IdModule")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Module");
-                });
-
-            modelBuilder.Entity("RHPsicotest.WebSite.Models.Role", b =>
+            modelBuilder.Entity("RHPsicotest.WebSite.Models.Permission_Role", b =>
                 {
                     b.HasOne("RHPsicotest.WebSite.Models.Permission", "Permission")
                         .WithMany("Roles")
@@ -196,19 +203,27 @@ namespace RHPsicotest.WebSite.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("RHPsicotest.WebSite.Models.Role", "Role")
+                        .WithMany("Permissions")
+                        .HasForeignKey("IdRole")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Permission");
+
+                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("RHPsicotest.WebSite.Models.Role_User", b =>
                 {
                     b.HasOne("RHPsicotest.WebSite.Models.Role", "Role")
-                        .WithMany("Role_Users")
+                        .WithMany("Users")
                         .HasForeignKey("IdRole")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("RHPsicotest.WebSite.Models.User", "User")
-                        .WithMany("Role_Users")
+                        .WithMany("Roles")
                         .HasForeignKey("IdUser")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -218,11 +233,6 @@ namespace RHPsicotest.WebSite.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("RHPsicotest.WebSite.Models.Module", b =>
-                {
-                    b.Navigation("Permissions");
-                });
-
             modelBuilder.Entity("RHPsicotest.WebSite.Models.Permission", b =>
                 {
                     b.Navigation("Roles");
@@ -230,12 +240,14 @@ namespace RHPsicotest.WebSite.Migrations
 
             modelBuilder.Entity("RHPsicotest.WebSite.Models.Role", b =>
                 {
-                    b.Navigation("Role_Users");
+                    b.Navigation("Permissions");
+
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("RHPsicotest.WebSite.Models.User", b =>
                 {
-                    b.Navigation("Role_Users");
+                    b.Navigation("Roles");
                 });
 #pragma warning restore 612, 618
         }

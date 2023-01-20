@@ -40,16 +40,42 @@ namespace RHPsicotest.WebSite
             services.AddScoped<IStallRepository, StallRepository>();
 
             //services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-            //.AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
+            //.AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, option =>
             //{
-            //    options.AccessDeniedPath = "/Home/Index";
-            //    options.LoginPath = "/User/Login";
+            //    option.AccessDeniedPath = "/Home/Index";
+            //    option.LoginPath = "/User/Login";
             //});
 
             //services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(option =>
             //{
             //    option.LoginPath = new PathString("/Home/Index");
             //});
+
+            services.AddAuthentication(option =>
+            {
+                option.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                option.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                option.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            }).AddCookie(option =>
+            {
+                option.LoginPath = "/Login";
+            });
+
+            services.AddAuthorization(option =>
+            {
+                // Politicas de Usuario
+                option.AddPolicy("List-Users-Policy", pol => pol.RequireClaim("Permission", new[] {"Lista-Usuarios"}));
+                option.AddPolicy("Create-User-Policy", pol => pol.RequireClaim("Permission", new[] { "Crear-Usuario" }));
+                option.AddPolicy("Edit-User-Policy", pol => pol.RequireClaim("Permission", new[] { "Editar-Usuario" }));
+                option.AddPolicy("Delete-User-Policy", pol => pol.RequireClaim("Permission", new[] { "Eliminar-Usuario" }));
+                
+                //Politicas de Rol
+                option.AddPolicy("List-Roles-Policy", pol => pol.RequireClaim("Permission", new[] { "Lista-Roles" }));
+                option.AddPolicy("Create-Role-Policy", pol => pol.RequireClaim("Permission", new[] { "Crear-Rol" }));
+                option.AddPolicy("Edit-Role-Policy", pol => pol.RequireClaim("Permission", new[] { "Editar-Rol" }));
+                option.AddPolicy("Delete-Role-Policy", pol => pol.RequireClaim("Permission", new[] { "Eliminar-Rol" }));
+
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

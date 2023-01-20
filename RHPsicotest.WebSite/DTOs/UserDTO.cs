@@ -23,6 +23,9 @@ namespace RHPsicotest.WebSite.DTOs
 
         [Display(Name = "Roles")]
         public IEnumerable<Role> Roles { get; set; }
+        
+        [Display(Name = "Permisos")]
+        public IEnumerable<Permission> Permissions { get; set; }
 
     }
 }

@@ -8,8 +8,6 @@ namespace RHPsicotest.WebSite.Repositories.Contracts
     {
         public Task<IEnumerable<Permission>> GetAllPermissions();
 
-        public Task<IEnumerable<Module>> GetAllModules();
-
         public Task<Permission> GetPermission(int id);
 
         public Task<Permission> AddPermission(Permission permission);

@@ -1,4 +1,4 @@
-﻿@model RHPsicotest.WebSite.Models.Role
+﻿@model Role
 
 @{
     ViewData["Title"] = "Editar Rol";
@@ -13,11 +13,8 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="IdRole" />
             <div class="form-group my-2">
-                <label asp-for="IdPermission" class="control-label fw-bold fs-5">Seleccionar Permiso</label>
-                <select asp-for="IdPermission" class="form-control" asp-items="@(new SelectList(ViewBag.Permissions, "IdPermission", "PermissionName"))">
-                    <option>Seleccionar</option>
-                </select>
-                <span asp-validation-for="IdPermission" class="text-danger"></span>
+                <label class="control-label fw-bold fs-5">Seleccionar Permisos</label>
+                @Html.DropDownList("permissions", (MultiSelectList)ViewBag.Permissions, new { name = "permissions", id = "permissions", Class = "control-label fw-bold fs-5", multiple = "multiple"})
             </div>
             <div class="form-group my-3">
                 <label asp-for="RoleName" class="control-label fw-bold fs-5"></label>

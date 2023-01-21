@@ -7,6 +7,7 @@ namespace RHPsicotest.WebSite.Data
     public class RHPsicotestDbContext : DbContext
     {
         public DbSet<User> Users { get; set; }
+        public DbSet<EmailUser> EmailUsers { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Permission> Permissions { get; set; }
         public DbSet<Stall> Stalls { get; set; }

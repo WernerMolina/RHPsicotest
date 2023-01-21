@@ -1,0 +1,66 @@
+﻿@model IEnumerable<EmailUser>
+
+@{
+    ViewData["Title"] = "Usurios";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h1 class="fw-bold">Lista de Contraseñas</h1>
+
+@*@if ((await AuthorizationService.AuthorizeAsync(User, "Create-User-Policy")).Succeeded)
+{
+    <p class="mt-4">
+        <a asp-action="Create" class="btn btn-success fw-bold fs-5">Crear Usuario</a>
+    </p>
+}*@
+<p class="mt-4">
+    <a asp-action="Create" class="btn btn-success fw-bold fs-5">Crear Contraseña</a>
+</p>
+<table class="table table-striped align-middle">
+    <thead class="table-dark">
+        <tr class="text-center">
+            <th>
+                @Html.DisplayNameFor(model => model.Password)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RegistrationDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Role)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Stall)
+            </th>
+            <th>Reenviar</th>
+        </tr>
+    </thead>
+    <tbody class="text-center">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Password)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RegistrationDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Role.RoleName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Stall.StallName)
+                </td>
+                <td>
+                    Sobre
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

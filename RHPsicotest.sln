@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RHPsicotest.WebSite", "RHPsicotest.WebSite\RHPsicotest.WebSite.csproj", "{03C4DE5B-9A73-44D2-8EF4-03CF06540041}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RHPsicotest.WebSite", "RHPsicotest.WebSite\RHPsicotest.WebSite.csproj", "{03C4DE5B-9A73-44D2-8EF4-03CF06540041}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RHPsicotest.Log", "RHPsicotest.Log\RHPsicotest.Log.csproj", "{328A772A-51B2-4860-9E00-8E5F1009FCFC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{03C4DE5B-9A73-44D2-8EF4-03CF06540041}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{03C4DE5B-9A73-44D2-8EF4-03CF06540041}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{03C4DE5B-9A73-44D2-8EF4-03CF06540041}.Release|Any CPU.Build.0 = Release|Any CPU
+		{328A772A-51B2-4860-9E00-8E5F1009FCFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{328A772A-51B2-4860-9E00-8E5F1009FCFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{328A772A-51B2-4860-9E00-8E5F1009FCFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{328A772A-51B2-4860-9E00-8E5F1009FCFC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

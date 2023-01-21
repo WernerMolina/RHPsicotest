@@ -17,7 +17,7 @@ namespace RHPsicotest.WebSite.Controllers
             this.stallRepository = stallRepository;
         }
 
-        [Route("/Stalls")]
+        [Route("/Puestos")]
         public async Task<IActionResult> Index()
         {
             IEnumerable<Stall> stalls = await stallRepository.GetAllStalls();
@@ -25,7 +25,7 @@ namespace RHPsicotest.WebSite.Controllers
             return View(stalls);
         }
 
-        [Route("/Stall/Detalles/{id:int}")]
+        [Route("/Puesto/Detalles/{id:int}")]
         public async Task<IActionResult> Details(int id)
         {
             Stall stall = await stallRepository.GetStall(id);

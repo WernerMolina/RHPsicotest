@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RHPsicotest.WebSite.Models
 {
+    //[Table("Stall")]
     public class Stall
     {
         [Key]
@@ -19,5 +23,8 @@ namespace RHPsicotest.WebSite.Models
 
         [Display(Name = "Fecha de Creación")]
         public DateTime CreationDate { get; set; } = DateTime.Now;
+
+        [InverseProperty(nameof(EmailUser.Stall))]
+        public IEnumerable<EmailUser> EmailUsers { get; set; }
     }
 }

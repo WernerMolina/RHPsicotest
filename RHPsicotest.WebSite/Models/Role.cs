@@ -20,5 +20,8 @@ namespace RHPsicotest.WebSite.Models
         [Display(Name = "Permisos")]
         [InverseProperty(nameof(Permission_Role.Role))]
         public virtual IEnumerable<Permission_Role> Permissions { get; set; }
+        
+        [InverseProperty(nameof(EmailUser.Role))]
+        public virtual IEnumerable<EmailUser> EmailUsers { get; set; }
     }
 }

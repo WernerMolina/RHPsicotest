@@ -1,0 +1,53 @@
+﻿@model EmailUserSendDTO
+
+<form asp-action="SendMail">
+    <div class="row d-flex justify-content-center">
+        <div class="col-6">
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label h5">De:</label>
+                <input class="form-control" type="text" value="Rosa Emilia Hernández Vásquez" aria-label="readonly input example" readonly>
+            </div>
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label h5">Para:</label>
+                <input asp-for="Email" class="form-control" type="text" value="@Model.Email" aria-label="readonly input example" readonly>
+            </div>
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label h5">Contraseña:</label>
+                <input asp-for="Password" class="form-control" type="text" value="@Model.Password" aria-label="readonly input example" readonly>
+            </div>
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label h5">Asunto:</label>
+                <input class="form-control" type="text" value="Acceso a Evaluaciones Psicológicas" aria-label="readonly input example" readonly>
+            </div>
+            <div class="mb-3">
+                <label for="exampleFormControlTextarea1" class="form-label h5">Contenido:</label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="6">
+                    Estimado (a)
+                    Dando seguimiento al proceso de selección le comparto las evaluaciones psicológicas, de acuerdo al puesto que usted aplica.
+                    El tiempo de duración es aproximadamente 2 horas y solo requiere que las realice en un ambiente cómodo y sin distracciones.
+                </textarea>
+            </div>
+            <div class="mb-3">
+                <label for="exampleFormControlTextarea1" class="form-label h5">Indicaciones Generales:</label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="6">
+                    Ingrese a la siguiente dirección electrónica:
+                    Ingrese usuario y contraseña.
+                    Lea detenidamente y siga las instrucciones que se le detallarán para el desarrollo de las mismas.
+                    El sistema es sensible a mayúsculas y minúsculas, por lo que recomendamos tener cuidado al monto de registrarse y completar los datos.
+                </textarea>
+            </div>
+            <div class="mb-3">
+                <label for="exampleFormControlTextarea1" class="form-label h5">Contacto:</label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3">
+                    Rosa Emilia Hernández Vásquez
+                    Rosy.vasquezq@consulightpf.net
+                    70097702
+                </textarea>
+            </div>
+            <div class="text-center mb-3">
+                <input type="submit" class="btn btn-primary col-6" value="Enviar Correo">
+            </div>
+        </div>
+    </div>
+</form>
+

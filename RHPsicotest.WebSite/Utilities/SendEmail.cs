@@ -1,35 +1,41 @@
 ﻿using System.Net.Mail;
 using System.Net;
-using System;
+using Microsoft.Extensions.Configuration;
 
 namespace RHPsicotest.WebSite.Utilities
 {
     public class SendEmail
     {
-        public static string Email { get; private set; } = "ML22002@esfe.agape.edu.sv";
-        public static string Password { get; private set; } = "ccehifihiztcfmfv";
+        public string Email { get; private set; }
+        public string Password { get; private set; }
 
-        public static void Send(string email, string subject, string body)
+        public SendEmail(string email, string password)
         {
-            var message = PrepareteMessage(email, subject, body);
+            Email = email;
+            Password = password;
+        }
+
+        public void Send(string email, string html)
+        {
+            MailMessage message = PrepareteMessage(email, html);
 
             SendEmailBySmtp(message);
         }
 
-        private static MailMessage PrepareteMessage(string email, string subject, string body)
+        private MailMessage PrepareteMessage(string email, string html)
         {
-            var mail = new MailMessage();
+            MailMessage mail = new MailMessage();
 
             mail.From = new MailAddress(Email);
             mail.To.Add(email);
-            mail.Subject = subject;
-            mail.Body = body;
+            mail.Subject = "Acceso a su Evaluación Psicométrica";
+            mail.Body = html;
             mail.IsBodyHtml = true;
 
             return mail;
         }
 
-        private static void SendEmailBySmtp(MailMessage message)
+        private void SendEmailBySmtp(MailMessage message)
         {
             SmtpClient smtpClient = new SmtpClient();
 

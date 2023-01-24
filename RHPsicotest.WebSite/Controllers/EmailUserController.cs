@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using RHPsicotest.WebSite.DTOs;
 using RHPsicotest.WebSite.Models;
 using RHPsicotest.WebSite.Repositories.Contracts;
@@ -14,10 +15,12 @@ namespace RHPsicotest.WebSite.Controllers
     public class EmailUserController : Controller
     {
         private readonly IEmailUserRepository emailUserRepository;
+        private readonly IConfiguration configuration;
 
-        public EmailUserController(IEmailUserRepository emailUserRepository)
+        public EmailUserController(IEmailUserRepository emailUserRepository, IConfiguration configuration)
         {
             this.emailUserRepository = emailUserRepository;
+            this.configuration = configuration;
         }
 
         [HttpGet]
@@ -47,7 +50,15 @@ namespace RHPsicotest.WebSite.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    SendEmail.Send(user.Email, "Novela Ligera", "Danmachi la mejor novela ligera");
+                    string html = configuration["E-Mail:EmailHtml"];
+                    string username = configuration["E-Mail:Username"];
+                    string password = configuration["E-Mail:Password"];
+
+                    string email = string.Format(html, user.Password);
+
+                    SendEmail send = new SendEmail(username, password);
+
+                    send.Send(user.Email, email);
 
                     return RedirectToAction("Index", "EmailUser");
                 }

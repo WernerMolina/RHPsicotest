@@ -1,13 +1,17 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using RHPsicotest.WebSite.DTOs;
 using RHPsicotest.WebSite.Models;
+using RHPsicotest.WebSite.Repositories;
 using RHPsicotest.WebSite.Repositories.Contracts;
 using RHPsicotest.WebSite.Utilities;
 using RHPsicotest.WebSite.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace RHPsicotest.WebSite.Controllers
@@ -15,12 +19,10 @@ namespace RHPsicotest.WebSite.Controllers
     public class EmailUserController : Controller
     {
         private readonly IEmailUserRepository emailUserRepository;
-        private readonly IConfiguration configuration;
 
-        public EmailUserController(IEmailUserRepository emailUserRepository, IConfiguration configuration)
+        public EmailUserController(IEmailUserRepository emailUserRepository)
         {
             this.emailUserRepository = emailUserRepository;
-            this.configuration = configuration;
         }
 
         [HttpGet]
@@ -50,15 +52,7 @@ namespace RHPsicotest.WebSite.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    string html = configuration["E-Mail:EmailHtml"];
-                    string username = configuration["E-Mail:Username"];
-                    string password = configuration["E-Mail:Password"];
-
-                    string email = string.Format(html, user.Password);
-
-                    SendEmail send = new SendEmail(username, password);
-
-                    send.Send(user.Email, email);
+                    SendEmail.Send(user.Email, user.Password);
 
                     return RedirectToAction("Index", "EmailUser");
                 }
@@ -107,6 +101,48 @@ namespace RHPsicotest.WebSite.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
+        }
+
+        [HttpGet]
+        [Route("/Candidato/Login")]
+        public IActionResult Login()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            return View();
+        }
+
+        [HttpPost]
+        [Route("/Candidato/Login")]
+        public async Task<IActionResult> Login(CandidateLogin candidateLogin)
+        {
+            if (ModelState.IsValid)
+            {
+                EmailUserDTO emailUserDTO = await emailUserRepository.GetCandidateLogin(candidateLogin);
+
+                if (emailUserDTO != null)
+                {
+                    ClaimsIdentity identity = Helper.CandidateAuthenticate(emailUserDTO);
+
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
+
+                    return RedirectToAction("ConfirmPolicies", "Expedient");
+                }
+            }
+
+            candidateLogin.Password = string.Empty;
+
+            return View(candidateLogin);
+        }
+
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync();
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }

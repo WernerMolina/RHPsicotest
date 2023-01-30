@@ -28,9 +28,48 @@ namespace RHPsicotest.WebSite.Utilities
             {
                 IdRole = emailUserVM.IdRole,
                 IdPuesto = emailUserVM.IdPuesto,
+                Username = "MGLR",
                 Email = emailUserVM.Email,
                 Password = emailUserVM.Password,
                 RegistrationDate = DateTime.Now,
+            };
+        }
+        
+        public static Expedient ConvertToExpedient(ExpedientVM expedientVM, byte[] filePDFInBytes)
+        {
+            return new Expedient
+            {
+                DUI = expedientVM.DUI,
+                Names = expedientVM.Names,
+                Lastnames = expedientVM.Lastnames,
+                Email = expedientVM.Email,
+                MovilePhoneNumber = expedientVM.MovilePhoneNumber,
+                LandlineNumber = expedientVM.LandlineNumber,
+                DateOfBirth = expedientVM.DateOfBirth,
+                Gender = expedientVM.Gender,
+                CivilStatus = expedientVM.CivilStatus,
+                Stall = expedientVM.Stall,
+                AcademicTraining = expedientVM.AcademicTraining,
+                Certificate = expedientVM.Certificate,
+                CurriculumVitae = filePDFInBytes,
+                Country = expedientVM.Country,
+                Department = expedientVM.Department,
+                Municipality = expedientVM.Municipality,
+                Direction = expedientVM.Direction
+            };
+        }
+        
+        public static EmailUserDTO ConvertToEmailUserDTO(EmailUser emailUser, List<Permission> permissions)
+        {
+            return new EmailUserDTO
+            {
+                IdUser = emailUser.IdUser,
+                Username = "MGLR",
+                Email = emailUser.Email,
+                Password = emailUser.Password,
+                RegistrationDate = DateTime.Now,
+                Role = emailUser.Role,
+                Permissions = permissions
             };
         }
         

@@ -11,8 +11,8 @@ namespace RHPsicotest.WebSite.Repositories.Contracts
     {
         //Crud User
         public Task<User> AddUser(EmailUserVM user);
-        public Task<User> AddUser(User user, List<int> roles);
-        public Task<bool> UpdateUser(UserDTO user, List<int> roles);
+        public Task<User> AddUser(User user, List<int> rolesId);
+        public Task<bool> UpdateUser(UserDTO user, List<int> rolesId);
         public Task<bool> DeleteUser(int id);
 
         //Get User

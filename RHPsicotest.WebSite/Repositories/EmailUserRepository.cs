@@ -42,7 +42,12 @@ namespace RHPsicotest.WebSite.Repositories
 
         public async Task<IEnumerable<EmailUser>> GetAllEmailUsers()
         {
-            return await context.EmailUsers.Include(e => e.Role).Include(e => e.Stall).ToArrayAsync();
+            return await context.EmailUsers.Include(e => e.Stall).ToArrayAsync();
+        }
+        
+        public async Task<EmailUser> GetEmailUser(int id)
+        {
+            return await context.EmailUsers.Include(u => u.Role).FirstOrDefaultAsync(c => c.IdUser == id);
         }
         
         public async Task<IEnumerable<Stall>> GetAllStalls()
@@ -58,6 +63,39 @@ namespace RHPsicotest.WebSite.Repositories
         public async Task<Role> GetRoleName()
         {
             return await context.Roles.FirstOrDefaultAsync(r => r.RoleName == "Candidato");
+        }
+
+        public async Task<EmailUserDTO> GetCandidateLogin(CandidateLogin candidateLogin)
+        {
+            EmailUser emailUser = await context.EmailUsers.FirstOrDefaultAsync(u => u.Username == candidateLogin.Username && u.Password == candidateLogin.Password);
+
+            EmailUserDTO emailUserDTO = null;
+
+            if(emailUser != null)
+            {
+                emailUserDTO = await GetEmailUserDTO(emailUser.IdUser);
+            }
+
+            return emailUserDTO;
+        }
+
+        public async Task<EmailUserDTO> GetEmailUserDTO(int id)
+        {
+            EmailUser emailUser = await GetEmailUser(id);
+
+            List<Permission> permissionList = new List<Permission>();
+            List<Permission_Role> permission_roles = new List<Permission_Role>();
+
+            permission_roles.AddRange(await context.Permission_Roles.Where(pr => pr.IdRole == emailUser.IdRole).ToListAsync());
+
+            foreach (var permission in permission_roles)
+            {
+                permissionList.Add(await context.Permissions.FindAsync(permission.IdPermission));
+            }
+
+            EmailUserDTO emailUserDTO = Conversion.ConvertToEmailUserDTO(emailUser, permissionList);
+
+            return emailUserDTO;
         }
     }
 }

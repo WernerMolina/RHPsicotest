@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RHPsicotest.WebSite.Models
 {
-    //[Table("Stall")]
+    [Table("Stall")]
     public class Stall
     {
         [Key]

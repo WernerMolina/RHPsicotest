@@ -39,6 +39,7 @@ namespace RHPsicotest.WebSite
             services.AddScoped<IPermissionRepository, PermissionRepository>();
             services.AddScoped<IStallRepository, StallRepository>();
             services.AddScoped<IEmailUserRepository, EmailUserRepository>();
+            services.AddScoped<IExpedientRepository, ExpedientRepository>();
 
             //services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
             //.AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, option =>
@@ -94,7 +95,7 @@ namespace RHPsicotest.WebSite
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            
             app.UseRouting();
 
             app.UseAuthorization();

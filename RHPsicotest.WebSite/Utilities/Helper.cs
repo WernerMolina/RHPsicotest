@@ -1,11 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using RHPsicotest.WebSite.DTOs;
-using RHPsicotest.WebSite.Models;
 using System.Collections.Generic;
+using System.IO;
 using System.Security.Claims;
 using System.Security.Cryptography;
-using System.Security.Principal;
 using System.Text;
 
 namespace RHPsicotest.WebSite.Utilities
@@ -50,12 +49,6 @@ namespace RHPsicotest.WebSite.Utilities
                 new Claim(ClaimTypes.Email, user.Email) 
             };
 
-            //var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme, ClaimTypes.Name, ClaimTypes.Role);
-
-            //identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.IdUser.ToString()));
-            //identity.AddClaim(new Claim(ClaimTypes.Name, user.Name));
-            //identity.AddClaim(new Claim(ClaimTypes.Email, user.Email));
-
             foreach (var item in user.Roles)
             {
                 claims.Add(new Claim(ClaimTypes.Role, item.RoleName));
@@ -70,6 +63,53 @@ namespace RHPsicotest.WebSite.Utilities
 
             return identity;
         }
+        
+        public static ClaimsIdentity CandidateAuthenticate(EmailUserDTO emailUser)
+        {
+            List<Claim> claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.NameIdentifier, emailUser.IdUser.ToString()),
+                new Claim(ClaimTypes.Name, emailUser.Username), 
+                new Claim(ClaimTypes.Email, emailUser.Email),
+                new Claim(ClaimTypes.Role, emailUser.Role.RoleName)
+            };
+
+            foreach (var item in emailUser.Permissions)
+            {
+                claims.Add(new Claim("Permission", item.PermissionName));
+            }
+
+            ClaimsIdentity identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+            return identity;
+        }
+
+        public static bool IsFileTypePDF(IFormFile formFile)
+        {
+            string type = formFile.ContentType;
+
+            if(type == "application/pdf")
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public static byte[] FilePDFToBytes(IFormFile formFile)
+        {
+            using(MemoryStream stream = new MemoryStream())
+            {
+                formFile.CopyTo(stream);
+
+                byte[] filePDFInBytes = stream.ToArray();
+
+                return filePDFInBytes;
+            }
+        }
+
+
+
 
         //public static string SesionGetValue(IPrincipal user, string property)
         //{
@@ -77,14 +117,14 @@ namespace RHPsicotest.WebSite.Utilities
 
         //    return r == null ? "" : r.Value;
         //}
-        
+
         //public static string SesionGetName(IPrincipal user)
         //{
         //    var r = ((ClaimsIdentity)user.Identity).FindFirst(ClaimTypes.Name);
 
         //    return r == null ? "" : r.Value;
         //}
-        
+
         //public static string SesionNameIdentifier(IPrincipal user)
         //{
         //    var r = ((ClaimsIdentity)user.Identity).FindFirst(ClaimTypes.NameIdentifier);

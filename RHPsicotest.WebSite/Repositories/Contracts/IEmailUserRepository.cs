@@ -16,5 +16,7 @@ namespace RHPsicotest.WebSite.Repositories.Contracts
         public Task<EmailUserSendDTO> AddEmailUser(EmailUserVM emailUser);
 
         public Task<Role> GetRoleName();
+
+        public Task<EmailUserDTO> GetCandidateLogin(CandidateLogin candidateLogin);
     }
 }

@@ -29,7 +29,7 @@ namespace RHPsicotest.WebSite.Repositories
             throw new System.NotImplementedException();
         }
         
-        public async Task<User> AddUser(User user, List<int> roles)
+        public async Task<User> AddUser(User user, List<int> rolesId)
         {
             bool userExists = await UserExists(user);
 
@@ -40,7 +40,7 @@ namespace RHPsicotest.WebSite.Repositories
                 var result = await context.Users.AddAsync(user);
                 await context.SaveChangesAsync();
 
-                AddRole_User(user.IdUser, roles);
+                AddRole_User(user.IdUser, rolesId);
 
                 return result.Entity;
             }
@@ -114,7 +114,7 @@ namespace RHPsicotest.WebSite.Repositories
         
         public async Task<IEnumerable<User>> GetAllUsers()
         {
-            var users = await context.Users.Include("Roles.Role").ToListAsync();
+            return await context.Users.Include("Roles.Role").ToListAsync();
 
             //List<UserDTO> userDTOs = new List<UserDTO>();
 
@@ -131,8 +131,6 @@ namespace RHPsicotest.WebSite.Repositories
 
             //    userDTOs.Add(userDTO);
             //}
-
-            return users;
         }
         
         public async Task<User> GetUserWithRoles(int id)

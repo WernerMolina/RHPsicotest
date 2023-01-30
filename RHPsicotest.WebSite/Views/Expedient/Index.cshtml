@@ -1,0 +1,83 @@
+﻿@model IEnumerable<Expedient>
+
+@{
+    ViewData["Title"] = "Expedientes";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h1 class="fw-bold">Lista de Expedientes</h1>
+
+@*<p class="mt-4">
+    <a asp-action="Create" class="btn btn-success fw-bold fs-5">Crear Usuario</a>
+</p>*@
+<table class="table table-striped align-middle">
+    <thead class="table-dark">
+        <tr class="text-center">
+            <th>
+                @Html.DisplayNameFor(model => model.DUI)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Names)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Lastnames)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Stall)
+            </th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody class="text-center">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DUI)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Names)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Lastnames)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Stall)
+                </td>
+
+                <td>
+                    <a asp-action="ShowFilePDF" asp-route-id="@item.IdExpedient" class="btn bg-primary fw-bold text-white">Ver CV</a>
+
+                    @if ((await AuthorizationService.AuthorizeAsync(User, "Edit-User-Policy")).Succeeded)
+                    {
+                        <a asp-action="Details" asp-route-id="@item.IdExpedient" class="btn bg-primary fw-bold"><i class="bi bi-pencil-fill"></i></a> <span class="fw-bold">|</span>
+                    }
+                    @if ((await AuthorizationService.AuthorizeAsync(User, "Edit-User-Policy")).Succeeded)
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.IdExpedient" class="btn bg-warning fw-bold"><i class="bi bi-pencil-fill"></i></a> <span class="fw-bold">|</span>
+                    }
+                    @if ((await AuthorizationService.AuthorizeAsync(User, "Delete-User-Policy")).Succeeded)
+                    {
+                        <a asp-action="Delete" asp-route-id="@item.IdExpedient" class="btn btn-danger fw-bold"><i class="bi bi-trash3-fill"></i></a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        function GetClientReport(id) {
+            window.open(`/CurriculumVitae/${id}`, "_blank");
+        };
+    </script>
+
+
+}

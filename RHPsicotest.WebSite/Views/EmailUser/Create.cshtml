@@ -1,4 +1,4 @@
-﻿@model EmailUserVM
+﻿@model CandidateVM
 
 @{
     ViewData["Title"] = "Create";
@@ -27,6 +27,7 @@
                         <option value="@stall.IdStall">@stall.StallName</option>
                     }
                 </select>
+                <span asp-validation-for="IdPuesto" class="text-danger"></span>
             </div>
             <div class="form-group my-3">
                 <label asp-for="Email" class="control-label fw-bold fs-5"></label>

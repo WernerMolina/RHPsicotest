@@ -24,7 +24,7 @@ namespace RHPsicotest.WebSite.Repositories
         }
 
         // Crud 
-        public Task<User> AddUser(EmailUserVM user)
+        public Task<User> AddUser(CandidateVM user)
         {
             throw new System.NotImplementedException();
         }
@@ -115,22 +115,6 @@ namespace RHPsicotest.WebSite.Repositories
         public async Task<IEnumerable<User>> GetAllUsers()
         {
             return await context.Users.Include("Roles.Role").ToListAsync();
-
-            //List<UserDTO> userDTOs = new List<UserDTO>();
-
-            //foreach (var user in users)
-            //{
-            //    List<Role> _roles = new List<Role>();
-
-            //    foreach (var role in user.Roles)
-            //    {
-            //        _roles.Add(context.Roles.Find(role.IdRole));
-            //    }
-
-            //    var userDTO = ConversionDTO.ConvertToDTO(user, _roles);
-
-            //    userDTOs.Add(userDTO);
-            //}
         }
         
         public async Task<User> GetUserWithRoles(int id)
@@ -164,7 +148,7 @@ namespace RHPsicotest.WebSite.Repositories
         {
             UserDTO user = await GetUserDTO(userId);
             IEnumerable<Role> roleUser = user.Roles;
-            var roles = await context.Roles.ToListAsync();
+            List<Role> roles = await context.Roles.ToListAsync();
 
             List<int> selectedRoles = new List<int>();
 

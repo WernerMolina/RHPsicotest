@@ -22,7 +22,7 @@ namespace RHPsicotest.WebSite.Repositories
 
         public async Task<MultiSelectList> GetAllPermissions()
         {
-            var permissions = await context.Permissions.ToListAsync();
+            List<Permission> permissions = await context.Permissions.ToListAsync();
 
             return new MultiSelectList(permissions, "IdPermission", "PermissionName");
         }
@@ -88,7 +88,7 @@ namespace RHPsicotest.WebSite.Repositories
         
         public  async Task<bool> UpdateRole(Role role, List<int> permissions)
         {
-            var _role = await context.Roles.AsNoTracking().FirstOrDefaultAsync(r => r.RoleName == role.RoleName);
+            Role _role = await context.Roles.AsNoTracking().FirstOrDefaultAsync(r => r.RoleName == role.RoleName);
             
             bool result = false;
 
@@ -105,8 +105,8 @@ namespace RHPsicotest.WebSite.Repositories
 
         public async Task<bool> DeleteRole(int id)
         {
-            var result = false;
-            var role = await GetRole(id);
+            bool result = false;
+            Role role = await GetRole(id);
 
             if(role != null)
             {
@@ -119,13 +119,13 @@ namespace RHPsicotest.WebSite.Repositories
 
         public async Task<MultiSelectList> GetPermissionsSelected(int roleId)
         {
-            var role = await GetRoleWithPermissions(roleId);
-            var permissionsRole = role.Permissions;
-            var permissions = await context.Permissions.ToListAsync();
+            Role role = await GetRoleWithPermissions(roleId);
+            IEnumerable<Permission_Role> permissionsRole = role.Permissions;
+            List<Permission> permissions = await context.Permissions.ToListAsync();
             
             List<int> selectedPermissions = new List<int>();
 
-            foreach (var permission in permissionsRole)
+            foreach (Permission_Role permission in permissionsRole)
             {
                 selectedPermissions.Add(permission.IdPermission);
             }

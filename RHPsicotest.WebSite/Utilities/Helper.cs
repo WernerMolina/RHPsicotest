@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using RHPsicotest.WebSite.DTOs;
+using RHPsicotest.WebSite.Models;
 using System.Collections.Generic;
 using System.IO;
 using System.Security.Claims;
@@ -30,7 +31,7 @@ namespace RHPsicotest.WebSite.Utilities
         {
             bool allow = false;
 
-            foreach (var role in user.Roles)
+            foreach (Role role in user.Roles)
             {
                 if (role.RoleName == "Super-Admin" || role.RoleName == "Administrador")
                     allow = true;
@@ -39,42 +40,41 @@ namespace RHPsicotest.WebSite.Utilities
             return allow;
         }
 
-        public static ClaimsIdentity Authenticate(UserDTO user)
+        public static ClaimsIdentity Authenticate(UserDTO userDTO)
         {
-
             List<Claim> claims = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier, user.IdUser.ToString()),
-                new Claim(ClaimTypes.Name, user.Name), 
-                new Claim(ClaimTypes.Email, user.Email) 
+                new Claim(ClaimTypes.NameIdentifier, userDTO.IdUser.ToString()),
+                new Claim(ClaimTypes.Name, userDTO.Name), 
+                new Claim(ClaimTypes.Email, userDTO.Email) 
             };
 
-            foreach (var item in user.Roles)
+            foreach (Role role in userDTO.Roles)
             {
-                claims.Add(new Claim(ClaimTypes.Role, item.RoleName));
+                claims.Add(new Claim(ClaimTypes.Role, role.RoleName));
             }
 
-            foreach (var item in user.Permissions)
+            foreach (Permission permission in userDTO.Permissions)
             {
-                claims.Add(new Claim("Permission", item.PermissionName));
+                claims.Add(new Claim("Permission", permission.PermissionName));
             }
 
-            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            ClaimsIdentity identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
             return identity;
         }
         
-        public static ClaimsIdentity CandidateAuthenticate(EmailUserDTO emailUser)
+        public static ClaimsIdentity CandidateAuthenticate(CandidateDTO candidateDTO)
         {
             List<Claim> claims = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier, emailUser.IdUser.ToString()),
-                new Claim(ClaimTypes.Name, emailUser.Username), 
-                new Claim(ClaimTypes.Email, emailUser.Email),
-                new Claim(ClaimTypes.Role, emailUser.Role.RoleName)
+                new Claim(ClaimTypes.NameIdentifier, candidateDTO.IdUser.ToString()),
+                new Claim(ClaimTypes.Name, candidateDTO.Username), 
+                new Claim(ClaimTypes.Email, candidateDTO.Email),
+                new Claim(ClaimTypes.Role, candidateDTO.Role.RoleName)
             };
 
-            foreach (var item in emailUser.Permissions)
+            foreach (var item in candidateDTO.Permissions)
             {
                 claims.Add(new Claim("Permission", item.PermissionName));
             }

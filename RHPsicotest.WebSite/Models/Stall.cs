@@ -11,6 +11,7 @@ namespace RHPsicotest.WebSite.Models
     {
         [Key]
         public int IdStall { get; set; }
+        public int IdTest { get; set; }
 
         [Display(Name = "Puesto")]
         public string StallName { get; set; }
@@ -24,7 +25,12 @@ namespace RHPsicotest.WebSite.Models
         [Display(Name = "Fecha de Creación")]
         public DateTime CreationDate { get; set; } = DateTime.Now;
 
-        [InverseProperty(nameof(EmailUser.Stall))]
-        public IEnumerable<EmailUser> EmailUsers { get; set; }
+        [ForeignKey(nameof(IdTest))]
+        [InverseProperty(nameof(Models.Test.Stalls))]
+        public virtual Test Test { get; set; }
+
+
+        [InverseProperty(nameof(Candidate.Stall))]
+        public IEnumerable<Candidate> EmailUsers { get; set; }
     }
 }

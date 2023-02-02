@@ -96,7 +96,7 @@ namespace RHPsicotest.WebSite.Controllers
 
             //return File(fileBytes, "application/pdf");
 
-            return View();
+            return File(fileBytes, "application/pdf");
         }
        
     }

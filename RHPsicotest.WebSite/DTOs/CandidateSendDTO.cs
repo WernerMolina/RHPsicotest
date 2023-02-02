@@ -1,14 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace RHPsicotest.WebSite.ViewModels
+namespace RHPsicotest.WebSite.DTOs
 {
-    public class EmailUserVM
+    public class CandidateSendDTO
     {
-        public int IdRole { get; set; }
-
-        [Required(ErrorMessage = "El Puesto es Obligatorio")]
-        public int IdPuesto { get; set; }
-
         [Required(ErrorMessage = "El Correo es Obligatorio")]
         public string Email { get; set; }
 

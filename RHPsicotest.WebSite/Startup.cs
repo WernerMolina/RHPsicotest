@@ -38,7 +38,7 @@ namespace RHPsicotest.WebSite
             services.AddScoped<IRoleRepository, RoleRepository>();
             services.AddScoped<IPermissionRepository, PermissionRepository>();
             services.AddScoped<IStallRepository, StallRepository>();
-            services.AddScoped<IEmailUserRepository, EmailUserRepository>();
+            services.AddScoped<ICandidateRepository, CandidateRepository>();
             services.AddScoped<IExpedientRepository, ExpedientRepository>();
 
             //services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

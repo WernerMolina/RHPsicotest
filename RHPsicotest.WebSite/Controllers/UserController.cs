@@ -28,7 +28,7 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpGet]
         [Route("/Usuarios")]
-        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "List-Users-Policy")]
+        //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "List-Users-Policy")]
         public async Task<IActionResult> Index()
         {
             IEnumerable<User> users = await userRepository.GetAllUsers();
@@ -61,7 +61,7 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpGet]
         [Route("/Usuario/Crear")]
-        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "Create-User-Policy")]
+        //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "Create-User-Policy")]
         public async Task<IActionResult> Create()
         {
             ViewBag.Roles = await userRepository.GetAllRoles();
@@ -71,21 +71,21 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpPost]
         [Route("/Usuario/Crear")]
-        public async Task<IActionResult> Create(User user, List<int> roles)
+        public async Task<IActionResult> Create(User _user, List<int> roles)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    var result = await userRepository.AddUser(user, roles);
+                    User user = await userRepository.AddUser(_user, roles);
 
-                    if (result != null)
+                    if (user != null)
                     {
                         return RedirectToAction("Index", "user");
                     }
                 }
 
-                return View(user);
+                return View(_user);
             }
             catch (Exception ex)
             {
@@ -95,7 +95,7 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpGet]
         [Route("/Usuario/Editar/{id:int}")]
-        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "Edit-User-Policy")]
+        //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "Edit-User-Policy")]
         public async Task<IActionResult> Edit(int id)
         {
             UserDTO user = await userRepository.GetUserDTO(id);
@@ -112,7 +112,7 @@ namespace RHPsicotest.WebSite.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var result = await userRepository.UpdateUser(user, roles);
+                    bool result = await userRepository.UpdateUser(user, roles);
 
                     if (result)
                     {
@@ -133,7 +133,7 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpGet]
         [Route("/Usuario/Eliminar/{id:int}")]
-        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "Delete-User-Policy")]
+        //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "Delete-User-Policy")]
         public async Task<IActionResult> Delete(int id)
         {
             UserDTO user = await userRepository.GetUserDTO(id);
@@ -147,7 +147,7 @@ namespace RHPsicotest.WebSite.Controllers
         {
             try
             {
-                var result = await userRepository.DeleteUser(id);
+                bool result = await userRepository.DeleteUser(id);
 
                 if (result)
                 {
@@ -185,11 +185,11 @@ namespace RHPsicotest.WebSite.Controllers
             {
                 userLogin.Password = Helper.EncryptMD5(userLogin.Password);
 
-                var user = await userRepository.GetUserLogin(userLogin);
+                UserDTO userDtO = await userRepository.GetUserLogin(userLogin);
 
-                if (user != null)
+                if (userDtO != null)
                 {
-                    var identity = Helper.Authenticate(user);
+                    ClaimsIdentity identity = Helper.Authenticate(userDtO);
 
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
 
@@ -198,7 +198,7 @@ namespace RHPsicotest.WebSite.Controllers
                         return Redirect(returnUrl);
                     }
 
-                    var isAdmin = Helper.IsAdmin(user);
+                    bool isAdmin = Helper.IsAdmin(userDtO);
 
                     if (isAdmin)
                     {

@@ -16,29 +16,29 @@ using System.Threading.Tasks;
 
 namespace RHPsicotest.WebSite.Controllers
 {
-    public class EmailUserController : Controller
+    public class CandidateController : Controller
     {
-        private readonly IEmailUserRepository emailUserRepository;
+        private readonly ICandidateRepository candidateRepository;
 
-        public EmailUserController(IEmailUserRepository emailUserRepository)
+        public CandidateController(ICandidateRepository candidateRepository)
         {
-            this.emailUserRepository = emailUserRepository;
+            this.candidateRepository = candidateRepository;
         }
 
         [HttpGet]
-        [Route("/Contraseñas")]
+        [Route("/Candidatos")]
         //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "List-Users-Policy")]
         public async Task<IActionResult> Index()
         {
-            IEnumerable<EmailUser> users = await emailUserRepository.GetAllEmailUsers();
+            IEnumerable<Candidate> candidates = await candidateRepository.GetAllEmailUsers();
 
-            return View(users);
+            return View(candidates);
         }
         
         [HttpGet]
         [Route("/EnviarCorreo")]
         //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "List-Users-Policy")]
-        public IActionResult SendMail(EmailUserSendDTO user, string nothing = null)
+        public IActionResult SendMail(CandidateSendDTO user, string nothing = null)
         {
             return View(user);
         }
@@ -46,7 +46,7 @@ namespace RHPsicotest.WebSite.Controllers
         [HttpPost]
         [Route("/EnviarCorreo")]
         //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "List-Users-Policy")]
-        public IActionResult SendMail(EmailUserSendDTO user)
+        public IActionResult SendMail(CandidateSendDTO user)
         {
             try
             {
@@ -70,32 +70,32 @@ namespace RHPsicotest.WebSite.Controllers
         //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "Create-User-Policy")]
         public async Task<IActionResult> Create()
         {
-            ViewBag.Role = await emailUserRepository.GetRoleName();
-            ViewBag.Stalls = await emailUserRepository.GetAllStalls();
+            ViewBag.Role = await candidateRepository.GetRoleName();
+            ViewBag.Stalls = await candidateRepository.GetAllStalls();
 
             return View();
         }
 
         [HttpPost]
         [Route("/Contraseña/Crear")]
-        public async Task<IActionResult> Create(EmailUserVM emailUserVM)
+        public async Task<IActionResult> Create(CandidateVM candidateVM)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    EmailUserSendDTO userSendDTO = await emailUserRepository.AddEmailUser(emailUserVM);
+                    CandidateSendDTO candidateSendDTO = await candidateRepository.AddEmailUser(candidateVM);
 
-                    if (userSendDTO != null)
+                    if (candidateSendDTO != null)
                     {
-                        return RedirectToAction("SendMail", "EmailUser", userSendDTO);
+                        return RedirectToAction("SendMail", "EmailUser", candidateSendDTO);
                     }
                 }
 
-                ViewBag.Role = await emailUserRepository.GetRoleName();
-                ViewBag.Stalls = await emailUserRepository.GetAllStalls();
+                ViewBag.Role = await candidateRepository.GetRoleName();
+                ViewBag.Stalls = await candidateRepository.GetAllStalls();
 
-                return View(emailUserVM);
+                return View(candidateVM);
             }
             catch (Exception ex)
             {
@@ -121,11 +121,11 @@ namespace RHPsicotest.WebSite.Controllers
         {
             if (ModelState.IsValid)
             {
-                EmailUserDTO emailUserDTO = await emailUserRepository.GetCandidateLogin(candidateLogin);
+                CandidateDTO candidateDTO = await candidateRepository.GetCandidateLogin(candidateLogin);
 
-                if (emailUserDTO != null)
+                if (candidateDTO != null)
                 {
-                    ClaimsIdentity identity = Helper.CandidateAuthenticate(emailUserDTO);
+                    ClaimsIdentity identity = Helper.CandidateAuthenticate(candidateDTO);
 
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
 

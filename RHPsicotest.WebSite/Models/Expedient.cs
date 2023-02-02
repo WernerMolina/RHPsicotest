@@ -27,11 +27,11 @@ namespace RHPsicotest.WebSite.Models
         [Required(ErrorMessage = "Requerido")]
         public string Email { get; set; }
 
-        [Display(Name = "Télefono Movil")]
+        [Display(Name = "Teléfono Movil")]
         [Required(ErrorMessage = "Requerido")]
         public string MovilePhoneNumber { get; set; }
 
-        [Display(Name = "Télefono Fijo")]
+        [Display(Name = "Teléfono Fijo")]
         [Required(ErrorMessage = "Requerido")]
         public string LandlineNumber { get; set; }
 

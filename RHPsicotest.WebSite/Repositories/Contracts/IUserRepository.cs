@@ -10,7 +10,7 @@ namespace RHPsicotest.WebSite.Repositories.Contracts
     public interface IUserRepository
     {
         //Crud User
-        public Task<User> AddUser(EmailUserVM user);
+        public Task<User> AddUser(CandidateVM user);
         public Task<User> AddUser(User user, List<int> rolesId);
         public Task<bool> UpdateUser(UserDTO user, List<int> rolesId);
         public Task<bool> DeleteUser(int id);

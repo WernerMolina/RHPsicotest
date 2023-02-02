@@ -43,21 +43,21 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpPost]
         [Route("/Permiso/Crear")]
-        public async Task<IActionResult> Create(Permission permission)
+        public async Task<IActionResult> Create(Permission _permission)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    var result = await permissionRepository.AddPermission(permission);
+                    Permission permission = await permissionRepository.AddPermission(_permission);
 
-                    if (result != null)
+                    if (permission != null)
                     {
                         return RedirectToAction("Index", "Permission");
                     }
                 }
 
-                return View(permission);
+                return View(_permission);
             }
             catch (Exception ex)
             {
@@ -82,7 +82,7 @@ namespace RHPsicotest.WebSite.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var result = await permissionRepository.UpdatePermission(permission);
+                    bool result = await permissionRepository.UpdatePermission(permission);
 
                     if (result)
                     {
@@ -113,7 +113,7 @@ namespace RHPsicotest.WebSite.Controllers
         {
             try
             {
-                var result = await permissionRepository.DeletePermission(id);
+                bool result = await permissionRepository.DeletePermission(id);
 
                 if (result)
                 {

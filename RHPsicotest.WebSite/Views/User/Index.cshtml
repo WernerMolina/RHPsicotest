@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<User>
 
 @{
-    ViewData["Title"] = "Usurios";
+    ViewData["Title"] = "Usuarios";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
 <h1 class="fw-bold">Lista de Usuarios</h1>
 
-@if ((await AuthorizationService.AuthorizeAsync(User, "Create-User-Policy")).Succeeded)
+@if (!(await AuthorizationService.AuthorizeAsync(User, "Create-User-Policy")).Succeeded)
 {
     <p class="mt-4">
         <a asp-action="Create" class="btn btn-success fw-bold fs-5">Crear Usuario</a>
@@ -54,11 +54,11 @@
                     }
                 </td>
                 <td>
-                    @if ((await AuthorizationService.AuthorizeAsync(User, "Edit-User-Policy")).Succeeded)
+                    @if (!(await AuthorizationService.AuthorizeAsync(User, "Edit-User-Policy")).Succeeded)
                     {
                         <a asp-action="Edit" asp-route-id="@item.IdUser" class="btn bg-warning fw-bold"><i class="bi bi-pencil-fill"></i></a> <span class="fw-bold">|</span>
                     }
-                    @if ((await AuthorizationService.AuthorizeAsync(User, "Delete-User-Policy")).Succeeded)
+                    @if (!(await AuthorizationService.AuthorizeAsync(User, "Delete-User-Policy")).Succeeded)
                     {
                         <a asp-action="Delete" asp-route-id="@item.IdUser" class="btn btn-danger fw-bold"><i class="bi bi-trash3-fill"></i></a>
                     }

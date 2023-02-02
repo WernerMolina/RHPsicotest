@@ -245,13 +245,13 @@ namespace RHPsicotest.WebSite.Migrations
             modelBuilder.Entity("RHPsicotest.WebSite.Models.EmailUser", b =>
                 {
                     b.HasOne("RHPsicotest.WebSite.Models.Stall", "Stall")
-                        .WithMany("EmailUsers")
+                        .WithMany("Candidates")
                         .HasForeignKey("IdPuesto")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("RHPsicotest.WebSite.Models.Role", "Role")
-                        .WithMany("EmailUsers")
+                        .WithMany("Candidates")
                         .HasForeignKey("IdRole")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -306,7 +306,7 @@ namespace RHPsicotest.WebSite.Migrations
 
             modelBuilder.Entity("RHPsicotest.WebSite.Models.Role", b =>
                 {
-                    b.Navigation("EmailUsers");
+                    b.Navigation("Candidates");
 
                     b.Navigation("Permissions");
 
@@ -315,7 +315,7 @@ namespace RHPsicotest.WebSite.Migrations
 
             modelBuilder.Entity("RHPsicotest.WebSite.Models.Stall", b =>
                 {
-                    b.Navigation("EmailUsers");
+                    b.Navigation("Candidates");
                 });
 
             modelBuilder.Entity("RHPsicotest.WebSite.Models.User", b =>

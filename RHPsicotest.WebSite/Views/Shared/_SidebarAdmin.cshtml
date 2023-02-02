@@ -10,13 +10,13 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+            <a class="nav-link collapsed" data-bs-target="#component-role-permission" data-bs-toggle="collapse" href="#">
                 <i class="bi bi-menu-button-wide"></i><span>Roles y Permisos</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
-            <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+            <ul id="component-role-permission" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                 
                 
-                @if ((await AuthorizationService.AuthorizeAsync(User, "List-Roles-Policy")).Succeeded)
+                @if (!(await AuthorizationService.AuthorizeAsync(User, "List-Roles-Policy")).Succeeded)
                 {
                     <li>
                         <a asp-action="Index" asp-controller="Role">
@@ -30,7 +30,7 @@
                         </a>
                     </li>*@
                 
-                @if ((await AuthorizationService.AuthorizeAsync(User, "List-Users-Policy")).Succeeded)
+                @if (!(await AuthorizationService.AuthorizeAsync(User, "List-Users-Policy")).Succeeded)
                 {
                     <li>
                         <a asp-action="Index" asp-controller="User">
@@ -70,6 +70,20 @@
                 <i class="bi bi-grid"></i><span>Expedientes</span>
             </a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link collapsed" data-bs-target="#component-test" data-bs-toggle="collapse" href="#">
+                <i class="bi bi-menu-button-wide"></i><span>Pruebas</span><i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul id="component-test" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+
+                <li>
+                    <a asp-action="Index" asp-controller="Role">
+                        <i class="bi bi-circle"></i><span>Test PPG-IPG</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
 
         <li class="nav-heading">Pages</li>
 

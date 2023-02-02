@@ -42,21 +42,21 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpPost]
         [Route("/Puesto/Crear")]
-        public async Task<IActionResult> Create(Stall stall)
+        public async Task<IActionResult> Create(Stall _stall)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    var result = await stallRepository.AddStall(stall);
+                    Stall stall = await stallRepository.AddStall(_stall);
 
-                    if (result != null)
+                    if (stall != null)
                     {
                         return RedirectToAction("Index", "Stall");
                     }
                 }
 
-                return View(stall);
+                return View(_stall);
             }
             catch (Exception ex)
             {
@@ -81,7 +81,7 @@ namespace RHPsicotest.WebSite.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var result = await stallRepository.UpdateStall(stall);
+                    bool result = await stallRepository.UpdateStall(stall);
 
                     if (result)
                     {
@@ -112,7 +112,7 @@ namespace RHPsicotest.WebSite.Controllers
         {
             try
             {
-                var result = await stallRepository.DeleteStall(id);
+                bool result = await stallRepository.DeleteStall(id);
 
                 if (result)
                 {

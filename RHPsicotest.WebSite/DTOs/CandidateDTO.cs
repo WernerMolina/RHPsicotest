@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace RHPsicotest.WebSite.DTOs
 {
-    public class EmailUserDTO
+    public class CandidateDTO
     {
         public int IdUser { get; set; }
 

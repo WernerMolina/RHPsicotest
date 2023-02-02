@@ -52,20 +52,20 @@
                 </td>
 
                 <td>
-                    <a asp-action="ShowFilePDF" asp-route-id="@item.IdExpedient" class="btn bg-primary fw-bold text-white">Ver CV</a>
+                    <a asp-action="ShowFilePDF" target="_blank" asp-route-id="@item.IdExpedient" class="btn bg-primary fw-bold text-white">Ver CV</a>
 
-                    @if ((await AuthorizationService.AuthorizeAsync(User, "Edit-User-Policy")).Succeeded)
+@*                    @if (!(await AuthorizationService.AuthorizeAsync(User, "Edit-User-Policy")).Succeeded)
                     {
                         <a asp-action="Details" asp-route-id="@item.IdExpedient" class="btn bg-primary fw-bold"><i class="bi bi-pencil-fill"></i></a> <span class="fw-bold">|</span>
                     }
-                    @if ((await AuthorizationService.AuthorizeAsync(User, "Edit-User-Policy")).Succeeded)
+                    @if (!(await AuthorizationService.AuthorizeAsync(User, "Edit-User-Policy")).Succeeded)
                     {
                         <a asp-action="Edit" asp-route-id="@item.IdExpedient" class="btn bg-warning fw-bold"><i class="bi bi-pencil-fill"></i></a> <span class="fw-bold">|</span>
                     }
-                    @if ((await AuthorizationService.AuthorizeAsync(User, "Delete-User-Policy")).Succeeded)
+                    @if (!(await AuthorizationService.AuthorizeAsync(User, "Delete-User-Policy")).Succeeded)
                     {
                         <a asp-action="Delete" asp-route-id="@item.IdExpedient" class="btn btn-danger fw-bold"><i class="bi bi-trash3-fill"></i></a>
-                    }
+                    }*@
                 </td>
             </tr>
         }

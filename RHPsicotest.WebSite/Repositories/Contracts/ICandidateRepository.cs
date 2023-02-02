@@ -7,16 +7,16 @@ using System.Threading.Tasks;
 
 namespace RHPsicotest.WebSite.Repositories.Contracts
 {
-    public interface IEmailUserRepository
+    public interface ICandidateRepository
     {
-        public Task<IEnumerable<EmailUser>> GetAllEmailUsers();
+        public Task<IEnumerable<Candidate>> GetAllEmailUsers();
 
         public Task<IEnumerable<Stall>> GetAllStalls();
 
-        public Task<EmailUserSendDTO> AddEmailUser(EmailUserVM emailUser);
+        public Task<CandidateSendDTO> AddEmailUser(CandidateVM candidateVM);
 
         public Task<Role> GetRoleName();
 
-        public Task<EmailUserDTO> GetCandidateLogin(CandidateLogin candidateLogin);
+        public Task<CandidateDTO> GetCandidateLogin(CandidateLogin candidateLogin);
     }
 }

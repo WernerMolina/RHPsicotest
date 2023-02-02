@@ -22,15 +22,15 @@ namespace RHPsicotest.WebSite.Utilities
             };
         }
 
-        public static EmailUser ConvertToEmailUser(EmailUserVM emailUserVM)
+        public static Candidate ConvertToCandidate(CandidateVM candidateVM)
         {
-            return new EmailUser
+            return new Candidate
             {
-                IdRole = emailUserVM.IdRole,
-                IdPuesto = emailUserVM.IdPuesto,
+                IdRole = candidateVM.IdRole,
+                IdPuesto = candidateVM.IdPuesto,
                 Username = "MGLR",
-                Email = emailUserVM.Email,
-                Password = emailUserVM.Password,
+                Email = candidateVM.Email,
+                Password = candidateVM.Password,
                 RegistrationDate = DateTime.Now,
             };
         }
@@ -59,26 +59,26 @@ namespace RHPsicotest.WebSite.Utilities
             };
         }
         
-        public static EmailUserDTO ConvertToEmailUserDTO(EmailUser emailUser, List<Permission> permissions)
+        public static CandidateDTO ConvertToCandidateDTO(Candidate candidate, List<Permission> permissions)
         {
-            return new EmailUserDTO
+            return new CandidateDTO
             {
-                IdUser = emailUser.IdUser,
+                IdUser = candidate.IdUser,
                 Username = "MGLR",
-                Email = emailUser.Email,
-                Password = emailUser.Password,
+                Email = candidate.Email,
+                Password = candidate.Password,
                 RegistrationDate = DateTime.Now,
-                Role = emailUser.Role,
+                Role = candidate.Role,
                 Permissions = permissions
             };
         }
         
-        public static EmailUserSendDTO ConvertToEmailUserSendDTO(EmailUserVM emailUserVM)
+        public static CandidateSendDTO ConvertToCandidateSendDTO(CandidateVM candidateVM)
         {
-            return new EmailUserSendDTO
+            return new CandidateSendDTO
             {
-                Email = emailUserVM.Email,
-                Password = emailUserVM.Password,
+                Email = candidateVM.Email,
+                Password = candidateVM.Password,
             };
         }
     }

@@ -7,13 +7,17 @@ namespace RHPsicotest.WebSite.Data
     public class RHPsicotestDbContext : DbContext
     {
         public DbSet<User> Users { get; set; }
-        public DbSet<EmailUser> EmailUsers { get; set; }
+        public DbSet<Candidate> Candidates { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Permission> Permissions { get; set; }
         public DbSet<Stall> Stalls { get; set; }
         public DbSet<Expedient> Expedients { get; set; }
+        public DbSet<Test> Tests { get; set; }
+        public DbSet<Question> Questions { get; set; }
+        public DbSet<Factor> Factors { get; set; }
         public DbSet<Permission_Role> Permission_Roles { get; set; }
         public DbSet<Role_User> Role_Users { get; set; }
+        public DbSet<Factor_Question> Factor_Questions { get; set; }
 
         public RHPsicotestDbContext(DbContextOptions<RHPsicotestDbContext> options) : base(options)
         {
@@ -35,6 +39,9 @@ namespace RHPsicotest.WebSite.Data
 
             modelBuilder.Entity<Role_User>()
                         .HasKey(ru => new { ru.IdRole, ru.IdUser });
+            
+            modelBuilder.Entity<Factor_Question>()
+                        .HasKey(fq => new { fq.IdFactor, fq.IdQuestion });
 
 
             //modelBuilder.Entity<Permission>().HasData(new Permission

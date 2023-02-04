@@ -9,11 +9,11 @@ namespace RHPsicotest.WebSite.Repositories.Contracts
 {
     public interface ICandidateRepository
     {
-        public Task<IEnumerable<Candidate>> GetAllEmailUsers();
+        public Task<IEnumerable<Candidate>> GetAllCandidates();
 
         public Task<IEnumerable<Stall>> GetAllStalls();
 
-        public Task<CandidateSendDTO> AddEmailUser(CandidateVM candidateVM);
+        public Task<CandidateSendDTO> AddCandidate(CandidateVM candidateVM);
 
         public Task<Role> GetRoleName();
 

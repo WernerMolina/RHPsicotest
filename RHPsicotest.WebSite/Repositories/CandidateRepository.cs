@@ -21,7 +21,7 @@ namespace RHPsicotest.WebSite.Repositories
             this.context = context;
         }
 
-        public async Task<CandidateSendDTO> AddEmailUser(CandidateVM candidateVM)
+        public async Task<CandidateSendDTO> AddCandidate(CandidateVM candidateVM)
         {
             bool passwordExists = await PasswordExist(candidateVM.Password);
 
@@ -40,12 +40,12 @@ namespace RHPsicotest.WebSite.Repositories
             return null;
         }
 
-        public async Task<IEnumerable<Candidate>> GetAllEmailUsers()
+        public async Task<IEnumerable<Candidate>> GetAllCandidates()
         {
             return await context.Candidates.Include(e => e.Role).Include(e => e.Stall).ToArrayAsync();
         }
         
-        public async Task<Candidate> GetEmailUser(int id)
+        public async Task<Candidate> GetCandidate(int id)
         {
             return await context.Candidates.Include(u => u.Role).FirstOrDefaultAsync(c => c.IdUser == id);
         }
@@ -73,15 +73,15 @@ namespace RHPsicotest.WebSite.Repositories
 
             if(candidate != null)
             {
-                candidateDTO = await GetEmailUserDTO(candidate.IdUser);
+                candidateDTO = await GetCandidateDTO(candidate.IdUser);
             }
 
             return candidateDTO;
         }
 
-        public async Task<CandidateDTO> GetEmailUserDTO(int id)
+        public async Task<CandidateDTO> GetCandidateDTO(int id)
         {
-            Candidate emailUser = await GetEmailUser(id);
+            Candidate emailUser = await GetCandidate(id);
 
             List<Permission> permissionList = new List<Permission>();
             List<Permission_Role> permission_roles = new List<Permission_Role>();

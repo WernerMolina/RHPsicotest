@@ -30,7 +30,7 @@ namespace RHPsicotest.WebSite.Controllers
         //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "List-Users-Policy")]
         public async Task<IActionResult> Index()
         {
-            IEnumerable<Candidate> candidates = await candidateRepository.GetAllEmailUsers();
+            IEnumerable<Candidate> candidates = await candidateRepository.GetAllCandidates();
 
             return View(candidates);
         }
@@ -54,7 +54,7 @@ namespace RHPsicotest.WebSite.Controllers
                 {
                     SendEmail.Send(user.Email, user.Password);
 
-                    return RedirectToAction("Index", "EmailUser");
+                    return RedirectToAction("Index", "Candidate");
                 }
 
                 return View(user);
@@ -84,11 +84,11 @@ namespace RHPsicotest.WebSite.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    CandidateSendDTO candidateSendDTO = await candidateRepository.AddEmailUser(candidateVM);
+                    CandidateSendDTO candidateSendDTO = await candidateRepository.AddCandidate(candidateVM);
 
                     if (candidateSendDTO != null)
                     {
-                        return RedirectToAction("SendMail", "EmailUser", candidateSendDTO);
+                        return RedirectToAction("SendMail", "Candidate", candidateSendDTO);
                     }
                 }
 

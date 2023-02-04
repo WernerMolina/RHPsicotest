@@ -1,9 +1,6 @@
-﻿using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RHPsicotest.WebSite.Models;
-using RHPsicotest.WebSite.Repositories;
 using RHPsicotest.WebSite.Repositories.Contracts;
 using RHPsicotest.WebSite.Utilities;
 using RHPsicotest.WebSite.ViewModels;
@@ -30,7 +27,7 @@ namespace RHPsicotest.WebSite.Controllers
 
             return View(expedients);
         }
-
+        
         [HttpGet]
         [Route("/ConfirmarPoliticas")]
         public IActionResult ConfirmPolicies()
@@ -40,10 +37,10 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpPost]
         [Route("/ConfirmarPoliticas")]
-        public IActionResult ConfirmPolicies(bool acept)
+        public IActionResult ConfirmPolicies(bool accept)
         {
-            if (acept)
-                return RedirectToAction("Expedientes");
+            if (accept)
+                return View("Create");
 
             return View();
         }
@@ -51,14 +48,14 @@ namespace RHPsicotest.WebSite.Controllers
         [HttpGet]
         [Route("/Expediente")]
         //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "Create-User-Policy")]
-        public IActionResult CandidateCreate()
+        public IActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
         [Route("/Expediente")]
-        public async Task<IActionResult> CandidateCreate(ExpedientVM expedientVM)
+        public async Task<IActionResult> Create(ExpedientVM expedientVM)
         {
             try
             {
@@ -72,7 +69,10 @@ namespace RHPsicotest.WebSite.Controllers
 
                         if (result)
                         {
-                            return RedirectToAction("Index", "Home");
+                            if(User.Identity.IsAuthenticated && User.IsInRole("Candidate"))
+                            {
+                                return RedirectToAction("Test1", "Test");
+                            }
                         }
                     }
                 }
@@ -84,6 +84,9 @@ namespace RHPsicotest.WebSite.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
+
+
+
 
         [HttpGet]
         [Route("/CurriculumVitae")]

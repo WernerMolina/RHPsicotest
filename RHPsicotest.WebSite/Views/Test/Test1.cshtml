@@ -1,0 +1,122 @@
+﻿@model Test
+
+@{
+    ViewData["Title"] = "Prueba-PPG-IPG";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int i = 1;
+
+}
+
+<h2>Prueba: @Model.NameTest</h2>
+
+@foreach (var question in Model.Questions)
+{
+    string positivas = "positivas" + i;
+    string negativas = "negativas" + i;
+
+    <div class="card py-2">
+        <h5 class="card-header">Pregunta @question.QuestionNumber</h5>
+        <div class="card-body d-flex gap-5">
+            <div class="w-75 d-flex flex-column gap-2">
+                <div class="card">
+                    <div class="card-body">
+                        A) @question.OptionA
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        B) @question.OptionB
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        C) @question.OptionC
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        D) @question.OptionD
+                    </div>
+                </div>
+            </div>
+            <div class="" id="@positivas">                
+                <div class="card">
+                    <div class="card-body">
+                        <input class="" type="radio" id="" name="res[@i][0]" value="A"
+                           style="width:25px; height: 25px" />
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <input class="" type="radio" id="" name="res[@i][0]" value="B"
+                           style="width:25px; height: 25px" />
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <input class="" type="radio" id="" name="res[@i][0]" value="C"
+                           style="width:25px; height: 25px" />
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <input class="" type="radio" id="" name="res[@i][0]" value="D"
+                           style="width:25px; height: 25px" />
+                    </div>
+                </div>
+            </div>
+            <div class="" id="@negativas">
+                <div class="card">
+                    <div class="card-body">
+                        <input class="" type="radio" id="" name="res[@i][1]" value="A"
+                           style="width:25px; height: 25px" />
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <input class="" type="radio" id="" name="res[@i][1]" value="B"
+                           style="width:25px; height: 25px" />
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <input class="" type="radio" id="" name="res[@i][1]" value="C"
+                           style="width:25px; height: 25px" />
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <input class="" type="radio" id="" name="res[@i][1]" value="D"
+                           style="width:25px; height: 25px" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    i++;
+}
+
+@section Scripts{
+    <script>
+        let inputsRadiosAll = document.querySelectorAll("input[type=radio]");
+
+        for (let i = 0; i < inputsRadiosAll.length; i++) {
+            inputsRadiosAll[i].addEventListener("click", discheked);
+        }
+
+        function discheked(event) {
+            let parent = event.target.parentNode.parentNode.parentNode
+
+            let inputsParent = document.querySelectorAll(`#${parent.id} input[type=radio]`)
+
+            for (let i = 0; i < inputsParent.length; i++) {
+                if (inputsParent[i] == event.target) {
+
+                } else {
+                    inputsParent[i].checked = false
+                }
+            }
+        }
+    </script>
+}

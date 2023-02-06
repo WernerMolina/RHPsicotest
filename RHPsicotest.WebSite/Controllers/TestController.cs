@@ -28,7 +28,20 @@ namespace RHPsicotest.WebSite.Controllers
         {
             Test test = await testRepository.GetTest();
 
+
             return View(test);
+        }
+        
+        [HttpPost]
+        [Route("/Prueba/PPG-IPG")]
+        public async Task<IActionResult> Test1(string[][] response)
+        {
+            ViewBag.response = response;
+            Test test = await testRepository.GetTest();
+
+            //var result = await testRepository.GenerateResults(response);
+
+            return View();
         }
     }
 }

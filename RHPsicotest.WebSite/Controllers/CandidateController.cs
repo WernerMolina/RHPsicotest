@@ -71,7 +71,7 @@ namespace RHPsicotest.WebSite.Controllers
         public async Task<IActionResult> Create()
         {
             ViewBag.Role = await candidateRepository.GetRoleName();
-            ViewBag.Stalls = await candidateRepository.GetAllStalls();
+            ViewBag.Positions = await candidateRepository.GetAllPositions();
 
             return View();
         }
@@ -93,7 +93,7 @@ namespace RHPsicotest.WebSite.Controllers
                 }
 
                 ViewBag.Role = await candidateRepository.GetRoleName();
-                ViewBag.Stalls = await candidateRepository.GetAllStalls();
+                ViewBag.Positions = await candidateRepository.GetAllPositions();
 
                 return View(candidateVM);
             }
@@ -121,11 +121,11 @@ namespace RHPsicotest.WebSite.Controllers
         {
             if (ModelState.IsValid)
             {
-                CandidateDTO candidateDTO = await candidateRepository.GetCandidateLogin(candidateLogin);
+                (Candidate, List<Permission>) candidate = await candidateRepository.GetCandidateLogin(candidateLogin);
 
-                if (candidateDTO != null)
+                if (candidate.Item1 != null)
                 {
-                    ClaimsIdentity identity = Helper.CandidateAuthenticate(candidateDTO);
+                    ClaimsIdentity identity = Helper.CandidateAuthenticate(candidate.Item1, candidate.Item2);
 
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
 

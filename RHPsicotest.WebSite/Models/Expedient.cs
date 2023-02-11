@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -10,6 +10,8 @@ namespace RHPsicotest.WebSite.Models
     {
         [Key]
         public int IdExpedient { get; set; }
+
+        public int IdCandidate { get; set; }
 
         [Display(Name = "DUI")]
         [Required(ErrorMessage = "Requerido")]
@@ -35,6 +37,7 @@ namespace RHPsicotest.WebSite.Models
         [Required(ErrorMessage = "Requerido")]
         public string LandlineNumber { get; set; }
 
+        [DataType(DataType.Date)]
         [Display(Name = "Fecha de Nacimiento")]
         [Required(ErrorMessage = "Requerido")]
         public DateTime DateOfBirth { get; set; }
@@ -49,7 +52,7 @@ namespace RHPsicotest.WebSite.Models
 
         [Display(Name = "Puesto")]
         [Required(ErrorMessage = "Requerido")]
-        public string Stall { get; set; }
+        public string Position { get; set; }
 
         [Display(Name = "Formación Académica")]
         [Required(ErrorMessage = "Requerido")]
@@ -78,5 +81,12 @@ namespace RHPsicotest.WebSite.Models
         [Display(Name = "Municipio")]
         [Required(ErrorMessage = "Requerido")]
         public string Municipality { get; set; }
+
+        [ForeignKey(nameof(IdCandidate))]
+        [InverseProperty(nameof(Models.Candidate.Expedient))]
+        public virtual Candidate Candidate { get; set; }
+
+        [InverseProperty(nameof(Result.Expedient))]
+        public virtual IEnumerable<Result> Results { get; set; }
     }
 }

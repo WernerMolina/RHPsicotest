@@ -42,17 +42,17 @@ namespace RHPsicotest.WebSite.Repositories
 
         public async Task<IEnumerable<Candidate>> GetAllCandidates()
         {
-            return await context.Candidates.Include(e => e.Role).Include(e => e.Stall).ToArrayAsync();
+            return await context.Candidates.Include(e => e.Role).Include(e => e.Position).ToListAsync();
         }
         
         public async Task<Candidate> GetCandidate(int id)
         {
-            return await context.Candidates.Include(u => u.Role).FirstOrDefaultAsync(c => c.IdUser == id);
+            return await context.Candidates.Include(c => c.Role).Include(c => c.Position).FirstOrDefaultAsync(c => c.IdCandidate == id);
         }
         
-        public async Task<IEnumerable<Stall>> GetAllStalls()
+        public async Task<IEnumerable<Position>> GetAllPositions()
         {
-            return await context.Stalls.ToArrayAsync();
+            return await context.Positions.ToListAsync();
         }
 
         private async Task<bool> PasswordExist(string password)
@@ -65,38 +65,52 @@ namespace RHPsicotest.WebSite.Repositories
             return await context.Roles.FirstOrDefaultAsync(r => r.RoleName == "Candidato");
         }
 
-        public async Task<CandidateDTO> GetCandidateLogin(CandidateLogin candidateLogin)
+        // Retorna los datos del candidato que se esta logueando y tambien sus permisos
+        public async Task<(Candidate, List<Permission>)> GetCandidateLogin(CandidateLogin candidateLogin)
         {
-            Candidate candidate = await context.Candidates.FirstOrDefaultAsync(u => u.Username == candidateLogin.Username && u.Password == candidateLogin.Password);
+            Candidate candidate = await context.Candidates.Include(c => c.Role).Include(c => c.Position).FirstOrDefaultAsync(u => u.Username == candidateLogin.Username && u.Password == candidateLogin.Password);
 
-            CandidateDTO candidateDTO = null;
+            List<Permission> permissions = new List<Permission>();
 
-            if(candidate != null)
-            {
-                candidateDTO = await GetCandidateDTO(candidate.IdUser);
-            }
-
-            return candidateDTO;
+            if(candidate != null) permissions = await GetPermissionsByRole(candidate.IdRole);
+            
+            return (candidate, permissions);
         }
 
-        public async Task<CandidateDTO> GetCandidateDTO(int id)
+        //public async Task<CandidateDTO> GetCandidateDTO(int id)
+        //{
+        //    Candidate candidate = await GetCandidate(id);
+
+        //    List<Permission> permissionList = new List<Permission>();
+        //    List<Permission_Role> permission_roles = new List<Permission_Role>();
+
+        //    permission_roles.AddRange(await context.Permission_Roles.Where(pr => pr.IdRole == candidate.IdRole).ToListAsync());
+
+        //    foreach (Permission_Role permission in permission_roles)
+        //    {
+        //        permissionList.Add(await context.Permissions.FindAsync(permission.IdPermission));
+        //    }
+
+        //    CandidateDTO candidateDTO = Conversion.ConvertToCandidateDTO(candidate, permissionList);
+
+        //    return candidateDTO;
+        //}
+
+        // Retorna todos los permisos que tengan el id del rol indicado
+        
+        public async Task<List<Permission>> GetPermissionsByRole(int roleId)
         {
-            Candidate emailUser = await GetCandidate(id);
+            List<Permission> permissions = new List<Permission>();
+            List<Permission_Role> permissionsRole = new List<Permission_Role>();
 
-            List<Permission> permissionList = new List<Permission>();
-            List<Permission_Role> permission_roles = new List<Permission_Role>();
+            permissionsRole.AddRange(await context.Permission_Roles.Where(pr => pr.IdRole == roleId).ToListAsync());
 
-            permission_roles.AddRange(await context.Permission_Roles.Where(pr => pr.IdRole == emailUser.IdRole).ToListAsync());
-
-            foreach (var permission in permission_roles)
+            foreach (Permission_Role permission in permissionsRole)
             {
-                permissionList.Add(await context.Permissions.FindAsync(permission.IdPermission));
+                permissions.Add(await context.Permissions.FindAsync(permission.IdPermission));
             }
 
-            CandidateDTO emailUserDTO = Conversion.ConvertToCandidateDTO(emailUser, permissionList);
-
-            return emailUserDTO;
+            return permissions;
         }
-
     }
 }

@@ -2,11 +2,14 @@
 using Microsoft.AspNetCore.Http;
 using RHPsicotest.WebSite.DTOs;
 using RHPsicotest.WebSite.Models;
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace RHPsicotest.WebSite.Utilities
 {
@@ -64,19 +67,20 @@ namespace RHPsicotest.WebSite.Utilities
             return identity;
         }
         
-        public static ClaimsIdentity CandidateAuthenticate(CandidateDTO candidateDTO)
+        public static ClaimsIdentity CandidateAuthenticate(Candidate candidate, List<Permission> permissions)
         {
             List<Claim> claims = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier, candidateDTO.IdUser.ToString()),
-                new Claim(ClaimTypes.Name, candidateDTO.Username), 
-                new Claim(ClaimTypes.Email, candidateDTO.Email),
-                new Claim(ClaimTypes.Role, candidateDTO.Role.RoleName)
+                new Claim(ClaimTypes.NameIdentifier, candidate.IdCandidate.ToString()),
+                new Claim(ClaimTypes.Name, candidate.Username), 
+                new Claim(ClaimTypes.Email, candidate.Email),
+                new Claim(ClaimTypes.Role, candidate.Role.RoleName),
+                new Claim("Position", candidate.Position.PositionName)
             };
 
-            foreach (var item in candidateDTO.Permissions)
+            foreach (Permission permission in permissions)
             {
-                claims.Add(new Claim("Permission", item.PermissionName));
+                claims.Add(new Claim("Permission", permission.PermissionName));
             }
 
             ClaimsIdentity identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -108,7 +112,16 @@ namespace RHPsicotest.WebSite.Utilities
             }
         }
 
+        public static byte CalculateAge(DateTime datebirth)
+        {
+            DateTime currentDate = DateTime.Today;
 
+            byte age = Convert.ToByte(currentDate.Year - datebirth.Year);
+
+            if (datebirth.Month > currentDate.Month) --age;
+
+            return age;
+        }
 
 
         //public static string SesionGetValue(IPrincipal user, string property)
@@ -130,6 +143,45 @@ namespace RHPsicotest.WebSite.Utilities
         //    var r = ((ClaimsIdentity)user.Identity).FindFirst(ClaimTypes.NameIdentifier);
 
         //    return r == null ? "" : r.Value;
+        //}
+
+
+        //private readonly IUserService _userService;
+
+        //public AddRolesClaimsTransformation(IUserService userService)
+        //{
+        //    _userService = userService;
+        //}
+
+        //public async Task<ClaimsPrincipal> TransformAsync(ClaimsPrincipal principal)
+        //{
+        //    // Clone current identity
+        //    var clone = principal.Clone();
+        //    var newIdentity = (ClaimsIdentity)clone.Identity;
+
+        //    // Support AD and local accounts
+        //    var nameId = principal.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier ||
+        //                                                      c.Type == ClaimTypes.Name);
+        //    if (nameId == null)
+        //    {
+        //        return principal;
+        //    }
+
+        //    // Get user from database
+        //    var user = await _userService.GetByUserName(nameId.Value);
+        //    if (user == null)
+        //    {
+        //        return principal;
+        //    }
+
+        //    // Add role claims to cloned identity
+        //    foreach (var role in user.Roles)
+        //    {
+        //        var claim = new Claim(newIdentity.RoleClaimType, role.Name);
+        //        newIdentity.AddClaim(claim);
+        //    }
+
+        //    return clone;
         //}
     }
 }

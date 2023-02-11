@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using RHPsicotest.WebSite.Models;
 using RHPsicotest.WebSite.Repositories.Contracts;
+using System;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace RHPsicotest.WebSite.Controllers
@@ -34,12 +36,14 @@ namespace RHPsicotest.WebSite.Controllers
         
         [HttpPost]
         [Route("/Prueba/PPG-IPG")]
-        public async Task<IActionResult> Test1(string[][] response)
+        public async Task<IActionResult> Test1(char[][] responses)
         {
-            ViewBag.response = response;
-            Test test = await testRepository.GetTest();
+            //ViewBag.response = responses;
+            //Test test = await testRepository.GetTest();
 
-            //var result = await testRepository.GenerateResults(response);
+            int currentIdUser = Convert.ToInt32(((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value);
+
+            var result = await testRepository.TestPPG_IPG(responses, currentIdUser);
 
             return View();
         }

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RHPsicotest.WebSite.Models
 {
@@ -21,7 +21,7 @@ namespace RHPsicotest.WebSite.Models
         [InverseProperty(nameof(Permission_Role.Role))]
         public virtual IEnumerable<Permission_Role> Permissions { get; set; }
         
-        [InverseProperty(nameof(Candidate.Role))]
-        public virtual IEnumerable<Candidate> EmailUsers { get; set; }
+        [InverseProperty(nameof(Models.Candidate.Role))]
+        public virtual IEnumerable<Candidate> Candidate { get; set; }
     }
 }

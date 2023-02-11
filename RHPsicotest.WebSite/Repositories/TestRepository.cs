@@ -2,10 +2,12 @@
 using RHPsicotest.WebSite.Data;
 using RHPsicotest.WebSite.Models;
 using RHPsicotest.WebSite.Repositories.Contracts;
+using RHPsicotest.WebSite.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace RHPsicotest.WebSite.Repositories
@@ -24,136 +26,67 @@ namespace RHPsicotest.WebSite.Repositories
             return await context.Tests.Include("Questions.Test").FirstOrDefaultAsync(t => t.IdTest == 1);
         }
 
-        public async Task<bool> GenerateResults(string[][] candidateAnswers)
+        public async Task<bool> TestPPG_IPG(char[][] responses, int currentIdUser)
         {
-            int positives = 0;
-            int negatives = 0;
-            int total = 0;
-            int i = 0;
+            int[] scoresByFactors = new int[9];
 
-            var responsesByFactor = await GetResponsesByFactor(1);
-
-            foreach (var response in responsesByFactor)
+            for (int i = 1; i < 8; i++)
             {
-                string correct = response.Correct;
-                string incorrect = response.InCorrect;
-
-                bool a = false;
-                bool b = false;
-                bool c = false;
-                bool d = false;
-
-                if (correct.Length == 1)
+                IEnumerable<Response> responsesByFactor = await GetResponsesByFactor(i);
+                
+                if(i <= 4)
                 {
-                    switch (correct)
+                    char[,] responsesPPG = new char[18, 2];
+
+                    for (int j = 0; j <= 4; j++)
                     {
-                        case "A":
-                            a = true;
-                            break;
-                        case "B":
-                            b = true;
-                            break;
-                        case "C":
-                            c = true;
-                            break;
-                        case "D":
-                            d = true;
-                            break;
+                        responsesPPG[j, 0] = responses[j][0];
+                        responsesPPG[j, 1] = responses[j][1];
                     }
+
+                    int scores = GenerateResults.GetPointsByFactor(responsesPPG, responsesByFactor);
+
+                    scoresByFactors[i - 1] = scores;
                 }
-                else
-                {
-                    switch (incorrect)
-                    {
-                        case "A":
-                            b = true;
-                            c = true;
-                            d = true;
-                            break;
-                        case "B":
-                            a = true;
-                            c = true;
-                            d = true;
-                            break;
-                        case "C":
-                            a = true;
-                            b = true;
-                            d = true;
-                            break;
-                        case "D":
-                            a = true;
-                            b = true;
-                            c = true;
-                            break;
-                    }
-                }
+                //else
+                //{
+                //    int k = 18;
+                //    char[,] responsesIPG = new char[38, 2];
 
-                string positive = candidateAnswers[i][0];
-                string negative = candidateAnswers[i][1];
+                //    for (int j = 0; j <= 19; j++)
+                //    {
+                //        responsesIPG[j, 0] = responses[k][0];
+                //        responsesIPG[j, 1] = responses[k][1];
 
-                bool? ap = null;
-                bool? bp = null;
-                bool? cp = null;
-                bool? dp = null;
+                //        k++;
+                //    }
 
-                bool? an = null;
-                bool? bn = null;
-                bool? cn = null;
-                bool? dn = null;
+                //    int scores = GenerateResults.GetPointsByFactor(responsesIPG, responsesByFactor);
 
-                switch (positive)
-                {
-                    case "A":
-                        ap = true;
-                        break;
-                    case "B":
-                        bp = true;
-                        break;
-                    case "C":
-                        cp = true;
-                        break;
-                    case "D":
-                        dp = true;
-                        break;
-                }
-
-                switch (negative)
-                {
-                    case "A":
-                        an = false;
-                        break;
-                    case "B":
-                        bn = false;
-                        break;
-                    case "C":
-                        cn = false;
-                        break;
-                    case "D":
-                        dn = false;
-                        break;
-                }
-
-                if (ap == a) positives++;
-                if (bp == b) positives++;
-                if (cp == c) positives++;
-                if (dp == d) positives++;
-
-                if (an == a) negatives++;
-                if (bn == b) negatives++;
-                if (cn == c) negatives++;
-                if (dn == d) negatives++;
-
-                i++;
+                //    scoresByFactors[i - 1] = scores;
+                //}
             }
 
-            total = positives + negatives;
+            scoresByFactors[8] = scoresByFactors[0] + scoresByFactors[1] + scoresByFactors[2] + scoresByFactors[3];
+
+            Expedient expedient = await context.Expedients.FirstOrDefaultAsync(e => e.IdExpedient == currentIdUser);
+            
+            (string, byte) infoCandidate = (expedient.Gender, Helper.CalculateAge(expedient.DateOfBirth));
+
+            int[] percentiles = GenerateResults.GetPercentileByFactor(scoresByFactors, infoCandidate); ;
+
 
             return true;
         }
 
-        private async Task<IEnumerable<Factor_Question>> GetResponsesByFactor(int id)
+        private async Task<IEnumerable<Response>> GetResponsesByFactor(int id)
         {
-            return await context.Factor_Questions.Where(d => d.IdFactor == id).ToListAsync();
+            return await context.Responses.Where(d => d.IdFactor == id).ToListAsync();
         }
+        
+        //private Candidate GetExpedient(int id)
+        //{
+        //    return context.Candidates.Where(c => c.IdUser == id);
+        //}
     }
 }

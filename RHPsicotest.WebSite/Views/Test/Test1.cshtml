@@ -5,10 +5,10 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     int i = 0;
 
-    var respuestas = (string[][])ViewBag.response;
+    var respuestas = (string[][])ViewBag.responses;
 }
 
-@if (ViewBag.response != null)
+@if (ViewBag.responses != null)
 {
     int f = 1;
 
@@ -82,13 +82,13 @@
                     <div class=" d-flex align-items-start gap-2" id="optionA-@question.QuestionNumber">
                         <div class="card">
                             <div class="card-body">
-                                <input class="" type="radio" id="" name="response[@i][0]" value="A"
+                                <input class="" type="radio" id="" name="responses[@i][0]" value="A"
                                    style="width:25px; height: 25px" />
                             </div>
                         </div>
                         <div class="card">
                             <div class="card-body">
-                                <input class="" type="radio" id="" name="response[@i][1]" value="A"
+                                <input class="" type="radio" id="" name="responses[@i][1]" value="A"
                                    style="width:25px; height: 25px" />
                             </div>
                         </div>
@@ -96,13 +96,13 @@
                     <div class=" d-flex align-items-start gap-2" id="optionB-@question.QuestionNumber">
                         <div class="card">
                             <div class="card-body">
-                                <input class="" type="radio" id="" name="response[@i][0]" value="B"
+                                <input class="" type="radio" id="" name="responses[@i][0]" value="B"
                                    style="width:25px; height: 25px" />
                             </div>
                         </div>
                         <div class="card">
                             <div class="card-body">
-                                <input class="" type="radio" id="" name="response[@i][1]" value="B"
+                                <input class="" type="radio" id="" name="responses[@i][1]" value="B"
                                    style="width:25px; height: 25px" />
                             </div>
                         </div>
@@ -110,13 +110,13 @@
                     <div class=" d-flex align-items-start gap-2" id="optionC-@question.QuestionNumber">
                         <div class="card">
                             <div class="card-body">
-                                <input class="" type="radio" id="" name="response[@i][0]" value="C"
+                                <input class="" type="radio" id="" name="responses[@i][0]" value="C"
                                    style="width:25px; height: 25px" />
                             </div>
                         </div>
                         <div class="card">
                             <div class="card-body">
-                                <input class="" type="radio" id="" name="response[@i][1]" value="C"
+                                <input class="" type="radio" id="" name="responses[@i][1]" value="C"
                                    style="width:25px; height: 25px" />
                             </div>
                         </div>
@@ -124,13 +124,13 @@
                     <div class=" d-flex align-items-start gap-2" id="optionD-@question.QuestionNumber">
                         <div class="card">
                             <div class="card-body">
-                                <input class="" type="radio" id="" name="response[@i][0]" value="D"
+                                <input class="" type="radio" id="" name="responses[@i][0]" value="D"
                                    style="width:25px; height: 25px" />
                             </div>
                         </div>
                         <div class="card">
                             <div class="card-body">
-                                <input class="" type="radio" id="" name="response[@i][1]" value="D"
+                                <input class="" type="radio" id="" name="responses[@i][1]" value="D"
                                    style="width:25px; height: 25px" />
                             </div>
                         </div>

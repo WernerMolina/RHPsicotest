@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Xml.Linq;
-using System;
+﻿using System;
 using RHPsicotest.WebSite.Models;
 using System.Collections.Generic;
 
@@ -18,7 +16,7 @@ namespace RHPsicotest.WebSite.DTOs
 
         public Role Role { get; set; }
 
-        public DateTime RegistrationDate { get; set; } = DateTime.Now;
+        public DateTime RegistrationDate { get; set; }
 
         public IEnumerable<Permission> Permissions { get; set; }
 

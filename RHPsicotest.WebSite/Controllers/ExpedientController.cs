@@ -6,6 +6,7 @@ using RHPsicotest.WebSite.Utilities;
 using RHPsicotest.WebSite.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace RHPsicotest.WebSite.Controllers
@@ -65,14 +66,17 @@ namespace RHPsicotest.WebSite.Controllers
 
                     if (isFileTypePDF)
                     {
-                        bool result = await expedientRepository.AddExpedient(expedientVM);
+                        string candidateId = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value;
+                        string email = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Email).Value;
+                        string stall = ((ClaimsIdentity)User.Identity).FindFirst("Position").Value;
+
+                        (string, string, string) currentCandidate = (candidateId, email, stall);
+
+                        bool result = await expedientRepository.AddExpedient(expedientVM, currentCandidate);
 
                         if (result)
                         {
-                            if(User.Identity.IsAuthenticated && User.IsInRole("Candidate"))
-                            {
-                                return RedirectToAction("Test1", "Test");
-                            }
+                            return RedirectToAction("Test1", "Test");
                         }
                     }
                 }

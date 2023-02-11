@@ -11,12 +11,12 @@ namespace RHPsicotest.WebSite.Repositories.Contracts
     {
         public Task<IEnumerable<Candidate>> GetAllCandidates();
 
-        public Task<IEnumerable<Stall>> GetAllStalls();
+        public Task<IEnumerable<Position>> GetAllPositions();
 
         public Task<CandidateSendDTO> AddCandidate(CandidateVM candidateVM);
 
         public Task<Role> GetRoleName();
 
-        public Task<CandidateDTO> GetCandidateLogin(CandidateLogin candidateLogin);
+        public Task<(Candidate, List<Permission>)> GetCandidateLogin(CandidateLogin candidateLogin);
     }
 }

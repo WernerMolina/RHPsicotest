@@ -27,7 +27,7 @@ namespace RHPsicotest.WebSite.Utilities
             return new Candidate
             {
                 IdRole = candidateVM.IdRole,
-                IdPuesto = candidateVM.IdPuesto,
+                IdPosition = candidateVM.IdPuesto,
                 Username = "MGLR",
                 Email = candidateVM.Email,
                 Password = candidateVM.Password,
@@ -35,20 +35,21 @@ namespace RHPsicotest.WebSite.Utilities
             };
         }
         
-        public static Expedient ConvertToExpedient(ExpedientVM expedientVM, byte[] filePDFInBytes)
+        public static Expedient ConvertToExpedient(ExpedientVM expedientVM, (string, string, string) currentCandidate, byte[] filePDFInBytes)
         {
             return new Expedient
             {
+                IdCandidate = Convert.ToInt16(currentCandidate.Item1),
                 DUI = expedientVM.DUI,
                 Names = expedientVM.Names,
                 Lastnames = expedientVM.Lastnames,
-                Email = expedientVM.Email,
+                Email = currentCandidate.Item2,
                 MovilePhoneNumber = expedientVM.MovilePhoneNumber,
                 LandlineNumber = expedientVM.LandlineNumber,
                 DateOfBirth = expedientVM.DateOfBirth,
                 Gender = expedientVM.Gender,
                 CivilStatus = expedientVM.CivilStatus,
-                Stall = expedientVM.Stall,
+                Position = currentCandidate.Item3,
                 AcademicTraining = expedientVM.AcademicTraining,
                 Certificate = expedientVM.Certificate,
                 CurriculumVitae = filePDFInBytes,
@@ -59,19 +60,6 @@ namespace RHPsicotest.WebSite.Utilities
             };
         }
         
-        public static CandidateDTO ConvertToCandidateDTO(Candidate candidate, List<Permission> permissions)
-        {
-            return new CandidateDTO
-            {
-                IdUser = candidate.IdUser,
-                Username = "MGLR",
-                Email = candidate.Email,
-                Password = candidate.Password,
-                RegistrationDate = DateTime.Now,
-                Role = candidate.Role,
-                Permissions = permissions
-            };
-        }
         
         public static CandidateSendDTO ConvertToCandidateSendDTO(CandidateVM candidateVM)
         {

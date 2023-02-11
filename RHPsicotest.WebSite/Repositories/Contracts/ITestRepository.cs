@@ -8,6 +8,6 @@ namespace RHPsicotest.WebSite.Repositories.Contracts
     public interface ITestRepository
     {
         public Task<Test> GetTest();
-        public Task<bool> GenerateResults(string[][] candidateAnswers);
+        public Task<bool> TestPPG_IPG(char[][] candidateResponses, int currentIdUser);
     }
 }

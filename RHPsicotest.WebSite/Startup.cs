@@ -37,7 +37,7 @@ namespace RHPsicotest.WebSite
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IRoleRepository, RoleRepository>();
             services.AddScoped<IPermissionRepository, PermissionRepository>();
-            services.AddScoped<IStallRepository, StallRepository>();
+            services.AddScoped<IPositionRepository, PositionRepository>();
             services.AddScoped<ICandidateRepository, CandidateRepository>();
             services.AddScoped<IExpedientRepository, ExpedientRepository>();
             services.AddScoped<ITestRepository, TestRepository>();

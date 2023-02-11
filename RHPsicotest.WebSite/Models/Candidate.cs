@@ -8,11 +8,11 @@ namespace RHPsicotest.WebSite.Models
     public class Candidate
     {
         [Key]
-        public int IdUser { get; set; }
+        public int IdCandidate { get; set; }
 
         public int IdRole { get; set; }
 
-        public int IdPuesto { get; set; }
+        public int IdPosition { get; set; }
 
         [Display(Name = "Correo")]
         public string Email { get; set; }
@@ -27,13 +27,16 @@ namespace RHPsicotest.WebSite.Models
         public DateTime RegistrationDate { get; set; } = DateTime.Now;
 
         [Display(Name = "Puesto")]
-        [ForeignKey(nameof(IdPuesto))]
-        [InverseProperty(nameof(Models.Stall.EmailUsers))]
-        public virtual Stall Stall { get; set; }
+        [ForeignKey(nameof(IdPosition))]
+        [InverseProperty(nameof(Models.Position.Candidates))]
+        public virtual Position Position { get; set; }
 
         [Display(Name = "Rol")]
         [ForeignKey(nameof(IdRole))]
-        [InverseProperty(nameof(Models.Role.EmailUsers))]
+        [InverseProperty(nameof(Models.Role.Candidate))]
         public virtual Role Role{ get; set; }
+
+        [InverseProperty(nameof(Models.Expedient.Candidate))]
+        public virtual Expedient Expedient { get; set; }
     }
 }

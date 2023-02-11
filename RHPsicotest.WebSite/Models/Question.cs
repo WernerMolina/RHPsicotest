@@ -21,8 +21,8 @@ namespace RHPsicotest.WebSite.Models
         public virtual Test Test { get; set; }
 
 
-        [InverseProperty(nameof(Factor_Question.Question))]
-        public virtual IEnumerable<Factor_Question> Factors { get; set; }
+        [InverseProperty(nameof(Response.Question))]
+        public virtual IEnumerable<Response> Factors { get; set; }
 
     }
 }

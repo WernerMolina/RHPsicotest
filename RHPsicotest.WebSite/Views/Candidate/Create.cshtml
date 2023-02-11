@@ -22,9 +22,9 @@
             <div class="form-group mb-4">
                 <label asp-for="IdPuesto" class="control-label mb-1">Puestos</label>
                 <select class="form-control" asp-for="IdPuesto" required>
-                    @foreach (var stall in (IEnumerable<Stall>)ViewBag.Stalls)
+                    @foreach (var stall in (IEnumerable<Position>)ViewBag.Stalls)
                     {
-                        <option value="@stall.IdStall">@stall.StallName</option>
+                        <option value="@stall.IdPosition">@stall.PositionName</option>
                     }
                 </select>
                 <span asp-validation-for="IdPuesto" class="text-danger"></span>

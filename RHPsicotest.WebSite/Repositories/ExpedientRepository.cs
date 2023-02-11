@@ -19,9 +19,9 @@ namespace RHPsicotest.WebSite.Repositories
             this.context = context;
         }
 
-        public async Task<bool> AddExpedient(ExpedientVM expedientVM)
+        public async Task<bool> AddExpedient(ExpedientVM expedientVM, (string, string, string) currentCandidate)
         {
-            bool existExpedient = await ExistsExpedient(expedientVM.Email);
+            bool existExpedient = await ExistsExpedient(currentCandidate.Item2);
 
             bool result = false;
 
@@ -29,7 +29,7 @@ namespace RHPsicotest.WebSite.Repositories
             {
                 byte[] filePDFInBytes = Helper.FilePDFToBytes(expedientVM.CurriculumVitae);
 
-                Expedient expedient = Conversion.ConvertToExpedient(expedientVM, filePDFInBytes);
+                Expedient expedient = Conversion.ConvertToExpedient(expedientVM, currentCandidate, filePDFInBytes);
 
                 await context.Expedients.AddAsync(expedient);
                 result =  await context.SaveChangesAsync() > 0;

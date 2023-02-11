@@ -21,7 +21,7 @@ namespace RHPsicotest.WebSite.Migrations
 
             modelBuilder.Entity("RHPsicotest.WebSite.Models.Candidate", b =>
                 {
-                    b.Property<int>("IdUser")
+                    b.Property<int>("IdCandidate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
@@ -29,7 +29,7 @@ namespace RHPsicotest.WebSite.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("IdPuesto")
+                    b.Property<int>("IdPosition")
                         .HasColumnType("int");
 
                     b.Property<int>("IdRole")
@@ -44,13 +44,25 @@ namespace RHPsicotest.WebSite.Migrations
                     b.Property<string>("Username")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("IdUser");
+                    b.HasKey("IdCandidate");
 
-                    b.HasIndex("IdPuesto");
+                    b.HasIndex("IdPosition");
 
                     b.HasIndex("IdRole");
 
                     b.ToTable("Candidate");
+
+                    b.HasData(
+                        new
+                        {
+                            IdCandidate = 1,
+                            Email = "ml22002@esfe.agape.edu.sv",
+                            IdPosition = 1,
+                            IdRole = 3,
+                            Password = "TW15",
+                            RegistrationDate = new DateTime(2023, 2, 9, 0, 0, 0, 0, DateTimeKind.Local),
+                            Username = "WerMolina"
+                        });
                 });
 
             modelBuilder.Entity("RHPsicotest.WebSite.Models.Expedient", b =>
@@ -103,6 +115,9 @@ namespace RHPsicotest.WebSite.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("IdCandidate")
+                        .HasColumnType("int");
+
                     b.Property<string>("LandlineNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -123,11 +138,14 @@ namespace RHPsicotest.WebSite.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Stall")
+                    b.Property<string>("Position")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("IdExpedient");
+
+                    b.HasIndex("IdCandidate")
+                        .IsUnique();
 
                     b.ToTable("Expedient");
                 });
@@ -145,27 +163,53 @@ namespace RHPsicotest.WebSite.Migrations
                     b.HasKey("IdFactor");
 
                     b.ToTable("Factor");
-                });
 
-            modelBuilder.Entity("RHPsicotest.WebSite.Models.Factor_Question", b =>
-                {
-                    b.Property<int>("IdFactor")
-                        .HasColumnType("int");
-
-                    b.Property<int>("IdQuestion")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Correct")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("InCorrect")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("IdFactor", "IdQuestion");
-
-                    b.HasIndex("IdQuestion");
-
-                    b.ToTable("Factor_Question");
+                    b.HasData(
+                        new
+                        {
+                            IdFactor = 1,
+                            NameFactor = "Ascendencia"
+                        },
+                        new
+                        {
+                            IdFactor = 2,
+                            NameFactor = "Responsabilidad"
+                        },
+                        new
+                        {
+                            IdFactor = 3,
+                            NameFactor = "Estabilidad Emocional"
+                        },
+                        new
+                        {
+                            IdFactor = 4,
+                            NameFactor = "Sociabilidad"
+                        },
+                        new
+                        {
+                            IdFactor = 5,
+                            NameFactor = "Cautela"
+                        },
+                        new
+                        {
+                            IdFactor = 6,
+                            NameFactor = "Originalidad"
+                        },
+                        new
+                        {
+                            IdFactor = 7,
+                            NameFactor = "Comprension"
+                        },
+                        new
+                        {
+                            IdFactor = 8,
+                            NameFactor = "Vitalidad"
+                        },
+                        new
+                        {
+                            IdFactor = 9,
+                            NameFactor = "Autoestima"
+                        });
                 });
 
             modelBuilder.Entity("RHPsicotest.WebSite.Models.Permission", b =>
@@ -181,6 +225,28 @@ namespace RHPsicotest.WebSite.Migrations
                     b.HasKey("IdPermission");
 
                     b.ToTable("Permission");
+
+                    b.HasData(
+                        new
+                        {
+                            IdPermission = 1,
+                            PermissionName = "Lista-Usuarios"
+                        },
+                        new
+                        {
+                            IdPermission = 2,
+                            PermissionName = "Crear-Usuario"
+                        },
+                        new
+                        {
+                            IdPermission = 3,
+                            PermissionName = "Editar-Usuario"
+                        },
+                        new
+                        {
+                            IdPermission = 4,
+                            PermissionName = "Eliminar-Usuario"
+                        });
                 });
 
             modelBuilder.Entity("RHPsicotest.WebSite.Models.Permission_Role", b =>
@@ -196,6 +262,77 @@ namespace RHPsicotest.WebSite.Migrations
                     b.HasIndex("IdRole");
 
                     b.ToTable("Permission_Role");
+
+                    b.HasData(
+                        new
+                        {
+                            IdPermission = 1,
+                            IdRole = 1
+                        },
+                        new
+                        {
+                            IdPermission = 2,
+                            IdRole = 1
+                        },
+                        new
+                        {
+                            IdPermission = 3,
+                            IdRole = 1
+                        },
+                        new
+                        {
+                            IdPermission = 4,
+                            IdRole = 1
+                        });
+                });
+
+            modelBuilder.Entity("RHPsicotest.WebSite.Models.Position", b =>
+                {
+                    b.Property<int>("IdPosition")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Department")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("IdTest")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PositionHigher")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PositionName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("IdPosition");
+
+                    b.HasIndex("IdTest");
+
+                    b.ToTable("Position");
+
+                    b.HasData(
+                        new
+                        {
+                            IdPosition = 1,
+                            CreationDate = new DateTime(2023, 2, 9, 0, 0, 0, 0, DateTimeKind.Local),
+                            Department = "Tecnología de la Información",
+                            IdTest = 1,
+                            PositionHigher = "Encargado de IT",
+                            PositionName = "Desarrollador IT"
+                        },
+                        new
+                        {
+                            IdPosition = 2,
+                            CreationDate = new DateTime(2023, 2, 9, 0, 0, 0, 0, DateTimeKind.Local),
+                            Department = "Ventas",
+                            IdTest = 1,
+                            PositionHigher = "Gerente Comercial",
+                            PositionName = "Asesor de Venta"
+                        });
                 });
 
             modelBuilder.Entity("RHPsicotest.WebSite.Models.Question", b =>
@@ -230,6 +367,48 @@ namespace RHPsicotest.WebSite.Migrations
                     b.ToTable("Question");
                 });
 
+            modelBuilder.Entity("RHPsicotest.WebSite.Models.Response", b =>
+                {
+                    b.Property<int>("IdFactor")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdQuestion")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Correct")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Incorrect")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("IdFactor", "IdQuestion");
+
+                    b.HasIndex("IdQuestion");
+
+                    b.ToTable("Response");
+                });
+
+            modelBuilder.Entity("RHPsicotest.WebSite.Models.Result", b =>
+                {
+                    b.Property<int>("IdExpedient")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdFactor")
+                        .HasColumnType("int");
+
+                    b.Property<byte>("Percentile")
+                        .HasColumnType("tinyint");
+
+                    b.Property<byte>("Score")
+                        .HasColumnType("tinyint");
+
+                    b.HasKey("IdExpedient", "IdFactor");
+
+                    b.HasIndex("IdFactor");
+
+                    b.ToTable("Result");
+                });
+
             modelBuilder.Entity("RHPsicotest.WebSite.Models.Role", b =>
                 {
                     b.Property<int>("IdRole")
@@ -243,6 +422,23 @@ namespace RHPsicotest.WebSite.Migrations
                     b.HasKey("IdRole");
 
                     b.ToTable("Role");
+
+                    b.HasData(
+                        new
+                        {
+                            IdRole = 1,
+                            RoleName = "Super-Admin"
+                        },
+                        new
+                        {
+                            IdRole = 2,
+                            RoleName = "Administrador"
+                        },
+                        new
+                        {
+                            IdRole = 3,
+                            RoleName = "Candidato"
+                        });
                 });
 
             modelBuilder.Entity("RHPsicotest.WebSite.Models.Role_User", b =>
@@ -258,35 +454,13 @@ namespace RHPsicotest.WebSite.Migrations
                     b.HasIndex("IdUser");
 
                     b.ToTable("Role_User");
-                });
 
-            modelBuilder.Entity("RHPsicotest.WebSite.Models.Stall", b =>
-                {
-                    b.Property<int>("IdStall")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<DateTime>("CreationDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Department")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("IdTest")
-                        .HasColumnType("int");
-
-                    b.Property<string>("StallHigher")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("StallName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("IdStall");
-
-                    b.HasIndex("IdTest");
-
-                    b.ToTable("Stall");
+                    b.HasData(
+                        new
+                        {
+                            IdRole = 1,
+                            IdUser = 1
+                        });
                 });
 
             modelBuilder.Entity("RHPsicotest.WebSite.Models.Test", b =>
@@ -305,6 +479,13 @@ namespace RHPsicotest.WebSite.Migrations
                     b.HasKey("IdTest");
 
                     b.ToTable("Test");
+
+                    b.HasData(
+                        new
+                        {
+                            IdTest = 1,
+                            NameTest = "PPG-IPG"
+                        });
                 });
 
             modelBuilder.Entity("RHPsicotest.WebSite.Models.User", b =>
@@ -329,44 +510,46 @@ namespace RHPsicotest.WebSite.Migrations
                     b.HasKey("IdUser");
 
                     b.ToTable("User");
+
+                    b.HasData(
+                        new
+                        {
+                            IdUser = 1,
+                            Email = "Wm25@gmail.com",
+                            Name = "Werner Molina",
+                            Password = "827ccb0eea8a706c4c34a16891f84e7b",
+                            RegistrationDate = new DateTime(2023, 2, 9, 0, 0, 0, 0, DateTimeKind.Local)
+                        });
                 });
 
             modelBuilder.Entity("RHPsicotest.WebSite.Models.Candidate", b =>
                 {
-                    b.HasOne("RHPsicotest.WebSite.Models.Stall", "Stall")
-                        .WithMany("EmailUsers")
-                        .HasForeignKey("IdPuesto")
+                    b.HasOne("RHPsicotest.WebSite.Models.Position", "Position")
+                        .WithMany("Candidates")
+                        .HasForeignKey("IdPosition")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("RHPsicotest.WebSite.Models.Role", "Role")
-                        .WithMany("EmailUsers")
+                        .WithMany("Candidate")
                         .HasForeignKey("IdRole")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Role");
+                    b.Navigation("Position");
 
-                    b.Navigation("Stall");
+                    b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("RHPsicotest.WebSite.Models.Factor_Question", b =>
+            modelBuilder.Entity("RHPsicotest.WebSite.Models.Expedient", b =>
                 {
-                    b.HasOne("RHPsicotest.WebSite.Models.Factor", "Factor")
-                        .WithMany("Questions")
-                        .HasForeignKey("IdFactor")
+                    b.HasOne("RHPsicotest.WebSite.Models.Candidate", "Candidate")
+                        .WithOne("Expedient")
+                        .HasForeignKey("RHPsicotest.WebSite.Models.Expedient", "IdCandidate")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("RHPsicotest.WebSite.Models.Question", "Question")
-                        .WithMany("Factors")
-                        .HasForeignKey("IdQuestion")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Factor");
-
-                    b.Navigation("Question");
+                    b.Navigation("Candidate");
                 });
 
             modelBuilder.Entity("RHPsicotest.WebSite.Models.Permission_Role", b =>
@@ -388,6 +571,17 @@ namespace RHPsicotest.WebSite.Migrations
                     b.Navigation("Role");
                 });
 
+            modelBuilder.Entity("RHPsicotest.WebSite.Models.Position", b =>
+                {
+                    b.HasOne("RHPsicotest.WebSite.Models.Test", "Test")
+                        .WithMany("Positions")
+                        .HasForeignKey("IdTest")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Test");
+                });
+
             modelBuilder.Entity("RHPsicotest.WebSite.Models.Question", b =>
                 {
                     b.HasOne("RHPsicotest.WebSite.Models.Test", "Test")
@@ -397,6 +591,44 @@ namespace RHPsicotest.WebSite.Migrations
                         .IsRequired();
 
                     b.Navigation("Test");
+                });
+
+            modelBuilder.Entity("RHPsicotest.WebSite.Models.Response", b =>
+                {
+                    b.HasOne("RHPsicotest.WebSite.Models.Factor", "Factor")
+                        .WithMany("Questions")
+                        .HasForeignKey("IdFactor")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RHPsicotest.WebSite.Models.Question", "Question")
+                        .WithMany("Factors")
+                        .HasForeignKey("IdQuestion")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Factor");
+
+                    b.Navigation("Question");
+                });
+
+            modelBuilder.Entity("RHPsicotest.WebSite.Models.Result", b =>
+                {
+                    b.HasOne("RHPsicotest.WebSite.Models.Expedient", "Expedient")
+                        .WithMany("Results")
+                        .HasForeignKey("IdExpedient")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RHPsicotest.WebSite.Models.Factor", "Factor")
+                        .WithMany("Results")
+                        .HasForeignKey("IdFactor")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Expedient");
+
+                    b.Navigation("Factor");
                 });
 
             modelBuilder.Entity("RHPsicotest.WebSite.Models.Role_User", b =>
@@ -418,25 +650,31 @@ namespace RHPsicotest.WebSite.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("RHPsicotest.WebSite.Models.Stall", b =>
+            modelBuilder.Entity("RHPsicotest.WebSite.Models.Candidate", b =>
                 {
-                    b.HasOne("RHPsicotest.WebSite.Models.Test", "Test")
-                        .WithMany("Stalls")
-                        .HasForeignKey("IdTest")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Expedient");
+                });
 
-                    b.Navigation("Test");
+            modelBuilder.Entity("RHPsicotest.WebSite.Models.Expedient", b =>
+                {
+                    b.Navigation("Results");
                 });
 
             modelBuilder.Entity("RHPsicotest.WebSite.Models.Factor", b =>
                 {
                     b.Navigation("Questions");
+
+                    b.Navigation("Results");
                 });
 
             modelBuilder.Entity("RHPsicotest.WebSite.Models.Permission", b =>
                 {
                     b.Navigation("Roles");
+                });
+
+            modelBuilder.Entity("RHPsicotest.WebSite.Models.Position", b =>
+                {
+                    b.Navigation("Candidates");
                 });
 
             modelBuilder.Entity("RHPsicotest.WebSite.Models.Question", b =>
@@ -446,23 +684,18 @@ namespace RHPsicotest.WebSite.Migrations
 
             modelBuilder.Entity("RHPsicotest.WebSite.Models.Role", b =>
                 {
-                    b.Navigation("EmailUsers");
+                    b.Navigation("Candidate");
 
                     b.Navigation("Permissions");
 
                     b.Navigation("Users");
                 });
 
-            modelBuilder.Entity("RHPsicotest.WebSite.Models.Stall", b =>
-                {
-                    b.Navigation("EmailUsers");
-                });
-
             modelBuilder.Entity("RHPsicotest.WebSite.Models.Test", b =>
                 {
-                    b.Navigation("Questions");
+                    b.Navigation("Positions");
 
-                    b.Navigation("Stalls");
+                    b.Navigation("Questions");
                 });
 
             modelBuilder.Entity("RHPsicotest.WebSite.Models.User", b =>

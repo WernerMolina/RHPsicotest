@@ -38,12 +38,32 @@ namespace RHPsicotest.WebSite.Controllers
         [Route("/Prueba/PPG-IPG")]
         public async Task<IActionResult> Test1(char[][] responses)
         {
-            //ViewBag.response = responses;
-            //Test test = await testRepository.GetTest();
-
             int currentIdUser = Convert.ToInt32(((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value);
 
-            var result = await testRepository.TestPPG_IPG(responses, currentIdUser);
+            (bool, byte[], byte[]) results = await testRepository.TestPPG_IPG(responses, currentIdUser);
+
+            if (results.Item1)
+            {
+                ViewBag.Factores = new string[]
+                {
+                    "Ascendencia",
+                    "Responsabilidad",
+                    "Estabilidad Emocional",
+                    "Sociabilidad",
+                    "Cautela",
+                    "Originalidad",
+                    "Comprensión",
+                    "Vitalidad",
+                    "Autoestima",
+                };
+
+                ViewBag.Puntajes = results.Item2;
+                ViewBag.Percentiles = results.Item3;
+
+                Test test = await testRepository.GetTest();
+
+                return View(test);
+            }
 
             return View();
         }

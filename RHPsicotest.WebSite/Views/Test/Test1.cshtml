@@ -5,44 +5,43 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     int i = 0;
 
-    var respuestas = (string[][])ViewBag.responses;
+    var factores = (string[])ViewBag.Factores;
+    var puntajes = (byte[])ViewBag.Puntajes;
+    var percentiles = (byte[])ViewBag.Percentiles;
 }
 
-@if (ViewBag.responses != null)
+@if (ViewBag.Factores != null)
 {
-    int f = 1;
-
     <table class="table table-striped table-borderless align-middle my-3">
         <thead class="table-dark">
             <tr class="text-center">
                 <th class="fs-bold">
-                    Pregunta
+                    Factor
                 </th>
                 <th class="fs-bold">
-                    Positiva
+                    Puntaje
                 </th>
                 <th class="fs-bold">
-                    Negativa
+                    Percentil
                 </th>
             </tr>
         </thead>
         <tbody class="text-center">
-            @for (int t = 0; t < respuestas.Length; t++)
+            @for (int j = 0; j <= 8; j++)
             {
                 <tr>
                     <td>
-                        @f
+                        @factores[j]
                     </td>
                     <td>
-                        @respuestas[t][0]
+                        @puntajes[j]
                     </td>
                     <td>
-                        @respuestas[t][1]
+                        @percentiles[j]
                     </td>
                 </tr>
-
-                f++;
             }
+
         </tbody>
     </table>
 
@@ -97,7 +96,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <input class="" type="radio" id="" name="responses[@i][0]" value="B"
-                                   style="width:25px; height: 25px" />
+                                   style="width:25px; height: 25px" checked />
                             </div>
                         </div>
                         <div class="card">
@@ -117,7 +116,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <input class="" type="radio" id="" name="responses[@i][1]" value="C"
-                                   style="width:25px; height: 25px" />
+                                   style="width:25px; height: 25px" checked />
                             </div>
                         </div>
                     </div>

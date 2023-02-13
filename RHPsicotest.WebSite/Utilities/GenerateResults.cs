@@ -6,10 +6,10 @@ namespace RHPsicotest.WebSite.Utilities
     public class GenerateResults
     {
         // Retorna el total de puntos de un factor
-        public static byte GetPointsByFactor(char[,] candidateResponses, IEnumerable<Response> responsesByFactor)
+        public static byte GetScoreByFactor(char[,] candidateResponses, IEnumerable<Response> responsesByFactor)
         {
-            int i = 0;
-            byte points = 0;
+            byte i = 0;
+            byte score = 0;
 
             foreach (Response response in responsesByFactor)
             {
@@ -111,62 +111,125 @@ namespace RHPsicotest.WebSite.Utilities
                         break;
                 }
 
-                if (ap == a) points++;
-                if (bp == b) points++;
-                if (cp == c) points++;
-                if (dp == d) points++;
+                if (ap == a) score++;
+                if (bp == b) score++;
+                if (cp == c) score++;
+                if (dp == d) score++;
 
-                if (an == a) points++;
-                if (bn == b) points++;
-                if (cn == c) points++;
-                if (dn == d) points++;
+                if (an == a) score++;
+                if (bn == b) score++;
+                if (cn == c) score++;
+                if (dn == d) score++;
 
                 i++;
             }
 
-            return points;
+            return score;
         }
 
-        public static int[] GetPercentileByFactor(int[] scoreFactor, (string, byte) infoCandidate)
+        public static byte[] GetPercentileByFactor(byte[] scoresByFactor, (string, byte, string) infoCandidate)
         {
+            byte[] percentils = new byte[9];
+
             if(infoCandidate.Item1 == "Hombre")
             {
-                
+                if(infoCandidate.Item2 <= 20 || infoCandidate.Item3 == "Bachillerato")
+                {
+                    percentils = TablaHombreJoven(scoresByFactor);
+                }
+                else
+                {
+                    percentils = TablaHombreAdulto(scoresByFactor);
+                }
             }
             
             if(infoCandidate.Item1 == "Mujer")
             {
-
+                if (infoCandidate.Item2 <= 20 || infoCandidate.Item3 == "Bachillerato")
+                {
+                    percentils = TablaMujerJoven(scoresByFactor);
+                }
+                else
+                {
+                    percentils = TablaMujerAdulta(scoresByFactor);
+                }
             }
 
+
+            return percentils;
+        }
+ 
+        private static byte[] TablaHombreJoven(byte[] scoresByFactor)
+        {
+            byte[] percentils = new byte[9];
+
+            percentils[0] = HombreJoven_Ascendencia(scoresByFactor[0]);
+            percentils[1] = HombreJoven_Responsabilidad(scoresByFactor[1]);
+            percentils[2] = HombreJoven_Estabilidad(scoresByFactor[2]);
+            percentils[3] = HombreJoven_Sociabilidad(scoresByFactor[3]);
+            percentils[4] = HombreJoven_Cautela(scoresByFactor[4]);
+            percentils[5] = HombreJoven_Originalidad(scoresByFactor[5]);
+            percentils[6] = HombreJoven_Comprension(scoresByFactor[6]);
+            percentils[7] = HombreJoven_Vitalidad(scoresByFactor[7]);
+            percentils[8] = HombreJoven_Autoestima(scoresByFactor[8]);
+
+            return percentils;
         }
 
-        //private int[] TableTeenageMan(int[] scoreFactor)
-        //{
+        private static byte[] TablaHombreAdulto(byte[] scoresByFactor)
+        {
+            byte[] percentils = new byte[9];
 
-        //}
+            percentils[0] = HombreAdulto_Ascendencia(scoresByFactor[0]);
+            percentils[1] = HombreAdulto_Responsabilidad(scoresByFactor[1]);
+            percentils[2] = HombreAdulto_Estabilidad(scoresByFactor[2]);
+            percentils[3] = HombreAdulto_Sociabilidad(scoresByFactor[3]);
+            percentils[4] = HombreAdulto_Cautela(scoresByFactor[4]);
+            percentils[5] = HombreAdulto_Originalidad(scoresByFactor[5]);
+            percentils[6] = HombreAdulto_Comprension(scoresByFactor[6]);
+            percentils[7] = HombreAdulto_Vitalidad(scoresByFactor[7]);
+            percentils[8] = HombreAdulto_Autoestima(scoresByFactor[8]);
 
-        //private int[] TableHombreAdulto(int[] scoreFactor)
-        //{
-        //    for (int i = 0; i < scoreFactor.Length; i++)
-        //    {
-        //        if (i == 0) ; 
-        //    }
-        //}
+            return percentils;
+        }
 
-        //private int[] TableTeenageWoman(int[] scoreFactor)
-        //{
+        private static byte[] TablaMujerJoven(byte[] scoresByFactor)
+        {
+            byte[] percentils = new byte[9];
 
-        //}
+            percentils[0] = MujerJoven_Ascendencia(scoresByFactor[0]);
+            percentils[1] = MujerJoven_Responsabilidad(scoresByFactor[1]);
+            percentils[2] = MujerJoven_Estabilidad(scoresByFactor[2]);
+            percentils[3] = MujerJoven_Sociabilidad(scoresByFactor[3]);
+            percentils[4] = MujerJoven_Cautela(scoresByFactor[4]);
+            percentils[5] = MujerJoven_Originalidad(scoresByFactor[5]);
+            percentils[6] = MujerJoven_Comprension(scoresByFactor[6]);
+            percentils[7] = MujerJoven_Vitalidad(scoresByFactor[7]);
+            percentils[8] = MujerJoven_Autoestima(scoresByFactor[8]);
 
-        //private int[] TableAdultWoman(int[] scoreFactor)
-        //{
+            return percentils;
+        }
 
-        //}
+        private static byte[] TablaMujerAdulta(byte[] scoresByFactor)
+        {
+            byte[] percentils = new byte[9];
+
+            percentils[0] = MujerJoven_Ascendencia(scoresByFactor[0]);
+            percentils[1] = MujerJoven_Responsabilidad(scoresByFactor[1]);
+            percentils[2] = MujerJoven_Estabilidad(scoresByFactor[2]);
+            percentils[3] = MujerJoven_Sociabilidad(scoresByFactor[3]);
+            percentils[4] = MujerJoven_Cautela(scoresByFactor[4]);
+            percentils[5] = MujerJoven_Originalidad(scoresByFactor[5]);
+            percentils[6] = MujerJoven_Comprension(scoresByFactor[6]);
+            percentils[7] = MujerJoven_Vitalidad(scoresByFactor[7]);
+            percentils[8] = MujerJoven_Autoestima(scoresByFactor[8]);
+
+            return percentils;
+        }
 
 
-        // Tabla Hombres Mayores (21 años) 
-        private int HombreAdulto_Ascendencia(int score)
+        // Tabla Hombres Mayores (21+ años) 
+        private static byte HombreAdulto_Ascendencia(byte score)
         {
             if (score >= 34) return 99;
             if (score == 33) return 98;
@@ -190,8 +253,8 @@ namespace RHPsicotest.WebSite.Utilities
 
             return 0;
         }
-        
-        private int HombreAdulto_Responsabilidad(int score)
+
+        private static byte HombreAdulto_Responsabilidad(byte score)
         {
             if (score >= 35) return 99;
             if (score == 34) return 98;
@@ -213,8 +276,8 @@ namespace RHPsicotest.WebSite.Utilities
 
             return 0;
         }
-        
-        private int HombreAdulto_Estabilidad(int score)
+
+        private static byte HombreAdulto_Estabilidad(byte score)
         {
             if (score >= 33) return 99;
             if (score == 32) return 97;
@@ -238,8 +301,8 @@ namespace RHPsicotest.WebSite.Utilities
 
             return 0;
         }
-        
-        private int HombreAdulto_Sociabilidad(int score)
+
+        private static byte HombreAdulto_Sociabilidad(byte score)
         {
             if (score >= 32) return 99;
             if (score == 31) return 97;
@@ -262,8 +325,8 @@ namespace RHPsicotest.WebSite.Utilities
 
             return 0;
         }
-        
-        private int HombreAdulto_Cautela(int score)
+
+        private static byte HombreAdulto_Cautela(byte score)
         {
             if (score >= 32) return 99;
             if (score == 31) return 97;
@@ -284,7 +347,7 @@ namespace RHPsicotest.WebSite.Utilities
             return 0;
         }
 
-        private int HombreAdulto_Originalidad(int score)
+        private static byte HombreAdulto_Originalidad(byte score)
         {
             if (score >= 37) return 99;
             if (score == 36) return 97;
@@ -308,7 +371,7 @@ namespace RHPsicotest.WebSite.Utilities
             return 0;
         }
 
-        private int HombreAdulto_Comprension(int score)
+        private static byte HombreAdulto_Comprension(byte score)
         {
             if (score >= 35) return 99;
             if (score == 34) return 98;
@@ -331,7 +394,7 @@ namespace RHPsicotest.WebSite.Utilities
             return 0;
         }
 
-        private int HombreAdulto_Vitalidad(int score)
+        private static byte HombreAdulto_Vitalidad(byte score)
         {
             if (score >= 36) return 99;
             if (score == 35) return 98;
@@ -357,7 +420,7 @@ namespace RHPsicotest.WebSite.Utilities
             return 0;
         }
 
-        private int HombreAdulto_Autoestima(int score)
+        private static byte HombreAdulto_Autoestima(byte score)
         {
             if (score == 114) return 99;
             if (score == 108) return 85;
@@ -382,8 +445,8 @@ namespace RHPsicotest.WebSite.Utilities
         }
 
 
-        // Tabla Mujeres Mayores (21 años)
-        private int MujerAdulta_Ascendencia(int score)
+        // Tabla Mujeres Mayores (21+ años)
+        private static byte MujerAdulta_Ascendencia(byte score)
         {
             if (score >= 33) return 99;
             if (score == 32) return 98;
@@ -408,7 +471,7 @@ namespace RHPsicotest.WebSite.Utilities
             return 0;
         }
 
-        private int MujerAdulta_Responsabilidad(int score)
+        private static byte MujerAdulta_Responsabilidad(byte score)
         {
             if (score >= 35) return 99;
             if (score == 34) return 97;
@@ -430,7 +493,7 @@ namespace RHPsicotest.WebSite.Utilities
             return 0;
         }
 
-        private int MujerAdulta_Estabilidad(int score)
+        private static byte MujerAdulta_Estabilidad(byte score)
         {
             if (score >= 33) return 99;
             if (score == 32) return 98;
@@ -455,7 +518,7 @@ namespace RHPsicotest.WebSite.Utilities
             return 0;
         }
 
-        private int MujerAdulta_Sociabilidad(int score)
+        private static byte MujerAdulta_Sociabilidad(byte score)
         {
             if (score >= 33) return 99;
             if (score == 32) return 98;
@@ -480,7 +543,7 @@ namespace RHPsicotest.WebSite.Utilities
             return 0;
         }
 
-        private int MujerAdulta_Cautela(int score)
+        private static byte MujerAdulta_Cautela(byte score)
         {
             if (score >= 32) return 99;
             if (score == 31) return 95;
@@ -500,7 +563,7 @@ namespace RHPsicotest.WebSite.Utilities
             return 0;
         }
 
-        private int MujerAdulta_Originalidad(int score)
+        private static byte MujerAdulta_Originalidad(byte score)
         {
             if (score >= 37) return 99;
             if (score == 36) return 98;
@@ -525,7 +588,7 @@ namespace RHPsicotest.WebSite.Utilities
             return 0;
         }
 
-        private int MujerAdulta_Comprension(int score)
+        private static byte MujerAdulta_Comprension(byte score)
         {
             if (score >= 34) return 99;
             if (score == 33) return 97;
@@ -549,7 +612,7 @@ namespace RHPsicotest.WebSite.Utilities
             return 0;
         }
 
-        private int MujerAdulta_Vitalidad(int score)
+        private static byte MujerAdulta_Vitalidad(byte score)
         {
             if (score >= 36) return 99;
             if (score == 35) return 97;
@@ -573,7 +636,7 @@ namespace RHPsicotest.WebSite.Utilities
             return 0;
         }
 
-        private int MujerAdulta_Autoestima(int score)
+        private byte MujerAdulta_Autoestima(byte score)
         {
             if (score == 114) return 99;
             if (score == 108) return 90;
@@ -598,8 +661,8 @@ namespace RHPsicotest.WebSite.Utilities
         }
 
 
-        // Tabla Hombres Adolescentes (14-20 años) o Título Bachillerato
-        private int HombreJoven_Ascendencia(int score)
+        // Tabla Hombres Adolescentes (14-19 años) o Título Bachillerato
+        private static byte HombreJoven_Ascendencia(byte score)
         {
             if (score >= 31) return 99;
             if (score == 30) return 98;
@@ -627,7 +690,7 @@ namespace RHPsicotest.WebSite.Utilities
             return 0;
         }
 
-        private int HombreJoven_Responsabilidad(int score)
+        private static byte HombreJoven_Responsabilidad(byte score)
         {
             if (score >= 31) return 99;
             if (score == 30) return 98;
@@ -655,7 +718,7 @@ namespace RHPsicotest.WebSite.Utilities
             return 0;
         }
 
-        private int HombreJoven_Estabilidad(int score)
+        private static byte HombreJoven_Estabilidad(byte score)
         {
             if (score >= 31) return 99;
             if (score == 30) return 98;
@@ -684,7 +747,7 @@ namespace RHPsicotest.WebSite.Utilities
             return 0;
         }
 
-        private int HombreJoven_Sociabilidad(int score)
+        private static byte HombreJoven_Sociabilidad(byte score)
         {
             if (score >= 31) return 99;
             if (score == 30) return 98;
@@ -712,7 +775,7 @@ namespace RHPsicotest.WebSite.Utilities
             return 0;
         }
 
-        private int HombreJoven_Cautela(int score)
+        private static byte HombreJoven_Cautela(byte score)
         {
             if (score >= 33) return 99;
             if (score == 32) return 98;
@@ -741,7 +804,7 @@ namespace RHPsicotest.WebSite.Utilities
             return 0;
         }
 
-        private int HombreJoven_Originalidad(int score)
+        private static byte HombreJoven_Originalidad(byte score)
         {
             if (score >= 33) return 99;
             if (score == 32) return 98;
@@ -767,21 +830,21 @@ namespace RHPsicotest.WebSite.Utilities
             return 0;
         }
 
-        private int HombreJoven_Comprension(int score)
+        private static byte HombreJoven_Comprension(byte score)
         {
             if (score >= 34) return 99;
             if (score == 33) return 98;
-            if (score == 33) return 97;
-            if (score == 32) return 96;
-            if (score == 31) return 95;
-            if (score == 30) return 90;
-            if (score == 29) return 85;
-            if (score == 28) return 80;
-            if (score == 27) return 75;
-            if (score == 26) return 70;
-            if (score == 25) return 65;
-            if (score == 24) return 55;
-            if (score == 23) return 50;
+            if (score == 32) return 97;
+            if (score == 31) return 96;
+            if (score == 30) return 95;
+            if (score == 29) return 90;
+            if (score == 28) return 85;
+            if (score == 27) return 80;
+            if (score == 26) return 75;
+            if (score == 25) return 70;
+            if (score == 24) return 65;
+            if (score == 23) return 55;
+            if (score == 22) return 50;
             if (score == 21) return 40;
             if (score == 20) return 35;
             if (score == 19) return 30;
@@ -797,7 +860,7 @@ namespace RHPsicotest.WebSite.Utilities
             return 0;
         }
 
-        private int HombreJoven_Vitalidad(int score)
+        private static byte HombreJoven_Vitalidad(byte score)
         {
             if (score >= 33) return 99;
             if (score == 32) return 97;
@@ -824,7 +887,7 @@ namespace RHPsicotest.WebSite.Utilities
             return 0;
         }
 
-        private int HombreJoven_Autoestima(int score)
+        private static byte HombreJoven_Autoestima(byte score)
         {
             if (score >= 107) return 99;
             if (score >= 105) return 98;
@@ -861,7 +924,7 @@ namespace RHPsicotest.WebSite.Utilities
 
 
         // Tabla Mujeres Adolescentes (14-20 años) o Título Bachillerato
-        private int MUjerJoven_Ascendencia(int score)
+        private static byte MujerJoven_Ascendencia(byte score)
         {
             if (score >= 31) return 99;
             if (score == 30) return 98;
@@ -890,7 +953,7 @@ namespace RHPsicotest.WebSite.Utilities
             return 0;
         }
 
-        private int MujerJoven_Responsabilidad(int score)
+        private static byte MujerJoven_Responsabilidad(byte score)
         {
             if (score >= 31) return 99;
             if (score == 30) return 98;
@@ -918,7 +981,7 @@ namespace RHPsicotest.WebSite.Utilities
             return 0;
         }
 
-        private int MujerJoven_Estabilidad(int score)
+        private static byte MujerJoven_Estabilidad(byte score)
         {
             if (score >= 30) return 99;
             if (score == 29) return 98;
@@ -946,7 +1009,7 @@ namespace RHPsicotest.WebSite.Utilities
             return 0;
         }
 
-        private int MujerJoven_Sociabilidad(int score)
+        private static byte MujerJoven_Sociabilidad(byte score)
         {
             if (score >= 32) return 99;
             if (score == 31) return 98;
@@ -973,7 +1036,7 @@ namespace RHPsicotest.WebSite.Utilities
             return 0;
         }
 
-        private int MujerJoven_Cautela(int score)
+        private static byte MujerJoven_Cautela(byte score)
         {
             if (score >= 33) return 99;
             if (score == 32) return 98;
@@ -1004,7 +1067,7 @@ namespace RHPsicotest.WebSite.Utilities
             return 0;
         }
 
-        private int MujerJoven_Originalidad(int score)
+        private static byte MujerJoven_Originalidad(byte score)
         {
             if (score >= 33) return 99;
             if (score == 32) return 98;
@@ -1031,7 +1094,7 @@ namespace RHPsicotest.WebSite.Utilities
             return 0;
         }
 
-        private int MujerJoven_Comprension(int score)
+        private static byte MujerJoven_Comprension(byte score)
         {
             if (score == 40) return 99;
             if (score >= 35) return 97;
@@ -1060,7 +1123,7 @@ namespace RHPsicotest.WebSite.Utilities
             return 0;
         }
 
-        private int MujerJoven_Vitalidad(int score)
+        private static byte MujerJoven_Vitalidad(byte score)
         {
             if (score >= 32) return 99;
             if (score == 31) return 98;
@@ -1087,7 +1150,7 @@ namespace RHPsicotest.WebSite.Utilities
             return 0;
         }
 
-        private int MujerJoven_Autoestima(int score)
+        private static byte MujerJoven_Autoestima(byte score)
         {
             if (score >= 106) return 99;
             if (score == 105) return 98;

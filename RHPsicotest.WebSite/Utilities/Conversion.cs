@@ -69,5 +69,16 @@ namespace RHPsicotest.WebSite.Utilities
                 Password = candidateVM.Password,
             };
         }
+
+        public static Result ConvertToResult(int expedientId, int factorId, byte scoreFactor, byte scorePercentile)
+        {
+            return new Result
+            {
+                IdExpedient = expedientId,
+                IdFactor = factorId,
+                Score = scoreFactor,
+                Percentile = scorePercentile
+            };
+        }
     }
 }

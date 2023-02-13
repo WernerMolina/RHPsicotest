@@ -26,67 +26,95 @@ namespace RHPsicotest.WebSite.Repositories
             return await context.Tests.Include("Questions.Test").FirstOrDefaultAsync(t => t.IdTest == 1);
         }
 
-        public async Task<bool> TestPPG_IPG(char[][] responses, int currentIdUser)
+        public async Task<(bool, byte[], byte[])> TestPPG_IPG(char[][] responses, int currentIdUser)
         {
-            int[] scoresByFactors = new int[9];
+            byte[] scoresByFactor = new byte[9];
 
-            for (int i = 1; i < 8; i++)
+            // Retorna falso si la respuesta positiva y negativa tienen el mismo valor en un pregunta
+            for (int i = 0; i < 38; i++)
+            {
+                if (responses[i][0] == responses[i][1]) return (false, null, null);
+            }
+
+            for (int i = 1; i <= 8; i++)
             {
                 IEnumerable<Response> responsesByFactor = await GetResponsesByFactor(i);
                 
                 if(i <= 4)
                 {
+                    // Obtenemos las puntuaciones de la pregunta 1 a la 18
                     char[,] responsesPPG = new char[18, 2];
 
-                    for (int j = 0; j <= 4; j++)
+                    for (int j = 0; j < 18; j++)
                     {
                         responsesPPG[j, 0] = responses[j][0];
                         responsesPPG[j, 1] = responses[j][1];
                     }
 
-                    int scores = GenerateResults.GetPointsByFactor(responsesPPG, responsesByFactor);
+                    byte scores = GenerateResults.GetScoreByFactor(responsesPPG, responsesByFactor);
 
-                    scoresByFactors[i - 1] = scores;
+                    scoresByFactor[i - 1] = scores;
                 }
-                //else
-                //{
-                //    int k = 18;
-                //    char[,] responsesIPG = new char[38, 2];
+                else
+                {
+                    // Obtenemos las puntuaciones de la pregunta 19 a la 38
+                    int k = 18;
+                    char[,] responsesIPG = new char[20, 2];
 
-                //    for (int j = 0; j <= 19; j++)
-                //    {
-                //        responsesIPG[j, 0] = responses[k][0];
-                //        responsesIPG[j, 1] = responses[k][1];
+                    for (int j = 0; j < 20; j++)
+                    {
+                        responsesIPG[j, 0] = responses[k][0];
+                        responsesIPG[j, 1] = responses[k][1];
 
-                //        k++;
-                //    }
+                        k++;
+                    }
 
-                //    int scores = GenerateResults.GetPointsByFactor(responsesIPG, responsesByFactor);
+                    byte scores = GenerateResults.GetScoreByFactor(responsesIPG, responsesByFactor);
 
-                //    scoresByFactors[i - 1] = scores;
-                //}
+                    scoresByFactor[i - 1] = scores;
+                }
             }
 
-            scoresByFactors[8] = scoresByFactors[0] + scoresByFactors[1] + scoresByFactors[2] + scoresByFactors[3];
+            // Suma para obtener el factor de Autoestima
+            scoresByFactor[8] = (byte)(scoresByFactor[0] + scoresByFactor[1] + scoresByFactor[2] + scoresByFactor[3]);
 
-            Expedient expedient = await context.Expedients.FirstOrDefaultAsync(e => e.IdExpedient == currentIdUser);
+            // Traemos el expediente del candidato que esta realizando la prueba
+            Expedient expedient = await context.Expedients.FirstOrDefaultAsync(e => e.IdCandidate == currentIdUser);
             
-            (string, byte) infoCandidate = (expedient.Gender, Helper.CalculateAge(expedient.DateOfBirth));
+            // Guarda el genero, la edad y la formacion academica del candidato
+            (string, byte, string) infoCandidate = (expedient.Gender, Helper.CalculateAge(expedient.DateOfBirth), expedient.AcademicTraining);
 
-            int[] percentiles = GenerateResults.GetPercentileByFactor(scoresByFactors, infoCandidate); ;
+            // Guarda los percentiles de cada factor 
+            byte[] percentiles = GenerateResults.GetPercentileByFactor(scoresByFactor, infoCandidate);
 
+            bool result = await AddResults(expedient.IdExpedient, scoresByFactor, percentiles);
 
-            return true;
+            return (result, scoresByFactor, percentiles);
         }
 
         private async Task<IEnumerable<Response>> GetResponsesByFactor(int id)
         {
             return await context.Responses.Where(d => d.IdFactor == id).ToListAsync();
         }
-        
-        //private Candidate GetExpedient(int id)
-        //{
-        //    return context.Candidates.Where(c => c.IdUser == id);
-        //}
+
+        private async Task<bool> AddResults(int id, byte[] scoresByFactor, byte[] scoresByPercentile)
+        {
+            List<Result> results = new List<Result>();
+            List<Result> removes = context.Results.Where(r => r.IdExpedient == id).ToList();
+
+            if(removes != null)
+            {
+                context.Results.RemoveRange(removes);
+                context.SaveChanges();
+            }
+
+            for (int i = 0; i <= 8; i++)
+            {
+                results.Add(Conversion.ConvertToResult(id, i + 1, scoresByFactor[i], scoresByPercentile[i]));
+            }
+
+            await context.Results.AddRangeAsync(results);
+            return await context.SaveChangesAsync() > 0;
+        }
     }
 }

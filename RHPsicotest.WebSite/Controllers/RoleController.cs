@@ -28,14 +28,6 @@ namespace RHPsicotest.WebSite.Controllers
             return View(roles);
         }
         
-        [Route("/Role/Detalles/{id:int}")]
-        public async Task<IActionResult> Details(int id)
-        {
-            Role role = await roleRepository.GetRoleWithPermissions(id);
-
-            return View(role);
-        }
-
         [HttpGet]
         [Route("/Rol/Crear")]
         //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "Create-Role-Policy")]

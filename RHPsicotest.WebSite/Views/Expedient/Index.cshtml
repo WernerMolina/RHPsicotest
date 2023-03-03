@@ -52,7 +52,8 @@
                 </td>
 
                 <td>
-                    <a asp-action="ShowFilePDF" target="_blank" asp-route-id="@item.IdExpedient" class="btn bg-primary fw-bold text-white">Ver CV</a>
+                    <a asp-action="ShowCurriculum" target="_blank" asp-route-id="@item.IdExpedient" class="btn bg-primary fw-bold text-white">Curriculum</a>
+                    <a asp-action="ShowResultsPDF" asp-route-id="@item.IdExpedient" id="MakeReport" class="btn btn-success" target="_blank">Resultados</a>
 
 @*                    @if (!(await AuthorizationService.AuthorizeAsync(User, "Edit-User-Policy")).Succeeded)
                     {
@@ -72,7 +73,7 @@
     </tbody>
 </table>
 
-@section Scripts {
+@*@section Scripts {
     <script>
         function GetClientReport(id) {
             window.open(`/CurriculumVitae/${id}`, "_blank");
@@ -80,4 +81,4 @@
     </script>
 
 
-}
+}*@

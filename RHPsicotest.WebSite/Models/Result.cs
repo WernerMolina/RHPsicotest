@@ -17,6 +17,8 @@ namespace RHPsicotest.WebSite.Models
 
         public byte Percentile { get; set; }
 
+        public string Description { get; set; }
+
         [ForeignKey(nameof(IdExpedient))]
         [InverseProperty(nameof(Models.Expedient.Results))]
         public virtual Expedient Expedient{ get; set; }

@@ -41,6 +41,8 @@ namespace RHPsicotest.WebSite.Models
         [Display(Name = "Fecha de Nacimiento")]
         [Required(ErrorMessage = "Requerido")]
         public DateTime DateOfBirth { get; set; }
+        
+        public byte Age { get; set; }
 
         [Display(Name = "Género")]
         [Required(ErrorMessage = "Requerido")]

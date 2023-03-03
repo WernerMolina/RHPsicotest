@@ -51,15 +51,6 @@ namespace RHPsicotest.WebSite.Controllers
         }
 
         [HttpGet]
-        [Route("/Usuario/Detalles/{id:int}")]
-        public async Task<IActionResult> Details(int id)
-        {
-            UserDTO user = await userRepository.GetUserDTO(id);
-
-            return View(user);
-        }
-
-        [HttpGet]
         [Route("/Usuario/Crear")]
         //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "Create-User-Policy")]
         public async Task<IActionResult> Create()

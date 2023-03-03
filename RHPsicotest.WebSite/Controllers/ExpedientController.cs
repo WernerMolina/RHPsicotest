@@ -6,6 +6,8 @@ using RHPsicotest.WebSite.Utilities;
 using RHPsicotest.WebSite.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -68,9 +70,9 @@ namespace RHPsicotest.WebSite.Controllers
                     {
                         string candidateId = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value;
                         string email = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Email).Value;
-                        string stall = ((ClaimsIdentity)User.Identity).FindFirst("Position").Value;
+                        string position = ((ClaimsIdentity)User.Identity).FindFirst("Position").Value;
 
-                        (string, string, string) currentCandidate = (candidateId, email, stall);
+                        (string, string, string) currentCandidate = (candidateId, email, position);
 
                         bool result = await expedientRepository.AddExpedient(expedientVM, currentCandidate);
 
@@ -95,16 +97,43 @@ namespace RHPsicotest.WebSite.Controllers
         [HttpGet]
         [Route("/CurriculumVitae")]
         //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "Create-User-Policy")]
-        public async Task<IActionResult> ShowFilePDF(int id)
+        public async Task<IActionResult> ShowCurriculum(int id)
         {
             byte[] fileBytes = await expedientRepository.GetPDFInBytes(id);
 
             ViewData["PDF"] = fileBytes;
 
-            //return File(fileBytes, "application/pdf");
-
             return File(fileBytes, "application/pdf");
         }
-       
+        
+        [HttpGet]
+        [Route("/Resultados")]
+        //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "Create-User-Policy")]
+        public async Task<IActionResult> ShowResultsPDF(int id)
+        {
+            try
+            {
+                string url = $"http://localhost:8080/jasperserver/rest_v2/reports/reports/interactive/RHpsicotest.pdf?j_username=jasperadmin&j_password=jasperadmin&inline=true$&Identificador={id}";
+
+                using (HttpClient client = new HttpClient())
+                {
+                    HttpResponseMessage response = await client.GetAsync(url);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        byte[] fileBytes = await response.Content.ReadAsByteArrayAsync();
+
+                        return File(fileBytes, "application/pdf");
+                    }
+
+                    return StatusCode(StatusCodes.Status500InternalServerError, response.RequestMessage);
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
     }
 }

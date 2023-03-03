@@ -7,16 +7,12 @@
 
 <h1 class="fw-bold">Lista de Permisos</h1>
 
-<p class="mt-4">
-    <a asp-action="Create" class="btn btn-success fw-bold fs-5">Crear Permiso</a>
-</p>
 <table class="table table-striped align-middle">
     <thead class="table-dark">
         <tr class="text-center">
             <th>
                 @Html.DisplayNameFor(model => model.PermissionName)
             </th>
-            <th>Acciones</th>
         </tr>
     </thead>
     <tbody class="text-center">
@@ -25,11 +21,6 @@
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.PermissionName)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.IdPermission" class="btn bg-warning fw-bold"><i class="bi bi-pencil-fill"></i></a> |
-                    <a asp-action="Details" asp-route-id="@item.IdPermission" class="btn btn-primary fw-bold"><i class="bi bi-eye-fill"></i></a> |
-                    <a asp-action="Delete" asp-route-id="@item.IdPermission" class="btn btn-danger fw-bold"><i class="bi bi-trash3-fill"></i></a>
                 </td>
             </tr>
         }

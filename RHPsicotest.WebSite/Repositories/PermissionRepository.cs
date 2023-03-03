@@ -17,63 +17,9 @@ namespace RHPsicotest.WebSite.Repositories
             this.context = context;
         }
 
-        public async Task<Permission> AddPermission(Permission permission)
-        {
-            bool permissionExists = await PermissionExists(permission);
-
-            if (!permissionExists)
-            {
-                var result = await context.Permissions.AddAsync(permission);
-                await context.SaveChangesAsync();
-
-                return result.Entity;
-            }
-
-            return null;
-        }
-
-        public async Task<bool> DeletePermission(int id)
-        {
-            var result = false;
-            var permission = await GetPermission(id);
-
-            if (permission != null)
-            {
-                context.Permissions.Remove(permission);
-                result = await context.SaveChangesAsync() > 0;
-            }
-
-            return result;
-        }
-
         public async Task<IEnumerable<Permission>> GetAllPermissions()
         {
             return await context.Permissions.ToListAsync();
-        }
-
-        public async Task<Permission> GetPermission(int id)
-        {
-            return await context.Permissions.AsNoTracking().FirstOrDefaultAsync(r => r.IdPermission == id);
-        }
-
-        public async Task<bool> UpdatePermission(Permission permission)
-        {
-            var _permission = await context.Permissions.AsNoTracking().FirstOrDefaultAsync(p => p.PermissionName == permission.PermissionName);
-
-            bool result = false;
-
-            if(_permission == null || _permission.IdPermission == permission.IdPermission)
-            {
-                context.Permissions.Update(permission);
-                result = await context.SaveChangesAsync() > 0;
-            }
-
-            return result;
-        }
-
-        private async Task<bool> PermissionExists(Permission permission)
-        {
-            return await context.Permissions.AnyAsync(r => r.PermissionName == permission.PermissionName);
         }
     }
 }

@@ -5,6 +5,7 @@
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 
     Role role = (Role)ViewBag.Role;
+    IEnumerable<Position> positions = (IEnumerable<Position>)ViewBag.Positions;
 }
 
 <div class="row d-flex justify-content-center mt-5">
@@ -22,9 +23,9 @@
             <div class="form-group mb-4">
                 <label asp-for="IdPuesto" class="control-label mb-1">Puestos</label>
                 <select class="form-control" asp-for="IdPuesto" required>
-                    @foreach (var stall in (IEnumerable<Position>)ViewBag.Stalls)
+                    @foreach (var position in positions)
                     {
-                        <option value="@stall.IdPosition">@stall.PositionName</option>
+                        <option value="@position.IdPosition">@position.PositionName</option>
                     }
                 </select>
                 <span asp-validation-for="IdPuesto" class="text-danger"></span>

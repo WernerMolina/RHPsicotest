@@ -60,7 +60,7 @@ namespace RHPsicotest.WebSite.Migrations
                             IdPosition = 1,
                             IdRole = 3,
                             Password = "TW15",
-                            RegistrationDate = new DateTime(2023, 2, 9, 0, 0, 0, 0, DateTimeKind.Local),
+                            RegistrationDate = new DateTime(2023, 3, 2, 0, 0, 0, 0, DateTimeKind.Local),
                             Username = "WerMolina"
                         });
                 });
@@ -75,6 +75,9 @@ namespace RHPsicotest.WebSite.Migrations
                     b.Property<string>("AcademicTraining")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte>("Age")
+                        .HasColumnType("tinyint");
 
                     b.Property<string>("Certificate")
                         .IsRequired()
@@ -318,7 +321,7 @@ namespace RHPsicotest.WebSite.Migrations
                         new
                         {
                             IdPosition = 1,
-                            CreationDate = new DateTime(2023, 2, 9, 0, 0, 0, 0, DateTimeKind.Local),
+                            CreationDate = new DateTime(2023, 3, 2, 0, 0, 0, 0, DateTimeKind.Local),
                             Department = "Tecnología de la Información",
                             IdTest = 1,
                             PositionHigher = "Encargado de IT",
@@ -327,7 +330,7 @@ namespace RHPsicotest.WebSite.Migrations
                         new
                         {
                             IdPosition = 2,
-                            CreationDate = new DateTime(2023, 2, 9, 0, 0, 0, 0, DateTimeKind.Local),
+                            CreationDate = new DateTime(2023, 3, 2, 0, 0, 0, 0, DateTimeKind.Local),
                             Department = "Ventas",
                             IdTest = 1,
                             PositionHigher = "Gerente Comercial",
@@ -395,6 +398,9 @@ namespace RHPsicotest.WebSite.Migrations
 
                     b.Property<int>("IdFactor")
                         .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<byte>("Percentile")
                         .HasColumnType("tinyint");
@@ -518,7 +524,7 @@ namespace RHPsicotest.WebSite.Migrations
                             Email = "Wm25@gmail.com",
                             Name = "Werner Molina",
                             Password = "827ccb0eea8a706c4c34a16891f84e7b",
-                            RegistrationDate = new DateTime(2023, 2, 9, 0, 0, 0, 0, DateTimeKind.Local)
+                            RegistrationDate = new DateTime(2023, 3, 2, 0, 0, 0, 0, DateTimeKind.Local)
                         });
                 });
 

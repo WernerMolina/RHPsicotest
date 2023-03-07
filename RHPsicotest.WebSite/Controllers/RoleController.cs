@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RHPsicotest.WebSite.Models;
 using RHPsicotest.WebSite.Repositories.Contracts;
+using RHPsicotest.WebSite.ViewModels.Role;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -23,7 +24,7 @@ namespace RHPsicotest.WebSite.Controllers
         //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "List-Roles-Policy")]
         public async Task<IActionResult> Index()
         {
-            IEnumerable<Role> roles = await roleRepository.GetAllRoles();
+            List<Role> roles = await roleRepository.GetAllRoles();
 
             return View(roles);
         }
@@ -40,15 +41,15 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpPost]
         [Route("/Rol/Crear")]
-        public async Task<IActionResult> Create(Role _role, List<int> permissions)
+        public async Task<IActionResult> Create(RoleVM role, List<int> permissionsId)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    Role role = await roleRepository.AddRole(_role, permissions);
+                    bool result = await roleRepository.AddRole(role, permissionsId);
 
-                    if(role != null)
+                    if(result)
                     {
                         return RedirectToAction("Index", "Role");
                     }
@@ -56,7 +57,7 @@ namespace RHPsicotest.WebSite.Controllers
 
                 ViewBag.Permissions = await roleRepository.GetAllPermissions();
 
-                return View(_role);
+                return View(role);
             }
             catch (Exception ex)
             {
@@ -65,25 +66,26 @@ namespace RHPsicotest.WebSite.Controllers
         }
 
         [HttpGet]
-        [Route("/Rol/Editar/{id:int}")]
+        [Route("/Rol/Editar")]
         //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "Edit-Role-Policy")]
         public async Task<IActionResult> Edit(int id)
         {
-            Role role = await roleRepository.GetRoleWithPermissions(id);
+            RoleUpdateVM role = await roleRepository.GetRoleUpdate(id);
+
             ViewBag.Permissions = await roleRepository.GetPermissionsSelected(id);
 
             return View(role);
         }
 
         [HttpPost]
-        [Route("/Rol/Editar/{id:int}")]
-        public async Task<IActionResult> Edit(Role role, List<int> permissions)
+        [Route("/Rol/Editar")]
+        public async Task<IActionResult> Edit(RoleUpdateVM role, List<int> permissionsId)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    bool result = await roleRepository.UpdateRole(role, permissions);
+                    bool result = await roleRepository.UpdateRole(role, permissionsId);
 
                     if(result)
                     {
@@ -102,17 +104,17 @@ namespace RHPsicotest.WebSite.Controllers
         }
         
         [HttpGet]
-        [Route("/Rol/Eliminar/{id:int}")]
+        [Route("/Rol/Eliminar")]
         //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "Delete-Role-Policy")]
         public async Task<IActionResult> Delete(int id)
         {
-            Role role = await roleRepository.GetRoleWithPermissions(id);
+            Role role = null;
 
             return View(role);
         }
 
         [HttpPost]
-        [Route("/Rol/Eliminar/{id:int}")]
+        [Route("/Rol/Eliminar")]
         public async Task<IActionResult> Delete(int id, string nothing)
         {
             try

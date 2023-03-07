@@ -12,19 +12,14 @@ namespace RHPsicotest.WebSite.Models
         [Key]
         public int IdUser { get; set; }
 
-        [Display(Name = "Nombre")]
         public string Name { get; set; }
 
-        [Display(Name = "Correo")]
         public string Email { get; set; }
 
-        [Display(Name = "Contaseña")]
         public string Password { get; set; }
 
-        [Display(Name = "Fehca de Registro")]
-        public DateTime RegistrationDate { get; set; } = DateTime.Now.Date;
+        public string RegistrationDate { get; set; }
 
-        [Display(Name = "Roles")]
         [InverseProperty(nameof(Role_User.User))]
         public virtual IEnumerable<Role_User> Roles { get; set; }
 

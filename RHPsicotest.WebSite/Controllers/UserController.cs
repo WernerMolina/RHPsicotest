@@ -3,12 +3,13 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using RHPsicotest.WebSite.DTOs;
 using RHPsicotest.WebSite.Models;
 using RHPsicotest.WebSite.Repositories.Contracts;
 using RHPsicotest.WebSite.Utilities;
-using RHPsicotest.WebSite.ViewModels;
+using RHPsicotest.WebSite.ViewModels.User;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -31,25 +32,11 @@ namespace RHPsicotest.WebSite.Controllers
         //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "List-Users-Policy")]
         public async Task<IActionResult> Index()
         {
-            IEnumerable<User> users = await userRepository.GetAllUsers();
+            IEnumerable<UserDTO> users = await userRepository.GetAllUsers();
 
             return View(users);
         }
         
-        [HttpGet]
-        [Route("/Usuarioss")]
-        public async Task<IActionResult> Indexs()
-        {
-            IEnumerable<User> users = await userRepository.GetAllUsers();
-
-            string json = JsonConvert.SerializeObject(users, new JsonSerializerSettings
-            {
-                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-            });
-
-            return Ok(json);
-        }
-
         [HttpGet]
         [Route("/Usuario/Crear")]
         //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "Create-User-Policy")]
@@ -62,21 +49,23 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpPost]
         [Route("/Usuario/Crear")]
-        public async Task<IActionResult> Create(User _user, List<int> roles)
+        public async Task<IActionResult> Create(UserVM user, List<int> rolesId)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    User user = await userRepository.AddUser(_user, roles);
+                    bool result = await userRepository.AddUser(user, rolesId);
 
-                    if (user != null)
+                    if (result)
                     {
                         return RedirectToAction("Index", "user");
                     }
                 }
 
-                return View(_user);
+                ViewBag.Roles = await userRepository.GetAllRoles();
+
+                return View(user);
             }
             catch (Exception ex)
             {
@@ -85,34 +74,34 @@ namespace RHPsicotest.WebSite.Controllers
         }
 
         [HttpGet]
-        [Route("/Usuario/Editar/{id:int}")]
+        [Route("/Usuario/Editar")]
         //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "Edit-User-Policy")]
         public async Task<IActionResult> Edit(int id)
         {
-            UserDTO user = await userRepository.GetUserDTO(id);
-            ViewBag.Roles = await userRepository.GetRolesSelected(id);
+            (UserUpdateVM, MultiSelectList) user = await userRepository.GetUserAndRolesSelected(id);
 
-            return View(user);
+            ViewBag.Roles = user.Item2;
+
+            return View(user.Item1);
         }
 
         [HttpPost]
-        [Route("/Usuario/Editar/{id:int}")]
-        public async Task<IActionResult> Edit(UserDTO user, List<int> roles)
+        [Route("/Usuario/Editar")]
+        public async Task<IActionResult> Edit(UserUpdateVM user, List<int> rolesId)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    bool result = await userRepository.UpdateUser(user, roles);
+                    bool result = await userRepository.UpdateUser(user, rolesId);
 
                     if (result)
                     {
                         return RedirectToAction("Index", "user");
                     }
-
                 }
 
-                ViewBag.Roles = await userRepository.GetRolesSelected(user.IdUser);
+                ViewBag.Roles = await userRepository.GetRolesSelected(rolesId);
 
                 return View(user);
             }
@@ -127,7 +116,7 @@ namespace RHPsicotest.WebSite.Controllers
         //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "Delete-User-Policy")]
         public async Task<IActionResult> Delete(int id)
         {
-            UserDTO user = await userRepository.GetUserDTO(id);
+            UserDTO user = null;
 
             return View(user);
         }
@@ -153,65 +142,5 @@ namespace RHPsicotest.WebSite.Controllers
             }
         }
 
-        [HttpGet]
-        [Route("/Login")]
-        public IActionResult Login(string returnUrl = null)
-        {
-            if (User.Identity.IsAuthenticated)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
-            ViewData["ReturnUrl"] = returnUrl;
-            return View();
-        }
-
-        [HttpPost]
-        [Route("/Login")]
-        public async Task<IActionResult> Login(Login userLogin, string returnUrl = null)
-        {
-            ViewData["ReturnUrl"] = returnUrl;
-
-            if (ModelState.IsValid)
-            {
-                userLogin.Password = Helper.EncryptMD5(userLogin.Password);
-
-                UserDTO userDtO = await userRepository.GetUserLogin(userLogin);
-
-                if (userDtO != null)
-                {
-                    ClaimsIdentity identity = Helper.Authenticate(userDtO);
-
-                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
-
-                    if (Url.IsLocalUrl(returnUrl))
-                    {
-                        return Redirect(returnUrl);
-                    }
-
-                    bool isAdmin = Helper.IsAdmin(userDtO);
-
-                    if (isAdmin)
-                    {
-                        return RedirectToAction("Index", "Home");
-                    }
-                    else
-                    {
-                        return RedirectToAction("Index", "Home");
-                    }
-                }
-            }
-
-            userLogin.Password = string.Empty;
-
-            return View(userLogin);
-        }
-
-        public async Task<IActionResult> Logout()
-        {
-            await HttpContext.SignOutAsync();
-
-            return RedirectToAction("Index", "Home");
-        }
     }
 }

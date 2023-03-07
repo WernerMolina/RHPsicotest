@@ -68,7 +68,7 @@ namespace RHPsicotest.WebSite.Repositories
         // Retorna los datos del candidato que se esta logueando y tambien sus permisos
         public async Task<(Candidate, List<Permission>)> GetCandidateLogin(CandidateLogin candidateLogin)
         {
-            Candidate candidate = await context.Candidates.Include(c => c.Role).Include(c => c.Position).FirstOrDefaultAsync(u => u.Username == candidateLogin.Username && u.Password == candidateLogin.Password);
+            Candidate candidate = await context.Candidates.Include(c => c.Role).Include(c => c.Position).FirstOrDefaultAsync(u => u.Email == candidateLogin.Email && u.Password == candidateLogin.Password);
 
             List<Permission> permissions = new List<Permission>();
 

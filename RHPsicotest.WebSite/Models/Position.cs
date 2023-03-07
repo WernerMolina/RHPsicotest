@@ -14,17 +14,13 @@ namespace RHPsicotest.WebSite.Models
 
         public int IdTest { get; set; }
 
-        [Display(Name = "Puesto")]
         public string PositionName { get; set; }
 
-        [Display(Name = "Puesto Superior")]
         public string PositionHigher { get; set; }
 
-        [Display(Name = "Departamento")]
         public string Department { get; set; }
 
-        [Display(Name = "Fecha de Creación")]
-        public DateTime CreationDate { get; set; } = DateTime.Now;
+        public string CreationDate { get; set; }
 
         [ForeignKey(nameof(IdTest))]
         [InverseProperty(nameof(Models.Test.Positions))]

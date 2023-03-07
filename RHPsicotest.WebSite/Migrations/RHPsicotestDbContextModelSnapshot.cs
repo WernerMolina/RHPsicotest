@@ -38,10 +38,7 @@ namespace RHPsicotest.WebSite.Migrations
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("RegistrationDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Username")
+                    b.Property<string>("RegistrationDate")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("IdCandidate");
@@ -60,8 +57,7 @@ namespace RHPsicotest.WebSite.Migrations
                             IdPosition = 1,
                             IdRole = 3,
                             Password = "TW15",
-                            RegistrationDate = new DateTime(2023, 3, 2, 0, 0, 0, 0, DateTimeKind.Local),
-                            Username = "WerMolina"
+                            RegistrationDate = "05/03/2023 09:12 PM"
                         });
                 });
 
@@ -73,76 +69,60 @@ namespace RHPsicotest.WebSite.Migrations
                         .UseIdentityColumn();
 
                     b.Property<string>("AcademicTraining")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<byte>("Age")
                         .HasColumnType("tinyint");
 
                     b.Property<string>("Certificate")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CivilStatus")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Country")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<byte[]>("CurriculumVitae")
-                        .IsRequired()
                         .HasColumnType("varbinary(max)");
 
                     b.Property<string>("DUI")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("DateOfBirth")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("Department")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Direction")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
-                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EvaluationDate")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Gender")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("IdCandidate")
                         .HasColumnType("int");
 
                     b.Property<string>("LandlineNumber")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Lastnames")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MovilePhoneNumber")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Municipality")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Names")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Position")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("IdExpedient");
@@ -296,8 +276,8 @@ namespace RHPsicotest.WebSite.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<DateTime>("CreationDate")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("CreationDate")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Department")
                         .HasColumnType("nvarchar(max)");
@@ -321,7 +301,7 @@ namespace RHPsicotest.WebSite.Migrations
                         new
                         {
                             IdPosition = 1,
-                            CreationDate = new DateTime(2023, 3, 2, 0, 0, 0, 0, DateTimeKind.Local),
+                            CreationDate = "05/03/2023 09:12 PM",
                             Department = "Tecnología de la Información",
                             IdTest = 1,
                             PositionHigher = "Encargado de IT",
@@ -330,7 +310,7 @@ namespace RHPsicotest.WebSite.Migrations
                         new
                         {
                             IdPosition = 2,
-                            CreationDate = new DateTime(2023, 3, 2, 0, 0, 0, 0, DateTimeKind.Local),
+                            CreationDate = "05/03/2023 09:12 PM",
                             Department = "Ventas",
                             IdTest = 1,
                             PositionHigher = "Gerente Comercial",
@@ -510,8 +490,8 @@ namespace RHPsicotest.WebSite.Migrations
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("RegistrationDate")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("RegistrationDate")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("IdUser");
 
@@ -524,7 +504,7 @@ namespace RHPsicotest.WebSite.Migrations
                             Email = "Wm25@gmail.com",
                             Name = "Werner Molina",
                             Password = "827ccb0eea8a706c4c34a16891f84e7b",
-                            RegistrationDate = new DateTime(2023, 3, 2, 0, 0, 0, 0, DateTimeKind.Local)
+                            RegistrationDate = "05/03/2023 09:12 PM"
                         });
                 });
 

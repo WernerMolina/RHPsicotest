@@ -5,12 +5,9 @@ using RHPsicotest.WebSite.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Net.Http;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace RHPsicotest.WebSite.Utilities
 {
@@ -18,7 +15,7 @@ namespace RHPsicotest.WebSite.Utilities
     {
         public static string EncryptMD5(string password)
         {
-            using (var md5 = MD5.Create())
+            using (MD5 md5 = MD5.Create())
             {
                 var result = md5.ComputeHash(Encoding.ASCII.GetBytes(password));
                 var encryptedString = "";
@@ -31,36 +28,23 @@ namespace RHPsicotest.WebSite.Utilities
             }
         }
 
-        public static bool IsAdmin(UserDTO user)
-        {
-            bool allow = false;
-
-            foreach (Role role in user.Roles)
-            {
-                if (role.RoleName == "Super-Admin" || role.RoleName == "Administrador")
-                    allow = true;
-            }
-
-            return allow;
-        }
-
-        public static ClaimsIdentity Authenticate(UserDTO userDTO)
+        public static ClaimsIdentity Authenticate(User user, List<string> permissions)
         {
             List<Claim> claims = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier, userDTO.IdUser.ToString()),
-                new Claim(ClaimTypes.Name, userDTO.Name), 
-                new Claim(ClaimTypes.Email, userDTO.Email) 
+                new Claim(ClaimTypes.NameIdentifier, user.IdUser.ToString()),
+                new Claim(ClaimTypes.Name, user.Name), 
+                new Claim(ClaimTypes.Email, user.Email) 
             };
 
-            foreach (Role role in userDTO.Roles)
+            foreach (var role in user.Roles)
             {
-                claims.Add(new Claim(ClaimTypes.Role, role.RoleName));
+                claims.Add(new Claim(ClaimTypes.Role, role.Role.RoleName));
             }
 
-            foreach (Permission permission in userDTO.Permissions)
+            foreach (string permission in permissions)
             {
-                claims.Add(new Claim("Permission", permission.PermissionName));
+                claims.Add(new Claim("Permission", permission));
             }
 
             ClaimsIdentity identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -68,20 +52,19 @@ namespace RHPsicotest.WebSite.Utilities
             return identity;
         }
         
-        public static ClaimsIdentity CandidateAuthenticate(Candidate candidate, List<Permission> permissions)
+        public static ClaimsIdentity CandidateAuthenticate(Candidate candidate, List<string> permissions)
         {
             List<Claim> claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, candidate.IdCandidate.ToString()),
-                new Claim(ClaimTypes.Name, candidate.Username), 
                 new Claim(ClaimTypes.Email, candidate.Email),
                 new Claim(ClaimTypes.Role, candidate.Role.RoleName),
                 new Claim("Position", candidate.Position.PositionName)
             };
 
-            foreach (Permission permission in permissions)
+            foreach (string permission in permissions)
             {
-                claims.Add(new Claim("Permission", permission.PermissionName));
+                claims.Add(new Claim("Permission", permission));
             }
 
             ClaimsIdentity identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -101,7 +84,7 @@ namespace RHPsicotest.WebSite.Utilities
             return false;
         }
 
-        public static byte[] FilePDFToBytes(IFormFile formFile)
+        public static byte[] FilePDFConvertToArrayOfBytes(IFormFile formFile)
         {
             using(MemoryStream stream = new MemoryStream())
             {
@@ -146,43 +129,5 @@ namespace RHPsicotest.WebSite.Utilities
         //    return r == null ? "" : r.Value;
         //}
 
-
-        //private readonly IUserService _userService;
-
-        //public AddRolesClaimsTransformation(IUserService userService)
-        //{
-        //    _userService = userService;
-        //}
-
-        //public async Task<ClaimsPrincipal> TransformAsync(ClaimsPrincipal principal)
-        //{
-        //    // Clone current identity
-        //    var clone = principal.Clone();
-        //    var newIdentity = (ClaimsIdentity)clone.Identity;
-
-        //    // Support AD and local accounts
-        //    var nameId = principal.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier ||
-        //                                                      c.Type == ClaimTypes.Name);
-        //    if (nameId == null)
-        //    {
-        //        return principal;
-        //    }
-
-        //    // Get user from database
-        //    var user = await _userService.GetByUserName(nameId.Value);
-        //    if (user == null)
-        //    {
-        //        return principal;
-        //    }
-
-        //    // Add role claims to cloned identity
-        //    foreach (var role in user.Roles)
-        //    {
-        //        var claim = new Claim(newIdentity.RoleClaimType, role.Name);
-        //        newIdentity.AddClaim(claim);
-        //    }
-
-        //    return clone;
-        //}
     }
 }

@@ -15,17 +15,14 @@ namespace RHPsicotest.WebSite.DTOs
         [Display(Name = "Correo")]
         public string Email { get; set; }
 
-        [Display(Name = "Contraseña")]
-        public string Password { get; set; }
-
         [Display(Name = "Fecha de Registro")]
-        public DateTime RegistrationDate { get; set; }
+        public string RegistrationDate { get; set; }
 
         [Display(Name = "Roles")]
-        public IEnumerable<Role> Roles { get; set; }
+        public IEnumerable<string> Roles { get; set; }
         
         [Display(Name = "Permisos")]
-        public IEnumerable<Permission> Permissions { get; set; }
+        public IEnumerable<string> Permissions { get; set; }
 
     }
 }

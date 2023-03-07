@@ -82,7 +82,7 @@ namespace RHPsicotest.WebSite.Repositories
             Expedient expedient = await context.Expedients.FirstOrDefaultAsync(e => e.IdCandidate == currentIdUser);
             
             // Guarda el genero, la edad y la formacion academica del candidato
-            (string, byte, string) infoCandidate = (expedient.Gender, Helper.CalculateAge(expedient.DateOfBirth), expedient.AcademicTraining);
+            (string, byte, string) infoCandidate = (expedient.Gender, 20, expedient.AcademicTraining);
 
             // Guarda los percentiles de cada factor 
             byte[] percentiles = GenerateResults.GetPercentileByFactor(scoresByFactor, infoCandidate);
@@ -97,6 +97,7 @@ namespace RHPsicotest.WebSite.Repositories
             return await context.Responses.Where(d => d.IdFactor == id).ToListAsync();
         }
 
+        // Guarda el puntaje por factor y percentil
         private async Task<bool> AddResults(int id, byte[] scoresByFactor, byte[] scoresByPercentile)
         {
             List<Result> results = new List<Result>();

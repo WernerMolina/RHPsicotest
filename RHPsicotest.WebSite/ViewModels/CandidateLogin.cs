@@ -4,7 +4,7 @@ namespace RHPsicotest.WebSite.ViewModels
 {
     public class CandidateLogin
     {
-        public string Username { get; set; }
+        public string Email { get; set; }
 
         [Display(Name = "Contraseña")]
         [Required(ErrorMessage = "Contraseña")]

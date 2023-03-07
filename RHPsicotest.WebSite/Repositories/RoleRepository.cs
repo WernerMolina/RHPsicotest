@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using RHPsicotest.WebSite.Data;
-using RHPsicotest.WebSite.DTOs;
 using RHPsicotest.WebSite.Models;
 using RHPsicotest.WebSite.Repositories.Contracts;
+using RHPsicotest.WebSite.Utilities;
+using RHPsicotest.WebSite.ViewModels.Role;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,6 +20,75 @@ namespace RHPsicotest.WebSite.Repositories
             this.context = context;
         }
 
+
+        public async Task<bool> AddRole(RoleVM roleVM, List<int> permisssions)
+        {
+            bool result = false;
+            
+            bool roleExists = await RoleExists(roleVM.RoleName);
+
+            if (!roleExists)
+            {
+                Role role = Conversion.ConvertToRole(roleVM);
+
+                await context.Roles.AddAsync(role);
+                result = await context.SaveChangesAsync() > 0;
+
+                if (result) PermissionsAsing(role.IdRole, permisssions);
+            }
+
+            return result;
+        }
+
+        public async Task<bool> UpdateRole(RoleUpdateVM roleUpdateVM, List<int> permissions)
+        {
+            bool result = false;
+
+            Role roleExist = await context.Roles.AsNoTracking().FirstOrDefaultAsync(r => r.RoleName == roleUpdateVM.RoleName);
+
+            if (roleExist == null || roleExist.IdRole == roleUpdateVM.IdRole)
+            {
+                Role role = Conversion.ConvertToRole(roleUpdateVM);
+
+                context.Roles.Update(role);
+                result = await context.SaveChangesAsync() > 0;
+
+                if (result) PermissionsAsing(role.IdRole, permissions, true);
+            }
+
+            return result;
+        }
+
+        public async Task<bool> DeleteRole(int roleId)
+        {
+            bool result = false;
+
+            Role role = await context.Roles.FirstOrDefaultAsync(r => r.IdRole == roleId);
+
+            if (role != null)
+            {
+                context.Roles.Remove(role);
+                result = await context.SaveChangesAsync() > 0;
+            }
+
+            return result;
+        }
+
+        public async Task<List<Role>> GetAllRoles()
+        {
+            return await context.Roles.Include("Permissions.Permission").ToListAsync();
+        }
+
+        public async Task<RoleUpdateVM> GetRoleUpdate(int id)
+        {
+            Role role = await context.Roles.FirstOrDefaultAsync(r => r.IdRole == id);
+
+            RoleUpdateVM roleUpdateVM = Conversion.ConvertToRoleUpdateVM(role);
+
+            return roleUpdateVM;
+        }
+
+
         public async Task<MultiSelectList> GetAllPermissions()
         {
             List<Permission> permissions = await context.Permissions.ToListAsync();
@@ -27,43 +96,30 @@ namespace RHPsicotest.WebSite.Repositories
             return new MultiSelectList(permissions, "IdPermission", "PermissionName");
         }
 
-        public async Task<IEnumerable<Role>> GetAllRoles()
+
+        public async Task<MultiSelectList> GetPermissionsSelected(int roleId)
         {
-            return await context.Roles.Include("Permissions.Permission").ToListAsync();
-        }
+            Role role = await context.Roles.Include(r => r.Permissions).FirstOrDefaultAsync(u => u.IdRole == roleId);
 
-        private async Task<Role> GetRole(int id)
-        {
-            return await context.Roles.FirstOrDefaultAsync(r => r.IdRole == id);
-        }
-        
-        public async Task<Role> GetRoleWithPermissions(int id)
-        {
-            return await context.Roles.Include("Permissions.Permission").FirstOrDefaultAsync(r => r.IdRole == id);
-        }
-
-        public async Task<Role> AddRole(Role role, List<int> permisssions)
-        {
-            bool roleExists = await RoleExists(role);
-
-            if (!roleExists)
-            {
-                var result = await context.Roles.AddAsync(role);
-                await context.SaveChangesAsync();
-
-                AddPermission_Role(role.IdRole, permisssions);
-
-                return result.Entity;
-            }
+            List<Permission> permissions = await context.Permissions.ToListAsync();
             
-            return null;
+            List<int> selectedPermissions = new List<int>();
+
+            foreach (var permission in role.Permissions)
+            {
+                selectedPermissions.Add(permission.IdPermission);
+            }
+
+            return new MultiSelectList(permissions, "IdPermission", "PermissionName", selectedPermissions);
         }
 
-        private void AddPermission_Role(int roleId, List<int> permissions, bool delete = false)
+
+        //-------------------------------
+        private void PermissionsAsing(int roleId, List<int> permissions, bool delete = false)
         {
             if (delete)
             {
-                var permissionsRole = context.Permission_Roles.Where(pr => pr.IdRole == roleId).ToList();
+                List<Permission_Role> permissionsRole = context.Permission_Roles.Where(pr => pr.IdRole == roleId).ToList();
 
                 context.Permission_Roles.RemoveRange(permissionsRole);
                 context.SaveChanges();
@@ -81,57 +137,11 @@ namespace RHPsicotest.WebSite.Repositories
             context.SaveChanges();
         }
 
-        private async Task<bool> RoleExists(Role role)
+        private async Task<bool> RoleExists(string roleName)
         {
-            return await context.Roles.AnyAsync(r => r.RoleName == role.RoleName);
-        }
-        
-        public  async Task<bool> UpdateRole(Role role, List<int> permissions)
-        {
-            Role _role = await context.Roles.AsNoTracking().FirstOrDefaultAsync(r => r.RoleName == role.RoleName);
-            
-            bool result = false;
-
-            if (_role == null || role.IdRole == _role.IdRole)
-            {
-                context.Roles.Update(role);
-                result = await context.SaveChangesAsync() > 0;
-
-                AddPermission_Role(role.IdRole, permissions, true);
-            }
-
-            return result;
+            return await context.Roles.AnyAsync(r => r.RoleName == roleName);
         }
 
-        public async Task<bool> DeleteRole(int id)
-        {
-            bool result = false;
-            Role role = await GetRole(id);
-
-            if(role != null)
-            {
-                context.Roles.Remove(role);
-                result = await context.SaveChangesAsync() > 0;
-            }
-
-            return result;
-        }
-
-        public async Task<MultiSelectList> GetPermissionsSelected(int roleId)
-        {
-            Role role = await GetRoleWithPermissions(roleId);
-            IEnumerable<Permission_Role> permissionsRole = role.Permissions;
-            List<Permission> permissions = await context.Permissions.ToListAsync();
-            
-            List<int> selectedPermissions = new List<int>();
-
-            foreach (Permission_Role permission in permissionsRole)
-            {
-                selectedPermissions.Add(permission.IdPermission);
-            }
-
-            return new MultiSelectList(permissions, "IdPermission", "PermissionName", selectedPermissions);
-        }
 
     }
 }

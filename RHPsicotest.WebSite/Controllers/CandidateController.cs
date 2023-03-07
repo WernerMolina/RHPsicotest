@@ -102,47 +102,5 @@ namespace RHPsicotest.WebSite.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
-
-        [HttpGet]
-        [Route("/Candidato/Login")]
-        public IActionResult Login()
-        {
-            if (User.Identity.IsAuthenticated)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
-            return View();
-        }
-
-        [HttpPost]
-        [Route("/Candidato/Login")]
-        public async Task<IActionResult> Login(CandidateLogin candidateLogin)
-        {
-            if (ModelState.IsValid)
-            {
-                (Candidate, List<Permission>) candidate = await candidateRepository.GetCandidateLogin(candidateLogin);
-
-                if (candidate.Item1 != null)
-                {
-                    ClaimsIdentity identity = Helper.CandidateAuthenticate(candidate.Item1, candidate.Item2);
-
-                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
-
-                    return RedirectToAction("ConfirmPolicies", "Expedient");
-                }
-            }
-
-            candidateLogin.Password = string.Empty;
-
-            return View(candidateLogin);
-        }
-
-        public async Task<IActionResult> Logout()
-        {
-            await HttpContext.SignOutAsync();
-
-            return RedirectToAction("Index", "Home");
-        }
     }
 }

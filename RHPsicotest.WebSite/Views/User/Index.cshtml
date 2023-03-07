@@ -1,4 +1,4 @@
-﻿@model IEnumerable<User>
+﻿@model IEnumerable<UserDTO>
 
 @{
     ViewData["Title"] = "Usuarios";
@@ -35,32 +35,32 @@
         </tr>
     </thead>
     <tbody class="text-center">
-        @foreach (var item in Model)
+        @foreach (UserDTO user in Model)
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Name)
+                    @Html.DisplayFor(modelItem => user.Name)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Email)
+                    @Html.DisplayFor(modelItem => user.Email)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.RegistrationDate)
+                    @Html.DisplayFor(modelItem => user.RegistrationDate)
                 </td>
                 <td>
-                    @foreach (var role in item.Roles)
+                    @foreach (string role in user.Roles)
                     {
-                        <p>@role.Role.RoleName</p>
+                        <p>@role</p>
                     }
                 </td>
                 <td>
                     @if (!(await AuthorizationService.AuthorizeAsync(User, "Edit-User-Policy")).Succeeded)
                     {
-                        <a asp-action="Edit" asp-route-id="@item.IdUser" class="btn bg-warning fw-bold"><i class="bi bi-pencil-fill"></i></a> <span class="fw-bold">|</span>
+                        <a asp-action="Edit" asp-route-id="@user.IdUser" class="btn bg-warning fw-bold"><i class="bi bi-pencil-fill"></i></a> <span class="fw-bold">|</span>
                     }
                     @if (!(await AuthorizationService.AuthorizeAsync(User, "Delete-User-Policy")).Succeeded)
                     {
-                        <a asp-action="Delete" asp-route-id="@item.IdUser" class="btn btn-danger fw-bold"><i class="bi bi-trash3-fill"></i></a>
+                        <a asp-action="Delete" asp-route-id="@user.IdUser" class="btn btn-danger fw-bold"><i class="bi bi-trash3-fill"></i></a>
                     }
                 </td>
             </tr>

@@ -14,24 +14,16 @@ namespace RHPsicotest.WebSite.Models
 
         public int IdPosition { get; set; }
 
-        [Display(Name = "Correo")]
         public string Email { get; set; }
 
-        [Display(Name = "Username")]
-        public string Username { get; set; }
-
-        [Display(Name = "Contraseña")]
         public string Password { get; set; }
 
-        [Display(Name = "Fecha")]
-        public DateTime RegistrationDate { get; set; } = DateTime.Now;
+        public string RegistrationDate { get; set; }
 
-        [Display(Name = "Puesto")]
         [ForeignKey(nameof(IdPosition))]
         [InverseProperty(nameof(Models.Position.Candidates))]
         public virtual Position Position { get; set; }
 
-        [Display(Name = "Rol")]
         [ForeignKey(nameof(IdRole))]
         [InverseProperty(nameof(Models.Role.Candidate))]
         public virtual Role Role{ get; set; }

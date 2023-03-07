@@ -10,7 +10,6 @@ namespace RHPsicotest.WebSite.Models
         [Key]
         public int IdPermission { get; set; }
 
-        [Display(Name = "Nombre del Permiso")]
         public string PermissionName { get; set; }
 
         [InverseProperty(nameof(Permission_Role.Permission))]

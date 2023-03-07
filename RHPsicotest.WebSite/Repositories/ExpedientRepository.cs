@@ -27,9 +27,7 @@ namespace RHPsicotest.WebSite.Repositories
 
             if(!existExpedient)
             {
-                byte[] filePDFInBytes = Helper.FilePDFToBytes(expedientVM.CurriculumVitae);
-
-                Expedient expedient = Conversion.ConvertToExpedient(expedientVM, currentCandidate, filePDFInBytes);
+                Expedient expedient = Conversion.ConvertToExpedient(expedientVM, currentCandidate);
 
                 await context.Expedients.AddAsync(expedient);
                 result =  await context.SaveChangesAsync() > 0;
@@ -38,11 +36,6 @@ namespace RHPsicotest.WebSite.Repositories
             return result;
         }
         
-        private async Task<bool> ExistsExpedient(string email)
-        {
-            return await context.Expedients.AnyAsync(e => e.Email == email);
-        }
-
         public async Task<IEnumerable<Expedient>> GetAllExpedients()
         {
             return await context.Expedients.ToListAsync();
@@ -53,6 +46,11 @@ namespace RHPsicotest.WebSite.Repositories
             Expedient expedient = await context.Expedients.FirstOrDefaultAsync(e => e.IdExpedient == id);
 
             return expedient.CurriculumVitae;
+        }
+
+        private async Task<bool> ExistsExpedient(string email)
+        {
+            return await context.Expedients.AnyAsync(e => e.Email == email);
         }
     }
 }

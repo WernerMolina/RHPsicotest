@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RHPsicotest.WebSite.Models;
 using System;
+using System.Globalization;
 
 namespace RHPsicotest.WebSite.Data
 {
@@ -108,7 +109,7 @@ namespace RHPsicotest.WebSite.Data
                 PositionName = "Desarrollador IT",
                 PositionHigher = "Encargado de IT",
                 Department = "Tecnología de la Información",
-                CreationDate = DateTime.Now.Date
+                CreationDate = DateTime.Now.ToString("dd/MM/yyyy hh:mm tt", CultureInfo.CreateSpecificCulture("en-En"))
             });
             
             modelBuilder.Entity<Position>().HasData(new Position
@@ -118,7 +119,7 @@ namespace RHPsicotest.WebSite.Data
                 PositionName = "Asesor de Venta",
                 PositionHigher = "Gerente Comercial",
                 Department = "Ventas",
-                CreationDate = DateTime.Now.Date
+                CreationDate = DateTime.Now.ToString("dd/MM/yyyy hh:mm tt", CultureInfo.CreateSpecificCulture("en-En"))
             });
 
             // Tabla de Usuario
@@ -128,7 +129,7 @@ namespace RHPsicotest.WebSite.Data
                 Name = "Werner Molina",
                 Email = "Wm25@gmail.com",
                 Password = "827ccb0eea8a706c4c34a16891f84e7b",
-                RegistrationDate = DateTime.Now.Date
+                RegistrationDate = DateTime.Now.ToString("dd/MM/yyyy hh:mm tt", CultureInfo.CreateSpecificCulture("en-En"))
             });
 
             // Tabla de Candidato
@@ -137,10 +138,9 @@ namespace RHPsicotest.WebSite.Data
                 IdCandidate = 1,
                 IdPosition = 1,
                 IdRole = 3,
-                Username = "WerMolina",
                 Email = "ml22002@esfe.agape.edu.sv",
                 Password = "TW15",
-                RegistrationDate = DateTime.Now.Date
+                RegistrationDate = DateTime.Now.ToString("dd/MM/yyyy hh:mm tt", CultureInfo.CreateSpecificCulture("en-En"))
             });
 
             // Tabla de Factores

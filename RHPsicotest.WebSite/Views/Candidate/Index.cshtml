@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Candidate>
+﻿@model IEnumerable<CandidateDTO>
 
 @{
     ViewData["Title"] = "Usuarios";
@@ -35,20 +35,20 @@
         </tr>
     </thead>
     <tbody class="text-center">
-        @foreach (var item in Model)
+        @foreach (CandidateDTO candidate in Model)
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Password)
+                    @Html.DisplayFor(modelItem => candidate.Password)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Email)
+                    @Html.DisplayFor(modelItem => candidate.Email)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.RegistrationDate)
+                    @Html.DisplayFor(modelItem => candidate.RegistrationDate)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Position.PositionName)
+                    @Html.DisplayFor(modelItem => candidate.Position)
                 </td>
                 <td>
                     <i class="bi bi-envelope"></i>

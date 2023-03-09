@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RHPsicotest.WebSite.Data;
+using RHPsicotest.WebSite.DTOs;
 using RHPsicotest.WebSite.Models;
 using RHPsicotest.WebSite.Repositories.Contracts;
 using RHPsicotest.WebSite.Utilities;
@@ -21,36 +22,71 @@ namespace RHPsicotest.WebSite.Repositories
 
         public async Task<bool> AddExpedient(ExpedientVM expedientVM, (string, string, string) currentCandidate)
         {
-            bool existExpedient = await ExistsExpedient(currentCandidate.Item2);
+            bool result;
 
+            Expedient expedient = Conversion.ConvertToExpedient(expedientVM, currentCandidate);
+
+            await context.Expedients.AddAsync(expedient);
+            result = await context.SaveChangesAsync() > 0;
+
+            return result;
+        }
+
+        public async Task<bool> UpdateExpedient(ExpedientUpdateVM expedienUpdatetVM)
+        {
             bool result = false;
 
-            if(!existExpedient)
-            {
-                Expedient expedient = Conversion.ConvertToExpedient(expedientVM, currentCandidate);
+            Expedient expedient = await context.Expedients.AsNoTracking().FirstOrDefaultAsync(e => e.IdExpedient == expedienUpdatetVM.IdExpedient);
 
-                await context.Expedients.AddAsync(expedient);
-                result =  await context.SaveChangesAsync() > 0;
+            if (expedient != null)
+            {
+                expedient = Conversion.ConvertToExpedient(expedient, expedienUpdatetVM);
+
+                context.Expedients.Update(expedient);
+                result = await context.SaveChangesAsync() > 0;
             }
 
             return result;
         }
-        
-        public async Task<IEnumerable<Expedient>> GetAllExpedients()
+
+        public async Task<List<ExpedientDTO>> GetAllExpedients()
         {
-            return await context.Expedients.ToListAsync();
+            List<Expedient> expedients = await context.Expedients.ToListAsync();
+
+            List<ExpedientDTO> expedientDTOs = new List<ExpedientDTO>();
+
+            if (expedients != null)
+            {
+                foreach (Expedient expedient in expedients)
+                {
+                    expedientDTOs.Add(Conversion.ConvertToExpedientDTO(expedient));
+                }
+            }
+
+            return expedientDTOs;
         }
 
+        public async Task<ExpedientUpdateVM> GetExpedientUpdateVM(int expedientId)
+        {
+            Expedient expedient = await context.Expedients.FirstOrDefaultAsync(e => e.IdExpedient == expedientId);
+
+            ExpedientUpdateVM expedientUpdateVM = new ExpedientUpdateVM();
+
+            if (expedient != null)
+            {
+                expedientUpdateVM = Conversion.ConvertToExpedientUpdateVM(expedient);
+            }
+
+            return expedientUpdateVM;
+        }
+
+
         public async Task<byte[]> GetPDFInBytes(int id)
-        { 
+        {
             Expedient expedient = await context.Expedients.FirstOrDefaultAsync(e => e.IdExpedient == id);
 
             return expedient.CurriculumVitae;
         }
 
-        private async Task<bool> ExistsExpedient(string email)
-        {
-            return await context.Expedients.AnyAsync(e => e.Email == email);
-        }
     }
 }

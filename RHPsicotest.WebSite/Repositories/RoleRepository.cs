@@ -44,11 +44,16 @@ namespace RHPsicotest.WebSite.Repositories
         {
             bool result = false;
 
-            Role roleExist = await context.Roles.AsNoTracking().FirstOrDefaultAsync(r => r.RoleName == roleUpdateVM.RoleName);
+            Role role = await context.Roles.AsNoTracking().FirstOrDefaultAsync(r => r.RoleName == roleUpdateVM.RoleName);
 
-            if (roleExist == null || roleExist.IdRole == roleUpdateVM.IdRole)
+            if (role == null || role.IdRole == roleUpdateVM.IdRole)
             {
-                Role role = Conversion.ConvertToRole(roleUpdateVM);
+                if (role == null)
+                {
+                    role = await context.Roles.AsNoTracking().FirstOrDefaultAsync(r => r.IdRole == roleUpdateVM.IdRole);
+                }
+
+                role = Conversion.ConvertToRole(roleUpdateVM);
 
                 context.Roles.Update(role);
                 result = await context.SaveChangesAsync() > 0;

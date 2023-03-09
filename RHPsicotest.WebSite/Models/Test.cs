@@ -15,8 +15,8 @@ namespace RHPsicotest.WebSite.Models
         [InverseProperty(nameof(Question.Test))]
         public virtual IEnumerable<Question> Questions { get; set; }
 
-        [InverseProperty(nameof(Position.Test))]
-        public virtual IEnumerable<Position> Positions { get; set; }
+        [InverseProperty(nameof(Test_Position.Test))]
+        public virtual IEnumerable<Test_Position> Positions { get; set; }
 
     }
 }

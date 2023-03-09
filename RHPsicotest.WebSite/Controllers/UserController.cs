@@ -32,7 +32,7 @@ namespace RHPsicotest.WebSite.Controllers
         //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "List-Users-Policy")]
         public async Task<IActionResult> Index()
         {
-            IEnumerable<UserDTO> users = await userRepository.GetAllUsers();
+            List<UserDTO> users = await userRepository.GetAllUsers();
 
             return View(users);
         }
@@ -111,19 +111,9 @@ namespace RHPsicotest.WebSite.Controllers
             }
         }
 
-        [HttpGet]
-        [Route("/Usuario/Eliminar/{id:int}")]
-        //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "Delete-User-Policy")]
-        public async Task<IActionResult> Delete(int id)
-        {
-            UserDTO user = null;
-
-            return View(user);
-        }
-
         [HttpPost]
-        [Route("/Usuario/Eliminar/{id:int}")]
-        public async Task<IActionResult> Delete(int id, string nothing)
+        [Route("/Usuario/Eliminar")]
+        public async Task<IActionResult> Delete(int id)
         {
             try
             {
@@ -131,10 +121,10 @@ namespace RHPsicotest.WebSite.Controllers
 
                 if (result)
                 {
-                    return RedirectToAction("Index", "user");
+                    return RedirectToAction("Index", "User");
                 }
 
-                return View();
+                return RedirectToAction("Index", "User");
             }
             catch (Exception ex)
             {

@@ -60,7 +60,12 @@
                     }
                     @if (!(await AuthorizationService.AuthorizeAsync(User, "Delete-User-Policy")).Succeeded)
                     {
-                        <a asp-action="Delete" asp-route-id="@user.IdUser" class="btn btn-danger fw-bold"><i class="bi bi-trash3-fill"></i></a>
+                        <form asp-action="Delete" method="post" class="d-inline">
+                            <input type="hidden" name="id" value="@user.IdUser" />
+                            <button class="btn btn-danger fw-bold">
+                                <i class="bi bi-trash3-fill"></i>
+                            </button>
+                        </form>
                     }
                 </td>
             </tr>

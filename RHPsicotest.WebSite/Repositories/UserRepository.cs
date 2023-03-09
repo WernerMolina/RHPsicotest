@@ -25,6 +25,7 @@ namespace RHPsicotest.WebSite.Repositories
         }
 
 
+
         public async Task<bool> AddUser(UserVM userVM, List<int> rolesId)
         {
             bool result = false;
@@ -40,7 +41,7 @@ namespace RHPsicotest.WebSite.Repositories
                 await context.Users.AddAsync(user);
                 result = await context.SaveChangesAsync() > 0;
 
-                RolesAsign(user.IdUser, rolesId);
+                AssignRoles(user.IdUser, rolesId);
             }
 
             return result;
@@ -50,11 +51,14 @@ namespace RHPsicotest.WebSite.Repositories
         {
             bool result = false;
 
-            User userExist = await context.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Email == userUpdateVM.Email);
+            User user = await context.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Email == userUpdateVM.Email);
 
-            if (userExist == null || userExist.IdUser == userUpdateVM.IdUser)
+            if (user == null || user.IdUser == userUpdateVM.IdUser)
             {
-                User user = await context.Users.AsNoTracking().FirstOrDefaultAsync(u => u.IdUser == userUpdateVM.IdUser);
+                if (user == null)
+                {
+                    user = await context.Users.AsNoTracking().FirstOrDefaultAsync(u => u.IdUser == userUpdateVM.IdUser);
+                }
 
                 if (userUpdateVM.Password != null) user.Password = Helper.EncryptMD5(userUpdateVM.Password);
 
@@ -63,7 +67,7 @@ namespace RHPsicotest.WebSite.Repositories
                 context.Users.Update(user);
                 result = await context.SaveChangesAsync() > 0;
 
-                if (result) RolesAsign(user.IdUser, rolesId, true);
+                if (result) AssignRoles(user.IdUser, rolesId, true);
             }
 
             return result;
@@ -86,15 +90,18 @@ namespace RHPsicotest.WebSite.Repositories
 
         // Retorna todos los usuarios en version DTO
         // UserDTO = Datos del usuario + los roles + los permisos
-        public async Task<IEnumerable<UserDTO>> GetAllUsers()
+        public async Task<List<UserDTO>> GetAllUsers()
         {
             List<User> users = await context.Users.Include(u => u.Roles).ToListAsync();
 
             List<UserDTO> userDTOs = new List<UserDTO>();
 
-            foreach (User user in users)
+            if (users != null)
             {
-                userDTOs.Add(await GetUserDTO(user, false));
+                foreach (User user in users)
+                {
+                    userDTOs.Add(await GetUserDTO(user, false));
+                }
             }
 
             return userDTOs;
@@ -196,9 +203,14 @@ namespace RHPsicotest.WebSite.Repositories
         {
             return await context.Users.AnyAsync(u => u.Email == user.Email);
         }
+        
+        public async Task<User> GetUser(int id)
+        {
+            return await context.Users.FirstOrDefaultAsync(u => u.IdUser == id);
+        }
 
         // Actualiza los roles del usuario
-        private void RolesAsign(int userId, List<int> roles, bool delete = false)
+        private void AssignRoles(int userId, List<int> roles, bool delete = false)
         {
             // Aquí se eliminan los roles actuales del usuario
             if (delete)

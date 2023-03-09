@@ -29,14 +29,14 @@
         </tr>
     </thead>
     <tbody class="text-center">
-        @foreach (var item in Model)
+        @foreach (Role role in Model)
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.RoleName)
+                    @Html.DisplayFor(modelItem => role.RoleName)
                 </td>
                 <td>
-                    @foreach (var permission in item.Permissions)
+                    @foreach (var permission in role.Permissions)
                     {
                         <p>@permission.Permission.PermissionName</p>
                     }
@@ -44,15 +44,18 @@
                 <td>
                     @if (!(await AuthorizationService.AuthorizeAsync(User, "Edit-Role-Policy")).Succeeded)
                     {
-                        <a asp-action="Edit" asp-route-id="@item.IdRole" class="btn bg-warning fw-bold"><i class="bi bi-pencil-fill"></i></a> <span class="fw-bold">|</span>
+                        <a asp-action="Edit" asp-route-id="@role.IdRole" class="btn bg-warning fw-bold"><i class="bi bi-pencil-fill"></i></a> <span class="fw-bold">|</span>
                     }
-@*                        <a asp-action="Edit" asp-route-id="@item.IdRole" class="btn bg-warning fw-bold"><i class="bi bi-pencil-fill"></i></a> <span class="fw-bold">|</span>
-*@                    @if (!(await AuthorizationService.AuthorizeAsync(User, "Delete-Role-Policy")).Succeeded)
+                    @if (!(await AuthorizationService.AuthorizeAsync(User, "Delete-Role-Policy")).Succeeded)
                     {
-                        <a asp-action="Delete" asp-route-id="@item.IdRole" class="btn btn-danger fw-bold"><i class="bi bi-trash3-fill"></i></a>
+                        <form asp-action="Delete" method="post" class="d-inline">
+                            <input type="hidden" name="id" value="@role.IdRole" />
+                            <button class="btn btn-danger fw-bold">
+                                <i class="bi bi-trash3-fill"></i>
+                            </button>
+                        </form>
                     }
-@*                        <a asp-action="Delete" asp-route-id="@item.IdRole" class="btn btn-danger fw-bold"><i class="bi bi-trash3-fill"></i></a>
-*@                </td>
+                </td>
             </tr>
         }
     </tbody>

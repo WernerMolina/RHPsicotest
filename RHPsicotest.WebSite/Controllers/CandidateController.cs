@@ -30,39 +30,9 @@ namespace RHPsicotest.WebSite.Controllers
         //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "List-Users-Policy")]
         public async Task<IActionResult> Index()
         {
-            IEnumerable<Candidate> candidates = await candidateRepository.GetAllCandidates();
+            IEnumerable<CandidateDTO> candidates = await candidateRepository.GetAllCandidates();
 
             return View(candidates);
-        }
-        
-        [HttpGet]
-        [Route("/EnviarCorreo")]
-        //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "List-Users-Policy")]
-        public IActionResult SendMail(CandidateSendDTO user, string nothing = null)
-        {
-            return View(user);
-        }
-        
-        [HttpPost]
-        [Route("/EnviarCorreo")]
-        //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "List-Users-Policy")]
-        public IActionResult SendMail(CandidateSendDTO user)
-        {
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    SendEmail.Send(user.Email, user.Password);
-
-                    return RedirectToAction("Index", "Candidate");
-                }
-
-                return View(user);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
-            }
         }
 
         [HttpGet]
@@ -96,6 +66,36 @@ namespace RHPsicotest.WebSite.Controllers
                 ViewBag.Positions = await candidateRepository.GetAllPositions();
 
                 return View(candidateVM);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("/EnviarCorreo")]
+        //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "List-Users-Policy")]
+        public IActionResult SendMail(CandidateSendDTO user, string nothing = null)
+        {
+            return View(user);
+        }
+
+        [HttpPost]
+        [Route("/EnviarCorreo")]
+        //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "List-Users-Policy")]
+        public IActionResult SendMail(CandidateSendDTO user)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    SendEmail.Send(user.Email, user.Password);
+
+                    return RedirectToAction("Index", "Candidate");
+                }
+
+                return View(user);
             }
             catch (Exception ex)
             {

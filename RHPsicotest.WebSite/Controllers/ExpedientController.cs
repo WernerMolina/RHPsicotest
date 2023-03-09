@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using RHPsicotest.WebSite.DTOs;
 using RHPsicotest.WebSite.Models;
 using RHPsicotest.WebSite.Repositories.Contracts;
 using RHPsicotest.WebSite.Utilities;
@@ -26,11 +27,11 @@ namespace RHPsicotest.WebSite.Controllers
         [Route("/Expedientes")]
         public async Task<IActionResult> Index()
         {
-            IEnumerable<Expedient> expedients = await expedientRepository.GetAllExpedients();
+            List<ExpedientDTO> expedients = await expedientRepository.GetAllExpedients();
 
             return View(expedients);
         }
-        
+
         [HttpGet]
         [Route("/ConfirmarPoliticas")]
         public IActionResult ConfirmPolicies()
@@ -72,6 +73,7 @@ namespace RHPsicotest.WebSite.Controllers
                         string email = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Email).Value;
                         string position = ((ClaimsIdentity)User.Identity).FindFirst("Position").Value;
 
+                        // Id, Correo, Puesto
                         (string, string, string) currentCandidate = (candidateId, email, position);
 
                         bool result = await expedientRepository.AddExpedient(expedientVM, currentCandidate);
@@ -84,6 +86,40 @@ namespace RHPsicotest.WebSite.Controllers
                 }
 
                 return View(expedientVM);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("/Expediente/Editar")]
+        //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "Create-User-Policy")]
+        public async Task<IActionResult> Edit(int id)
+        {
+            ExpedientUpdateVM expedient = await expedientRepository.GetExpedientUpdateVM(id);
+
+            return View(expedient);
+        }
+
+        [HttpPost]
+        [Route("/Expediente/Editar")]
+        public async Task<IActionResult> Edit(ExpedientUpdateVM expedientUpdateVM)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    bool result = await expedientRepository.UpdateExpedient(expedientUpdateVM);
+
+                    if (result)
+                    {
+                        return RedirectToAction("Index", "Expedient");
+                    }
+                }
+
+                return View(expedientUpdateVM);
             }
             catch (Exception ex)
             {
@@ -105,7 +141,7 @@ namespace RHPsicotest.WebSite.Controllers
 
             return File(fileBytes, "application/pdf");
         }
-        
+
         [HttpGet]
         [Route("/Resultados")]
         //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "Create-User-Policy")]

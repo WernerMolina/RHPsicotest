@@ -8,20 +8,20 @@ namespace RHPsicotest.WebSite.Utilities
 {
     public class SendEmail
     {
-        private static IConfiguration Configuration;
+        //private static IConfiguration Configuration;
 
-        public static string Email { get; private set; }
+        private static string Email { get; set; }
 
-        public static string Password { get; private set; }
+        private static string Password { get; set; }
         
-        private static IConfiguration configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+        private static IConfiguration Configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
 
         public static void Send(string email, string password)
         {
-            Email = configuration.GetValue<string>("E-Mail:Username");
-            Password = configuration.GetValue<string>("E-Mail:Password");
+            Email = Configuration.GetValue<string>("E-Mail:Username");
+            Password = Configuration.GetValue<string>("E-Mail:Password");
 
-            string htmlJson = configuration.GetValue<string>("E-Mail:EmailHtml");
+            string htmlJson = Configuration.GetValue<string>("E-Mail:EmailHtml");
 
             string html = string.Format(htmlJson, password);
 

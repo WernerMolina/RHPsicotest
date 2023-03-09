@@ -18,10 +18,6 @@ namespace RHPsicotest.WebSite.ViewModels
         [Required(ErrorMessage = "Requerido")]
         public string Lastnames { get; set; }
 
-        //[Display(Name = "Correo")]
-        //[Required(ErrorMessage = "Requerido")]
-        //public string Email { get; set; }
-
         [Display(Name = "Télefono Movil")]
         [Required(ErrorMessage = "Requerido")]
         public string MovilePhoneNumber { get; set; }
@@ -42,10 +38,6 @@ namespace RHPsicotest.WebSite.ViewModels
         [Display(Name = "Estado Civil")]
         [Required(ErrorMessage = "Requerido")]
         public string CivilStatus { get; set; }
-
-        //[Display(Name = "Puesto")]
-        //[Required(ErrorMessage = "Requerido")]
-        //public string Stall { get; set; }
 
         [Display(Name = "Formación Académica")]
         [Required(ErrorMessage = "Requerido")]

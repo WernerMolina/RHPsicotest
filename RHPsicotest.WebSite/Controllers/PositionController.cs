@@ -5,6 +5,11 @@ using RHPsicotest.WebSite.Repositories.Contracts;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System;
+using RHPsicotest.WebSite.ViewModels;
+using RHPsicotest.WebSite.DTOs;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using RHPsicotest.WebSite.Repositories;
+using RHPsicotest.WebSite.ViewModels.User;
 
 namespace RHPsicotest.WebSite.Controllers
 {
@@ -20,43 +25,39 @@ namespace RHPsicotest.WebSite.Controllers
         [Route("/Puestos")]
         public async Task<IActionResult> Index()
         {
-            IEnumerable<Position> positions = await positionRepository.GetAllPositions();
+            List<PositionDTO> positions = await positionRepository.GetAllPositions();
 
             return View(positions);
         }
 
-        [Route("/Puesto/Detalles/{id:int}")]
-        public async Task<IActionResult> Details(int id)
-        {
-            Position position = await positionRepository.GetPosition(id);
-
-            return View(position);
-        }
-
         [HttpGet]
         [Route("/Puesto/Crear")]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            ViewBag.Tests = await positionRepository.GetAllTests();
+
             return View();
         }
 
         [HttpPost]
         [Route("/Puesto/Crear")]
-        public async Task<IActionResult> Create(Position _position)
+        public async Task<IActionResult> Create(PositionVM positionVM, List<int> testsId)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    Position position = await positionRepository.AddPosition(_position);
+                    bool result = await positionRepository.AddPosition(positionVM, testsId);
 
-                    if (position != null)
+                    if (result)
                     {
                         return RedirectToAction("Index", "Position");
                     }
                 }
 
-                return View(_position);
+                ViewBag.Tests = await positionRepository.GetAllTests();
+
+                return View(positionVM);
             }
             catch (Exception ex)
             {
@@ -65,29 +66,33 @@ namespace RHPsicotest.WebSite.Controllers
         }
 
         [HttpGet]
-        [Route("/Puesto/Editar/{id:int}")]
+        [Route("/Puesto/Editar")]
         public async Task<IActionResult> Edit(int id)
         {
-            Position position = await positionRepository.GetPosition(id);
+            (PositionUpdateVM, MultiSelectList) position = await positionRepository.GetPositionAndTestsSelected(id);
 
-            return View(position);
+            ViewBag.Tests = position.Item2;
+
+            return View(position.Item1);
         }
 
         [HttpPost]
-        [Route("/Puesto/Editar/{id:int}")]
-        public async Task<IActionResult> Edit(Position position, int id)
+        [Route("/Puesto/Editar")]
+        public async Task<IActionResult> Edit(PositionUpdateVM position, List<int> testsId)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    bool result = await positionRepository.UpdatePosition(position);
+                    bool result = await positionRepository.UpdatePosition(position, testsId);
 
                     if (result)
                     {
                         return RedirectToAction("Index", "Position");
                     }
                 }
+
+                ViewBag.Tests = await positionRepository.GetTestsSelected(testsId);
 
                 return View(position);
             }
@@ -97,18 +102,9 @@ namespace RHPsicotest.WebSite.Controllers
             }
         }
 
-        [HttpGet]
-        [Route("/Puesto/Eliminar/{id:int}")]
-        public async Task<IActionResult> Delete(int id)
-        {
-            Position position = await positionRepository.GetPosition(id);
-
-            return View(position);
-        }
-
         [HttpPost]
-        [Route("/Puesto/Eliminar/{id:int}")]
-        public async Task<IActionResult> Delete(int id, string nothing)
+        [Route("/Puesto/Eliminar")]
+        public async Task<IActionResult> Delete(int id)
         {
             try
             {
@@ -119,7 +115,7 @@ namespace RHPsicotest.WebSite.Controllers
                     return RedirectToAction("Index", "Position");
                 }
 
-                return View();
+                return RedirectToAction("Index", "Position");
             }
             catch (Exception ex)
             {

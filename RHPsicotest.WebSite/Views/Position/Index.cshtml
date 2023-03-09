@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Position>
+﻿@model IEnumerable<PositionDTO>
 
 @{
     ViewData["Title"] = "Puestos";
@@ -29,25 +29,29 @@
         </tr>
     </thead>
     <tbody class="text-center">
-        @foreach (var item in Model)
+        @foreach (PositionDTO position in Model)
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.PositionName)
+                    @Html.DisplayFor(modelItem => position.PositionName)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.PositionHigher)
+                    @Html.DisplayFor(modelItem => position.PositionHigher)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Department)
+                    @Html.DisplayFor(modelItem => position.Department)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.CreationDate)
+                    @Html.DisplayFor(modelItem => position.CreationDate)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.IdPosition" class="btn bg-warning fw-bold"><i class="bi bi-pencil-fill"></i></a> |
-@*                    <a asp-action="Details" asp-route-id="@item.IdStall" class="btn btn-primary fw-bold"><i class="bi bi-eye-fill"></i></a> |
-*@                    <a asp-action="Delete" asp-route-id="@item.IdPosition" class="btn btn-danger fw-bold"><i class="bi bi-trash3-fill"></i></a>
+                    <a asp-action="Edit" asp-route-id="@position.IdPosition" class="btn bg-warning fw-bold"><i class="bi bi-pencil-fill"></i></a> |
+                    <form asp-action="Delete" method="post" class="d-inline">
+                        <input type="hidden" name="id" value="@position.IdPosition"/>
+                        <button class="btn btn-danger fw-bold">
+                            <i class="bi bi-trash3-fill"></i>
+                        </button>
+                    </form>
                 </td>
             </tr>
         }

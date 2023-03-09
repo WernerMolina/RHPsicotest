@@ -4,15 +4,20 @@ namespace RHPsicotest.WebSite.ViewModels
 {
     public class CandidateVM
     {
+        [Display(Name = "Rol")]
+        [Required(ErrorMessage = "El Rol es requerido")]
         public int IdRole { get; set; }
-        
-        [Required(ErrorMessage = "El Puesto es Obligatorio")]
-        public int IdPuesto { get; set; }
 
-        [Required(ErrorMessage = "El Correo es Obligatorio")]
+        [Display(Name = "Puesto")]
+        [Required(ErrorMessage = "El Puesto es requerido")]
+        public int IdPosition { get; set; }
+
+        [Display(Name = "Correo")]
+        [Required(ErrorMessage = "El Correo es requerido")]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "La Contraseña es Obligatoria")]
+        [Display(Name = "Cotraseña")]
+        [Required(ErrorMessage = "La Contraseña es requerida")]
         public string Password { get; set; }
     }
 }

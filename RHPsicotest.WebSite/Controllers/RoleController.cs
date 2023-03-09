@@ -103,19 +103,9 @@ namespace RHPsicotest.WebSite.Controllers
             }
         }
         
-        [HttpGet]
-        [Route("/Rol/Eliminar")]
-        //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "Delete-Role-Policy")]
-        public async Task<IActionResult> Delete(int id)
-        {
-            Role role = null;
-
-            return View(role);
-        }
-
         [HttpPost]
         [Route("/Rol/Eliminar")]
-        public async Task<IActionResult> Delete(int id, string nothing)
+        public async Task<IActionResult> Delete(int id)
         {
             try
             {
@@ -126,7 +116,7 @@ namespace RHPsicotest.WebSite.Controllers
                     return RedirectToAction("Index", "Role");
                 }
 
-                return View();
+                return RedirectToAction("Index", "Role");
             }
             catch (Exception ex)
             {

@@ -20,6 +20,7 @@ namespace RHPsicotest.WebSite.Data
         public DbSet<Result> Results { get; set; }
         public DbSet<Response> Responses { get; set; }
         public DbSet<Role_User> Role_Users { get; set; }
+        public DbSet<Test_Position> Test_Positions { get; set; }
         public DbSet<Permission_Role> Permission_Roles { get; set; }
 
         public RHPsicotestDbContext(DbContextOptions<RHPsicotestDbContext> options) : base(options)
@@ -42,6 +43,9 @@ namespace RHPsicotest.WebSite.Data
 
             modelBuilder.Entity<Role_User>()
                         .HasKey(ru => new { ru.IdRole, ru.IdUser });
+            
+            modelBuilder.Entity<Test_Position>()
+                        .HasKey(tp => new { tp.IdTest, tp.IdPosition });
             
             modelBuilder.Entity<Response>()
                         .HasKey(r => new { r.IdFactor, r.IdQuestion });
@@ -105,7 +109,6 @@ namespace RHPsicotest.WebSite.Data
             modelBuilder.Entity<Position>().HasData(new Position
             {
                 IdPosition = 1,
-                IdTest = 1,
                 PositionName = "Desarrollador IT",
                 PositionHigher = "Encargado de IT",
                 Department = "Tecnología de la Información",
@@ -115,7 +118,6 @@ namespace RHPsicotest.WebSite.Data
             modelBuilder.Entity<Position>().HasData(new Position
             {
                 IdPosition = 2,
-                IdTest = 1,
                 PositionName = "Asesor de Venta",
                 PositionHigher = "Gerente Comercial",
                 Department = "Ventas",
@@ -148,54 +150,63 @@ namespace RHPsicotest.WebSite.Data
             {
                 IdFactor = 1,
                 NameFactor = "Ascendencia",
+                DescriptionFactor = "Rasgo que se refiere a la dominancia e iniciativa en situaciones de grupo."
             });
 
             modelBuilder.Entity<Factor>().HasData(new Factor
             {
                 IdFactor = 2,
                 NameFactor = "Responsabilidad",
+                DescriptionFactor = "Rasgo que alude a la constancia y perseverancia en las tareas propuestas."
             });
 
             modelBuilder.Entity<Factor>().HasData(new Factor
             {
                 IdFactor = 3,
                 NameFactor = "Estabilidad Emocional",
+                DescriptionFactor = "Rasgo que refleja la ausencia de hipersensibilidad, ansiedad y tensión nerviosa."
             });
 
             modelBuilder.Entity<Factor>().HasData(new Factor
             {
                 IdFactor = 4,
                 NameFactor = "Sociabilidad",
+                DescriptionFactor = "Rasgo que facilita el trato con los demás."
             });
 
             modelBuilder.Entity<Factor>().HasData(new Factor
             {
                 IdFactor = 5,
                 NameFactor = "Cautela",
+                DescriptionFactor = "Es el tipo de conducta caracterizada por prever las situaciones o efectos de una decisión antes de actuar."
             });
 
             modelBuilder.Entity<Factor>().HasData(new Factor
             {
                 IdFactor = 6,
                 NameFactor = "Originalidad",
+                DescriptionFactor = "Rango de conducta que se manifiesta por la búsqueda de autenticidad en todo lo que hace."
             });
 
             modelBuilder.Entity<Factor>().HasData(new Factor
             {
                 IdFactor = 7,
                 NameFactor = "Comprension",
+                DescriptionFactor = "Grado en el cual somos capaces de interpretar o asimilar acontecimientos y hechos particulares o de la vida diaria."
             });
 
             modelBuilder.Entity<Factor>().HasData(new Factor
             {
                 IdFactor = 8,
                 NameFactor = "Vitalidad",
+                DescriptionFactor = "Se dice de la energía psíquica o física que se agrega a cada actividad que se emprende."
             });
 
             modelBuilder.Entity<Factor>().HasData(new Factor
             {
                 IdFactor = 9,
                 NameFactor = "Autoestima",
+                DescriptionFactor = "Es la valoración positiva o negativa que uno hace de sí mismo."
             });
 
             // Tabla Intermedia de Roles y Usuarios

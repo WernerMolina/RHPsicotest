@@ -9,7 +9,7 @@ namespace RHPsicotest.WebSite.Repositories.Contracts
 {
     public interface ICandidateRepository
     {
-        public Task<IEnumerable<Candidate>> GetAllCandidates();
+        public Task<IEnumerable<CandidateDTO>> GetAllCandidates();
 
         public Task<IEnumerable<Position>> GetAllPositions();
 
@@ -17,6 +17,5 @@ namespace RHPsicotest.WebSite.Repositories.Contracts
 
         public Task<Role> GetRoleName();
 
-        public Task<(Candidate, List<Permission>)> GetCandidateLogin(CandidateLogin candidateLogin);
     }
 }

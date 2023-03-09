@@ -57,7 +57,7 @@ namespace RHPsicotest.WebSite.Migrations
                             IdPosition = 1,
                             IdRole = 3,
                             Password = "TW15",
-                            RegistrationDate = "05/03/2023 09:12 PM"
+                            RegistrationDate = "09/03/2023 04:01 PM"
                         });
                 });
 
@@ -140,6 +140,9 @@ namespace RHPsicotest.WebSite.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
+                    b.Property<string>("DescriptionFactor")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("NameFactor")
                         .HasColumnType("nvarchar(max)");
 
@@ -151,46 +154,55 @@ namespace RHPsicotest.WebSite.Migrations
                         new
                         {
                             IdFactor = 1,
+                            DescriptionFactor = "Rasgo que se refiere a la dominancia e iniciativa en situaciones de grupo.",
                             NameFactor = "Ascendencia"
                         },
                         new
                         {
                             IdFactor = 2,
+                            DescriptionFactor = "Rasgo que alude a la constancia y perseverancia en las tareas propuestas.",
                             NameFactor = "Responsabilidad"
                         },
                         new
                         {
                             IdFactor = 3,
+                            DescriptionFactor = "Rasgo que refleja la ausencia de hipersensibilidad, ansiedad y tensión nerviosa.",
                             NameFactor = "Estabilidad Emocional"
                         },
                         new
                         {
                             IdFactor = 4,
+                            DescriptionFactor = "Rasgo que facilita el trato con los demás.",
                             NameFactor = "Sociabilidad"
                         },
                         new
                         {
                             IdFactor = 5,
+                            DescriptionFactor = "Es el tipo de conducta caracterizada por prever las situaciones o efectos de una decisión antes de actuar.",
                             NameFactor = "Cautela"
                         },
                         new
                         {
                             IdFactor = 6,
+                            DescriptionFactor = "Rango de conducta que se manifiesta por la búsqueda de autenticidad en todo lo que hace.",
                             NameFactor = "Originalidad"
                         },
                         new
                         {
                             IdFactor = 7,
+                            DescriptionFactor = "Grado en el cual somos capaces de interpretar o asimilar acontecimientos y hechos particulares o de la vida diaria.",
                             NameFactor = "Comprension"
                         },
                         new
                         {
                             IdFactor = 8,
+                            DescriptionFactor = "Se dice de la energía psíquica o física que se agrega a cada actividad que se emprende.",
                             NameFactor = "Vitalidad"
                         },
                         new
                         {
                             IdFactor = 9,
+                            DescriptionFactor = "Es la valoración positiva o negativa que uno hace de sí mismo.",
                             NameFactor = "Autoestima"
                         });
                 });
@@ -282,9 +294,6 @@ namespace RHPsicotest.WebSite.Migrations
                     b.Property<string>("Department")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("IdTest")
-                        .HasColumnType("int");
-
                     b.Property<string>("PositionHigher")
                         .HasColumnType("nvarchar(max)");
 
@@ -293,26 +302,22 @@ namespace RHPsicotest.WebSite.Migrations
 
                     b.HasKey("IdPosition");
 
-                    b.HasIndex("IdTest");
-
                     b.ToTable("Position");
 
                     b.HasData(
                         new
                         {
                             IdPosition = 1,
-                            CreationDate = "05/03/2023 09:12 PM",
+                            CreationDate = "09/03/2023 04:01 PM",
                             Department = "Tecnología de la Información",
-                            IdTest = 1,
                             PositionHigher = "Encargado de IT",
                             PositionName = "Desarrollador IT"
                         },
                         new
                         {
                             IdPosition = 2,
-                            CreationDate = "05/03/2023 09:12 PM",
+                            CreationDate = "09/03/2023 04:01 PM",
                             Department = "Ventas",
-                            IdTest = 1,
                             PositionHigher = "Gerente Comercial",
                             PositionName = "Asesor de Venta"
                         });
@@ -474,6 +479,21 @@ namespace RHPsicotest.WebSite.Migrations
                         });
                 });
 
+            modelBuilder.Entity("RHPsicotest.WebSite.Models.Test_Position", b =>
+                {
+                    b.Property<int>("IdTest")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdPosition")
+                        .HasColumnType("int");
+
+                    b.HasKey("IdTest", "IdPosition");
+
+                    b.HasIndex("IdPosition");
+
+                    b.ToTable("Test_Position");
+                });
+
             modelBuilder.Entity("RHPsicotest.WebSite.Models.User", b =>
                 {
                     b.Property<int>("IdUser")
@@ -504,7 +524,7 @@ namespace RHPsicotest.WebSite.Migrations
                             Email = "Wm25@gmail.com",
                             Name = "Werner Molina",
                             Password = "827ccb0eea8a706c4c34a16891f84e7b",
-                            RegistrationDate = "05/03/2023 09:12 PM"
+                            RegistrationDate = "09/03/2023 04:01 PM"
                         });
                 });
 
@@ -555,17 +575,6 @@ namespace RHPsicotest.WebSite.Migrations
                     b.Navigation("Permission");
 
                     b.Navigation("Role");
-                });
-
-            modelBuilder.Entity("RHPsicotest.WebSite.Models.Position", b =>
-                {
-                    b.HasOne("RHPsicotest.WebSite.Models.Test", "Test")
-                        .WithMany("Positions")
-                        .HasForeignKey("IdTest")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Test");
                 });
 
             modelBuilder.Entity("RHPsicotest.WebSite.Models.Question", b =>
@@ -636,6 +645,25 @@ namespace RHPsicotest.WebSite.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("RHPsicotest.WebSite.Models.Test_Position", b =>
+                {
+                    b.HasOne("RHPsicotest.WebSite.Models.Position", "Position")
+                        .WithMany("Tests")
+                        .HasForeignKey("IdPosition")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RHPsicotest.WebSite.Models.Test", "Test")
+                        .WithMany("Positions")
+                        .HasForeignKey("IdTest")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Position");
+
+                    b.Navigation("Test");
+                });
+
             modelBuilder.Entity("RHPsicotest.WebSite.Models.Candidate", b =>
                 {
                     b.Navigation("Expedient");
@@ -661,6 +689,8 @@ namespace RHPsicotest.WebSite.Migrations
             modelBuilder.Entity("RHPsicotest.WebSite.Models.Position", b =>
                 {
                     b.Navigation("Candidates");
+
+                    b.Navigation("Tests");
                 });
 
             modelBuilder.Entity("RHPsicotest.WebSite.Models.Question", b =>

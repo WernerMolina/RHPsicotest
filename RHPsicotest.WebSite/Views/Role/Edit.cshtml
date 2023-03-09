@@ -14,7 +14,9 @@
             <input type="hidden" asp-for="IdRole" />
             <div class="form-group my-2">
                 <label class="control-label fw-bold fs-5">Seleccionar Permisos</label>
-                @Html.DropDownList("permissionsId", (MultiSelectList)ViewBag.Permissions, new { Class = "control-label fw-bold fs-5", multiple = "multiple"})
+                <div>
+                    @Html.DropDownList("permissionsId", (MultiSelectList)ViewBag.Permissions, new { Class = "control-label fw-bold fs-5", multiple = "multiple"})
+                </div>
             </div>
             <div class="form-group my-3">
                 <label asp-for="RoleName" class="control-label fw-bold fs-5"></label>

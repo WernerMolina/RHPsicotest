@@ -258,14 +258,15 @@ namespace RHPsicotest.WebSite.Utilities
         }
         
         // Resultado
-        public static Result ConvertToResult(int expedientId, int factorId, byte scoreFactor, byte scorePercentile)
+        public static Result ConvertToResult(int expedientId, int factorId, byte scoreFactor, byte scorePercentile, string description)
         {
             return new Result
             {
                 IdExpedient = expedientId,
                 IdFactor = factorId,
                 Score = scoreFactor,
-                Percentile = scorePercentile
+                Percentile = scorePercentile,
+                Description = description,
             };
         }
     }

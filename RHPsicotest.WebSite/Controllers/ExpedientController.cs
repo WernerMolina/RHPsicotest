@@ -1,13 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RHPsicotest.WebSite.DTOs;
-using RHPsicotest.WebSite.Models;
 using RHPsicotest.WebSite.Repositories.Contracts;
 using RHPsicotest.WebSite.Utilities;
 using RHPsicotest.WebSite.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -33,6 +32,7 @@ namespace RHPsicotest.WebSite.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         [Route("/ConfirmarPoliticas")]
         public IActionResult ConfirmPolicies()
         {
@@ -40,6 +40,7 @@ namespace RHPsicotest.WebSite.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         [Route("/ConfirmarPoliticas")]
         public IActionResult ConfirmPolicies(bool accept)
         {
@@ -80,7 +81,7 @@ namespace RHPsicotest.WebSite.Controllers
 
                         if (result)
                         {
-                            return RedirectToAction("Test1", "Test");
+                            return RedirectToAction("Test_PPGIPG", "Test");
                         }
                     }
                 }

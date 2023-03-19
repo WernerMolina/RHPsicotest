@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace RHPsicotest.WebSite.DTOs
 {
@@ -20,5 +21,6 @@ namespace RHPsicotest.WebSite.DTOs
 
         [Display(Name = "Fecha de Creación")]
         public string CreationDate { get; set; }
+        
     }
 }

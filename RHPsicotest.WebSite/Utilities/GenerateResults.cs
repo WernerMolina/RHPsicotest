@@ -1,4 +1,5 @@
 ﻿using RHPsicotest.WebSite.Models;
+using RHPsicotest.WebSite.Tests.Responses;
 using System.Collections.Generic;
 
 namespace RHPsicotest.WebSite.Utilities
@@ -6,12 +7,12 @@ namespace RHPsicotest.WebSite.Utilities
     public class GenerateResults
     {
         // Retorna el total de puntos de un factor
-        public static byte GetScoreByFactor(char[,] candidateResponses, IEnumerable<Response> responsesByFactor)
+        public static byte GetScoreByFactor(char[,] candidateResponses, List<R_PPGIPG> responsesByFactor)
         {
             byte i = 0;
             byte score = 0;
 
-            foreach (Response response in responsesByFactor)
+            foreach (R_PPGIPG response in responsesByFactor)
             {
                 string correct = response.Correct;
                 string incorrect = response.Incorrect;
@@ -41,27 +42,24 @@ namespace RHPsicotest.WebSite.Utilities
                 }
                 else
                 {
+                    a = true;
+                    b = true;
+                    c = true;
+                    d = true;
+
                     switch (incorrect)
                     {
                         case "A":
-                            b = true;
-                            c = true;
-                            d = true;
+                            a = false;
                             break;
                         case "B":
-                            a = true;
-                            c = true;
-                            d = true;
+                            b = false;
                             break;
                         case "C":
-                            a = true;
-                            b = true;
-                            d = true;
+                            c = false;
                             break;
                         case "D":
-                            a = true;
-                            b = true;
-                            c = true;
+                            d = false;
                             break;
                     }
                 }
@@ -127,39 +125,60 @@ namespace RHPsicotest.WebSite.Utilities
             return score;
         }
 
+        // Retorna un array con el percentil total de cada factor
         public static byte[] GetPercentileByFactor(byte[] scoresByFactor, (string, byte, string) infoCandidate)
         {
             byte[] percentils = new byte[9];
 
             if(infoCandidate.Item1 == "Hombre")
             {
-                if(infoCandidate.Item2 <= 20 || infoCandidate.Item3 == "Bachillerato")
+                if(infoCandidate.Item2 < 20 || infoCandidate.Item3 == "Bachillerato")
                 {
-                    percentils = TablaHombreJoven(scoresByFactor);
+                    percentils = Percentil_TablaHombreJoven(scoresByFactor);
                 }
                 else
                 {
-                    percentils = TablaHombreAdulto(scoresByFactor);
+                    percentils = Percentil_TablaHombreMayor(scoresByFactor);
                 }
             }
             
             if(infoCandidate.Item1 == "Mujer")
             {
-                if (infoCandidate.Item2 <= 20 || infoCandidate.Item3 == "Bachillerato")
+                if (infoCandidate.Item2 < 20 || infoCandidate.Item3 == "Bachillerato")
                 {
-                    percentils = TablaMujerJoven(scoresByFactor);
+                    percentils = Percentil_TablaMujerJoven(scoresByFactor);
                 }
                 else
                 {
-                    percentils = TablaMujerAdulta(scoresByFactor);
+                    percentils = Percentil_TablaMujerMayor(scoresByFactor);
                 }
             }
 
-
             return percentils;
         }
- 
-        private static byte[] TablaHombreJoven(byte[] scoresByFactor)
+
+        // Retorna un array con la descripción de cada factor
+        public static string[] GetDescriptionByPercentile(byte[] percentiles)
+        {
+            string[] descriptions = new string[9];
+
+            descriptions[0] = Descripcion_Ascendencia(percentiles[0]);
+            descriptions[1] = Descripcion_Responsabilidad(percentiles[1]);
+            descriptions[2] = Descripcion_Estabilidad(percentiles[2]);
+            descriptions[3] = Descripcion_Sociabilidad(percentiles[3]);
+            descriptions[4] = Descripcion_Cautela(percentiles[4]);
+            descriptions[5] = Descripcion_Originalidad(percentiles[5]);
+            descriptions[6] = Descripcion_Comprension(percentiles[6]);
+            descriptions[7] = Descripcion_Vitalidad(percentiles[7]);
+            descriptions[8] = Descripcion_Autoestima(percentiles[8]);
+
+            return descriptions;
+        }
+
+
+
+        // ------------------------------------------------------------------------
+        private static byte[] Percentil_TablaHombreJoven(byte[] scoresByFactor)
         {
             byte[] percentils = new byte[9];
 
@@ -176,41 +195,24 @@ namespace RHPsicotest.WebSite.Utilities
             return percentils;
         }
 
-        private static byte[] TablaHombreAdulto(byte[] scoresByFactor)
+        private static byte[] Percentil_TablaHombreMayor(byte[] scoresByFactor)
         {
             byte[] percentils = new byte[9];
 
-            percentils[0] = HombreAdulto_Ascendencia(scoresByFactor[0]);
-            percentils[1] = HombreAdulto_Responsabilidad(scoresByFactor[1]);
-            percentils[2] = HombreAdulto_Estabilidad(scoresByFactor[2]);
-            percentils[3] = HombreAdulto_Sociabilidad(scoresByFactor[3]);
-            percentils[4] = HombreAdulto_Cautela(scoresByFactor[4]);
-            percentils[5] = HombreAdulto_Originalidad(scoresByFactor[5]);
-            percentils[6] = HombreAdulto_Comprension(scoresByFactor[6]);
-            percentils[7] = HombreAdulto_Vitalidad(scoresByFactor[7]);
-            percentils[8] = HombreAdulto_Autoestima(scoresByFactor[8]);
+            percentils[0] = HombreMayor_Ascendencia(scoresByFactor[0]);
+            percentils[1] = HombreMayor_Responsabilidad(scoresByFactor[1]);
+            percentils[2] = HombreMayor_Estabilidad(scoresByFactor[2]);
+            percentils[3] = HombreMayor_Sociabilidad(scoresByFactor[3]);
+            percentils[4] = HombreMayor_Cautela(scoresByFactor[4]);
+            percentils[5] = HombreMayor_Originalidad(scoresByFactor[5]);
+            percentils[6] = HombreMayor_Comprension(scoresByFactor[6]);
+            percentils[7] = HombreMayor_Vitalidad(scoresByFactor[7]);
+            percentils[8] = HombreMayor_Autoestima(scoresByFactor[8]);
 
             return percentils;
         }
 
-        private static byte[] TablaMujerJoven(byte[] scoresByFactor)
-        {
-            byte[] percentils = new byte[9];
-
-            percentils[0] = MujerJoven_Ascendencia(scoresByFactor[0]);
-            percentils[1] = MujerJoven_Responsabilidad(scoresByFactor[1]);
-            percentils[2] = MujerJoven_Estabilidad(scoresByFactor[2]);
-            percentils[3] = MujerJoven_Sociabilidad(scoresByFactor[3]);
-            percentils[4] = MujerJoven_Cautela(scoresByFactor[4]);
-            percentils[5] = MujerJoven_Originalidad(scoresByFactor[5]);
-            percentils[6] = MujerJoven_Comprension(scoresByFactor[6]);
-            percentils[7] = MujerJoven_Vitalidad(scoresByFactor[7]);
-            percentils[8] = MujerJoven_Autoestima(scoresByFactor[8]);
-
-            return percentils;
-        }
-
-        private static byte[] TablaMujerAdulta(byte[] scoresByFactor)
+        private static byte[] Percentil_TablaMujerJoven(byte[] scoresByFactor)
         {
             byte[] percentils = new byte[9];
 
@@ -227,9 +229,26 @@ namespace RHPsicotest.WebSite.Utilities
             return percentils;
         }
 
+        private static byte[] Percentil_TablaMujerMayor(byte[] scoresByFactor)
+        {
+            byte[] percentils = new byte[9];
 
-        // Tabla Hombres Mayores (21+ años) 
-        private static byte HombreAdulto_Ascendencia(byte score)
+            percentils[0] = MujerMayor_Ascendencia(scoresByFactor[0]);
+            percentils[1] = MujerMayor_Responsabilidad(scoresByFactor[1]);
+            percentils[2] = MujerMayor_Estabilidad(scoresByFactor[2]);
+            percentils[3] = MujerMayor_Sociabilidad(scoresByFactor[3]);
+            percentils[4] = MujerMayor_Cautela(scoresByFactor[4]);
+            percentils[5] = MujerMayor_Originalidad(scoresByFactor[5]);
+            percentils[6] = MujerMayor_Comprension(scoresByFactor[6]);
+            percentils[7] = MujerMayor_Vitalidad(scoresByFactor[7]);
+            percentils[8] = MujerMayor_Autoestima(scoresByFactor[8]);
+
+            return percentils;
+        }
+
+
+        // Tabla Hombres Mayores (20+ años) 
+        private static byte HombreMayor_Ascendencia(byte score)
         {
             if (score >= 34) return 99;
             if (score == 33) return 98;
@@ -254,7 +273,7 @@ namespace RHPsicotest.WebSite.Utilities
             return 0;
         }
 
-        private static byte HombreAdulto_Responsabilidad(byte score)
+        private static byte HombreMayor_Responsabilidad(byte score)
         {
             if (score >= 35) return 99;
             if (score == 34) return 98;
@@ -277,7 +296,7 @@ namespace RHPsicotest.WebSite.Utilities
             return 0;
         }
 
-        private static byte HombreAdulto_Estabilidad(byte score)
+        private static byte HombreMayor_Estabilidad(byte score)
         {
             if (score >= 33) return 99;
             if (score == 32) return 97;
@@ -302,7 +321,7 @@ namespace RHPsicotest.WebSite.Utilities
             return 0;
         }
 
-        private static byte HombreAdulto_Sociabilidad(byte score)
+        private static byte HombreMayor_Sociabilidad(byte score)
         {
             if (score >= 32) return 99;
             if (score == 31) return 97;
@@ -326,7 +345,7 @@ namespace RHPsicotest.WebSite.Utilities
             return 0;
         }
 
-        private static byte HombreAdulto_Cautela(byte score)
+        private static byte HombreMayor_Cautela(byte score)
         {
             if (score >= 32) return 99;
             if (score == 31) return 97;
@@ -347,7 +366,7 @@ namespace RHPsicotest.WebSite.Utilities
             return 0;
         }
 
-        private static byte HombreAdulto_Originalidad(byte score)
+        private static byte HombreMayor_Originalidad(byte score)
         {
             if (score >= 37) return 99;
             if (score == 36) return 97;
@@ -371,7 +390,7 @@ namespace RHPsicotest.WebSite.Utilities
             return 0;
         }
 
-        private static byte HombreAdulto_Comprension(byte score)
+        private static byte HombreMayor_Comprension(byte score)
         {
             if (score >= 35) return 99;
             if (score == 34) return 98;
@@ -394,7 +413,7 @@ namespace RHPsicotest.WebSite.Utilities
             return 0;
         }
 
-        private static byte HombreAdulto_Vitalidad(byte score)
+        private static byte HombreMayor_Vitalidad(byte score)
         {
             if (score >= 36) return 99;
             if (score == 35) return 98;
@@ -420,9 +439,9 @@ namespace RHPsicotest.WebSite.Utilities
             return 0;
         }
 
-        private static byte HombreAdulto_Autoestima(byte score)
+        private static byte HombreMayor_Autoestima(byte score)
         {
-            if (score == 114) return 99;
+            if (score >= 114) return 99;
             if (score == 108) return 85;
             if (score == 107) return 70;
             if (score == 106) return 60;
@@ -445,8 +464,8 @@ namespace RHPsicotest.WebSite.Utilities
         }
 
 
-        // Tabla Mujeres Mayores (21+ años)
-        private static byte MujerAdulta_Ascendencia(byte score)
+        // Tabla Mujeres Mayores (20+ años)
+        private static byte MujerMayor_Ascendencia(byte score)
         {
             if (score >= 33) return 99;
             if (score == 32) return 98;
@@ -471,7 +490,7 @@ namespace RHPsicotest.WebSite.Utilities
             return 0;
         }
 
-        private static byte MujerAdulta_Responsabilidad(byte score)
+        private static byte MujerMayor_Responsabilidad(byte score)
         {
             if (score >= 35) return 99;
             if (score == 34) return 97;
@@ -493,7 +512,7 @@ namespace RHPsicotest.WebSite.Utilities
             return 0;
         }
 
-        private static byte MujerAdulta_Estabilidad(byte score)
+        private static byte MujerMayor_Estabilidad(byte score)
         {
             if (score >= 33) return 99;
             if (score == 32) return 98;
@@ -518,7 +537,7 @@ namespace RHPsicotest.WebSite.Utilities
             return 0;
         }
 
-        private static byte MujerAdulta_Sociabilidad(byte score)
+        private static byte MujerMayor_Sociabilidad(byte score)
         {
             if (score >= 33) return 99;
             if (score == 32) return 98;
@@ -543,7 +562,7 @@ namespace RHPsicotest.WebSite.Utilities
             return 0;
         }
 
-        private static byte MujerAdulta_Cautela(byte score)
+        private static byte MujerMayor_Cautela(byte score)
         {
             if (score >= 32) return 99;
             if (score == 31) return 95;
@@ -563,7 +582,7 @@ namespace RHPsicotest.WebSite.Utilities
             return 0;
         }
 
-        private static byte MujerAdulta_Originalidad(byte score)
+        private static byte MujerMayor_Originalidad(byte score)
         {
             if (score >= 37) return 99;
             if (score == 36) return 98;
@@ -588,7 +607,7 @@ namespace RHPsicotest.WebSite.Utilities
             return 0;
         }
 
-        private static byte MujerAdulta_Comprension(byte score)
+        private static byte MujerMayor_Comprension(byte score)
         {
             if (score >= 34) return 99;
             if (score == 33) return 97;
@@ -612,7 +631,7 @@ namespace RHPsicotest.WebSite.Utilities
             return 0;
         }
 
-        private static byte MujerAdulta_Vitalidad(byte score)
+        private static byte MujerMayor_Vitalidad(byte score)
         {
             if (score >= 36) return 99;
             if (score == 35) return 97;
@@ -636,9 +655,9 @@ namespace RHPsicotest.WebSite.Utilities
             return 0;
         }
 
-        private byte MujerAdulta_Autoestima(byte score)
+        private static byte MujerMayor_Autoestima(byte score)
         {
-            if (score == 114) return 99;
+            if (score >= 114) return 99;
             if (score == 108) return 90;
             if (score == 107) return 75;
             if (score == 106) return 65;
@@ -922,8 +941,7 @@ namespace RHPsicotest.WebSite.Utilities
         }
 
 
-
-        // Tabla Mujeres Adolescentes (14-20 años) o Título Bachillerato
+        // Tabla Mujeres Adolescentes (14-19 años) o Título Bachillerato
         private static byte MujerJoven_Ascendencia(byte score)
         {
             if (score >= 31) return 99;
@@ -1182,5 +1200,88 @@ namespace RHPsicotest.WebSite.Utilities
             return 0;
         }
 
+
+        // Métodos para obtener la descripcion de cada factor
+
+        private static string Descripcion_Ascendencia(byte percentile)
+        {
+            if (percentile >= 71) return "Alto: Toma la iniciativa en discusiones de grupo. Verbalmente activo. Capaz de tomar decisiones importantes sin ayuda. Le resulta fácil influir en los demás. Persona segura de sí mismo. Autoafirmativo en las relaciones con los demás.";
+            if (percentile >= 41) return "Promedio: Esta persona tiene un comportamiento promedio en cuanto a su papel en el grupo, a la seguridad en sí misma, a sus relaciones con los demás y a la toma de decisiones independientes.";
+            if (percentile >= 1) return "Bajo: Prefiere que otros tomen la iniciativa en las actividades del grupo, no se siente muy seguro(a) de sus opiniones. Tiende a escuchar más que hablar, tiene poca autoconfianza, carece de seguridad en sí mismo.";
+
+            return "";
+        }
+
+        private static string Descripcion_Responsabilidad(byte percentile)
+        {
+            if (percentile >= 71) return "Alto: Concluye su trabajo a pesar de los problemas, cumple con cualquier trabajo que se le asigna, aunque no sean de su agrado e interés, los demás se sienten seguros de confiar en él. Es trabajador, persistente y tenaz.";
+            if (percentile >= 41) return "Promedio: Esta persona tiene un grado de responsabilidad que corresponde con el promedio, en cuanto a perseverancia, decisión y confianza, así como en la estabilidad en cualquier trabajo que se le asigna.";
+            if (percentile >= 1) return "Bajo: No puede realizar la misma tarea por mucho tiempo, no persevera, es inestable e irresponsable, persona poco confiable.";
+
+            return "";
+        }
+
+        private static string Descripcion_Estabilidad(byte percentile)
+        {
+            if (percentile >= 71) return "Alto: Es calmado(a) y fácil de tratar, se siente libre de preocupaciones, ansiedades y tensión nerviosa, le resulta fácil relajarse. Es equilibrada y con una buena tolerancia a la frustración.";
+            if (percentile >= 41) return " Promedio: Esta persona tiene una evaluación promedio como persona equilibrada, emotivamente estable y relativamente libre de ansiedades y de tensión nerviosa.";
+            if (percentile >= 1) return "Bajo: Siempre parece preocupado(a), tiende a ser una persona nerviosa. Se disgusta fácilmente si las cosas van mal. Baja tolerancia a la frustración. Puede reflejar un ajuste emocional deficiente.";
+
+            return "";
+        }
+
+        private static string Descripcion_Sociabilidad(byte percentile)
+        {
+            if (percentile >= 71) return "Alto: Le gusta estar y trabajar con otras personas gregarias y sociables, se le facilita hacer nuevas amistades. Le gusta estar y trabajar con otros.";
+            if (percentile >= 41) return "Promedio: Esta persona tiene una actitud promedio como persona sociable y gregaria, a quien gusta hallarse entre la gente con quien trabaja.";
+            if (percentile >= 1) return "Bajo: Falta de una tendencia gregaria, tiende a evitar las relaciones sociales o de grupo, restringe sus conocidos a unos cuantos. En casos extremos puede haber una evitación real de toda relación social.";
+
+            return "";
+        }
+
+        private static string Descripcion_Cautela(byte percentile)
+        {
+            if (percentile >= 71) return "Alto: Persona muy precavida, considera todos los detalles o situaciones cuidadosamente antes de tomar una decisión, no le gusta arriesgarse o decidir a la ligera, ni tomar decisiones precipitadas o repentinas.";
+            if (percentile >= 41) return "Promedio: Es un individuo cauteloso y cuidadoso, aunque no en extremo, antes de tomar decisiones en sus asuntos. En general mantiene una actitud cuidadosa al probar oportunidades o correr riesgos.";
+            if (percentile >= 1) return "Bajo: Busca lo emocionante y excitante, actúa impulsivamente, le gusta arriesgarse, toma decisiones precipitadas o repentinas, actúa en forma aventurada.";
+
+            return "";
+        }
+
+        private static string Descripcion_Originalidad(byte percentile)
+        {
+            if (percentile >= 71) return "Alto: Le gusta trabajar en problemas o tareas difíciles, intelectualmente curioso, gusta de preguntas y discusiones que llevan a la reflexión y a pensar en nuevas ideas, a veces complicadas.";
+            if (percentile >= 41) return "Promedio: Se considera una persona promedio en cuanto a originalidad, lo que se refleja en su trabajo en problemas difíciles, su curiosidad intelectual y participación en cuestiones y discusiones que hacen pensar, en las que aporta nuevas ideas.";
+            if (percentile >= 1) return "Bajo: Le disgusta trabajar en problemas difíciles o complicados, no le interesa adquirir nuevos conocimientos, ni participar de preguntas o discusiones que lo lleven a reflexionar.";
+
+            return "";
+        }
+
+        private static string Descripcion_Comprension(byte percentile)
+        {
+            if (percentile >= 71) return "Alto: Tiene fe y confianza en la gente, habla lo mejor de los demás, es tolerante, paciente y comprensivo.";
+            if (percentile >= 41) return "Promedio: Esta persona mantiene unas relaciones personales dentro del promedio, conserva la fe y confianza en la gente. Se puede considerar una persona tolerante, paciente y comprensiva.";
+            if (percentile >= 1) return "Bajo: Pierde la paciencia con los demás rápidamente, le irrita o molesta lo que hacen o hablan los demás.";
+
+            return "";
+        }
+
+        private static string Descripcion_Vitalidad(byte percentile)
+        {
+            if (percentile >= 71) return "Alto: Poseé vitalidad y energía, gusta de trabajar y moverse con rapidez, capaz de realizar más que la persona promedio.";
+            if (percentile >= 41) return "Promedio: Esta persona se encuentra en la media en cuanto a su trabajo, por ser vigorosa, enérgica y ágil.";
+            if (percentile >= 1) return "Bajo: Posee poca vitalidad e impulso, prefiere un ritmo lento o se cansa fácilmente, sus resultados o rendimiento es menor.";
+
+            return "";
+        }
+
+        private static string Descripcion_Autoestima(byte percentile)
+        {
+            if (percentile >= 71) return "Alto: Piensa bien de sí mismo(a). Persona activa, seguro(a), responsable, confiable, tranquila y sociable. Capaz de enfrentar la vida con fortaleza.";
+            if (percentile >= 41) return "Promedio: Esta persona tiene una evaluación promedio dentro de esta escala.";
+            if (percentile >= 1) return "Bajo: Bajo concepto de sí mismo, aislado(a) e inseguro(a), no digno de confianza, irresponsable, desadaptado, perfeccionista.";
+
+            return "";
+        }
     }
 }

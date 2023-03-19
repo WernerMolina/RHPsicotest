@@ -57,7 +57,7 @@ namespace RHPsicotest.WebSite.Migrations
                             IdPosition = 1,
                             IdRole = 3,
                             Password = "TW15",
-                            RegistrationDate = "09/03/2023 04:01 PM"
+                            RegistrationDate = "17/03/2023 01:29 PM"
                         });
                 });
 
@@ -143,7 +143,7 @@ namespace RHPsicotest.WebSite.Migrations
                     b.Property<string>("DescriptionFactor")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("NameFactor")
+                    b.Property<string>("FactorName")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("IdFactor");
@@ -154,56 +154,56 @@ namespace RHPsicotest.WebSite.Migrations
                         new
                         {
                             IdFactor = 1,
-                            DescriptionFactor = "Rasgo que se refiere a la dominancia e iniciativa en situaciones de grupo.",
-                            NameFactor = "Ascendencia"
+                            DescriptionFactor = "Ascendencia: Rasgo que se refiere a la dominancia e iniciativa en situaciones de grupo.",
+                            FactorName = "Asc."
                         },
                         new
                         {
                             IdFactor = 2,
-                            DescriptionFactor = "Rasgo que alude a la constancia y perseverancia en las tareas propuestas.",
-                            NameFactor = "Responsabilidad"
+                            DescriptionFactor = "Responsabilidad: Rasgo que alude a la constancia y perseverancia en las tareas propuestas.",
+                            FactorName = "Resp."
                         },
                         new
                         {
                             IdFactor = 3,
-                            DescriptionFactor = "Rasgo que refleja la ausencia de hipersensibilidad, ansiedad y tensión nerviosa.",
-                            NameFactor = "Estabilidad Emocional"
+                            DescriptionFactor = "Estabilidad Emocional: Rasgo que refleja la ausencia de hipersensibilidad, ansiedad y tensión nerviosa.",
+                            FactorName = "Estab."
                         },
                         new
                         {
                             IdFactor = 4,
-                            DescriptionFactor = "Rasgo que facilita el trato con los demás.",
-                            NameFactor = "Sociabilidad"
+                            DescriptionFactor = "Sociabilidad: Rasgo que facilita el trato con los demás.",
+                            FactorName = "Soc."
                         },
                         new
                         {
                             IdFactor = 5,
-                            DescriptionFactor = "Es el tipo de conducta caracterizada por prever las situaciones o efectos de una decisión antes de actuar.",
-                            NameFactor = "Cautela"
+                            DescriptionFactor = "Cautela: Es el tipo de conducta caracterizada por prever las situaciones o efectos de una decisión antes de actuar.",
+                            FactorName = "Caut."
                         },
                         new
                         {
                             IdFactor = 6,
-                            DescriptionFactor = "Rango de conducta que se manifiesta por la búsqueda de autenticidad en todo lo que hace.",
-                            NameFactor = "Originalidad"
+                            DescriptionFactor = "Originalidad: Rango de conducta que se manifiesta por la búsqueda de autenticidad en todo lo que hace.",
+                            FactorName = "Orig."
                         },
                         new
                         {
                             IdFactor = 7,
-                            DescriptionFactor = "Grado en el cual somos capaces de interpretar o asimilar acontecimientos y hechos particulares o de la vida diaria.",
-                            NameFactor = "Comprension"
+                            DescriptionFactor = "Comprensión: Grado en el cual somos capaces de interpretar o asimilar acontecimientos y hechos particulares o de la vida diaria.",
+                            FactorName = "Comp."
                         },
                         new
                         {
                             IdFactor = 8,
-                            DescriptionFactor = "Se dice de la energía psíquica o física que se agrega a cada actividad que se emprende.",
-                            NameFactor = "Vitalidad"
+                            DescriptionFactor = "Vitalidad: Se dice de la energía psíquica o física que se agrega a cada actividad que se emprende.",
+                            FactorName = "Vital."
                         },
                         new
                         {
                             IdFactor = 9,
-                            DescriptionFactor = "Es la valoración positiva o negativa que uno hace de sí mismo.",
-                            NameFactor = "Autoestima"
+                            DescriptionFactor = "Autoestima: Es la valoración positiva o negativa que uno hace de sí mismo.",
+                            FactorName = "Autoest."
                         });
                 });
 
@@ -308,7 +308,7 @@ namespace RHPsicotest.WebSite.Migrations
                         new
                         {
                             IdPosition = 1,
-                            CreationDate = "09/03/2023 04:01 PM",
+                            CreationDate = "17/03/2023 01:29 PM",
                             Department = "Tecnología de la Información",
                             PositionHigher = "Encargado de IT",
                             PositionName = "Desarrollador IT"
@@ -316,64 +316,11 @@ namespace RHPsicotest.WebSite.Migrations
                         new
                         {
                             IdPosition = 2,
-                            CreationDate = "09/03/2023 04:01 PM",
+                            CreationDate = "17/03/2023 01:29 PM",
                             Department = "Ventas",
                             PositionHigher = "Gerente Comercial",
                             PositionName = "Asesor de Venta"
                         });
-                });
-
-            modelBuilder.Entity("RHPsicotest.WebSite.Models.Question", b =>
-                {
-                    b.Property<int>("IdQuestion")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<int>("IdTest")
-                        .HasColumnType("int");
-
-                    b.Property<string>("OptionA")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("OptionB")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("OptionC")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("OptionD")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<byte>("QuestionNumber")
-                        .HasColumnType("tinyint");
-
-                    b.HasKey("IdQuestion");
-
-                    b.HasIndex("IdTest");
-
-                    b.ToTable("Question");
-                });
-
-            modelBuilder.Entity("RHPsicotest.WebSite.Models.Response", b =>
-                {
-                    b.Property<int>("IdFactor")
-                        .HasColumnType("int");
-
-                    b.Property<int>("IdQuestion")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Correct")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Incorrect")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("IdFactor", "IdQuestion");
-
-                    b.HasIndex("IdQuestion");
-
-                    b.ToTable("Response");
                 });
 
             modelBuilder.Entity("RHPsicotest.WebSite.Models.Result", b =>
@@ -524,7 +471,7 @@ namespace RHPsicotest.WebSite.Migrations
                             Email = "Wm25@gmail.com",
                             Name = "Werner Molina",
                             Password = "827ccb0eea8a706c4c34a16891f84e7b",
-                            RegistrationDate = "09/03/2023 04:01 PM"
+                            RegistrationDate = "17/03/2023 01:29 PM"
                         });
                 });
 
@@ -575,36 +522,6 @@ namespace RHPsicotest.WebSite.Migrations
                     b.Navigation("Permission");
 
                     b.Navigation("Role");
-                });
-
-            modelBuilder.Entity("RHPsicotest.WebSite.Models.Question", b =>
-                {
-                    b.HasOne("RHPsicotest.WebSite.Models.Test", "Test")
-                        .WithMany("Questions")
-                        .HasForeignKey("IdTest")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Test");
-                });
-
-            modelBuilder.Entity("RHPsicotest.WebSite.Models.Response", b =>
-                {
-                    b.HasOne("RHPsicotest.WebSite.Models.Factor", "Factor")
-                        .WithMany("Questions")
-                        .HasForeignKey("IdFactor")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("RHPsicotest.WebSite.Models.Question", "Question")
-                        .WithMany("Factors")
-                        .HasForeignKey("IdQuestion")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Factor");
-
-                    b.Navigation("Question");
                 });
 
             modelBuilder.Entity("RHPsicotest.WebSite.Models.Result", b =>
@@ -676,8 +593,6 @@ namespace RHPsicotest.WebSite.Migrations
 
             modelBuilder.Entity("RHPsicotest.WebSite.Models.Factor", b =>
                 {
-                    b.Navigation("Questions");
-
                     b.Navigation("Results");
                 });
 
@@ -693,11 +608,6 @@ namespace RHPsicotest.WebSite.Migrations
                     b.Navigation("Tests");
                 });
 
-            modelBuilder.Entity("RHPsicotest.WebSite.Models.Question", b =>
-                {
-                    b.Navigation("Factors");
-                });
-
             modelBuilder.Entity("RHPsicotest.WebSite.Models.Role", b =>
                 {
                     b.Navigation("Candidate");
@@ -710,8 +620,6 @@ namespace RHPsicotest.WebSite.Migrations
             modelBuilder.Entity("RHPsicotest.WebSite.Models.Test", b =>
                 {
                     b.Navigation("Positions");
-
-                    b.Navigation("Questions");
                 });
 
             modelBuilder.Entity("RHPsicotest.WebSite.Models.User", b =>

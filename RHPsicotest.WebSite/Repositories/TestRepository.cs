@@ -2,12 +2,12 @@
 using RHPsicotest.WebSite.Data;
 using RHPsicotest.WebSite.Models;
 using RHPsicotest.WebSite.Repositories.Contracts;
+using RHPsicotest.WebSite.Tests.Questions;
+using RHPsicotest.WebSite.Tests.Responses;
 using RHPsicotest.WebSite.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace RHPsicotest.WebSite.Repositories
@@ -21,12 +21,17 @@ namespace RHPsicotest.WebSite.Repositories
             this.context = context;
         }
 
-        public async Task<Test> GetTest()
+        public List<PPGIPG> GetTest_PPGIPG()
         {
-            return await context.Tests.Include("Questions.Test").FirstOrDefaultAsync(t => t.IdTest == 1);
+            return PPGIPG.Questions();
+        }
+        
+        public List<OTIS> GetTest_OTIS()
+        {
+            return OTIS.Questions();
         }
 
-        public async Task<(bool, byte[], byte[])> TestPPG_IPG(char[][] responses, int currentIdUser)
+        public async Task<(bool, byte[], byte[])> Test_PPGIPG(char[][] responses, int currentIdUser)
         {
             byte[] scoresByFactor = new byte[9];
 
@@ -38,7 +43,7 @@ namespace RHPsicotest.WebSite.Repositories
 
             for (int i = 1; i <= 8; i++)
             {
-                IEnumerable<Response> responsesByFactor = await GetResponsesByFactor(i);
+                List<R_PPGIPG> responsesByFactor = R_PPGIPG.GetResponses().Where(r => r.IdFactor == i).ToList();
                 
                 if(i <= 4)
                 {
@@ -82,23 +87,21 @@ namespace RHPsicotest.WebSite.Repositories
             Expedient expedient = await context.Expedients.FirstOrDefaultAsync(e => e.IdCandidate == currentIdUser);
             
             // Guarda el genero, la edad y la formacion academica del candidato
-            (string, byte, string) infoCandidate = (expedient.Gender, 20, expedient.AcademicTraining);
+            (string, byte, string) infoCandidate = (expedient.Gender, expedient.Age, expedient.Certificate);
 
-            // Guarda los percentiles de cada factor 
+            // Guarda los percentiles de todos los factores
             byte[] percentiles = GenerateResults.GetPercentileByFactor(scoresByFactor, infoCandidate);
 
-            bool result = await AddResults(expedient.IdExpedient, scoresByFactor, percentiles);
+            // Guarda las descripciones de todos los factores
+            string[] descriptions = GenerateResults.GetDescriptionByPercentile(percentiles);
+
+            bool result = await AddResults(expedient.IdExpedient, scoresByFactor, percentiles, descriptions);
 
             return (result, scoresByFactor, percentiles);
         }
 
-        private async Task<IEnumerable<Response>> GetResponsesByFactor(int id)
-        {
-            return await context.Responses.Where(d => d.IdFactor == id).ToListAsync();
-        }
-
         // Guarda el puntaje por factor y percentil
-        private async Task<bool> AddResults(int id, byte[] scoresByFactor, byte[] scoresByPercentile)
+        private async Task<bool> AddResults(int id, byte[] scoresByFactor, byte[] scoresByPercentile, string[] description)
         {
             List<Result> results = new List<Result>();
             List<Result> removes = context.Results.Where(r => r.IdExpedient == id).ToList();
@@ -111,7 +114,7 @@ namespace RHPsicotest.WebSite.Repositories
 
             for (int i = 0; i <= 8; i++)
             {
-                results.Add(Conversion.ConvertToResult(id, i + 1, scoresByFactor[i], scoresByPercentile[i]));
+                results.Add(Conversion.ConvertToResult(id, i + 1, scoresByFactor[i], scoresByPercentile[i], description[i]));
             }
 
             await context.Results.AddRangeAsync(results);

@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using RHPsicotest.WebSite.Models;
 using RHPsicotest.WebSite.Repositories.Contracts;
+using RHPsicotest.WebSite.Tests.Questions;
 using System;
+using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -26,21 +28,20 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpGet]
         [Route("/Prueba/PPG-IPG")]
-        public async Task<IActionResult> Test1()
+        public IActionResult Test_PPGIPG()
         {
-            Test test = await testRepository.GetTest();
-
+            List<PPGIPG> test = testRepository.GetTest_PPGIPG();
 
             return View(test);
         }
         
         [HttpPost]
         [Route("/Prueba/PPG-IPG")]
-        public async Task<IActionResult> Test1(char[][] responses)
+        public async Task<IActionResult> Test_PPGIPG(char[][] responses)
         {
             int currentIdUser = Convert.ToInt32(((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value);
 
-            (bool, byte[], byte[]) results = await testRepository.TestPPG_IPG(responses, currentIdUser);
+            (bool, byte[], byte[]) results = await testRepository.Test_PPGIPG(responses, currentIdUser);
 
             if (results.Item1)
             {
@@ -60,12 +61,51 @@ namespace RHPsicotest.WebSite.Controllers
                 ViewBag.Puntajes = results.Item2;
                 ViewBag.Percentiles = results.Item3;
 
-                Test test = await testRepository.GetTest();
+                List<PPGIPG> test = testRepository.GetTest_PPGIPG();
 
                 return View(test);
             }
 
             return View();
+        }
+        
+        [HttpGet]
+        [Route("/Prueba/OTIS")]
+        public IActionResult Test_OTIS()
+        {
+            List<OTIS> test = testRepository.GetTest_OTIS();
+
+            return View(test);
+        }
+        
+        [HttpPost]
+        [Route("/Prueba/OTIS")]
+        public async Task<IActionResult> Test_OTIS(char[] responses)
+        {
+            int currentIdUser = Convert.ToInt32(((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value);
+
+            //(bool, byte[], byte[]) results = ;
+
+            //if (results.Item1)
+            //{
+            //    ViewBag.Factores = new string[]
+            //    {
+            //        "Ascendencia",
+            //        "Responsabilidad",
+            //        "Estabilidad Emocional",
+            //        "Sociabilidad",
+            //        "Cautela",
+            //        "Originalidad",
+            //        "Comprensión",
+            //        "Vitalidad",
+            //        "Autoestima",
+            //    };
+
+            //    ViewBag.Puntajes = results.Item2;
+            //    ViewBag.Percentiles = results.Item3;
+
+
+                return View();
         }
     }
 }

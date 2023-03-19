@@ -56,7 +56,7 @@ namespace RHPsicotest.WebSite.Controllers
 
                             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
 
-                            return RedirectToAction("Test1", "Test");
+                            return RedirectToAction("ConfirmPolicies", "Expedient");
                         }
                     }
                     else

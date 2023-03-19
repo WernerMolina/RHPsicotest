@@ -23,19 +23,22 @@ namespace RHPsicotest.WebSite.Repositories
         
         public async Task<(Candidate, List<string>)> GetCandidateLogin(Login login)
         {
-            Candidate candidate = await context.Candidates.Include(c => c.Role).Include(c => c.Position).FirstOrDefaultAsync(u => u.Email == login.Email && u.Password == login.Password);
-
-            bool isPassCorrect = candidate.Password == login.Password;
+            Candidate candidate = await context.Candidates.Include(c => c.Role).Include(c => c.Position).FirstOrDefaultAsync(u => u.Email == login.Email);
 
             List<string> permissions = new List<string>();
+            
+            if (candidate != null)
+            {
+                bool isPassCorrect = candidate.Password == login.Password;
 
-            if (isPassCorrect)
-            {
-                permissions = await GetCandidatePermissions(candidate.IdRole);
-            }
-            else
-            {
-                candidate = null;
+                if (isPassCorrect)
+                {
+                    permissions = await GetCandidatePermissions(candidate.IdRole);
+                }
+                else
+                {
+                    candidate = null;
+                }
             }
 
             return (candidate, permissions);

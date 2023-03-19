@@ -82,7 +82,7 @@ namespace RHPsicotest.WebSite.Repositories
 
         public async Task<List<PositionDTO>> GetAllPositions()
         {
-            List<Position> positions = await context.Positions.ToListAsync();
+            List<Position> positions = await context.Positions.Include(p => p.Tests).ToListAsync();
 
             List<PositionDTO> positionDTOs = new List<PositionDTO>();
 

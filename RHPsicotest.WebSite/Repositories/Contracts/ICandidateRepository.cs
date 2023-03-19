@@ -17,5 +17,7 @@ namespace RHPsicotest.WebSite.Repositories.Contracts
 
         public Task<Role> GetRoleName();
 
+        public Task<List<string>> GetTestNames(int positionId);
+
     }
 }

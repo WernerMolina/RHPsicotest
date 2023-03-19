@@ -63,6 +63,22 @@ namespace RHPsicotest.WebSite.Repositories
         {
             return await context.Roles.FirstOrDefaultAsync(r => r.RoleName == "Candidato");
         }
+        
+        public async Task<List<string>> GetTestNames(int positionId)
+        {
+            Position position = await context.Positions.Include(p => p.Tests).FirstOrDefaultAsync(p => p.IdPosition == positionId);
+
+            List<string> testNames = new List<string>();
+
+            foreach (var positionTest in position.Tests)
+            {
+                Test test = await context.Tests.FirstOrDefaultAsync(t => t.IdTest == positionTest.IdTest);
+
+                testNames.Add(test.NameTest);
+            }
+
+            return testNames;
+        }
 
         private async Task<bool> PasswordExist(string password)
         {

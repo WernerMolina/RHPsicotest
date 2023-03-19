@@ -15,24 +15,28 @@
         <form asp-action="Create" class="p-3">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group mb-4">
-                <label asp-for="IdRole" class="control-label mb-1">Rol por Defecto</label>
-                @*<select class="form-control" asp-for="IdRole" required>
-                    <option value="@role.IdRole">@role.RoleName</option>
-                </select>*@
+                <label asp-for="IdRole" class="control-label mb-1 fw-bold fs-5">Rol por Defecto</label>
                 <div>
                     <input type="text" value="@role.RoleName" class="form-control" readonly />
                     <input asp-for="IdRole" type="hidden" value="@role.IdRole" class="form-control" readonly />
                 </div> 
             </div>
             <div class="form-group mb-4">
-                <label asp-for="IdPosition" class="control-label mb-1">Puestos</label>
-                <select class="form-control" asp-for="IdPosition" required>
+                <label asp-for="IdPosition" class="control-label mb-1 fw-bold fs-5">Puestos</label>
+                <select class="form-control" asp-for="IdPosition" id="positions">
+                    <option value="0">Seleccionar Puesto</option>
                     @foreach (Position position in positions)
                     {
                         <option value="@position.IdPosition">@position.PositionName</option>
                     }
                 </select>
                 <span asp-validation-for="IdPosition" class="text-danger"></span>
+            </div>
+            <div class="form-group" id="tests">
+                <label class="control-label fw-bold fs-5">Pruebas del puesto seleccionado</label>
+                <p class="text-danger fw-bold" id="notTest"></p>
+                <ol class="list-group list-group-numbered" id="listTests">
+                </ol>
             </div>
             <div class="form-group my-3">
                 <label asp-for="Email" class="control-label fw-bold fs-5"></label>
@@ -59,4 +63,45 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+
+    <script>
+        $("#positions").change(function () {
+            let id = $("#positions option:selected").val();
+
+            if (id > 0){
+                $.ajax({
+                    type: "GET",
+                    url: "@Url.ActionLink("GetTestNames", "Candidate")",
+                    data: { positionId: id },
+                    success: function (data) {
+                        let items = "";
+                        let message = "";
+
+                        if (data.length > 0) {
+                            $.each(data, function (i, testName) {
+                                items += `<li class="list-group-item h6">${testName}</li>`;
+                            });
+
+                            $("#notTest").addClass("d-none");
+                            $("#listTests").removeClass("d-none");
+
+                            $("#listTests").html(items);
+                        } else {
+                            message = "Este Puesto no tiene Pruebas";
+
+                            $("#listTests").addClass("d-none");
+                            $("#notTest").removeClass("d-none");
+
+                            $("#notTest").html(message);
+                        }
+                    },
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alert("Fallo");
+                });
+            }else{
+                $("#listTests").addClass("d-none");
+                $("#notTest").addClass("d-none");
+            }
+        });
+    </script>
 }

@@ -1,17 +1,11 @@
-﻿using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using RHPsicotest.WebSite.DTOs;
-using RHPsicotest.WebSite.Models;
-using RHPsicotest.WebSite.Repositories;
 using RHPsicotest.WebSite.Repositories.Contracts;
 using RHPsicotest.WebSite.Utilities;
 using RHPsicotest.WebSite.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace RHPsicotest.WebSite.Controllers
@@ -34,9 +28,19 @@ namespace RHPsicotest.WebSite.Controllers
 
             return View(candidates);
         }
+        
+        [HttpGet]
+        [Route("/Tests")]
+        //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "List-Users-Policy")]
+        public async Task<IActionResult> GetTestNames(int positionId)
+        {
+            List<string> tests = await candidateRepository.GetTestNames(positionId);
+
+            return Json(tests);
+        }
 
         [HttpGet]
-        [Route("/Contraseña/Crear")]
+        [Route("/Candidato/Crear")]
         //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "Create-User-Policy")]
         public async Task<IActionResult> Create()
         {
@@ -47,7 +51,7 @@ namespace RHPsicotest.WebSite.Controllers
         }
 
         [HttpPost]
-        [Route("/Contraseña/Crear")]
+        [Route("/Candidato/Crear")]
         public async Task<IActionResult> Create(CandidateVM candidateVM)
         {
             try

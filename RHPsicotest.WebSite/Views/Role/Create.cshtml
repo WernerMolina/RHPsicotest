@@ -3,6 +3,8 @@
 @{
     ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+
+    MultiSelectList permissions = (MultiSelectList)ViewBag.Permissions;
 }
 
 <div class="row d-flex justify-content-center mt-5">
@@ -15,7 +17,7 @@
             <div class="form-group my-2">
                 <label class="control-label fw-bold fs-5">Seleccionar Permisos</label>
                 <div>
-                    @Html.DropDownList("permissionsId", (MultiSelectList)ViewBag.Permissions, new { Class = "control-label fw-bold fs-5", multiple = "multiple"})
+                    @Html.DropDownList("permissionsId", permissions, new { Class = "form-select", Id = "multiple-select-clear-field", Multiple = "multiple" })
                 </div>
             </div>
 
@@ -36,5 +38,8 @@
 </div>
 
 @section Scripts {
-    s@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        await Html.RenderPartialAsync("_SelectsJQueryPartial");
+    }
 }

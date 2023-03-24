@@ -30,6 +30,11 @@ namespace RHPsicotest.WebSite.Repositories
         {
             return OTIS.Questions();
         }
+        
+        public List<Dominos> GetTest_Dominos()
+        {
+            return Dominos.Questions();
+        }
 
         public async Task<(bool, byte[], byte[])> Test_PPGIPG(char[][] responses, int currentIdUser)
         {

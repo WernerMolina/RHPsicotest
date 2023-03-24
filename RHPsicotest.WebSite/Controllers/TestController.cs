@@ -107,5 +107,49 @@ namespace RHPsicotest.WebSite.Controllers
 
                 return View();
         }
+
+        [HttpGet]
+        [Route("/Prueba/Dominos")]
+        public IActionResult Test_Dominos()
+        {
+            List<Dominos> test = testRepository.GetTest_Dominos();
+
+            return View(test);
+        }
+
+        [HttpPost]
+        [Route("/Prueba/Dominos")]
+        public async Task<IActionResult> Test_Dominos(char[][] responses)
+        {
+            int currentIdUser = Convert.ToInt32(((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value);
+
+            (bool, byte[], byte[]) results = await testRepository.Test_PPGIPG(responses, currentIdUser);
+
+            if (results.Item1)
+            {
+                ViewBag.Factores = new string[]
+                {
+                    "Ascendencia",
+                    "Responsabilidad",
+                    "Estabilidad Emocional",
+                    "Sociabilidad",
+                    "Cautela",
+                    "Originalidad",
+                    "Comprensión",
+                    "Vitalidad",
+                    "Autoestima",
+                };
+
+                ViewBag.Puntajes = results.Item2;
+                ViewBag.Percentiles = results.Item3;
+
+                List<PPGIPG> test = testRepository.GetTest_PPGIPG();
+
+                return View(test);
+            }
+
+            return View();
+        }
+
     }
 }

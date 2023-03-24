@@ -1,0 +1,24 @@
+﻿@model IEnumerable<Dominos>
+
+@{
+    ViewData["Title"] = "Prueba Dominos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    int i = 0;
+}
+
+
+@for (int item = 1; item <= 5; item++)
+{
+    <div class="d-flex bg-dark-subtle w-75 m-2">
+        <div class="card-header col-10">
+            <img src="@String.Format($"/img/Dominos/Domino{item}.jpg")" class="card-img-top w-50" />
+        </div>
+        <div class="card-body col-2">
+            <input type="number" name="responses[@i][0]" class="d-block p-3 border border-dark w-100"/>
+            <input type="number" name="responses[@i][1]" class="d-block p-3 border border-dark w-100"/>
+        </div>
+    </div>
+
+    i++;
+}

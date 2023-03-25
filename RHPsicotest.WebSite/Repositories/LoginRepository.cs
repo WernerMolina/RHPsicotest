@@ -23,7 +23,7 @@ namespace RHPsicotest.WebSite.Repositories
         
         public async Task<(Candidate, List<string>)> GetCandidateLogin(Login login)
         {
-            Candidate candidate = await context.Candidates.Include(c => c.Role).Include(c => c.Position).FirstOrDefaultAsync(u => u.Email == login.Email);
+            Candidate candidate = await context.Candidates.Include(c => c.Expedient).Include(c => c.Role).Include(c => c.Position).FirstOrDefaultAsync(u => u.Email == login.Email);
 
             List<string> permissions = new List<string>();
             

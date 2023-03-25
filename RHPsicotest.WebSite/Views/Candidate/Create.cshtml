@@ -23,7 +23,7 @@
             </div>
             <div class="form-group mb-4">
                 <label asp-for="IdPosition" class="control-label mb-1 fw-bold fs-5">Puestos</label>
-                <select class="form-control" asp-for="IdPosition" class="form-select" id="single-select-field">
+                <select class="form-control" asp-for="IdPosition" id="selectPosition">
                     <option value="0">Seleccionar Puesto</option>
                     @foreach (Position position in positions)
                     {
@@ -62,12 +62,11 @@
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
-        await Html.RenderPartialAsync("_SelectsJQueryPartial");
     }
 
     <script>
-        $("#single-select-field").change(function () {
-            let id = $("#single-select-field option:selected").val();
+        $("#selectPosition").change(function () {
+            let id = $("#selectPosition option:selected").val();
 
             if (id > 0){
                 $.ajax({
@@ -80,7 +79,7 @@
 
                         if (data.length > 0) {
                             $.each(data, function (i, testName) {
-                                items += `<li class="list-group-item h6">${testName}</li>`;
+                                items += `<li class="list-group-item h6">Test ${testName}</li>`;
                             });
 
                             $("#notTest").addClass("d-none");

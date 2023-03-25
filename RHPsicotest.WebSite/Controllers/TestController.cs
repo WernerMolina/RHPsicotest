@@ -25,6 +25,17 @@ namespace RHPsicotest.WebSite.Controllers
         {
             return View();
         }
+        
+        [HttpGet]
+        [Route("/PruebasAsignadas")]
+        public async Task<IActionResult> AssignedTests()
+        {
+            int candidateId = Convert.ToInt16(((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value);
+
+            List<Test> tests = await testRepository.GetAssignedTests(candidateId);
+
+            return View(tests);
+        }
 
         [HttpGet]
         [Route("/Prueba/PPG-IPG")]
@@ -80,73 +91,43 @@ namespace RHPsicotest.WebSite.Controllers
         
         [HttpPost]
         [Route("/Prueba/OTIS")]
-        public async Task<IActionResult> Test_OTIS(char[] responses)
+        public IActionResult Test_OTIS(int id)
         {
             int currentIdUser = Convert.ToInt32(((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value);
 
-            //(bool, byte[], byte[]) results = ;
-
-            //if (results.Item1)
-            //{
-            //    ViewBag.Factores = new string[]
-            //    {
-            //        "Ascendencia",
-            //        "Responsabilidad",
-            //        "Estabilidad Emocional",
-            //        "Sociabilidad",
-            //        "Cautela",
-            //        "Originalidad",
-            //        "Comprensión",
-            //        "Vitalidad",
-            //        "Autoestima",
-            //    };
-
-            //    ViewBag.Puntajes = results.Item2;
-            //    ViewBag.Percentiles = results.Item3;
-
-
-                return View();
+            return View();
         }
 
         [HttpGet]
         [Route("/Prueba/Dominos")]
         public IActionResult Test_Dominos()
         {
-            List<Dominos> test = testRepository.GetTest_Dominos();
+            return View();
+        }
+
+        [HttpPost]
+        [Route("/Prueba/Dominos")]
+        public IActionResult Test_Dominos(char[][] responses)
+        {
+            int currentIdUser = Convert.ToInt32(((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value);
+
+            return View();
+        }
+
+        [HttpGet]
+        [Route("/Prueba/BFQ")]
+        public IActionResult Test_BFQ()
+        {
+            List<BFQ> test = testRepository.GetTest_BFQ();
 
             return View(test);
         }
 
         [HttpPost]
-        [Route("/Prueba/Dominos")]
-        public async Task<IActionResult> Test_Dominos(char[][] responses)
+        [Route("/Prueba/BFQ")]
+        public IActionResult Test_BFQ(char[][] responses)
         {
             int currentIdUser = Convert.ToInt32(((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value);
-
-            (bool, byte[], byte[]) results = await testRepository.Test_PPGIPG(responses, currentIdUser);
-
-            if (results.Item1)
-            {
-                ViewBag.Factores = new string[]
-                {
-                    "Ascendencia",
-                    "Responsabilidad",
-                    "Estabilidad Emocional",
-                    "Sociabilidad",
-                    "Cautela",
-                    "Originalidad",
-                    "Comprensión",
-                    "Vitalidad",
-                    "Autoestima",
-                };
-
-                ViewBag.Puntajes = results.Item2;
-                ViewBag.Percentiles = results.Item3;
-
-                List<PPGIPG> test = testRepository.GetTest_PPGIPG();
-
-                return View(test);
-            }
 
             return View();
         }

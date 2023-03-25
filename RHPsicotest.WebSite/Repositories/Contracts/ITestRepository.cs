@@ -10,7 +10,10 @@ namespace RHPsicotest.WebSite.Repositories.Contracts
     {
         public List<PPGIPG> GetTest_PPGIPG();
         public List<OTIS> GetTest_OTIS();
-        public List<Dominos> GetTest_Dominos();
+        public List<BFQ> GetTest_BFQ();
+
+        public Task<List<Test>> GetAssignedTests(int candidateId);
+
         public Task<(bool, byte[], byte[])> Test_PPGIPG(char[][] responses, int currentIdUser);
         //public Task<(bool, byte[], byte[])> Test_OTIS(char[] responses, int currentIdUser);
     }

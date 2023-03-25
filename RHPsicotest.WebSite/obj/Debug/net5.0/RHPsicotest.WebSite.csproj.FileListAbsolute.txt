@@ -175,3 +175,5 @@ C:\Users\WernerMolina\source\repos\RHPsicotest\RHPsicotest.WebSite\obj\Debug\net
 C:\Users\WernerMolina\source\repos\RHPsicotest\RHPsicotest.WebSite\obj\Debug\net5.0\Razor\Views\Test\Test_OTIS.cshtml.g.cs
 C:\Users\WernerMolina\source\repos\RHPsicotest\RHPsicotest.WebSite\obj\Debug\net5.0\Razor\Views\Test\Test_Dominos.cshtml.g.cs
 C:\Users\WernerMolina\source\repos\RHPsicotest\RHPsicotest.WebSite\obj\Debug\net5.0\Razor\Views\Shared\_SelectsJQueryPartial.cshtml.g.cs
+C:\Users\WernerMolina\source\repos\RHPsicotest\RHPsicotest.WebSite\obj\Debug\net5.0\Razor\Views\Test\AssignedTests.cshtml.g.cs
+C:\Users\WernerMolina\source\repos\RHPsicotest\RHPsicotest.WebSite\obj\Debug\net5.0\Razor\Views\Test\Test_BFQ.cshtml.g.cs

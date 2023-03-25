@@ -31,9 +31,28 @@ namespace RHPsicotest.WebSite.Repositories
             return OTIS.Questions();
         }
         
-        public List<Dominos> GetTest_Dominos()
+        public List<BFQ> GetTest_BFQ()
         {
-            return Dominos.Questions();
+            return BFQ.Questions();
+        }
+        
+        public async Task<List<Test>> GetAssignedTests(int candidateId)
+        {
+            Candidate candidate = await context.Candidates.Include(c => c.Position.Tests).FirstOrDefaultAsync(c => c.IdCandidate == candidateId);
+
+            List<Test> tests = new List<Test>();
+
+            if (candidate != null)
+            {
+                foreach (var item in candidate.Position.Tests)
+                {
+                    Test test = await context.Tests.FirstOrDefaultAsync(t => t.IdTest == item.IdTest);
+
+                    tests.Add(test);
+                }
+            }
+
+            return tests;
         }
 
         public async Task<(bool, byte[], byte[])> Test_PPGIPG(char[][] responses, int currentIdUser)

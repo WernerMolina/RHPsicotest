@@ -3,52 +3,12 @@
 @{
     ViewData["Title"] = "Prueba OTIS";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    
     int i = 0;
-
-    var factores = (string[])ViewBag.Factores;
-    var puntajes = (byte[])ViewBag.Puntajes;
-    var percentiles = (byte[])ViewBag.Percentiles;
 }
 
-@if (ViewBag.Factores != null)
-{
-    <table class="table table-striped table-borderless align-middle my-3">
-        <thead class="table-dark">
-            <tr class="text-center">
-                <th class="fs-bold">
-                    Factor
-                </th>
-                <th class="fs-bold">
-                    Puntaje
-                </th>
-                <th class="fs-bold">
-                    Percentil
-                </th>
-            </tr>
-        </thead>
-        <tbody class="text-center">
-            @for (int j = 0; j <= 8; j++)
-            {
-                <tr>
-                    <td>
-                        @factores[j]
-                    </td>
-                    <td>
-                        @puntajes[j]
-                    </td>
-                    <td>
-                        @percentiles[j]
-                    </td>
-                </tr>
-            }
+<h1 class="mb-3">Prueba: OTIS</h1>
 
-        </tbody>
-    </table>
-
-}
-
-
-<h2>Prueba: OTIS</h2>
 <form asp-action="Test_OTIS" method="post">
     @foreach (OTIS test in Model)
     {

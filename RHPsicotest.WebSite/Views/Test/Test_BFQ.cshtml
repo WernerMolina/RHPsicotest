@@ -1,0 +1,92 @@
+﻿@model IEnumerable<BFQ>
+
+@{
+    ViewData["Title"] = "Prueba BFQ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    
+    int i = 0;
+}
+
+<h1 class="mb-3">Prueba: BFQ</h1>
+
+<form asp-action="Test_BFQ" method="post">
+    @foreach (BFQ test in Model)
+    {
+        <div class="container d-flex mb-4 border-bottom">
+            <div class=" col-6 d-flex align-items-center">
+                <p class=" fs-4 px-3 m-0">@test.QuestionNumber. @test.Question</p>
+            </div>
+            <div class="col-6">
+                <table class="table table-borderless m-0">
+                    <thead class="text-center fs-5">
+                        <tr class="">
+                            <th>
+                                5
+                            </th>
+                            <th>
+                                4
+                            </th>
+                            <th>
+                                3
+                            </th>
+                            <th>
+                                2
+                            </th>
+                            <th>
+                                1
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-center fs-5">
+                        <tr class="">
+                            <td>
+                                <input class="" type="radio" id="" name="responses[@i]" value="5"
+                                   style="width:25px; height: 25px" />
+                            </td>
+                            <td>
+                                <input class="" type="radio" id="" name="responses[@i]" value="4"
+                                   style="width:25px; height: 25px" />
+                            </td>
+                            <td>
+                                <input class="" type="radio" id="" name="responses[@i]" value="3"
+                                   style="width:25px; height: 25px" />
+                            </td>
+                            <td>
+                                <input class="" type="radio" id="" name="responses[@i]" value="2"
+                                   style="width:25px; height: 25px" />
+                            </td>
+                            <td>
+                                <input class="" type="radio" id="" name="responses[@i]" value="1"
+                                   style="width:25px; height: 25px" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        i++;
+    }
+
+    <div class="text-end my-3">
+        <input type="submit" class="btn btn-primary" value="Terminar" />
+    </div>
+</form>
+
+
+@section Scripts{
+    @*<script>
+        let inputsRadiosAll = document.querySelectorAll("input[type=radio]");
+
+        inputsRadiosAll.forEach(input => input.addEventListener("click", uncheck));
+
+        function uncheck(event) {
+            let parent = event.target.parentNode.parentNode.parentNode;
+            let inputsParent = document.querySelectorAll(`#${parent.id} input[type=radio]`);
+            let isChecked = inputsParent[0] == event.target;
+
+            isChecked ? inputsParent[1].checked = false : inputsParent[0].checked = false;
+        }
+
+    </script>*@
+}

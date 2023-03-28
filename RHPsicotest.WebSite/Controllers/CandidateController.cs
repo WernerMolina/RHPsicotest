@@ -7,6 +7,7 @@ using RHPsicotest.WebSite.ViewModels;
 using RHPsicotest.WebSite.ViewModels.Candidate;
 using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace RHPsicotest.WebSite.Controllers
@@ -95,7 +96,41 @@ namespace RHPsicotest.WebSite.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    SendEmail.Send(candidate.Email, candidate.Password);
+                    //SendEmail.Send(candidate.Email, candidate.Password);
+
+                    return RedirectToAction("Index", "Candidate");
+                }
+
+                return View(candidate);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("/ReenviarCorreo")]
+        //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "List-Users-Policy")]
+        public async Task<IActionResult> ResendMail(int id, string nothing = null)
+        {
+            CandidateResendMailVM candidate = await candidateRepository.GetCandidateResendMailVM(id);
+
+            return View(candidate);
+        }
+
+        [HttpPost]
+        [Route("/ReenviarCorreo")]
+        //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "List-Users-Policy")]
+        public async Task<IActionResult> ResendMail(CandidateResendMailVM candidate, List<int> testsId)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    bool result = await candidateRepository.DeleteResults(candidate.IdCandidate, testsId);
+
+                    //SendEmail.Send(candidate.Email, candidate.Password);
 
                     return RedirectToAction("Index", "Candidate");
                 }

@@ -83,7 +83,7 @@ namespace RHPsicotest.WebSite.Migrations
 
             migrationBuilder.UpdateData(
                 table: "User",
-                keyColumn: "IdUser",
+                keyColumn: "IdCandidate",
                 keyValue: 1,
                 column: "RegistrationDate",
                 value: "27/03/2023 06:08 PM");
@@ -153,7 +153,7 @@ namespace RHPsicotest.WebSite.Migrations
 
             migrationBuilder.UpdateData(
                 table: "User",
-                keyColumn: "IdUser",
+                keyColumn: "IdCandidate",
                 keyValue: 1,
                 column: "RegistrationDate",
                 value: "17/03/2023 01:29 PM");

@@ -386,12 +386,12 @@ namespace RHPsicotest.WebSite.Migrations
                     b.Property<int>("IdRole")
                         .HasColumnType("int");
 
-                    b.Property<int>("IdUser")
+                    b.Property<int>("IdCandidate")
                         .HasColumnType("int");
 
-                    b.HasKey("IdRole", "IdUser");
+                    b.HasKey("IdRole", "IdCandidate");
 
-                    b.HasIndex("IdUser");
+                    b.HasIndex("IdCandidate");
 
                     b.ToTable("Role_User");
 
@@ -445,7 +445,7 @@ namespace RHPsicotest.WebSite.Migrations
 
             modelBuilder.Entity("RHPsicotest.WebSite.Models.User", b =>
                 {
-                    b.Property<int>("IdUser")
+                    b.Property<int>("IdCandidate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
@@ -462,7 +462,7 @@ namespace RHPsicotest.WebSite.Migrations
                     b.Property<string>("RegistrationDate")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("IdUser");
+                    b.HasKey("IdCandidate");
 
                     b.ToTable("User");
 
@@ -555,7 +555,7 @@ namespace RHPsicotest.WebSite.Migrations
 
                     b.HasOne("RHPsicotest.WebSite.Models.User", "User")
                         .WithMany("Roles")
-                        .HasForeignKey("IdUser")
+                        .HasForeignKey("IdCandidate")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

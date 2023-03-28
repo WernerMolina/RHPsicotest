@@ -190,7 +190,7 @@ namespace RHPsicotest.WebSite.Migrations
                         name: "FK_Role_User_User_IdUser",
                         column: x => x.IdUser,
                         principalTable: "User",
-                        principalColumn: "IdUser",
+                        principalColumn: "IdCandidate",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -311,7 +311,7 @@ namespace RHPsicotest.WebSite.Migrations
 
             migrationBuilder.InsertData(
                 table: "User",
-                columns: new[] { "IdUser", "Email", "Name", "Password", "RegistrationDate" },
+                columns: new[] { "IdCandidate", "Email", "Name", "Password", "RegistrationDate" },
                 values: new object[] { 1, "Wm25@gmail.com", "Werner Molina", "827ccb0eea8a706c4c34a16891f84e7b", "17/03/2023 01:29 PM" });
 
             migrationBuilder.InsertData(
@@ -332,7 +332,7 @@ namespace RHPsicotest.WebSite.Migrations
 
             migrationBuilder.InsertData(
                 table: "Role_User",
-                columns: new[] { "IdRole", "IdUser" },
+                columns: new[] { "IdRole", "IdCandidate" },
                 values: new object[] { 1, 1 });
 
             migrationBuilder.CreateIndex(
@@ -364,7 +364,7 @@ namespace RHPsicotest.WebSite.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Role_User_IdUser",
                 table: "Role_User",
-                column: "IdUser");
+                column: "IdCandidate");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Test_Position_IdPosition",

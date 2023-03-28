@@ -10,11 +10,15 @@ namespace RHPsicotest.WebSite.Repositories.Contracts
 {
     public interface ICandidateRepository
     {
-        public Task<IEnumerable<CandidateDTO>> GetAllCandidates();
+        public Task<List<CandidateDTO>> GetAllCandidates();
 
-        public Task<IEnumerable<Position>> GetAllPositions();
+        public Task<List<Position>> GetAllPositions();
+
+        public Task<bool> DeleteResults(int candidateId, List<int> testsId);
 
         public Task<CandidateSendVM> AddCandidate(CandidateVM candidateVM);
+
+        public Task<CandidateResendMailVM> GetCandidateResendMailVM(int candidateId);
 
         public Task<Role> GetRoleName();
 

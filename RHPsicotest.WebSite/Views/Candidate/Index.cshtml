@@ -51,7 +51,7 @@
                     @Html.DisplayFor(modelItem => candidate.Position)
                 </td>
                 <td>
-                    <i class="bi bi-envelope"></i>
+                    <a asp-action="ResendMail" asp-route-id="@candidate.IdCandidate" class="text-primary fs-4"><i class="bi bi-envelope"></i></a>
                 </td>
             </tr>
         }

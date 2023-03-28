@@ -42,8 +42,31 @@ namespace RHPsicotest.WebSite.Repositories
 
             return null;
         }
+        
+        public async Task<CandidateResendMailVM> GetCandidateResendMailVM(int candidateId)
+        {
+            Candidate candidate = await context.Candidates.FirstOrDefaultAsync(c => c.IdCandidate == candidateId);
 
-        public async Task<IEnumerable<CandidateDTO>> GetAllCandidates()
+            if (candidate != null)
+            {
+                List<Test_Candidate> testCandidates = await context.Test_Candidates.Where(t => t.IdCandidate == candidateId).Include(t => t.Test).ToListAsync();
+
+                List<Test> tests = new List<Test>();
+
+                foreach (var test in testCandidates)
+                {
+                    tests.Add(test.Test);
+                }
+
+                CandidateResendMailVM candidateResendMailVM = Conversion.ConvertToCandidateResendMailVM(candidate, tests);
+
+                return candidateResendMailVM;
+            }
+
+            return null;
+        }
+
+        public async Task<List<CandidateDTO>> GetAllCandidates()
         {
             List<Candidate> candidates = await context.Candidates.Include(c => c.Role).Include(c => c.Position).ToListAsync();
 
@@ -57,9 +80,33 @@ namespace RHPsicotest.WebSite.Repositories
             return candidateDTOs;
         }
                 
-        public async Task<IEnumerable<Position>> GetAllPositions()
+        public async Task<List<Position>> GetAllPositions()
         {
             return await context.Positions.ToListAsync();
+        }
+        
+        public async Task<bool> DeleteResults(int candidateId, List<int> testsId)
+        {
+            Expedient expedient = await context.Expedients.FirstOrDefaultAsync(e => e.IdCandidate == candidateId);
+
+            List<Result> results = await context.Results.Where(r => r.IdExpedient == expedient.IdExpedient).ToListAsync();
+
+            if(results != null)
+            {
+                context.Results.RemoveRange(results);
+                context.SaveChanges();
+            }
+
+            foreach (int id in testsId)
+            {
+                Test_Candidate candidate = await context.Test_Candidates.FirstOrDefaultAsync(c => c.IdCandidate == candidateId && c.IdTest == id);
+
+                candidate.Status = false;
+
+                context.Test_Candidates.Update(candidate);
+            }
+
+            return context.SaveChanges() > 0;
         }
 
         public async Task<Role> GetRoleName()

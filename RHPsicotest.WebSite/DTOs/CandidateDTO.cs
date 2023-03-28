@@ -7,7 +7,7 @@ namespace RHPsicotest.WebSite.DTOs
 {
     public class CandidateDTO
     {
-        public int IdUser { get; set; }
+        public int IdCandidate { get; set; }
 
         [Display(Name = "Correo")]
         public string Email { get; set; }

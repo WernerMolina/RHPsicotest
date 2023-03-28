@@ -151,7 +151,7 @@ namespace RHPsicotest.WebSite.Utilities
         {
             return new CandidateDTO
             {
-                IdUser = candidate.IdCandidate,
+                IdCandidate = candidate.IdCandidate,
                 Email = candidate.Email,
                 Password = candidate.Password,
                 Role = candidate.Role.RoleName,
@@ -166,6 +166,17 @@ namespace RHPsicotest.WebSite.Utilities
             {
                 Email = candidateVM.Email,
                 Password = candidateVM.Password,
+            };
+        }
+        
+        public static CandidateResendMailVM ConvertToCandidateResendMailVM(Candidate candidate, List<Test> tests)
+        {
+            return new CandidateResendMailVM
+            {
+                IdCandidate = candidate.IdCandidate,
+                Email = candidate.Email,
+                Password = candidate.Password,
+                Tests = tests
             };
         }
 

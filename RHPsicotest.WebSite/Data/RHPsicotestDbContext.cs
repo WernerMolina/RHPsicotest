@@ -19,6 +19,7 @@ namespace RHPsicotest.WebSite.Data
         public DbSet<Result> Results { get; set; }
         public DbSet<Role_User> Role_Users { get; set; }
         public DbSet<Test_Position> Test_Positions { get; set; }
+        public DbSet<Test_Candidate> Test_Candidates { get; set; }
         public DbSet<Permission_Role> Permission_Roles { get; set; }
 
         public RHPsicotestDbContext(DbContextOptions<RHPsicotestDbContext> options) : base(options)
@@ -47,6 +48,9 @@ namespace RHPsicotest.WebSite.Data
                         
             modelBuilder.Entity<Result>()
                         .HasKey(r => new { r.IdExpedient, r.IdFactor});
+            
+            modelBuilder.Entity<Test_Candidate>()
+                        .HasKey(r => new { r.IdCandidate, r.IdTest});
 
 
             // Tabla de Permisos
@@ -98,6 +102,32 @@ namespace RHPsicotest.WebSite.Data
             {
                 IdTest = 1,
                 NameTest = "PPG-IPG",
+                Time = "45 min.",
+                Link = "Test_PPGIPG"
+            });
+
+            modelBuilder.Entity<Test>().HasData(new Test
+            {
+                IdTest = 2,
+                NameTest = "OTIS",
+                Time = "45 min.",
+                Link = "Test_OTIS"
+            });
+
+            modelBuilder.Entity<Test>().HasData(new Test
+            {
+                IdTest = 3,
+                NameTest = "Dominos",
+                Time = "45 min.",
+                Link = "Test_Dominos"
+            });
+
+            modelBuilder.Entity<Test>().HasData(new Test
+            {
+                IdTest = 4,
+                NameTest = "BFQ",
+                Time = "45 min.",
+                Link = "Test_BFQ"
             });
 
             // Tabla de Puestos

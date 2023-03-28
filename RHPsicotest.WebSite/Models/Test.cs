@@ -12,10 +12,15 @@ namespace RHPsicotest.WebSite.Models
 
         public string NameTest { get; set; }
 
-        public string Description { get; set; }
+        public string Time { get; set; }
+
+        public string Link { get; set; }
 
         [InverseProperty(nameof(Test_Position.Test))]
         public virtual IEnumerable<Test_Position> Positions { get; set; }
+
+        [InverseProperty(nameof(Test_Candidate.Test))]
+        public virtual IEnumerable<Test_Candidate> Candidates { get; set; }
 
     }
 }

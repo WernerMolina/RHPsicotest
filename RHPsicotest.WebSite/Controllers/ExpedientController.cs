@@ -81,7 +81,7 @@ namespace RHPsicotest.WebSite.Controllers
 
                         if (result)
                         {
-                            return RedirectToAction("Test_PPGIPG", "Test");
+                            return RedirectToAction("AssignedTests", "Test");
                         }
                     }
                 }

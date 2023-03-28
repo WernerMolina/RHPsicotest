@@ -5,6 +5,7 @@ using RHPsicotest.WebSite.Models;
 using RHPsicotest.WebSite.Repositories.Contracts;
 using RHPsicotest.WebSite.Utilities;
 using RHPsicotest.WebSite.ViewModels;
+using RHPsicotest.WebSite.ViewModels.Candidate;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -21,7 +22,7 @@ namespace RHPsicotest.WebSite.Repositories
             this.context = context;
         }
 
-        public async Task<CandidateSendDTO> AddCandidate(CandidateVM candidateVM)
+        public async Task<CandidateSendVM> AddCandidate(CandidateVM candidateVM)
         {
             bool passwordExists = await PasswordExist(candidateVM.Password);
 
@@ -32,9 +33,11 @@ namespace RHPsicotest.WebSite.Repositories
                 await context.Candidates.AddAsync(candidate);
                 await context.SaveChangesAsync();
 
-                CandidateSendDTO candidateSendDTO = Conversion.ConvertToCandidateSendDTO(candidateVM);
+                AssignTestsCandidate(candidate.IdPosition, candidate.IdCandidate);
 
-                return candidateSendDTO;
+                CandidateSendVM candidateSendVM = Conversion.ConvertToCandidateSendVM(candidateVM);
+
+                return candidateSendVM;
             }
 
             return null;
@@ -80,9 +83,28 @@ namespace RHPsicotest.WebSite.Repositories
             return testNames;
         }
 
+
+        // ---------------------------------
         private async Task<bool> PasswordExist(string password)
         {
             return await context.Candidates.AnyAsync(e => e.Password == password);
+        }
+        
+        private async void AssignTestsCandidate(int positionId, int candidateId)
+        {
+            List<Test_Position> tests = await context.Test_Positions.Where(t => t.IdPosition == positionId).ToListAsync();
+
+            foreach (var test in tests)
+            {
+                await context.Test_Candidates.AddAsync(new Test_Candidate
+                {
+                    IdTest = test.IdTest,
+                    IdCandidate = candidateId,
+                    Status = false
+                });
+            }
+
+            await context.SaveChangesAsync();
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using RHPsicotest.WebSite.DTOs;
 using RHPsicotest.WebSite.Models;
 using RHPsicotest.WebSite.ViewModels;
+using RHPsicotest.WebSite.ViewModels.Candidate;
 using RHPsicotest.WebSite.ViewModels.Role;
 using RHPsicotest.WebSite.ViewModels.User;
 using System;
@@ -159,9 +160,9 @@ namespace RHPsicotest.WebSite.Utilities
             };
         }
 
-        public static CandidateSendDTO ConvertToCandidateSendDTO(CandidateVM candidateVM)
+        public static CandidateSendVM ConvertToCandidateSendVM(CandidateVM candidateVM)
         {
-            return new CandidateSendDTO
+            return new CandidateSendVM
             {
                 Email = candidateVM.Email,
                 Password = candidateVM.Password,
@@ -267,6 +268,18 @@ namespace RHPsicotest.WebSite.Utilities
                 Score = scoreFactor,
                 Percentile = scorePercentile,
                 Description = description,
+            };
+        }
+        
+        // Prueba
+        public static TestDTO ConvertToTestDTO(Test test, bool status)
+        {
+            return new TestDTO
+            {
+                NameTest = test.NameTest,
+                Time = test.Time,
+                Link = test.Link,
+                Status = status
             };
         }
     }

@@ -35,41 +35,48 @@ using RHPsicotest.WebSite.ViewModels.Role;
 #nullable disable
 #nullable restore
 #line 4 "C:\Users\WernerMolina\source\repos\RHPsicotest\RHPsicotest.WebSite\Views\_ViewImports.cshtml"
-using RHPsicotest.WebSite.ViewModels;
+using RHPsicotest.WebSite.ViewModels.Candidate;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
 #line 5 "C:\Users\WernerMolina\source\repos\RHPsicotest\RHPsicotest.WebSite\Views\_ViewImports.cshtml"
-using RHPsicotest.WebSite.Models;
+using RHPsicotest.WebSite.ViewModels;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
 #line 6 "C:\Users\WernerMolina\source\repos\RHPsicotest\RHPsicotest.WebSite\Views\_ViewImports.cshtml"
-using RHPsicotest.WebSite.DTOs;
+using RHPsicotest.WebSite.Models;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
 #line 7 "C:\Users\WernerMolina\source\repos\RHPsicotest\RHPsicotest.WebSite\Views\_ViewImports.cshtml"
-using RHPsicotest.WebSite.Tests.Questions;
+using RHPsicotest.WebSite.DTOs;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
 #line 8 "C:\Users\WernerMolina\source\repos\RHPsicotest\RHPsicotest.WebSite\Views\_ViewImports.cshtml"
+using RHPsicotest.WebSite.Tests.Questions;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 9 "C:\Users\WernerMolina\source\repos\RHPsicotest\RHPsicotest.WebSite\Views\_ViewImports.cshtml"
 using Microsoft.AspNetCore.Authorization;
 
 #line default
 #line hidden
 #nullable disable
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"ad61124bae03adcd10b34470f4248164aa93d7fb", @"/Views/Candidate/Index.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"2c86a5a40892f639e05d9df1ae851b57face202f", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"58463026d13bcaa327480f71439c8fdaf43f7e4f", @"/Views/_ViewImports.cshtml")]
     #nullable restore
     public class Views_Candidate_Index : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<IEnumerable<CandidateDTO>>
     #nullable disable
@@ -112,7 +119,7 @@ using Microsoft.AspNetCore.Authorization;
 #nullable disable
             WriteLiteral("\r\n<h1 class=\"fw-bold\">Lista de Contraseñas</h1>\r\n\r\n");
             WriteLiteral("<p class=\"mt-4\">\r\n    ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "ad61124bae03adcd10b34470f4248164aa93d7fb5577", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "ad61124bae03adcd10b34470f4248164aa93d7fb5799", async() => {
                 WriteLiteral("Crear Contraseña");
             }
             );

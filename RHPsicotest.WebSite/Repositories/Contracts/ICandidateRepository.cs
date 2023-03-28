@@ -2,6 +2,7 @@
 using RHPsicotest.WebSite.DTOs;
 using RHPsicotest.WebSite.Models;
 using RHPsicotest.WebSite.ViewModels;
+using RHPsicotest.WebSite.ViewModels.Candidate;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -13,7 +14,7 @@ namespace RHPsicotest.WebSite.Repositories.Contracts
 
         public Task<IEnumerable<Position>> GetAllPositions();
 
-        public Task<CandidateSendDTO> AddCandidate(CandidateVM candidateVM);
+        public Task<CandidateSendVM> AddCandidate(CandidateVM candidateVM);
 
         public Task<Role> GetRoleName();
 

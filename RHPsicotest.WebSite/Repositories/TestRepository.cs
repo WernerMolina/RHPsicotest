@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RHPsicotest.WebSite.Data;
+using RHPsicotest.WebSite.DTOs;
 using RHPsicotest.WebSite.Models;
 using RHPsicotest.WebSite.Repositories.Contracts;
 using RHPsicotest.WebSite.Tests.Questions;
@@ -36,23 +37,23 @@ namespace RHPsicotest.WebSite.Repositories
             return BFQ.Questions();
         }
         
-        public async Task<List<Test>> GetAssignedTests(int candidateId)
+        public async Task<List<TestDTO>> GetAssignedTests(int candidateId)
         {
-            Candidate candidate = await context.Candidates.Include(c => c.Position.Tests).FirstOrDefaultAsync(c => c.IdCandidate == candidateId);
+            List<Test_Candidate> tests = await context.Test_Candidates.Where(t => t.IdCandidate == candidateId).ToListAsync();
 
-            List<Test> tests = new List<Test>();
+            List<TestDTO> testDTOs = new List<TestDTO>(); 
 
-            if (candidate != null)
+            if (tests != null)
             {
-                foreach (var item in candidate.Position.Tests)
+                foreach (var testCandidate in tests)
                 {
-                    Test test = await context.Tests.FirstOrDefaultAsync(t => t.IdTest == item.IdTest);
+                    Test test = await context.Tests.FirstOrDefaultAsync(t => t.IdTest == testCandidate.IdTest);
 
-                    tests.Add(test);
+                    testDTOs.Add(Conversion.ConvertToTestDTO(test, testCandidate.Status));
                 }
             }
 
-            return tests;
+            return testDTOs;
         }
 
         public async Task<(bool, byte[], byte[])> Test_PPGIPG(char[][] responses, int currentIdUser)

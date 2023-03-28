@@ -4,6 +4,7 @@ using RHPsicotest.WebSite.DTOs;
 using RHPsicotest.WebSite.Repositories.Contracts;
 using RHPsicotest.WebSite.Utilities;
 using RHPsicotest.WebSite.ViewModels;
+using RHPsicotest.WebSite.ViewModels.Candidate;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -58,11 +59,11 @@ namespace RHPsicotest.WebSite.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    CandidateSendDTO candidateSendDTO = await candidateRepository.AddCandidate(candidateVM);
+                    CandidateSendVM candidateSendVM = await candidateRepository.AddCandidate(candidateVM);
 
-                    if (candidateSendDTO != null)
+                    if (candidateSendVM != null)
                     {
-                        return RedirectToAction("SendMail", "Candidate", candidateSendDTO);
+                        return RedirectToAction("SendMail", "Candidate", candidateSendVM);
                     }
                 }
 
@@ -80,26 +81,26 @@ namespace RHPsicotest.WebSite.Controllers
         [HttpGet]
         [Route("/EnviarCorreo")]
         //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "List-Users-Policy")]
-        public IActionResult SendMail(CandidateSendDTO user, string nothing = null)
+        public IActionResult SendMail(CandidateSendVM candidate, string nothing = null)
         {
-            return View(user);
+            return View(candidate);
         }
 
         [HttpPost]
         [Route("/EnviarCorreo")]
         //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "List-Users-Policy")]
-        public IActionResult SendMail(CandidateSendDTO user)
+        public IActionResult SendMail(CandidateSendVM candidate)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    SendEmail.Send(user.Email, user.Password);
+                    SendEmail.Send(candidate.Email, candidate.Password);
 
                     return RedirectToAction("Index", "Candidate");
                 }
 
-                return View(user);
+                return View(candidate);
             }
             catch (Exception ex)
             {

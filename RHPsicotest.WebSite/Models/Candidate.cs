@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using System;
+using System.Collections.Generic;
 
 namespace RHPsicotest.WebSite.Models
 {
@@ -30,5 +31,8 @@ namespace RHPsicotest.WebSite.Models
 
         [InverseProperty(nameof(Models.Expedient.Candidate))]
         public virtual Expedient Expedient { get; set; }
+
+        [InverseProperty(nameof(Test_Candidate.Candidate))]
+        public virtual IEnumerable<Test_Candidate> Tests { get; set; }
     }
 }

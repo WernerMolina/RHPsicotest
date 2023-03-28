@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Test>
+﻿@model IEnumerable<TestDTO>
 
 @{
     ViewData["Title"] = "Pruebas Asignadas";
@@ -10,10 +10,10 @@
 <h1 class="fw-bold mb-5">Pruebas Asignadas</h1>
 
 <div class="container">
-    <p class="mb-4 fs-4">A continuación, se muestra un listado de pruebas asignadas las cuales estarán disponibles por un corto período de tiempo.</p>
-    <p class="mb-4 fs-4">le recordamos que antes de iniciar se asegure de tener una conexión de internet estable además de un ambiente sin interrupciones lo cual le ayudará a realizar sus evaluaciones sin complicaciones.</p>
-    <p class="mb-4 fs-4">Cada prueba contiene instrucciones específicas, léalas cuidadosamente y analice el ejemplo antes de comenzar.</p>
-    <p class="mb-4 fs-4">Buena Suerte!</p>
+    <p class="mb-4 fs-5">A continuación, se muestra un listado de pruebas asignadas las cuales estarán disponibles por un corto período de tiempo.</p>
+    <p class="mb-4 fs-5">le recordamos que antes de iniciar se asegure de tener una conexión de internet estable además de un ambiente sin interrupciones lo cual le ayudará a realizar sus evaluaciones sin complicaciones.</p>
+    <p class="mb-4 fs-5">Cada prueba contiene instrucciones específicas, léalas cuidadosamente y analice el ejemplo antes de comenzar.</p>
+    <p class="mb-4 fs-5">Buena Suerte!</p>
 </div>
 
 <table class="table table-striped align-middle">
@@ -26,10 +26,10 @@
                 Nombre
             </th>
             <th>
-                Tiempo Aproximado
+                Tiempo Apróximado
             </th>
             <th>
-                Estatus
+                Estado
             </th>
             <th>
                 Iniciar
@@ -37,24 +37,36 @@
         </tr>
     </thead>
     <tbody class="text-center">
-        @foreach (Test test in Model)
+        @foreach (TestDTO test in Model)
         {
             <tr>
                 <td>
                     @i
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => test.NameTest)
+                    Prueba @test.NameTest
                 </td>
                 <td>
-                    45 min.
+                    @test.Time
                 </td>
-                <td>
-                    Pendiente
-                </td>
-                <td>
-                    <a asp-action="" class="btn btn-success"><i class="bi bi-play-fill"></i></a>
-                </td>
+                @if (test.Status)
+                {
+                    <td>
+                        <i class="bi bi-check-square-fill text-success"></i>
+                    </td>
+                    <td>
+                        <a asp-action="" class="btn btn-success text-opacity-25"><i class="bi bi-play-fill"></i></a>
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        Pendiente
+                    </td>
+                    <td>
+                        <a asp-action="@test.Link" class="btn btn-success"><i class="bi bi-play-fill"></i></a>
+                    </td>
+                }
             </tr>
 
             i++;

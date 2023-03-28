@@ -1,4 +1,5 @@
-﻿using RHPsicotest.WebSite.Models;
+﻿using RHPsicotest.WebSite.DTOs;
+using RHPsicotest.WebSite.Models;
 using RHPsicotest.WebSite.Tests.Questions;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace RHPsicotest.WebSite.Repositories.Contracts
         public List<OTIS> GetTest_OTIS();
         public List<BFQ> GetTest_BFQ();
 
-        public Task<List<Test>> GetAssignedTests(int candidateId);
+        public Task<List<TestDTO>> GetAssignedTests(int candidateId);
 
         public Task<(bool, byte[], byte[])> Test_PPGIPG(char[][] responses, int currentIdUser);
         //public Task<(bool, byte[], byte[])> Test_OTIS(char[] responses, int currentIdUser);

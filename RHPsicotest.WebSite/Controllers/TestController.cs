@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using RHPsicotest.WebSite.DTOs;
 using RHPsicotest.WebSite.Models;
 using RHPsicotest.WebSite.Repositories.Contracts;
 using RHPsicotest.WebSite.Tests.Questions;
@@ -32,7 +33,7 @@ namespace RHPsicotest.WebSite.Controllers
         {
             int candidateId = Convert.ToInt16(((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value);
 
-            List<Test> tests = await testRepository.GetAssignedTests(candidateId);
+            List<TestDTO> tests = await testRepository.GetAssignedTests(candidateId);
 
             return View(tests);
         }

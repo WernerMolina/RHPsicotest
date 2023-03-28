@@ -35,41 +35,48 @@ using RHPsicotest.WebSite.ViewModels.Role;
 #nullable disable
 #nullable restore
 #line 4 "C:\Users\WernerMolina\source\repos\RHPsicotest\RHPsicotest.WebSite\Views\_ViewImports.cshtml"
-using RHPsicotest.WebSite.ViewModels;
+using RHPsicotest.WebSite.ViewModels.Candidate;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
 #line 5 "C:\Users\WernerMolina\source\repos\RHPsicotest\RHPsicotest.WebSite\Views\_ViewImports.cshtml"
-using RHPsicotest.WebSite.Models;
+using RHPsicotest.WebSite.ViewModels;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
 #line 6 "C:\Users\WernerMolina\source\repos\RHPsicotest\RHPsicotest.WebSite\Views\_ViewImports.cshtml"
-using RHPsicotest.WebSite.DTOs;
+using RHPsicotest.WebSite.Models;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
 #line 7 "C:\Users\WernerMolina\source\repos\RHPsicotest\RHPsicotest.WebSite\Views\_ViewImports.cshtml"
-using RHPsicotest.WebSite.Tests.Questions;
+using RHPsicotest.WebSite.DTOs;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
 #line 8 "C:\Users\WernerMolina\source\repos\RHPsicotest\RHPsicotest.WebSite\Views\_ViewImports.cshtml"
+using RHPsicotest.WebSite.Tests.Questions;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 9 "C:\Users\WernerMolina\source\repos\RHPsicotest\RHPsicotest.WebSite\Views\_ViewImports.cshtml"
 using Microsoft.AspNetCore.Authorization;
 
 #line default
 #line hidden
 #nullable disable
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"91f644c1b245aeb005593b0bc8b332733b2e36dc", @"/Views/Shared/_SidebarAdmin.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"2c86a5a40892f639e05d9df1ae851b57face202f", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"58463026d13bcaa327480f71439c8fdaf43f7e4f", @"/Views/_ViewImports.cshtml")]
     #nullable restore
     public class Views_Shared__SidebarAdmin : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<dynamic>
     #nullable disable
@@ -136,7 +143,7 @@ using Microsoft.AspNetCore.Authorization;
 #line hidden
 #nullable disable
             WriteLiteral("                    <li>\r\n                        ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "91f644c1b245aeb005593b0bc8b332733b2e36dc8737", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "91f644c1b245aeb005593b0bc8b332733b2e36dc8959", async() => {
                 WriteLiteral("\r\n                            <i class=\"bi bi-circle\"></i><span>Roles</span>\r\n                        ");
             }
             );
@@ -172,7 +179,7 @@ using Microsoft.AspNetCore.Authorization;
 #line hidden
 #nullable disable
             WriteLiteral("                    <li>\r\n                        ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "91f644c1b245aeb005593b0bc8b332733b2e36dc10892", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "91f644c1b245aeb005593b0bc8b332733b2e36dc11114", async() => {
                 WriteLiteral("\r\n                            <i class=\"bi bi-circle\"></i><span>Usuarios</span>\r\n                        ");
             }
             );
@@ -200,7 +207,7 @@ using Microsoft.AspNetCore.Authorization;
 #line hidden
 #nullable disable
             WriteLiteral("\r\n\r\n                <li>\r\n                    ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "91f644c1b245aeb005593b0bc8b332733b2e36dc12692", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "91f644c1b245aeb005593b0bc8b332733b2e36dc12914", async() => {
                 WriteLiteral("\r\n                        <i class=\"bi bi-circle\"></i><span>Permisos</span>\r\n                    ");
             }
             );
@@ -218,7 +225,7 @@ using Microsoft.AspNetCore.Authorization;
             Write(__tagHelperExecutionContext.Output);
             __tagHelperExecutionContext = __tagHelperScopeManager.End();
             WriteLiteral("\r\n                </li>    \r\n               \r\n            </ul>\r\n        </li>\r\n        <li class=\"nav-item\">\r\n            ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "91f644c1b245aeb005593b0bc8b332733b2e36dc14284", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "91f644c1b245aeb005593b0bc8b332733b2e36dc14506", async() => {
                 WriteLiteral("\r\n                <i class=\"bi bi-grid\"></i><span>Puestos</span>\r\n            ");
             }
             );
@@ -237,7 +244,7 @@ using Microsoft.AspNetCore.Authorization;
             Write(__tagHelperExecutionContext.Output);
             __tagHelperExecutionContext = __tagHelperScopeManager.End();
             WriteLiteral("\r\n        </li>\r\n        <li class=\"nav-item\">\r\n            ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "91f644c1b245aeb005593b0bc8b332733b2e36dc15871", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "91f644c1b245aeb005593b0bc8b332733b2e36dc16093", async() => {
                 WriteLiteral("\r\n                <i class=\"bi bi-grid\"></i><span>Contraseñas</span>\r\n            ");
             }
             );
@@ -256,7 +263,7 @@ using Microsoft.AspNetCore.Authorization;
             Write(__tagHelperExecutionContext.Output);
             __tagHelperExecutionContext = __tagHelperScopeManager.End();
             WriteLiteral("\r\n        </li>\r\n        <li class=\"nav-item\">\r\n            ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "91f644c1b245aeb005593b0bc8b332733b2e36dc17462", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "91f644c1b245aeb005593b0bc8b332733b2e36dc17684", async() => {
                 WriteLiteral("\r\n                <i class=\"bi bi-grid\"></i><span>Expedientes</span>\r\n            ");
             }
             );
@@ -284,7 +291,7 @@ using Microsoft.AspNetCore.Authorization;
 
                 <li>
                     ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "91f644c1b245aeb005593b0bc8b332733b2e36dc19444", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "91f644c1b245aeb005593b0bc8b332733b2e36dc19666", async() => {
                 WriteLiteral("\r\n                        <i class=\"bi bi-circle\"></i><span>Test PPG-IPG</span>\r\n                    ");
             }
             );

@@ -56,14 +56,14 @@ namespace RHPsicotest.WebSite.Repositories
             return testDTOs;
         }
 
-        public async Task<(bool, byte[], byte[])> Test_PPGIPG(char[][] responses, int currentIdUser)
+        public async Task<bool> Test_PPGIPG(char[][] responses, int currentIdUser)
         {
             byte[] scoresByFactor = new byte[9];
 
             // Retorna falso si la respuesta positiva y negativa tienen el mismo valor en un pregunta
             for (int i = 0; i < 38; i++)
             {
-                if (responses[i][0] == responses[i][1]) return (false, null, null);
+                if (responses[i][0] == responses[i][1]) return false;
             }
 
             for (int i = 1; i <= 8; i++)
@@ -122,14 +122,14 @@ namespace RHPsicotest.WebSite.Repositories
 
             bool result = await AddResults(expedient.IdExpedient, scoresByFactor, percentiles, descriptions);
 
-            return (result, scoresByFactor, percentiles);
+            return result;
         }
 
         // Guarda el puntaje por factor y percentil
-        private async Task<bool> AddResults(int id, byte[] scoresByFactor, byte[] scoresByPercentile, string[] description)
+        private async Task<bool> AddResults(int expedientId, byte[] scoresByFactor, byte[] scoresByPercentile, string[] description)
         {
             List<Result> results = new List<Result>();
-            List<Result> removes = context.Results.Where(r => r.IdExpedient == id).ToList();
+            List<Result> removes = context.Results.Where(r => r.IdExpedient == expedientId).ToList();
 
             if(removes != null)
             {
@@ -139,7 +139,7 @@ namespace RHPsicotest.WebSite.Repositories
 
             for (int i = 0; i <= 8; i++)
             {
-                results.Add(Conversion.ConvertToResult(id, i + 1, scoresByFactor[i], scoresByPercentile[i], description[i]));
+                results.Add(Conversion.ConvertToResult(expedientId, i + 1, scoresByFactor[i], scoresByPercentile[i], description[i]));
             }
 
             await context.Results.AddRangeAsync(results);

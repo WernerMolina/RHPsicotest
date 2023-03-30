@@ -53,32 +53,16 @@ namespace RHPsicotest.WebSite.Controllers
         {
             int currentIdUser = Convert.ToInt32(((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value);
 
-            (bool, byte[], byte[]) results = await testRepository.Test_PPGIPG(responses, currentIdUser);
+            bool result = await testRepository.Test_PPGIPG(responses, currentIdUser);
 
-            if (results.Item1)
+            if (result)
             {
-                ViewBag.Factores = new string[]
-                {
-                    "Ascendencia",
-                    "Responsabilidad",
-                    "Estabilidad Emocional",
-                    "Sociabilidad",
-                    "Cautela",
-                    "Originalidad",
-                    "Comprensión",
-                    "Vitalidad",
-                    "Autoestima",
-                };
-
-                ViewBag.Puntajes = results.Item2;
-                ViewBag.Percentiles = results.Item3;
-
-                List<PPGIPG> test = testRepository.GetTest_PPGIPG();
-
-                return View(test);
+                return View("AssignedTests");
             }
 
-            return View();
+            List<PPGIPG> test = testRepository.GetTest_PPGIPG();
+
+            return View(test);
         }
         
         [HttpGet]

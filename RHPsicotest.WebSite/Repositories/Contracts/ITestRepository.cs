@@ -15,7 +15,8 @@ namespace RHPsicotest.WebSite.Repositories.Contracts
 
         public Task<List<TestDTO>> GetAssignedTests(int candidateId);
 
-        public Task<(bool, byte[], byte[])> Test_PPGIPG(char[][] responses, int currentIdUser);
+        public Task<bool> Test_PPGIPG(char[][] responses, int currentIdUser);
+
         //public Task<(bool, byte[], byte[])> Test_OTIS(char[] responses, int currentIdUser);
     }
 }

@@ -6,6 +6,7 @@ using RHPsicotest.WebSite.Repositories.Contracts;
 using RHPsicotest.WebSite.Utilities;
 using RHPsicotest.WebSite.ViewModels;
 using RHPsicotest.WebSite.ViewModels.Candidate;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -32,8 +33,9 @@ namespace RHPsicotest.WebSite.Repositories
 
                 await context.Candidates.AddAsync(candidate);
                 await context.SaveChangesAsync();
+                await context.DisposeAsync();
 
-                AssignTestsCandidate(candidate.IdPosition, candidate.IdCandidate);
+                await AssignTestsCandidate(candidate.IdPosition, candidate.IdCandidate);
 
                 CandidateSendVM candidateSendVM = Conversion.ConvertToCandidateSendVM(candidateVM);
 
@@ -137,9 +139,9 @@ namespace RHPsicotest.WebSite.Repositories
             return await context.Candidates.AnyAsync(e => e.Password == password);
         }
         
-        private async void AssignTestsCandidate(int positionId, int candidateId)
+        private async Task<bool> AssignTestsCandidate(int positionId, int candidateId)
         {
-            List<Test_Position> tests = await context.Test_Positions.Where(t => t.IdPosition == positionId).ToListAsync();
+            List<Test_Position> tests = await context.Test_Positions.AsNoTracking().Where(t => t.IdPosition == positionId).ToListAsync();
 
             foreach (var test in tests)
             {
@@ -149,9 +151,10 @@ namespace RHPsicotest.WebSite.Repositories
                     IdCandidate = candidateId,
                     Status = false
                 });
+                
             }
 
-            await context.SaveChangesAsync();
+            return await context.SaveChangesAsync() > 0;
         }
     }
 }

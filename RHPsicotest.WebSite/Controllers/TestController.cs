@@ -57,7 +57,7 @@ namespace RHPsicotest.WebSite.Controllers
 
             if (result)
             {
-                return View("AssignedTests");
+                return RedirectToAction("AssignedTests");
             }
 
             List<PPGIPG> test = testRepository.GetTest_PPGIPG();

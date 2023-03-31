@@ -9,7 +9,7 @@
 
 <h1 class="mb-3">Prueba: BFQ</h1>
 
-<form asp-action="Test_BFQ" method="post">
+<form method="post">
     @foreach (BFQ test in Model)
     {
         <div class="container d-flex mb-4 border-bottom">
@@ -73,20 +73,3 @@
     </div>
 </form>
 
-
-@section Scripts{
-    @*<script>
-        let inputsRadiosAll = document.querySelectorAll("input[type=radio]");
-
-        inputsRadiosAll.forEach(input => input.addEventListener("click", uncheck));
-
-        function uncheck(event) {
-            let parent = event.target.parentNode.parentNode.parentNode;
-            let inputsParent = document.querySelectorAll(`#${parent.id} input[type=radio]`);
-            let isChecked = inputsParent[0] == event.target;
-
-            isChecked ? inputsParent[1].checked = false : inputsParent[0].checked = false;
-        }
-
-    </script>*@
-}

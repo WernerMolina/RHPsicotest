@@ -178,6 +178,8 @@ namespace RHPsicotest.WebSite.Utilities
 
 
         // ------------------------------------------------------------------------
+        
+        // Estos metodos retornan un array con los percentiles de cada factor
         private static byte[] Percentil_TablaHombreJoven(byte[] scoresByFactor)
         {
             byte[] percentils = new byte[9];
@@ -246,6 +248,8 @@ namespace RHPsicotest.WebSite.Utilities
             return percentils;
         }
 
+
+        // Todos estos métodos nos retorna el percentil 
 
         // Tabla Hombres Mayores (20+ años) 
         private static byte HombreMayor_Ascendencia(byte score)
@@ -1209,7 +1213,7 @@ namespace RHPsicotest.WebSite.Utilities
             if (percentile >= 41) return "Promedio: Esta persona tiene un comportamiento promedio en cuanto a su papel en el grupo, a la seguridad en sí misma, a sus relaciones con los demás y a la toma de decisiones independientes.";
             if (percentile >= 1) return "Bajo: Prefiere que otros tomen la iniciativa en las actividades del grupo, no se siente muy seguro(a) de sus opiniones. Tiende a escuchar más que hablar, tiene poca autoconfianza, carece de seguridad en sí mismo.";
 
-            return "";
+            return string.Empty;
         }
 
         private static string Descripcion_Responsabilidad(byte percentile)
@@ -1218,7 +1222,7 @@ namespace RHPsicotest.WebSite.Utilities
             if (percentile >= 41) return "Promedio: Esta persona tiene un grado de responsabilidad que corresponde con el promedio, en cuanto a perseverancia, decisión y confianza, así como en la estabilidad en cualquier trabajo que se le asigna.";
             if (percentile >= 1) return "Bajo: No puede realizar la misma tarea por mucho tiempo, no persevera, es inestable e irresponsable, persona poco confiable.";
 
-            return "";
+            return string.Empty;
         }
 
         private static string Descripcion_Estabilidad(byte percentile)
@@ -1227,7 +1231,7 @@ namespace RHPsicotest.WebSite.Utilities
             if (percentile >= 41) return " Promedio: Esta persona tiene una evaluación promedio como persona equilibrada, emotivamente estable y relativamente libre de ansiedades y de tensión nerviosa.";
             if (percentile >= 1) return "Bajo: Siempre parece preocupado(a), tiende a ser una persona nerviosa. Se disgusta fácilmente si las cosas van mal. Baja tolerancia a la frustración. Puede reflejar un ajuste emocional deficiente.";
 
-            return "";
+            return string.Empty;
         }
 
         private static string Descripcion_Sociabilidad(byte percentile)
@@ -1236,7 +1240,7 @@ namespace RHPsicotest.WebSite.Utilities
             if (percentile >= 41) return "Promedio: Esta persona tiene una actitud promedio como persona sociable y gregaria, a quien gusta hallarse entre la gente con quien trabaja.";
             if (percentile >= 1) return "Bajo: Falta de una tendencia gregaria, tiende a evitar las relaciones sociales o de grupo, restringe sus conocidos a unos cuantos. En casos extremos puede haber una evitación real de toda relación social.";
 
-            return "";
+            return string.Empty;
         }
 
         private static string Descripcion_Cautela(byte percentile)
@@ -1245,7 +1249,7 @@ namespace RHPsicotest.WebSite.Utilities
             if (percentile >= 41) return "Promedio: Es un individuo cauteloso y cuidadoso, aunque no en extremo, antes de tomar decisiones en sus asuntos. En general mantiene una actitud cuidadosa al probar oportunidades o correr riesgos.";
             if (percentile >= 1) return "Bajo: Busca lo emocionante y excitante, actúa impulsivamente, le gusta arriesgarse, toma decisiones precipitadas o repentinas, actúa en forma aventurada.";
 
-            return "";
+            return string.Empty;
         }
 
         private static string Descripcion_Originalidad(byte percentile)
@@ -1254,7 +1258,7 @@ namespace RHPsicotest.WebSite.Utilities
             if (percentile >= 41) return "Promedio: Se considera una persona promedio en cuanto a originalidad, lo que se refleja en su trabajo en problemas difíciles, su curiosidad intelectual y participación en cuestiones y discusiones que hacen pensar, en las que aporta nuevas ideas.";
             if (percentile >= 1) return "Bajo: Le disgusta trabajar en problemas difíciles o complicados, no le interesa adquirir nuevos conocimientos, ni participar de preguntas o discusiones que lo lleven a reflexionar.";
 
-            return "";
+            return string.Empty;
         }
 
         private static string Descripcion_Comprension(byte percentile)
@@ -1263,7 +1267,7 @@ namespace RHPsicotest.WebSite.Utilities
             if (percentile >= 41) return "Promedio: Esta persona mantiene unas relaciones personales dentro del promedio, conserva la fe y confianza en la gente. Se puede considerar una persona tolerante, paciente y comprensiva.";
             if (percentile >= 1) return "Bajo: Pierde la paciencia con los demás rápidamente, le irrita o molesta lo que hacen o hablan los demás.";
 
-            return "";
+            return string.Empty;
         }
 
         private static string Descripcion_Vitalidad(byte percentile)
@@ -1272,7 +1276,7 @@ namespace RHPsicotest.WebSite.Utilities
             if (percentile >= 41) return "Promedio: Esta persona se encuentra en la media en cuanto a su trabajo, por ser vigorosa, enérgica y ágil.";
             if (percentile >= 1) return "Bajo: Posee poca vitalidad e impulso, prefiere un ritmo lento o se cansa fácilmente, sus resultados o rendimiento es menor.";
 
-            return "";
+            return string.Empty;
         }
 
         private static string Descripcion_Autoestima(byte percentile)
@@ -1281,7 +1285,7 @@ namespace RHPsicotest.WebSite.Utilities
             if (percentile >= 41) return "Promedio: Esta persona tiene una evaluación promedio dentro de esta escala.";
             if (percentile >= 1) return "Bajo: Bajo concepto de sí mismo, aislado(a) e inseguro(a), no digno de confianza, irresponsable, desadaptado, perfeccionista.";
 
-            return "";
+            return string.Empty;
         }
     }
 }

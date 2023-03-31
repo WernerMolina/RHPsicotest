@@ -9,7 +9,7 @@
 
 <h1 class="mb-3">Prueba: OTIS</h1>
 
-<form asp-action="Test_OTIS" method="post">
+<form method="post">
     @foreach (OTIS test in Model)
     {
         <div class="card col-8 my-2">
@@ -57,7 +57,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <input class="" type="radio" id="" name="responses[@i]" value="B"
-                                   style="width:25px; height: 25px" checked />
+                                   style="width:25px; height: 25px" />
                             </div>
                         </div>
                     </div>
@@ -98,19 +98,3 @@
 </form>
 
 
-@section Scripts{
-    @*<script>
-        let inputsRadiosAll = document.querySelectorAll("input[type=radio]");
-
-        inputsRadiosAll.forEach(input => input.addEventListener("click", uncheck));
-
-        function uncheck(event) {
-            let parent = event.target.parentNode.parentNode.parentNode;
-            let inputsParent = document.querySelectorAll(`#${parent.id} input[type=radio]`);
-            let isChecked = inputsParent[0] == event.target;
-
-            isChecked ? inputsParent[1].checked = false : inputsParent[0].checked = false;
-        }
-
-    </script>*@
-}

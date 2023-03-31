@@ -49,17 +49,20 @@ namespace RHPsicotest.WebSite.Repositories
         {
             User user = await context.Users.Include(u => u.Roles).FirstOrDefaultAsync(u => u.Email == login.Email);
 
-            bool isPassCorrect = user.Password == Helper.EncryptMD5(login.Password);
-
             List<string> permissions = new List<string>();
+            
+            if(user != null)
+            {
+                bool isPassCorrect = user.Password == Helper.EncryptMD5(login.Password);
 
-            if (isPassCorrect)
-            {
-                permissions = await GetUserPermissions(user);
-            }
-            else
-            {
-                user = null;
+                if (isPassCorrect)
+                {
+                    permissions = await GetUserPermissions(user);
+                }
+                else
+                {
+                    user = null;
+                }
             }
 
             return (user, permissions);

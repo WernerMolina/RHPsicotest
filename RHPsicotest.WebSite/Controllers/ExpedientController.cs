@@ -150,7 +150,7 @@ namespace RHPsicotest.WebSite.Controllers
         {
             try
             {
-                string url = $"http://localhost:8080/jasperserver/rest_v2/reports/reports/interactive/RHpsicotest.pdf?j_username=jasperadmin&j_password=jasperadmin&inline=true$&Identificador={id}";
+                string url = $"http://localhost:8080/jasperserver/rest_v2/reports/reports/TESTTER.pdf?j_username=jasperadmin&j_password=jasperadmin&inline=true&Identificador={id}";
 
                 using (HttpClient client = new HttpClient())
                 {

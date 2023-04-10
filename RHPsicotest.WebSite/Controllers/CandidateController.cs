@@ -96,7 +96,7 @@ namespace RHPsicotest.WebSite.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    //SendEmail.Send(candidate.Email, candidate.Password);
+                    SendEmail.Send(candidate.Email, candidate.Password);
 
                     return RedirectToAction("Index", "Candidate");
                 }
@@ -130,7 +130,7 @@ namespace RHPsicotest.WebSite.Controllers
                 {
                     bool result = await candidateRepository.DeleteResults(candidate.IdCandidate, testsId);
 
-                    //SendEmail.Send(candidate.Email, candidate.Password);
+                    SendEmail.Send(candidate.Email, candidate.Password);
 
                     return RedirectToAction("Index", "Candidate");
                 }

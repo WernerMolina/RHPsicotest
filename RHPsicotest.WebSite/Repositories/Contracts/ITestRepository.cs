@@ -9,14 +9,19 @@ namespace RHPsicotest.WebSite.Repositories.Contracts
 {
     public interface ITestRepository
     {
-        public List<PPGIPG> GetTest_PPGIPG();
-        public List<OTIS> GetTest_OTIS();
-        public List<BFQ> GetTest_BFQ();
+        public List<Questions_BFQ> GetTest_BFQ();
+
+        public List<Questions_OTIS> GetTest_OTIS();
+
+        public List<Questions_PPGIPG> GetTest_PPGIPG();
 
         public Task<List<TestDTO>> GetAssignedTests(int candidateId);
 
         public Task<bool> Test_PPGIPG(char[][] responses, int currentIdUser);
 
-        //public Task<(bool, byte[], byte[])> Test_OTIS(char[] responses, int currentIdUser);
+        public Task<bool> Test_Dominos(char[][] responses, int currentIdUser);
+
+        public Task<bool> Test_OTIS(char[] responses, int currentIdUser);
+
     }
 }

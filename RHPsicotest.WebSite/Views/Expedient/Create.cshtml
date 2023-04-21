@@ -3,6 +3,8 @@
 @{
     ViewData["Title"] = "Expediente";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    List<string> formations = (List<string>)ViewBag.AcademicFormations;
 }
 <div style="display:flex; justify-content:center;">
     <h1>Expediente</h1>
@@ -57,16 +59,23 @@
             <div class="form-group">
                 <label asp-for="CivilStatus" class="control-label"></label>
                 <select asp-for="CivilStatus" class="form-select" id="single-select-field">
-                    <option value="Soltero">Soltero(a)</option>
-                    <option value="Casado">Casado(a)</option>
-                    <option value="Divorciado">Divorciado(a)</option>
-                    <option value="Viudo">Viudo(a)</option>
+                    <option value="0">Seleccionar Estado</option>
+                    <option value="Soltero/a">Soltero(a)</option>
+                    <option value="Casado/a">Casado(a)</option>
+                    <option value="Divorciado/a">Divorciado(a)</option>
+                    <option value="Viudo/a">Viudo(a)</option>
                 </select>
                 <span asp-validation-for="CivilStatus" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="AcademicTraining" class="control-label"></label>
-                <input asp-for="AcademicTraining" class="form-control" />
+                <select asp-for="AcademicTraining" class="form-select" id="single-select-field">
+                    <option value="0">Seleccionar Formación</option>
+                    @foreach (string formation in formations)
+                    {
+                        <option value="@formation">@formation</option>
+                    }
+                </select>
                 <span asp-validation-for="AcademicTraining" class="text-danger"></span>
             </div>
             <div class="form-group">

@@ -7,12 +7,12 @@ namespace RHPsicotest.WebSite.Utilities
     public class GenerateResults
     {
         // Retorna el total de puntos de un factor
-        public static byte GetScoreByFactor(char[,] candidateResponses, List<R_PPGIPG> responsesByFactor)
+        public static byte GetScoreByFactor(char[,] candidateResponses, List<Responses_PPGIPG> responsesByFactor)
         {
             byte i = 0;
             byte score = 0;
 
-            foreach (R_PPGIPG response in responsesByFactor)
+            foreach (Responses_PPGIPG response in responsesByFactor)
             {
                 string correct = response.Correct;
                 string incorrect = response.Incorrect;

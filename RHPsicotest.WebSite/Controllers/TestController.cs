@@ -42,7 +42,7 @@ namespace RHPsicotest.WebSite.Controllers
         [Route("/Prueba/PPG-IPG")]
         public IActionResult Test_PPGIPG()
         {
-            List<PPGIPG> test = testRepository.GetTest_PPGIPG();
+            List<Questions_PPGIPG> test = testRepository.GetTest_PPGIPG();
 
             return View(test);
         }
@@ -60,7 +60,7 @@ namespace RHPsicotest.WebSite.Controllers
                 return RedirectToAction("AssignedTests");
             }
 
-            List<PPGIPG> test = testRepository.GetTest_PPGIPG();
+            List<Questions_PPGIPG> test = testRepository.GetTest_PPGIPG();
 
             return View(test);
         }
@@ -69,18 +69,27 @@ namespace RHPsicotest.WebSite.Controllers
         [Route("/Prueba/OTIS")]
         public IActionResult Test_OTIS()
         {
-            List<OTIS> test = testRepository.GetTest_OTIS();
+            List<Questions_OTIS> test = testRepository.GetTest_OTIS();
 
             return View(test);
         }
         
         [HttpPost]
         [Route("/Prueba/OTIS")]
-        public IActionResult Test_OTIS(int id)
+        public async Task<IActionResult> Test_OTIS(char[] responses)
         {
             int currentIdUser = Convert.ToInt32(((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value);
 
-            return View();
+            bool result = await testRepository.Test_OTIS(responses, currentIdUser);
+
+            if (result)
+            {
+                return RedirectToAction("AssignedTests");
+            }
+
+            List<Questions_OTIS> test = testRepository.GetTest_OTIS();
+
+            return View(test);
         }
 
         [HttpGet]
@@ -92,9 +101,16 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpPost]
         [Route("/Prueba/Dominos")]
-        public IActionResult Test_Dominos(char[][] responses)
+        public async Task<IActionResult> Test_Dominos(char[][] responses)
         {
             int currentIdUser = Convert.ToInt32(((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value);
+
+            bool result = await testRepository.Test_Dominos(responses, currentIdUser);
+
+            if (result)
+            {
+                return RedirectToAction("AssignedTests");
+            }
 
             return View();
         }
@@ -103,7 +119,7 @@ namespace RHPsicotest.WebSite.Controllers
         [Route("/Prueba/BFQ")]
         public IActionResult Test_BFQ()
         {
-            List<BFQ> test = testRepository.GetTest_BFQ();
+            List<Questions_BFQ> test = testRepository.GetTest_BFQ();
 
             return View(test);
         }

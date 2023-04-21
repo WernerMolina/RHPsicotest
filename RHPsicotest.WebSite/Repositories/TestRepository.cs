@@ -3,6 +3,7 @@ using RHPsicotest.WebSite.Data;
 using RHPsicotest.WebSite.DTOs;
 using RHPsicotest.WebSite.Models;
 using RHPsicotest.WebSite.Repositories.Contracts;
+using RHPsicotest.WebSite.GenerateResults;
 using RHPsicotest.WebSite.Tests.Questions;
 using RHPsicotest.WebSite.Tests.Responses;
 using RHPsicotest.WebSite.Utilities;
@@ -22,19 +23,19 @@ namespace RHPsicotest.WebSite.Repositories
             this.context = context;
         }
 
-        public List<PPGIPG> GetTest_PPGIPG()
+        public List<Questions_PPGIPG> GetTest_PPGIPG()
         {
-            return PPGIPG.Questions();
+            return Questions_PPGIPG.Questions();
         }
         
-        public List<OTIS> GetTest_OTIS()
+        public List<Questions_OTIS> GetTest_OTIS()
         {
-            return OTIS.Questions();
+            return Questions_OTIS.Questions();
         }
         
-        public List<BFQ> GetTest_BFQ()
+        public List<Questions_BFQ> GetTest_BFQ()
         {
-            return BFQ.Questions();
+            return Questions_BFQ.Questions();
         }
         
         public async Task<List<TestDTO>> GetAssignedTests(int candidateId)
@@ -60,7 +61,7 @@ namespace RHPsicotest.WebSite.Repositories
         {
             byte[] scoresByFactor = new byte[9];
 
-            // Retorna falso si la respuesta positiva y negativa tienen el mismo valor en un pregunta
+            // Retorna falso si la respuesta positiva y negativa tienen el mismo valor en una pregunta
             for (int i = 0; i < 38; i++)
             {
                 if (responses[i][0] == responses[i][1]) return false;
@@ -68,7 +69,7 @@ namespace RHPsicotest.WebSite.Repositories
 
             for (int i = 1; i <= 8; i++)
             {
-                List<R_PPGIPG> responsesByFactor = R_PPGIPG.GetResponses().Where(r => r.IdFactor == i).ToList();
+                List<Responses_PPGIPG> responsesByFactor = Responses_PPGIPG.GetResponses().Where(r => r.IdFactor == i).ToList();
                 
                 if(i <= 4)
                 {
@@ -81,7 +82,7 @@ namespace RHPsicotest.WebSite.Repositories
                         responsesPPG[j, 1] = responses[j][1];
                     }
 
-                    byte scores = GenerateResults.GetScoreByFactor(responsesPPG, responsesByFactor);
+                    byte scores = Results_PPGIPG.GetScoreByFactor(responsesPPG, responsesByFactor);
 
                     scoresByFactor[i - 1] = scores;
                 }
@@ -99,7 +100,7 @@ namespace RHPsicotest.WebSite.Repositories
                         k++;
                     }
 
-                    byte scores = GenerateResults.GetScoreByFactor(responsesIPG, responsesByFactor);
+                    byte scores = Results_PPGIPG.GetScoreByFactor(responsesIPG, responsesByFactor);
 
                     scoresByFactor[i - 1] = scores;
                 }
@@ -115,18 +116,54 @@ namespace RHPsicotest.WebSite.Repositories
             (string, byte, string) infoCandidate = (expedient.Gender, expedient.Age, expedient.Certificate);
 
             // Guarda los percentiles de todos los factores
-            byte[] percentiles = GenerateResults.GetPercentileByFactor(scoresByFactor, infoCandidate);
+            byte[] percentiles = Results_PPGIPG.GetPercentileByFactor(scoresByFactor, infoCandidate);
 
             // Guarda las descripciones de todos los factores
-            string[] descriptions = GenerateResults.GetDescriptionByPercentile(percentiles);
+            string[] descriptions = Results_PPGIPG.GetDescriptionByPercentile(percentiles);
 
-            bool result = await AddResults(expedient.IdExpedient, scoresByFactor, percentiles, descriptions);
+            bool result = await AddResults_PPGIPG(expedient.IdExpedient, scoresByFactor, percentiles, descriptions);
 
             return result;
         }
 
+        public async Task<bool> Test_Dominos(char[][] responses, int currentIdUser)
+        {
+            byte?[,] responsesInByte = new byte?[44, 2];
+
+            for (int i = 0; i < 11; i++)
+            {
+                responsesInByte[i, 0] = Convert.ToByte(responses[i][0]);
+                responsesInByte[i, 1] = Convert.ToByte(responses[i][1]);
+
+                if (responsesInByte[i, 0] < 0 ||
+                    responsesInByte[i, 0] > 6 ||
+                    responsesInByte[i, 1] < 0 ||
+                    responsesInByte[i, 1] > 6) return false;
+            }
+
+            byte score = Results_Dominos.GetScoreTotal(responsesInByte);
+
+            Expedient expedient = await context.Expedients.FirstOrDefaultAsync(e => e.IdCandidate == currentIdUser);
+
+            byte percentile = Results_Dominos.GetPercentileByScore(score, expedient.AcademicTraining);
+
+            return true;
+        }
+
+        public async Task<bool> Test_OTIS(char[] responses, int currentIdUser)
+        {
+            byte score = Results_OTIS.GetScoreTotal(responses);
+
+            //Expedient expedient = await context.Expedients.FirstOrDefaultAsync(e => e.IdCandidate == currentIdUser);
+
+            byte percentile = Results_OTIS.GetCIByScore(score);
+
+            return true;
+        }
+
+
         // Guarda el puntaje por factor y percentil
-        private async Task<bool> AddResults(int expedientId, byte[] scoresByFactor, byte[] scoresByPercentile, string[] description)
+        private async Task<bool> AddResults_PPGIPG(int expedientId, byte[] scoresByFactor, byte[] scoresByPercentile, string[] description)
         {
             List<Result> results = new List<Result>();
             List<Result> removes = context.Results.Where(r => r.IdExpedient == expedientId).ToList();
@@ -143,6 +180,42 @@ namespace RHPsicotest.WebSite.Repositories
             }
 
             await context.Results.AddRangeAsync(results);
+            return await context.SaveChangesAsync() > 0;
+        }
+
+        //private async Task<bool> AddResults_OTIS(int expedientId, byte scoreByFactor, byte scoresPercentile, string description)
+        //{
+        //    List<Result> results = new List<Result>();
+        //    List<Result> removes = context.Results.Where(r => r.IdExpedient == expedientId).ToList();
+
+        //    if(removes != null)
+        //    {
+        //        context.Results.RemoveRange(removes);
+        //        context.SaveChanges();
+        //    }
+
+        //    for (int i = 0; i <= 8; i++)
+        //    {
+        //        results.Add(Conversion.ConvertToResult(expedientId, i + 1, scoresByFactor[i], scoresByPercentile[i], description[i]));
+        //    }
+
+        //    await context.Results.AddRangeAsync(results);
+        //    return await context.SaveChangesAsync() > 0;
+        //}
+
+        private async Task<bool> AddResults_Dominos(int expedientId, byte score, byte percentile, string description)
+        {
+            Result removes = await context.Results.FirstOrDefaultAsync(r => r.IdExpedient == expedientId && r.IdFactor == 9);
+
+            if (removes != null)
+            {
+                context.Results.Remove(removes);
+                context.SaveChanges();
+            }
+
+            Result result = Conversion.ConvertToResult(expedientId, 9, score, percentile, description);
+
+            await context.Results.AddAsync(result);
             return await context.SaveChangesAsync() > 0;
         }
     }

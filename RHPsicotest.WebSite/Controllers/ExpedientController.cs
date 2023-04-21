@@ -55,6 +55,33 @@ namespace RHPsicotest.WebSite.Controllers
         //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "Create-User-Policy")]
         public IActionResult Create()
         {
+            ViewBag.AcademicFormations = new List<string>
+            {
+                "Bachiller",
+                "Directivo",
+                "Ingeniero",
+                "Licenciado",
+                "Profesional",
+                "Técnico",
+                "Técnico Comercial",
+                "Técnico de Organización",
+                "Inspector o Delegado",
+                "Agente de Venta",
+                "Jefe Administrativo",
+                "Administrativo Oficial o Auxiliar",
+                "Analista o Programador",
+                "Monitor o Mandos Medios",
+                "Operario Mecánico",
+                "Secretaria",
+                "Administrativa",
+                "Vendedor",
+                "Vigilante",
+                "Operario no Cualificado",
+                "Profesinal de Oficio",
+                "Subalternos",
+                "Supervisora de Ventas",
+            };
+
             return View();
         }
 
@@ -100,6 +127,33 @@ namespace RHPsicotest.WebSite.Controllers
         public async Task<IActionResult> Edit(int id)
         {
             ExpedientUpdateVM expedient = await expedientRepository.GetExpedientUpdateVM(id);
+
+            ViewBag.AcademicFormations = new List<string>
+            {
+                "Bachiller",
+                "Directivo",
+                "Ingeniero",
+                "Licenciado",
+                "Profesional",
+                "Técnico",
+                "Técnico Comercial",
+                "Técnico de Organización",
+                "Inspector o Delegado",
+                "Agente de Venta",
+                "Jefe Administrativo",
+                "Administrativo Oficial o Auxiliar",
+                "Analista o Programador",
+                "Monitor o Mandos Medios",
+                "Operario Mecánico",
+                "Secretaria",
+                "Administrativa",
+                "Vendedor",
+                "Vigilante",
+                "Operario no Cualificado",
+                "Profesinal de Oficio",
+                "Subalternos",
+                "Supervisora de Ventas",
+            };
 
             return View(expedient);
         }

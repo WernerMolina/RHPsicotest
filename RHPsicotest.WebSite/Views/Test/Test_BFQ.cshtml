@@ -1,4 +1,4 @@
-﻿@model IEnumerable<BFQ>
+﻿@model IEnumerable<Questions_BFQ>
 
 @{
     ViewData["Title"] = "Prueba BFQ";
@@ -10,7 +10,7 @@
 <h1 class="mb-3">Prueba: BFQ</h1>
 
 <form method="post">
-    @foreach (BFQ test in Model)
+    @foreach (Questions_BFQ test in Model)
     {
         <div class="container d-flex mb-4 border-bottom">
             <div class=" col-6 d-flex align-items-center">

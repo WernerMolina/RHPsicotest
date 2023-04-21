@@ -1,4 +1,4 @@
-﻿@model IEnumerable<PPGIPG>
+﻿@model IEnumerable<Questions_PPGIPG>
 
 @{
     ViewData["Title"] = "Prueba-PPG-IPG";
@@ -9,7 +9,7 @@
 
 <h2>Prueba: PPG-IPG</h2>
 <form asp-action="Test_PPGIPG" method="post">
-    @foreach (PPGIPG question in Model)
+    @foreach (Questions_PPGIPG question in Model)
     {
         <div class="card my-2">
             <h5 class="card-header">Pregunta @question.QuestionNumber</h5>

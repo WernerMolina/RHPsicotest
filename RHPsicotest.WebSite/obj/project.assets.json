@@ -7459,24 +7459,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Mclovin\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\WernerMolina\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Mclovin\\Documents\\Psicotest\\RHPsicotest\\RHPsicotest.WebSite\\RHPsicotest.WebSite.csproj",
+      "projectUniqueName": "C:\\Users\\WernerMolina\\Source\\Repos\\RHPsicotest\\RHPsicotest.WebSite\\RHPsicotest.WebSite.csproj",
       "projectName": "RHPsicotest.WebSite",
-      "projectPath": "C:\\Users\\Mclovin\\Documents\\Psicotest\\RHPsicotest\\RHPsicotest.WebSite\\RHPsicotest.WebSite.csproj",
-      "packagesPath": "C:\\Users\\Mclovin\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Mclovin\\Documents\\Psicotest\\RHPsicotest\\RHPsicotest.WebSite\\obj\\",
+      "projectPath": "C:\\Users\\WernerMolina\\Source\\Repos\\RHPsicotest\\RHPsicotest.WebSite\\RHPsicotest.WebSite.csproj",
+      "packagesPath": "C:\\Users\\WernerMolina\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\WernerMolina\\Source\\Repos\\RHPsicotest\\RHPsicotest.WebSite\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\Mclovin\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Users\\WernerMolina\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -7540,7 +7535,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.103\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
       }
     }
   }

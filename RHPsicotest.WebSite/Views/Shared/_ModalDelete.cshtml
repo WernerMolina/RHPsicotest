@@ -1,0 +1,28 @@
+﻿
+
+<style>
+    .fondo {
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, .5);
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1000;
+    }
+
+</style>
+
+<div class="fondo d-none justify-content-center align-items-center" id="modal" onclick="closeModal()">
+    <div class="card w-50">
+        <div class="card-header text-center">
+            <i class="bi bi-trash-fill fs-1 text-danger"></i>
+        </div>
+        <div class="card-body text-center">
+            <h2 class="card-title">Eliminación del Registro</h2>
+            <p class="card-text h5 mb-3" id="messageDelete">Desea eliminar este rol?</p>
+            <button class="btn btn-danger" onclick="closeModal()">Cancelar</button>
+            <button class="btn btn-primary" onclick="deleteRecord()">Aceptar</button>
+        </div>
+    </div>
+</div>

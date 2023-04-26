@@ -9,5 +9,6 @@ namespace RHPsicotest.WebSite.Repositories.Contracts
     {
         public Task<(User, List<string>)> GetUserLogin(Login login);
         public Task<(Candidate, List<string>)> GetCandidateLogin(Login login);
+        public Task<bool> EmailExists(string email, bool isCandidate);
     }
 }

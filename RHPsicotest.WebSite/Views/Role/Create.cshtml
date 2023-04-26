@@ -7,6 +7,11 @@
     MultiSelectList permissions = (MultiSelectList)ViewBag.Permissions;
 }
 
+@if(ViewBag.Error is not null)
+{
+    @Html.Partial("_ModalError", (String)ViewBag.Error)
+}
+
 <div class="row d-flex justify-content-center mt-5">
     <div class="col-12 col-sm-10 col-md-8 col-xl-5">
         <h1 class="text-center fw-bold">Crear Rol</h1>
@@ -17,7 +22,7 @@
             <div class="form-group my-2">
                 <label class="control-label fw-bold fs-5">Seleccionar Permisos</label>
                 <div>
-                    @Html.DropDownList("permissionsId", permissions, new { Class = "form-select", Id = "multiple-select-clear-field", Multiple = "multiple" })
+                    @Html.DropDownList("permissionsId", permissions, new { Class = "form-select", Id = "multiple-select-clear-field", Multiple = "multiple", required = "Seleccionar Permisos"})
                 </div>
             </div>
 

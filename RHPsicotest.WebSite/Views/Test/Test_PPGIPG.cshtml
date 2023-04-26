@@ -7,103 +7,255 @@
     int i = 0;
 }
 
-<h2>Prueba: PPG-IPG</h2>
-<form asp-action="Test_PPGIPG" method="post">
-    @foreach (Questions_PPGIPG question in Model)
-    {
-        <div class="card my-2">
-            <h5 class="card-header">Pregunta @question.QuestionNumber</h5>
-            <div class="card-body d-flex gap-5">
-                <div class="w-75 d-flex flex-column gap-3">
-                    <div class="card">
-                        <div class="card-body">
-                            A) @question.OptionA
+
+<div class="" id="ejemplo">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title h2 ">Instrucciones Generales</h5>
+            <div class="card-text fs-5">
+                <p class="mb-3">
+                    A continuación se le presentarán algunas descripciones que están reunidas en grupos de 4 frases (A, B, C y D).
+                </p>
+                <p class="mb-3">
+                    Debe leer las cuatro frases de cada grupo y deberá elegir entre ellas la que MÁS se ajusta a su modo de ser y seleccionar en la columna del signo <span class="fw-bold fs-5"><i class="bi bi-plus-lg"></i></span>,
+                    y por otra parte, deberá elegir entre ellas la que MENOS se ajusta a su modo de ser y seleccionar en la columna del signo <span class="fw-bold fs-5"><i class="bi bi-dash-lg"></i></span>.
+                </p>
+                <p class="mb-3">
+                    <b>A continuación se le presenta el siguiente ejemplo, con cuatro frases (A, B, C y D):</b>
+                </p>
+            </div>
+            <div class="mt-3">
+                <div class="card my-2">
+                    <h4 class="card-header">Pregunta Ejemplar</h4>
+                    <div class="card-body d-flex gap-5 py-1">
+                        <div class="w-75 card border-0">
+                            <div class="card-body border-0 fs-4">
+                            </div>
+                        </div>
+                        <div class=" d-flex align-items-start gap-1">
+                            <div class="card border-0 px-1">
+                                <div class="card-body border-0 px-1 py-1">
+                                    <i class="bi bi-plus-square-fill text-primary" style="font-size: 50px "></i>
+                                </div>
+                            </div>
+                            <div class="card border-0 px-1">
+                                <div class="card-body border-0 px-1 py-1">
+                                    <i class="bi bi-dash-square-fill text-primary" style="font-size: 50px"></i>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="card">
-                        <div class="card-body">
-                            B) @question.OptionB
+                    <div class="card-body d-flex gap-5 pt-0">
+                        <div class="w-75 d-flex flex-column gap-3 fs-5">
+                            <div class="card">
+                                <div class="card-body">
+                                    A) Tiene un apetito excelente. 
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-body">
+                                    B) Se pone enfermo con frecuencia.
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-body">
+                                    C) Lleva una alimentación equilibrada.
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-body">
+                                    D) No hace suficiente ejercicio.
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-body">
-                            C) @question.OptionC
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-body">
-                            D) @question.OptionD
+                        <div class="d-flex flex-column gap-2">
+                            <div class=" d-flex align-items-start gap-2" id="optionA-40">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <input class="" type="radio" id="" name="respons[40][0]" value="A"
+                                               style="width:25px; height: 25px" />
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <input class="" type="radio" id="" name="respons[40][1]" value="A"
+                                               style="width:25px; height: 25px" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class=" d-flex align-items-start gap-2" id="optionB-40">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <input class="" type="radio" id="" name="respons[40][0]" value="B"
+                                               style="width:25px; height: 25px" />
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <input class="" type="radio" id="" name="respons[40][1]" value="B"
+                                               style="width:25px; height: 25px" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class=" d-flex align-items-start gap-2" id="optionC-40">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <input class="" type="radio" id="" name="respons[40][0]" value="C"
+                                               style="width:25px; height: 25px" />
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <input class="" type="radio" id="" name="respons[40][1]" value="C"
+                                               style="width:25px; height: 25px" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class=" d-flex align-items-start gap-2" id="optionD-40">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <input class="" type="radio" id="" name="respons[40][0]" value="D"
+                                               style="width:25px; height: 25px" />
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <input class="" type="radio" id="" name="respons[40][1]" value="D"
+                                               style="width:25px; height: 25px" />
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="d-flex flex-column gap-2">
-                    <div class=" d-flex align-items-start gap-2" id="optionA-@question.QuestionNumber">
-                        <div class="card">
-                            <div class="card-body">
-                                <input class="" type="radio" id="" name="responses[@i][0]" value="A"
-                                   style="width:25px; height: 25px"/>
+
+            </div>
+            <div class="text-end">
+                <button class="btn btn-primary" onclick="startTets()">Empezar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="d-none" id="test">
+
+    <h2 >Prueba: PPG-IPG</h2>
+    <form asp-action="Test_PPGIPG" method="post">
+        @foreach (Questions_PPGIPG question in Model)
+        {
+            <div class="card my-4">
+                <h4 class="card-header">Pregunta @question.QuestionNumber</h4>
+                <div class="card-body d-flex gap-5 py-1">
+                    <div class="w-75 card border-0">
+                        <div class="card-body border-0 fs-4">
+                        
+                        </div>
+                    </div>
+                    <div class=" d-flex align-items-start gap-1">
+                        <div class="card border-0 px-1">
+                            <div class="card-body border-0 px-1 py-1">
+                                <i class="bi bi-plus-square-fill text-primary" style="font-size: 50px "></i>
                             </div>
                         </div>
-                        <div class="card">
-                            <div class="card-body">
-                                <input class="" type="radio" id="" name="responses[@i][1]" value="A"
-                                   style="width:25px; height: 25px" />
+                        <div class="card border-0 px-1">
+                            <div class="card-body border-0 px-1 py-1">
+                                <i class="bi bi-dash-square-fill text-primary" style="font-size: 50px"></i>
                             </div>
                         </div>
                     </div>
-                    <div class=" d-flex align-items-start gap-2" id="optionB-@question.QuestionNumber">
+                </div>
+                <div class="card-body d-flex gap-5 pt-0">
+                    <div class="w-75 d-flex flex-column gap-3 fs-5">
                         <div class="card">
                             <div class="card-body">
-                                <input class="" type="radio" id="" name="responses[@i][0]" value="B"
-                                   style="width:25px; height: 25px"/>
+                                A) @question.OptionA
                             </div>
                         </div>
                         <div class="card">
                             <div class="card-body">
-                                <input class="" type="radio" id="" name="responses[@i][1]" value="B"
-                                   style="width:25px; height: 25px" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class=" d-flex align-items-start gap-2" id="optionC-@question.QuestionNumber">
-                        <div class="card">
-                            <div class="card-body">
-                                <input class="" type="radio" id="" name="responses[@i][0]" value="C"
-                                   style="width:25px; height: 25px" />
+                                B) @question.OptionB
                             </div>
                         </div>
                         <div class="card">
                             <div class="card-body">
-                                <input class="" type="radio" id="" name="responses[@i][1]" value="C"
-                                   style="width:25px; height: 25px"/>
+                                C) @question.OptionC
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                D) @question.OptionD
                             </div>
                         </div>
                     </div>
-                    <div class=" d-flex align-items-start gap-2" id="optionD-@question.QuestionNumber">
-                        <div class="card">
-                            <div class="card-body">
-                                <input class="" type="radio" id="" name="responses[@i][0]" value="D"
-                                   style="width:25px; height: 25px" />
+                    <div class="d-flex flex-column gap-2">
+                        <div class=" d-flex align-items-start gap-2" id="optionA-@question.QuestionNumber">
+                            <div class="card">
+                                <div class="card-body">
+                                    <input class="" type="radio" id="" name="responses[@i][0]" value="A"
+                                       style="width:25px; height: 25px" />
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-body">
+                                    <input class="" type="radio" id="" name="responses[@i][1]" value="A"
+                                       style="width:25px; height: 25px" />
+                                </div>
                             </div>
                         </div>
-                        <div class="card">
-                            <div class="card-body">
-                                <input class="" type="radio" id="" name="responses[@i][1]" value="D"
-                                   style="width:25px; height: 25px" />
+                        <div class=" d-flex align-items-start gap-2" id="optionB-@question.QuestionNumber">
+                            <div class="card">
+                                <div class="card-body">
+                                    <input class="" type="radio" id="" name="responses[@i][0]" value="B"
+                                       style="width:25px; height: 25px" />
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-body">
+                                    <input class="" type="radio" id="" name="responses[@i][1]" value="B"
+                                       style="width:25px; height: 25px" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class=" d-flex align-items-start gap-2" id="optionC-@question.QuestionNumber">
+                            <div class="card">
+                                <div class="card-body">
+                                    <input class="" type="radio" id="" name="responses[@i][0]" value="C"
+                                       style="width:25px; height: 25px" />
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-body">
+                                    <input class="" type="radio" id="" name="responses[@i][1]" value="C"
+                                       style="width:25px; height: 25px" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class=" d-flex align-items-start gap-2" id="optionD-@question.QuestionNumber">
+                            <div class="card">
+                                <div class="card-body">
+                                    <input class="" type="radio" id="" name="responses[@i][0]" value="D"
+                                       style="width:25px; height: 25px" />
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-body">
+                                    <input class="" type="radio" id="" name="responses[@i][1]" value="D"
+                                       style="width:25px; height: 25px" />
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+            i++;
+        }
+
+        <div class="text-end my-3">
+            <input type="submit" class="btn btn-primary" value="Terminar" />
         </div>
+    </form>
+</div>
 
-        i++;
-    }
-
-    <div class="text-end my-3">
-        <input type="submit" class="btn btn-primary" value="Terminar" />
-    </div>
-</form>
 
 
 @section Scripts{
@@ -112,12 +264,25 @@
 
         inputsRadiosAll.forEach(input => input.addEventListener("click", uncheck));
 
+
+
+
         function uncheck(event) {
             let parent = event.target.parentNode.parentNode.parentNode;
             let inputsParent = document.querySelectorAll(`#${parent.id} input[type=radio]`);
             let isChecked = inputsParent[0] == event.target;
 
             isChecked ? inputsParent[1].checked = false : inputsParent[0].checked = false;
+        }
+
+
+        let ejemplo = document.querySelector("#ejemplo");
+        let test = document.querySelector("#test");
+
+        function startTets(){
+
+            ejemplo.classList.add("d-none");
+            test.classList.remove("d-none");
         }
 
     </script>

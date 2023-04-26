@@ -47,13 +47,34 @@ namespace RHPsicotest.WebSite.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    bool roleExists = await roleRepository.RoleExists(role.RoleName);
+                 
+                    if(roleExists)
+                    {
+                        ViewBag.Error = "Este rol ya esta registrado";
+
+                        ViewBag.Permissions = await roleRepository.GetAllPermissions();
+
+                        return View(role);
+                    }
+
                     bool result = await roleRepository.AddRole(role, permissionsId);
 
                     if(result)
                     {
                         return RedirectToAction("Index", "Role");
                     }
+                    else
+                    {
+                        ViewBag.Error = "No se pudo guardar el rol, intentelo después";
+
+                        ViewBag.Permissions = await roleRepository.GetAllPermissions();
+
+                        return View(role);
+                    }
                 }
+
+                ViewBag.Error = "Es necesario completar todos los inputs";
 
                 ViewBag.Permissions = await roleRepository.GetAllPermissions();
 
@@ -85,13 +106,34 @@ namespace RHPsicotest.WebSite.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    bool roleExists = await roleRepository.RoleExists(role.RoleName, role.IdRole);
+
+                    if (roleExists)
+                    {
+                        ViewBag.Error = "Este rol ya esta registrado";
+
+                        ViewBag.Permissions = await roleRepository.GetPermissionsSelected(role.IdRole);
+
+                        return View(role);
+                    }
+
                     bool result = await roleRepository.UpdateRole(role, permissionsId);
 
                     if(result)
                     {
                         return RedirectToAction("Index", "Role");
                     }
+                    else
+                    {
+                        ViewBag.Error = "No se pudo actualizar el rol, intentelo después";
+
+                        ViewBag.Permissions = await roleRepository.GetPermissionsSelected(role.IdRole);
+
+                        return View(role);
+                    }
                 }
+
+                ViewBag.Error = "Es necesario completar todos los inputs";
 
                 ViewBag.Permissions = await roleRepository.GetPermissionsSelected(role.IdRole);
 
@@ -105,18 +147,18 @@ namespace RHPsicotest.WebSite.Controllers
         
         [HttpPost]
         [Route("/Rol/Eliminar")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(int roleId)
         {
             try
             {
-                bool result = await roleRepository.DeleteRole(id);
+                bool result = await roleRepository.DeleteRole(roleId);
 
                 if(result)
                 {
                     return RedirectToAction("Index", "Role");
                 }
 
-                return RedirectToAction("Index", "Role");
+                return BadRequest();
             }
             catch (Exception ex)
             {

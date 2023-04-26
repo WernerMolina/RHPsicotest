@@ -21,5 +21,7 @@ namespace RHPsicotest.WebSite.Repositories.Contracts
         public Task<RoleUpdateVM> GetRoleUpdate(int id);
 
         public Task<MultiSelectList> GetPermissionsSelected(int id);
+
+        public Task<bool> RoleExists(string roleName, int id = 0);
     }
 }

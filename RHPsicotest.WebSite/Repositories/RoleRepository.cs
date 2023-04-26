@@ -142,9 +142,16 @@ namespace RHPsicotest.WebSite.Repositories
             context.SaveChanges();
         }
 
-        private async Task<bool> RoleExists(string roleName)
+        public async Task<bool> RoleExists(string roleName, int id = 0)
         {
-            return await context.Roles.AnyAsync(r => r.RoleName == roleName);
+            if (id > 0)
+            {
+                Role role = await context.Roles.AsNoTracking().FirstOrDefaultAsync(r => r.IdRole == id);
+
+                return !(role.IdRole == id && role.RoleName == roleName);
+            }
+
+            return await context.Roles.AnyAsync(r => r.RoleName == roleName); ;
         }
 
 

@@ -9,6 +9,7 @@ using RHPsicotest.WebSite.Repositories.Contracts;
 using RHPsicotest.WebSite.Models;
 using System.Collections.Generic;
 using System;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace RHPsicotest.WebSite.Controllers
 {
@@ -23,61 +24,84 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpGet]
         [Route("/Login")]
-        public IActionResult Login(string returnUrl = null)
+        public IActionResult Login()
         {
             if (User.Identity.IsAuthenticated)
             {
                 return RedirectToAction("Index", "Home");
             }
 
-            ViewData["ReturnUrl"] = returnUrl;
             return View();
         }
 
         [HttpPost]
         [Route("/Login")]
-        public async Task<IActionResult> Login(Login userLogin, bool isCandidate, string returnUrl = null)
+        public async Task<IActionResult> Login(Login userLogin)
         {
-            ViewData["ReturnUrl"] = returnUrl;
-
             try
             {
                 if (ModelState.IsValid)
                 {
                     ClaimsIdentity identity;
 
-                    if (isCandidate)
+                    if (userLogin.IsCandidate)
                     {
+                        bool emailExists = await loginRepository.EmailExists(userLogin.Email, true);
+
+                        if (!emailExists)
+                        {
+                            ViewBag.Error = "El correo no esta registrado";
+
+                            return View(userLogin);
+                        }
+
                         (Candidate, List<string>) candidate = await loginRepository.GetCandidateLogin(userLogin);
 
-                        if (candidate.Item1 != null)
+                        if (candidate.Item1 == null)
                         {
-                            identity = Helper.CandidateAuthenticate(candidate.Item1, candidate.Item2);
+                            ViewBag.Error = "La contraseña es incorrecta";
 
-                            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
+                            return View(userLogin);
+                        }
 
-                            if(candidate.Item1.Expedient != null)
-                            {
-                                return RedirectToAction("AssignedTests", "Test");
-                            }
-                            else
-                            {
-                                return RedirectToAction("ConfirmPolicies", "Expedient");
-                            }
+                        identity = Helper.CandidateAuthenticate(candidate.Item1, candidate.Item2);
+
+                        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
+
+                        if(candidate.Item1.Expedient != null)
+                        {
+                            return RedirectToAction("AssignedTests", "Test");
+                        }
+                        else
+                        {
+                            return RedirectToAction("ConfirmPolicies", "Expedient");
                         }
                     }
                     else
                     {
+                        bool emailExists = await loginRepository.EmailExists(userLogin.Email, false);
+
+                        if (!emailExists)
+                        {
+                            ViewBag.Error = "El correo no esta registrado";
+
+                            return View(userLogin);
+                        }
+
                         (User, List<string>) user = await loginRepository.GetUserLogin(userLogin);
 
-                        if (user.Item1 != null)
+                        if (user.Item1 == null)
                         {
-                            identity = Helper.Authenticate(user.Item1, user.Item2);
+                            ViewBag.Error = "La contraseña es incorrecta";
 
-                            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
-
-                            return RedirectToAction("Dashboard", "Home");
+                            return View(userLogin);
                         }
+
+                        identity = Helper.Authenticate(user.Item1, user.Item2);
+
+                        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
+
+                        return RedirectToAction("Dashboard", "Home");
                     }
                 }
 

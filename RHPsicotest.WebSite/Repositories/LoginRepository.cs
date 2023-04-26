@@ -20,25 +20,22 @@ namespace RHPsicotest.WebSite.Repositories
             this.context = context;
         }
 
-        
+
         public async Task<(Candidate, List<string>)> GetCandidateLogin(Login login)
         {
             Candidate candidate = await context.Candidates.Include(c => c.Expedient).Include(c => c.Role).Include(c => c.Position).FirstOrDefaultAsync(u => u.Email == login.Email);
 
             List<string> permissions = new List<string>();
-            
-            if (candidate != null)
-            {
-                bool isPassCorrect = candidate.Password == login.Password;
 
-                if (isPassCorrect)
-                {
-                    permissions = await GetCandidatePermissions(candidate.IdRole);
-                }
-                else
-                {
-                    candidate = null;
-                }
+            bool isPassCorrect = candidate.Password == login.Password;
+
+            if (isPassCorrect)
+            {
+                permissions = await GetCandidatePermissions(candidate.IdRole);
+            }
+            else
+            {
+                candidate = null;
             }
 
             return (candidate, permissions);
@@ -50,19 +47,16 @@ namespace RHPsicotest.WebSite.Repositories
             User user = await context.Users.Include(u => u.Roles).FirstOrDefaultAsync(u => u.Email == login.Email);
 
             List<string> permissions = new List<string>();
-            
-            if(user != null)
-            {
-                bool isPassCorrect = user.Password == Helper.EncryptMD5(login.Password);
 
-                if (isPassCorrect)
-                {
-                    permissions = await GetUserPermissions(user);
-                }
-                else
-                {
-                    user = null;
-                }
+            bool isPassCorrect = user.Password == Helper.EncryptMD5(login.Password);
+
+            if (isPassCorrect)
+            {
+                permissions = await GetUserPermissions(user);
+            }
+            else
+            {
+                user = null;
             }
 
             return (user, permissions);
@@ -106,6 +100,16 @@ namespace RHPsicotest.WebSite.Repositories
             }
 
             return permissions;
+        }
+
+        public async Task<bool> EmailExists(string email, bool isCandidate)
+        {
+            if (isCandidate)
+            {
+                return await context.Candidates.AnyAsync(c => c.Email == email);
+            }
+
+            return await context.Users.AnyAsync(c => c.Email == email);
         }
 
     }

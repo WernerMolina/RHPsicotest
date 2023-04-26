@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Roles";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+
 }
 
 <h1 class="fw-bold">Lista de Roles</h1>
@@ -13,9 +14,7 @@
         <a asp-action="Create" class="btn btn-success fw-bold fs-5">Crear Rol</a>
     </p>
 }
-@*<p class="mt-4">
-    <a asp-action="Create" class="btn btn-success fw-bold fs-5">Crear Rol</a>
-</p>*@
+
 <table class="table table-striped align-middle">
     <thead class="table-dark">
         <tr class="text-center">
@@ -48,12 +47,9 @@
                     }
                     @if (!(await AuthorizationService.AuthorizeAsync(User, "Delete-Role-Policy")).Succeeded)
                     {
-                        <form asp-action="Delete" method="post" class="d-inline">
-                            <input type="hidden" name="id" value="@role.IdRole" />
-                            <button class="btn btn-danger fw-bold">
-                                <i class="bi bi-trash3-fill"></i>
-                            </button>
-                        </form>
+                        <button class="btn btn-danger fw-bold" onclick="activeModalDelete(@role.IdRole)">
+                            <i class="bi bi-trash3-fill"></i>
+                        </button>
                     }
                 </td>
             </tr>
@@ -61,3 +57,45 @@
     </tbody>
 </table>
 
+
+@Html.Partial("_ModalDelete")
+
+
+@section Scripts {
+
+    <script>
+
+        var objectId = 0;
+
+        function activeModalDelete(id) {
+
+            let modalDelete = document.querySelector("#modal");
+
+            modalDelete.classList.remove("d-none");
+            modalDelete.classList.add("d-flex");
+
+            objectId = id;
+        }
+
+        function deleteRecord() {
+            if (objectId > 0) {
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.ActionLink("Delete", "Role")",
+                    data: { roleId: 0 },
+                    success: function (data) {
+                        window.location = "@Url.ActionLink("Index", "Role")";
+                    },
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    let message = document.querySelector("#messageDelete");
+
+                    message.innerHTML = "No se pudo eliminar este rol, intentelo después";
+                });
+            } else {
+                let message = document.querySelector("#messageDelete");
+
+                message.innerHTML = "No es posible eliminar este registro";
+            }
+        }
+    </script>
+}

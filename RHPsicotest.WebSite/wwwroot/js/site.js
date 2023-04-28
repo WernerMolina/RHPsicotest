@@ -8,3 +8,11 @@ function closeModal(event) {
 
     modal.classList.add("d-none");
 }
+
+function startTets() {
+    let ejemplo = document.querySelector("#ejemplo");
+    let test = document.querySelector("#test");
+
+    ejemplo.classList.add("d-none");
+    test.classList.remove("d-none");
+}

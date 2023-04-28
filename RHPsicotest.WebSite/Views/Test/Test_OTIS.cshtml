@@ -7,94 +7,425 @@
     int i = 0;
 }
 
-<h1 class="mb-3">Prueba: OTIS</h1>
-
-<form method="post">
-    @foreach (Questions_OTIS test in Model)
-    {
-        <div class="card col-8 my-2">
-            <div class="card-header h5">
-                @test.QuestionNumber. @test.Question
+<div class="" id="ejemplo">
+    <div class="card">
+        <div class="body px-2 ">
+            <h5 class="card-title h2 ">Instrucciones Generales</h5>
+            <div class="card-text fs-5">
+                <p class="mb-3">
+                    La siguiente evaluación se compone de diversas preguntas y respuestas que usted habrá de seleccionar.
+                </p>
+                <p class="mb-3">
+                    Observe detenidamente los siguientes ejemplos de la manera en la que deberá resolver la prueba.
+                </p>
             </div>
-            <div class="card-body d-flex gap-5">
-                <div class="w-75 d-flex flex-column gap-3">
-                    <div class="card">
-                        <div class="card-body">
-                            A) @test.OptionA
-                        </div>
+            <div class="mt-3 d-flex align-items-center flex-column">
+                <div class="card col-8 my-2">
+                    <div class="card-header h5">
+                        Ejemplo 1: ¿Cuál de estas cinco palabras nos indica lo que es una manzana?
                     </div>
-                    <div class="card">
-                        <div class="card-body">
-                            B) @test.OptionB
+                    <div class="card-body d-flex gap-5">
+                        <div class="w-75 d-flex flex-column gap-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    A) Flor
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-body">
+                                    B) Árbol
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-body">
+                                    C) Legumbre
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-body">
+                                    D) Fruto
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-body">
+                                    E) Animal
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-body">
-                            C) @test.OptionC
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-body">
-                            D) @test.OptionD
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-body">
-                            E) @test.OptionE
+                        <div class="d-flex flex-column gap-2">
+                            <div class=" d-flex align-items-start gap-2" id="">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <input class="" type="radio" id="" name="responses[100]" value="A"
+                                               style="width:25px; height: 25px"  />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class=" d-flex align-items-start gap-2" id="">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <input class="" type="radio" id="" name="responses[100]" value="B"
+                                               style="width:25px; height: 25px"  />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class=" d-flex align-items-start gap-2" id="">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <input class="" type="radio" id="" name="responses[100]" value="C"
+                                               style="width:25px; height: 25px"  />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class=" d-flex align-items-start gap-2" id="">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <input class="" type="radio" id="" name="responses[100]" value="D"
+                                               style="width:25px; height: 25px"  />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class=" d-flex align-items-start gap-2" id="">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <input class="" type="radio" id="" name="responses[100]" value="E"
+                                               style="width:25px; height: 25px"  />
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="d-flex flex-column gap-2">
-                    <div class=" d-flex align-items-start gap-2" id="optionA-@test.QuestionNumber">
-                        <div class="card">
-                            <div class="card-body">
-                                <input class="" type="radio" id="" name="responses[@i]" value="A"
-                                   style="width:25px; height: 25px" />
+                <div class="card col-8 my-2">
+                    <div class="card-header h5">
+                        Ejemplo 2: ¿Cuál de estas cosas es redonda?
+                    </div>
+                    <div class="card-body d-flex gap-5">
+                        <div class="w-75 d-flex flex-column gap-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    A) Libro
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-body">
+                                    B) Ladrillo
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-body">
+                                    C) Pelota
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-body">
+                                    D) Casa
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-body">
+                                    E) Baúl
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class=" d-flex align-items-start gap-2" id="optionB-@test.QuestionNumber">
-                        <div class="card">
-                            <div class="card-body">
-                                <input class="" type="radio" id="" name="responses[@i]" value="B"
-                                   style="width:25px; height: 25px" />
+                        <div class="d-flex flex-column gap-2">
+                            <div class=" d-flex align-items-start gap-2" id="">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <input class="" type="radio" id="" name="responses[101]" value="A"
+                                               style="width:25px; height: 25px"   />
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class=" d-flex align-items-start gap-2" id="optionC-@test.QuestionNumber">
-                        <div class="card">
-                            <div class="card-body">
-                                <input class="" type="radio" id="" name="responses[@i]" value="C"
-                                   style="width:25px; height: 25px" />
+                            <div class=" d-flex align-items-start gap-2" id="">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <input class="" type="radio" id="" name="responses[101]" value="B"
+                                               style="width:25px; height: 25px"  />
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class=" d-flex align-items-start gap-2" id="optionD-@test.QuestionNumber">
-                        <div class="card">
-                            <div class="card-body">
-                                <input class="" type="radio" id="" name="responses[@i]" value="D"
-                                   style="width:25px; height: 25px" />
+                            <div class=" d-flex align-items-start gap-2" id="">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <input class="" type="radio" id="" name="responses[101]" value="C"
+                                               style="width:25px; height: 25px"  />
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class=" d-flex align-items-start gap-2" id="optionE-@test.QuestionNumber">
-                        <div class="card">
-                            <div class="card-body">
-                                <input class="" type="radio" id="" name="responses[@i]" value="E"
-                                   style="width:25px; height: 25px" />
+                            <div class=" d-flex align-items-start gap-2" id="">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <input class="" type="radio" id="" name="responses[101]" value="D"
+                                               style="width:25px; height: 25px"  />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class=" d-flex align-items-start gap-2" id="">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <input class="" type="radio" id="" name="responses[101]" value="E"
+                                               style="width:25px; height: 25px"  />
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <div class="card col-8 my-2">
+                    <div class="card-header h5">
+                        Ejemplo 3: ¿Cuál de estos números tiene todas sus cifras impares?
+                    </div>
+                    <div class="card-body d-flex gap-5">
+                        <div class="w-75 d-flex flex-column gap-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    A) 243
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-body">
+                                    B) 9.871
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-body">
+                                    C) 6.482
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-body">
+                                    D) 3.175
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-body">
+                                    E) 19.783
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex flex-column gap-2">
+                            <div class=" d-flex align-items-start gap-2" id="">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <input class="" type="radio" id="" name="responses[102]" value="A"
+                                               style="width:25px; height: 25px"   />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class=" d-flex align-items-start gap-2" id="">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <input class="" type="radio" id="" name="responses[102]" value="B"
+                                               style="width:25px; height: 25px"  />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class=" d-flex align-items-start gap-2" id="">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <input class="" type="radio" id="" name="responses[102]" value="C"
+                                               style="width:25px; height: 25px"  />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class=" d-flex align-items-start gap-2" id="">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <input class="" type="radio" id="" name="responses[102]" value="D"
+                                               style="width:25px; height: 25px"  />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class=" d-flex align-items-start gap-2" id="">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <input class="" type="radio" id="" name="responses[102]" value="E"
+                                               style="width:25px; height: 25px"  />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card col-8 my-2">
+                    <div class="card-header h5">
+                        Ejemplo 4: El precio de una pastilla es de 20 centavos. ¿Cuánto costaran seis pastillas?
+                    </div>
+                    <div class="card-body d-flex gap-5">
+                        <div class="w-75 d-flex flex-column gap-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    A) 1.80 centavos
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-body">
+                                    B) 1.20 centavos
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-body">
+                                    C) 0.90 centavos
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-body">
+                                    D) 1.30 centavos
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-body">
+                                    E) 0.75 centavos
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex flex-column gap-2">
+                            <div class=" d-flex align-items-start gap-2" id="">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <input class="" type="radio" id="" name="responses[101]" value="A"
+                                               style="width:25px; height: 25px"  />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class=" d-flex align-items-start gap-2" id="">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <input class="" type="radio" id="" name="responses[101]" value="B"
+                                               style="width:25px; height: 25px"  />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class=" d-flex align-items-start gap-2" id="">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <input class="" type="radio" id="" name="responses[101]" value="C"
+                                               style="width:25px; height: 25px"  />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class=" d-flex align-items-start gap-2" id="">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <input class="" type="radio" id="" name="responses[101]" value="D"
+                                               style="width:25px; height: 25px"  />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class=" d-flex align-items-start gap-2" id="">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <input class="" type="radio" id="" name="responses[101]" value="E"
+                                               style="width:25px; height: 25px"  />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="my-3 text-center">
+                <p class="fs-5 mb-3">
+                    La siguiente evaluación consta de 75 enunciados: lea atentamente y elija la respuesta que considere correcta
+                </p>
+                <button class="btn btn-primary" onclick="startTets()">Iniciar Prueba</button>
             </div>
         </div>
-
-        i++;
-    }
-
-    <div class="text-end my-3">
-        <input type="submit" class="btn btn-primary" value="Terminar" />
     </div>
-</form>
+</div>
+<div class="d-none" id="test">
+    <h1 class="mb-3">Prueba: OTIS</h1>
+
+    <form method="post">
+        @foreach (Questions_OTIS test in Model)
+        {
+            <div class="card col-8 my-2">
+                <div class="card-header h5">
+                    @test.QuestionNumber. @test.Question
+                </div>
+                <div class="card-body d-flex gap-5">
+                    <div class="w-75 d-flex flex-column gap-3">
+                        <div class="card">
+                            <div class="card-body">
+                                A) @test.OptionA
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                B) @test.OptionB
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                C) @test.OptionC
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                D) @test.OptionD
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                E) @test.OptionE
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex flex-column gap-2">
+                        <div class=" d-flex align-items-start gap-2" id="optionA-@test.QuestionNumber">
+                            <div class="card">
+                                <div class="card-body">
+                                    <input class="" type="radio" id="" name="responses[@i]" value="A"
+                                       style="width:25px; height: 25px" checked required />
+                                </div>
+                            </div>
+                        </div>
+                        <div class=" d-flex align-items-start gap-2" id="optionB-@test.QuestionNumber">
+                            <div class="card">
+                                <div class="card-body">
+                                    <input class="" type="radio" id="" name="responses[@i]" value="B"
+                                       style="width:25px; height: 25px" required />
+                                </div>
+                            </div>
+                        </div>
+                        <div class=" d-flex align-items-start gap-2" id="optionC-@test.QuestionNumber">
+                            <div class="card">
+                                <div class="card-body">
+                                    <input class="" type="radio" id="" name="responses[@i]" value="C"
+                                       style="width:25px; height: 25px" required />
+                                </div>
+                            </div>
+                        </div>
+                        <div class=" d-flex align-items-start gap-2" id="optionD-@test.QuestionNumber">
+                            <div class="card">
+                                <div class="card-body">
+                                    <input class="" type="radio" id="" name="responses[@i]" value="D"
+                                       style="width:25px; height: 25px" required />
+                                </div>
+                            </div>
+                        </div>
+                        <div class=" d-flex align-items-start gap-2" id="optionE-@test.QuestionNumber">
+                            <div class="card">
+                                <div class="card-body">
+                                    <input class="" type="radio" id="" name="responses[@i]" value="E"
+                                       style="width:25px; height: 25px" required />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            i++;
+        }
+
+        <div class="text-end my-3">
+            <input type="submit" class="btn btn-primary" value="Terminar" />
+        </div>
+    </form>
+
+</div>
+
 
 

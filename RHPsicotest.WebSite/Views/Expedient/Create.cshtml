@@ -4,8 +4,8 @@
     ViewData["Title"] = "Expediente";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
-    List<string> formations = (List<string>)ViewBag.AcademicFormations;
 }
+
 <div style="display:flex; justify-content:center;">
     <h1>Expediente</h1>
 </div>
@@ -71,7 +71,7 @@
                 <label asp-for="AcademicTraining" class="control-label"></label>
                 <select asp-for="AcademicTraining" class="form-select" id="single-select-field">
                     <option value="0">Seleccionar Formación</option>
-                    @foreach (string formation in formations)
+                    @foreach (var formation in (List<string>)ViewBag.AcademicFormations)
                     {
                         <option value="@formation">@formation</option>
                     }

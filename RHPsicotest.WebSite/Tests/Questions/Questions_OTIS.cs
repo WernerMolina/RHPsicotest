@@ -759,7 +759,7 @@ namespace RHPsicotest.WebSite.Tests.Questions
                 new Questions_OTIS
                 {
                     QuestionNumber = 75,
-                    Question = "Si la frase que aparece aquí debajo estuviera ordenada, ¿Qué numero cumple lo que en ella se dice? Y  SUMA  CUATRO  ESCRIBA  TRES  LA  UNO  DE",
+                    Question = "Si la frase que aparece aquí debajo estuviera ordenada, ¿Qué numero cumple lo que en ella se dice? Y SUMA CUATRO ESCRIBA TRES LA UNO DE",
                     OptionA = "3",
                     OptionB = "4",
                     OptionC = "1",

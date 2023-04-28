@@ -264,25 +264,12 @@
 
         inputsRadiosAll.forEach(input => input.addEventListener("click", uncheck));
 
-
-
-
         function uncheck(event) {
             let parent = event.target.parentNode.parentNode.parentNode;
             let inputsParent = document.querySelectorAll(`#${parent.id} input[type=radio]`);
             let isChecked = inputsParent[0] == event.target;
 
             isChecked ? inputsParent[1].checked = false : inputsParent[0].checked = false;
-        }
-
-
-        let ejemplo = document.querySelector("#ejemplo");
-        let test = document.querySelector("#test");
-
-        function startTets(){
-
-            ejemplo.classList.add("d-none");
-            test.classList.remove("d-none");
         }
 
     </script>

@@ -45,7 +45,7 @@ namespace RHPsicotest.WebSite.Controllers
         public IActionResult ConfirmPolicies(bool accept)
         {
             if (accept)
-                return View("Create");
+                return RedirectToAction(nameof(Create));
 
             return View();
         }

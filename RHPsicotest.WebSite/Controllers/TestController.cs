@@ -57,7 +57,7 @@ namespace RHPsicotest.WebSite.Controllers
 
             if (result)
             {
-                return RedirectToAction("AssignedTests");
+                return RedirectToAction(nameof(AssignedTests));
             }
 
             List<Questions_PPGIPG> test = testRepository.GetTest_PPGIPG();
@@ -84,7 +84,7 @@ namespace RHPsicotest.WebSite.Controllers
 
             if (result)
             {
-                return RedirectToAction("AssignedTests");
+                return RedirectToAction(nameof(AssignedTests));
             }
 
             List<Questions_OTIS> test = testRepository.GetTest_OTIS();

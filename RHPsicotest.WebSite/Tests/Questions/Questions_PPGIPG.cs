@@ -19,7 +19,7 @@ namespace RHPsicotest.WebSite.Tests.Questions
                     QuestionNumber = 1,
                     OptionA = "Tiene don de gentes en reuniones sociales.",
                     OptionB = "Le falta confianza en sí mismo.",
-                    OptionC = "Le falta confianza en sí mismo.",
+                    OptionC = "Es minucioso en todo lo que hace",
                     OptionD = "Tiene cierta tendencia a dejarse llevar por sus sentimientos."
                 },
                 new Questions_PPGIPG
@@ -36,13 +36,13 @@ namespace RHPsicotest.WebSite.Tests.Questions
                     OptionA = "Se comporta de una forma un tanto impulsiva y nerviosa.",
                     OptionB = "Tiene mucha influencia sobre los demás.",
                     OptionC = "No le gustan las relaciones sociales.",
-                    OptionD = "Trabaja de un modo muy constante y tenaz.1"
+                    OptionD = "Trabaja de un modo muy constante y tenaz."
                 },
                 new Questions_PPGIPG
                 {
                     QuestionNumber = 4,
                     OptionA = "Le resulta fácil hacer nuevas amistades.",
-                    OptionB = "No puede estar mucho tiempo haciendo lo mismo.'",
+                    OptionB = "No puede estar mucho tiempo haciendo lo mismo.",
                     OptionC = "Se deja llevar fácilmente por los demás.",
                     OptionD = "Se sabe controlar aunque le salgan las cosas mal."
                 },

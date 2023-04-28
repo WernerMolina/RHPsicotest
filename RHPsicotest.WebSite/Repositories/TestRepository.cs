@@ -61,12 +61,6 @@ namespace RHPsicotest.WebSite.Repositories
         {
             byte[] scoresByFactor = new byte[9];
 
-            // Retorna falso si la respuesta positiva y negativa tienen el mismo valor en una pregunta
-            for (int i = 0; i < 38; i++)
-            {
-                if (responses[i][0] == responses[i][1]) return false;
-            }
-
             for (int i = 1; i <= 8; i++)
             {
                 List<Responses_PPGIPG> responsesByFactor = Responses_PPGIPG.GetResponses().Where(r => r.IdFactor == i).ToList();
@@ -154,11 +148,15 @@ namespace RHPsicotest.WebSite.Repositories
         {
             byte score = Results_OTIS.GetScoreTotal(responses);
 
-            //Expedient expedient = await context.Expedients.FirstOrDefaultAsync(e => e.IdCandidate == currentIdUser);
+            byte IQ = Results_OTIS.GetCIByScore(score);
 
-            byte percentile = Results_OTIS.GetCIByScore(score);
+            string description = Results_OTIS.GetDescriptionByCI(IQ);
 
-            return true;
+            Expedient expedient = await context.Expedients.FirstOrDefaultAsync(e => e.IdCandidate == currentIdUser);
+
+            bool result = await AddResults_OTIS(expedient.IdExpedient, score, IQ, description);
+
+            return result;
         }
 
 
@@ -183,25 +181,22 @@ namespace RHPsicotest.WebSite.Repositories
             return await context.SaveChangesAsync() > 0;
         }
 
-        //private async Task<bool> AddResults_OTIS(int expedientId, byte scoreByFactor, byte scoresPercentile, string description)
-        //{
-        //    List<Result> results = new List<Result>();
-        //    List<Result> removes = context.Results.Where(r => r.IdExpedient == expedientId).ToList();
+        private async Task<bool> AddResults_OTIS(int expedientId, byte score, byte IQ, string description)
+        {
+            List<Result> results = new List<Result>();
+            List<Result> removes = context.Results.Where(r => r.IdExpedient == expedientId).ToList();
 
-        //    if(removes != null)
-        //    {
-        //        context.Results.RemoveRange(removes);
-        //        context.SaveChanges();
-        //    }
+            if (removes != null)
+            {
+                context.Results.RemoveRange(removes);
+                context.SaveChanges();
+            }
 
-        //    for (int i = 0; i <= 8; i++)
-        //    {
-        //        results.Add(Conversion.ConvertToResult(expedientId, i + 1, scoresByFactor[i], scoresByPercentile[i], description[i]));
-        //    }
-
-        //    await context.Results.AddRangeAsync(results);
-        //    return await context.SaveChangesAsync() > 0;
-        //}
+            Result result = Conversion.ConvertToResult(expedientId, 10, score, IQ, description);
+            
+            await context.Results.AddAsync(result);
+            return await context.SaveChangesAsync() > 0;
+        }
 
         private async Task<bool> AddResults_Dominos(int expedientId, byte score, byte percentile, string description)
         {
@@ -213,7 +208,7 @@ namespace RHPsicotest.WebSite.Repositories
                 context.SaveChanges();
             }
 
-            Result result = Conversion.ConvertToResult(expedientId, 9, score, percentile, description);
+            Result result = Conversion.ConvertToResult(expedientId, 10, score, percentile, description);
 
             await context.Results.AddAsync(result);
             return await context.SaveChangesAsync() > 0;

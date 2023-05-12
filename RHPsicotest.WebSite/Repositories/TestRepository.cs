@@ -38,6 +38,11 @@ namespace RHPsicotest.WebSite.Repositories
             return Questions_BFQ.Questions();
         }
         
+        public (List<Questions_16PF>, List<Questions_16PF>) GetTest_16PF()
+        {
+            return (Questions_16PF.Questions_WayA(), Questions_16PF.Questions_WayB());
+        }
+        
         public async Task<List<TestDTO>> GetAssignedTests(int candidateId)
         {
             List<Test_Candidate> tests = await context.Test_Candidates.Where(t => t.IdCandidate == candidateId).ToListAsync();

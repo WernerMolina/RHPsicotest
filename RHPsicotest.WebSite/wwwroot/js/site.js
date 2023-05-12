@@ -9,10 +9,10 @@ function closeModal(event) {
     modal.classList.add("d-none");
 }
 
-function startTets() {
-    let ejemplo = document.querySelector("#ejemplo");
+function startTest() {
+    let example = document.querySelector("#example");
     let test = document.querySelector("#test");
 
-    ejemplo.classList.add("d-none");
+    example.classList.add("d-none");
     test.classList.remove("d-none");
 }

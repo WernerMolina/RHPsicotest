@@ -7,8 +7,7 @@
     int i = 0;
 }
 
-
-<div class="" id="ejemplo">
+<div class="" id="example">
     <div class="card">
         <div class="card-body">
             <h5 class="card-title h2 ">Instrucciones Generales</h5>
@@ -26,7 +25,7 @@
             </div>
             <div class="mt-3">
                 <div class="card my-2">
-                    <h4 class="card-header">Pregunta Ejemplar</h4>
+                    <h2 class="card-header">Ejemplo</h2>
                     <div class="card-body d-flex gap-5 py-1">
                         <div class="w-75 card border-0">
                             <div class="card-body border-0 fs-4">
@@ -131,14 +130,13 @@
 
             </div>
             <div class="text-end">
-                <button class="btn btn-primary" onclick="startTets()">Empezar</button>
+                <button class="btn btn-primary" onclick="startTest()">Empezar</button>
             </div>
         </div>
     </div>
 </div>
 <div class="d-none" id="test">
-
-    <h2 >Prueba: PPG-IPG</h2>
+    <h2 >Prueba PPG-IPG</h2>
     <form asp-action="Test_PPGIPG" method="post">
         @foreach (Questions_PPGIPG question in Model)
         {
@@ -191,13 +189,13 @@
                             <div class="card">
                                 <div class="card-body">
                                     <input class="" type="radio" id="" name="responses[@i][0]" value="A"
-                                       style="width:25px; height: 25px" />
+                                       style="width:25px; height: 25px" required checked/>
                                 </div>
                             </div>
                             <div class="card">
                                 <div class="card-body">
                                     <input class="" type="radio" id="" name="responses[@i][1]" value="A"
-                                       style="width:25px; height: 25px" />
+                                       style="width:25px; height: 25px" required />
                                 </div>
                             </div>
                         </div>
@@ -205,13 +203,13 @@
                             <div class="card">
                                 <div class="card-body">
                                     <input class="" type="radio" id="" name="responses[@i][0]" value="B"
-                                       style="width:25px; height: 25px" />
+                                       style="width:25px; height: 25px" required />
                                 </div>
                             </div>
                             <div class="card">
                                 <div class="card-body">
                                     <input class="" type="radio" id="" name="responses[@i][1]" value="B"
-                                       style="width:25px; height: 25px" />
+                                       style="width:25px; height: 25px" required checked/>
                                 </div>
                             </div>
                         </div>
@@ -219,13 +217,13 @@
                             <div class="card">
                                 <div class="card-body">
                                     <input class="" type="radio" id="" name="responses[@i][0]" value="C"
-                                       style="width:25px; height: 25px" />
+                                       style="width:25px; height: 25px" required />
                                 </div>
                             </div>
                             <div class="card">
                                 <div class="card-body">
                                     <input class="" type="radio" id="" name="responses[@i][1]" value="C"
-                                       style="width:25px; height: 25px" />
+                                       style="width:25px; height: 25px" required />
                                 </div>
                             </div>
                         </div>
@@ -233,13 +231,13 @@
                             <div class="card">
                                 <div class="card-body">
                                     <input class="" type="radio" id="" name="responses[@i][0]" value="D"
-                                       style="width:25px; height: 25px" />
+                                       style="width:25px; height: 25px" required />
                                 </div>
                             </div>
                             <div class="card">
                                 <div class="card-body">
                                     <input class="" type="radio" id="" name="responses[@i][1]" value="D"
-                                       style="width:25px; height: 25px" />
+                                       style="width:25px; height: 25px" required />
                                 </div>
                             </div>
                         </div>
@@ -255,7 +253,6 @@
         </div>
     </form>
 </div>
-
 
 
 @section Scripts{

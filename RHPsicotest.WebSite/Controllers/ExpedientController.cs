@@ -17,6 +17,33 @@ namespace RHPsicotest.WebSite.Controllers
     {
         private readonly IExpedientRepository expedientRepository;
 
+        List<string> academicFormations = new List<string>
+        {
+            "Bachiller",
+            "Directivo",
+            "Ingeniero",
+            "Licenciado",
+            "Profesional",
+            "Técnico",
+            "Técnico Comercial",
+            "Técnico de Organización",
+            "Inspector o Delegado",
+            "Agente de Venta",
+            "Jefe Administrativo",
+            "Administrativo Oficial o Auxiliar",
+            "Analista o Programador",
+            "Monitor o Mandos Medios",
+            "Operario Mecánico",
+            "Secretaria",
+            "Administrativa",
+            "Vendedor",
+            "Vigilante",
+            "Operario no Cualificado",
+            "Profesinal de Oficio",
+            "Subalternos",
+            "Supervisora de Ventas",
+        };
+
         public ExpedientController(IExpedientRepository expedientRepository)
         {
             this.expedientRepository = expedientRepository;
@@ -51,42 +78,17 @@ namespace RHPsicotest.WebSite.Controllers
         }
 
         [HttpGet]
-        [Route("/Expediente")]
+        [Route("/Crear/Expediente")]
         //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "Create-User-Policy")]
         public IActionResult Create()
         {
-            ViewBag.AcademicFormations = new List<string>
-            {
-                "Bachiller",
-                "Directivo",
-                "Ingeniero",
-                "Licenciado",
-                "Profesional",
-                "Técnico",
-                "Técnico Comercial",
-                "Técnico de Organización",
-                "Inspector o Delegado",
-                "Agente de Venta",
-                "Jefe Administrativo",
-                "Administrativo Oficial o Auxiliar",
-                "Analista o Programador",
-                "Monitor o Mandos Medios",
-                "Operario Mecánico",
-                "Secretaria",
-                "Administrativa",
-                "Vendedor",
-                "Vigilante",
-                "Operario no Cualificado",
-                "Profesinal de Oficio",
-                "Subalternos",
-                "Supervisora de Ventas",
-            };
+            ViewBag.AcademicFormations = academicFormations;
 
             return View();
         }
 
         [HttpPost]
-        [Route("/Expediente")]
+        [Route("/Crear/Expediente")]
         public async Task<IActionResult> Create(ExpedientVM expedientVM)
         {
             try
@@ -108,10 +110,12 @@ namespace RHPsicotest.WebSite.Controllers
 
                         if (result)
                         {
-                            return RedirectToAction("AssignedTests", "Test");
+                            return RedirectToAction(nameof(TestController.AssignedTests));
                         }
                     }
                 }
+
+                ViewBag.AcademicFormations = academicFormations;
 
                 return View(expedientVM);
             }
@@ -128,32 +132,7 @@ namespace RHPsicotest.WebSite.Controllers
         {
             ExpedientUpdateVM expedient = await expedientRepository.GetExpedientUpdateVM(id);
 
-            ViewBag.AcademicFormations = new List<string>
-            {
-                "Bachiller",
-                "Directivo",
-                "Ingeniero",
-                "Licenciado",
-                "Profesional",
-                "Técnico",
-                "Técnico Comercial",
-                "Técnico de Organización",
-                "Inspector o Delegado",
-                "Agente de Venta",
-                "Jefe Administrativo",
-                "Administrativo Oficial o Auxiliar",
-                "Analista o Programador",
-                "Monitor o Mandos Medios",
-                "Operario Mecánico",
-                "Secretaria",
-                "Administrativa",
-                "Vendedor",
-                "Vigilante",
-                "Operario no Cualificado",
-                "Profesinal de Oficio",
-                "Subalternos",
-                "Supervisora de Ventas",
-            };
+            ViewBag.AcademicFormations = academicFormations;
 
             return View(expedient);
         }
@@ -174,6 +153,8 @@ namespace RHPsicotest.WebSite.Controllers
                     }
                 }
 
+                ViewBag.AcademicFormations = academicFormations;
+
                 return View(expedientUpdateVM);
             }
             catch (Exception ex)
@@ -181,9 +162,6 @@ namespace RHPsicotest.WebSite.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
-
-
-
 
         [HttpGet]
         [Route("/CurriculumVitae")]

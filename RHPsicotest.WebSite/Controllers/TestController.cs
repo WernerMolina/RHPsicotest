@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AspNetCore;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RHPsicotest.WebSite.DTOs;
 using RHPsicotest.WebSite.Models;
@@ -109,7 +110,7 @@ namespace RHPsicotest.WebSite.Controllers
 
             if (result)
             {
-                return RedirectToAction("AssignedTests");
+                return RedirectToAction(nameof(AssignedTests));
             }
 
             return View();
@@ -127,6 +128,27 @@ namespace RHPsicotest.WebSite.Controllers
         [HttpPost]
         [Route("/Prueba/BFQ")]
         public IActionResult Test_BFQ(char[][] responses)
+        {
+            int currentIdUser = Convert.ToInt32(((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value);
+
+            return View();
+        }
+        
+        [HttpGet]
+        [Route("/Prueba/16PF")]
+        public IActionResult Test_16PF()
+        {
+            (List<Questions_16PF>, List<Questions_16PF>) questions = testRepository.GetTest_16PF();
+
+            ViewBag.Questions_WayA = questions.Item1;
+            ViewBag.Questions_WayB = questions.Item2;
+
+            return View();
+        }
+
+        [HttpPost]
+        [Route("/Prueba/16PF")]
+        public IActionResult Test_16PF(char[] responsesA, char[] responsesB)
         {
             int currentIdUser = Convert.ToInt32(((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value);
 

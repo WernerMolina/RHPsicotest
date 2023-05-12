@@ -1,24 +1,93 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Prueba Dominos";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     int i = 0;
 }
 
-<h1 class="mb-3">Prueba de Dominos</h1>
-
-@for (int item = 1; item <= 10; item++)
-{
+<div id="example">
+    <h1 class="mb-3">Indicaciones</h1>
+    <div class="card-text fs-5 mb-3">
+        <p class="mb-3">
+            A continuación, se le presenta un recuadro representa un grupo de fichas de dominó.
+        </p>
+        <p class="mb-3">
+            En cada uno de los recuadros el número de puntos en cada mitad de la ficha puede variar de 0-6.
+        </p>
+        <p class="mb-3">
+            Para responder cada problema debe seleccionar la orientación en la que debería aparecer la ficha, el número de la parte superior de la ficha y el de la parte inferior. Una vez seleccionada la respuesta, da clic en el botón continuar.
+        </p>
+        <p class="mb-3">
+            A continuación, te proponemos cuatro ejemplos:
+        </p>
+        <p>
+            En los ejemplos A y B, estos ya han sido resueltos. Observe cómo y por qué corresponden esas soluciones.
+        </p>
+    </div>
     <div class="d-flex bg-dark-subtle w-75 m-2">
         <div class="card-header col-10">
-            <img src="@String.Format($"/img/Dominos/Domino{item}.jpg")" class="card-img-top w-50" />
+            <img src="/img/Dominos/Ejemplos/DominoEjemplo1.jpg" class="card-img-top w-50" />
         </div>
         <div class="card-body col-2">
-            <input type="number" name="responses[@i][0]" class="d-block p-3 border border-dark w-100"/>
-            <input type="number" name="responses[@i][1]" class="d-block p-3 border border-dark w-100"/>
+            <input type="number" class="d-block p-3 border border-dark w-100" value="2" />
+            <input type="number" class="d-block p-3 border border-dark w-100" value="4" />
         </div>
     </div>
+    <div class="d-flex bg-dark-subtle w-75 m-2">
+        <div class="card-header col-10">
+            <img src="/img/Dominos/Ejemplos/DominoEjemplo2.jpg" class="card-img-top w-50" />
+        </div>
+        <div class="card-body col-2">
+            <input type="number" class="d-block p-3 border border-dark w-100" value="2" />
+            <input type="number" class="d-block p-3 border border-dark w-100" value="3" />
+        </div>
+    </div>
+    <div class="card-text fs-5 mb-2">
+        <p>
+            Los siguientes C y D son otros dos ejemplos. Fíjese bien en cada grupo y trate de identificar las cifras que corresponden al domino vacío.
+        </p>
+    </div>
+    <div class="d-flex bg-dark-subtle w-75 m-2">
+        <div class="card-header col-10">
+            <img src="/img/Dominos/Ejemplos/DominoEjemplo3.jpg" class="card-img-top w-50" />
+        </div>
+        <div class="card-body col-2">
+            <input type="number" class="d-block p-3 border border-dark w-100" />
+            <input type="number" class="d-block p-3 border border-dark w-100" />
+        </div>
+    </div>
+    <div class="d-flex bg-dark-subtle w-75 m-2">
+        <div class="card-header col-10">
+            <img src="/img/Dominos/Ejemplos/DominoEjemplo4.jpg" class="card-img-top w-50" />
+        </div>
+        <div class="card-body col-2">
+            <input type="number" class="d-block p-3 border border-dark w-100" />
+            <input type="number" class="d-block p-3 border border-dark w-100" />
+        </div>
+    </div>
+    <div class="text-end">
+        <button class="btn btn-primary" onclick="startTest()">Empezar</button>
+    </div>
+</div>
+<div class="test">
+    <h1 class="mb-3">Prueba de Dominos</h1>
 
-    i++;
-}
+    @for (int item = 1; item <= 44; item++)
+    {
+        <div class="d-flex bg-dark-subtle w-75 m-2">
+            <div class="card-header col-10">
+                <img src="@String.Format($"/img/Dominos/Domino{item}.jpg")" class="card-img-top w-50" />
+            </div>
+            <div class="card-body col-2">
+                <input type="number" name="responses[@i][0]" class="d-block p-3 border border-dark w-100" />
+                <input type="number" name="responses[@i][1]" class="d-block p-3 border border-dark w-100" />
+            </div>
+        </div>
+
+        i++;
+    }
+
+    <div class="text-end mt-2">
+        <input type="submit" class="btn btn-primary" value="Terminar" />
+    </div>
+</div>

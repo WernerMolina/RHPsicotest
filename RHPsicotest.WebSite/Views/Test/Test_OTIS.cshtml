@@ -7,7 +7,7 @@
     int i = 0;
 }
 
-<div class="" id="ejemplo">
+<div class="" id="example">
     <div class="card">
         <div class="body px-2 ">
             <h5 class="card-title h2 ">Instrucciones Generales</h5>
@@ -329,13 +329,13 @@
                 <p class="fs-5 mb-3">
                     La siguiente evaluación consta de 75 enunciados: lea atentamente y elija la respuesta que considere correcta
                 </p>
-                <button class="btn btn-primary" onclick="startTets()">Iniciar Prueba</button>
+                <button class="btn btn-primary" onclick="startTest()">Iniciar Prueba</button>
             </div>
         </div>
     </div>
 </div>
 <div class="d-none" id="test">
-    <h1 class="mb-3">Prueba: OTIS</h1>
+    <h1 class="mb-3">Prueba OTIS</h1>
 
     <form method="post">
         @foreach (Questions_OTIS test in Model)
@@ -424,7 +424,6 @@
             <input type="submit" class="btn btn-primary" value="Terminar" />
         </div>
     </form>
-
 </div>
 
 

@@ -270,11 +270,12 @@ namespace RHPsicotest.WebSite.Utilities
         }
         
         // Resultado
-        public static Result ConvertToResult(int expedientId, int factorId, byte scoreFactor, byte scorePercentile, string description)
+        public static Result ConvertToResult(int expedientId, int testId, int factorId, byte scoreFactor, byte scorePercentile, string description)
         {
             return new Result
             {
                 IdExpedient = expedientId,
+                IdTest = testId,
                 IdFactor = factorId,
                 Score = scoreFactor,
                 Percentile = scorePercentile,

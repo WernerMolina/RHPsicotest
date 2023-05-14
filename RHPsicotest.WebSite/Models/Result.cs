@@ -11,6 +11,9 @@ namespace RHPsicotest.WebSite.Models
         public int IdExpedient { get; set; }
 
         [Key]
+        public int IdTest { get; set; }
+        
+        [Key]
         public int IdFactor { get; set; }
 
         public byte Score { get; set; }
@@ -23,6 +26,10 @@ namespace RHPsicotest.WebSite.Models
         [InverseProperty(nameof(Models.Expedient.Results))]
         public virtual Expedient Expedient{ get; set; }
 
+        [ForeignKey(nameof(IdTest))]
+        [InverseProperty(nameof(Models.Test.Results))]
+        public virtual Test Test { get; set; }
+        
         [ForeignKey(nameof(IdFactor))]
         [InverseProperty(nameof(Models.Factor.Results))]
         public virtual Factor Factor { get; set; }

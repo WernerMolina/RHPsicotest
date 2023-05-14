@@ -110,7 +110,7 @@ namespace RHPsicotest.WebSite.Controllers
 
                         if (result)
                         {
-                            return RedirectToAction(nameof(TestController.AssignedTests));
+                            return RedirectToAction("AssignedTests", "Test");
                         }
                     }
                 }

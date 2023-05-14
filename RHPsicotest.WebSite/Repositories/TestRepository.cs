@@ -64,55 +64,13 @@ namespace RHPsicotest.WebSite.Repositories
 
         public async Task<bool> Test_PPGIPG(char[][] responses, int currentIdUser)
         {
-            byte[] scoresByFactor = new byte[9];
-
-            for (int i = 1; i <= 8; i++)
-            {
-                List<Responses_PPGIPG> responsesByFactor = Responses_PPGIPG.GetResponses().Where(r => r.IdFactor == i).ToList();
-                
-                if(i <= 4)
-                {
-                    // Obtenemos las puntuaciones de la pregunta 1 a la 18
-                    char[,] responsesPPG = new char[18, 2];
-
-                    for (int j = 0; j < 18; j++)
-                    {
-                        responsesPPG[j, 0] = responses[j][0];
-                        responsesPPG[j, 1] = responses[j][1];
-                    }
-
-                    byte scores = Results_PPGIPG.GetScoreByFactor(responsesPPG, responsesByFactor);
-
-                    scoresByFactor[i - 1] = scores;
-                }
-                else
-                {
-                    // Obtenemos las puntuaciones de la pregunta 19 a la 38
-                    int k = 18;
-                    char[,] responsesIPG = new char[20, 2];
-
-                    for (int j = 0; j < 20; j++)
-                    {
-                        responsesIPG[j, 0] = responses[k][0];
-                        responsesIPG[j, 1] = responses[k][1];
-
-                        k++;
-                    }
-
-                    byte scores = Results_PPGIPG.GetScoreByFactor(responsesIPG, responsesByFactor);
-
-                    scoresByFactor[i - 1] = scores;
-                }
-            }
-
-            // Suma para obtener el factor de Autoestima
-            scoresByFactor[8] = (byte)(scoresByFactor[0] + scoresByFactor[1] + scoresByFactor[2] + scoresByFactor[3]);
+            byte[] scoresByFactor = Results_PPGIPG.GetScores(responses);
 
             // Traemos el expediente del candidato que esta realizando la prueba
             Expedient expedient = await context.Expedients.FirstOrDefaultAsync(e => e.IdCandidate == currentIdUser);
             
             // Guarda el genero, la edad y la formacion academica del candidato
-            (string, byte, string) infoCandidate = (expedient.Gender, expedient.Age, expedient.Certificate);
+            (string, byte, string) infoCandidate = (expedient.Gender, expedient.Age, expedient.AcademicTraining);
 
             // Guarda los percentiles de todos los factores
             byte[] percentiles = Results_PPGIPG.GetPercentileByFactor(scoresByFactor, infoCandidate);
@@ -125,28 +83,17 @@ namespace RHPsicotest.WebSite.Repositories
             return result;
         }
 
-        public async Task<bool> Test_Dominos(char[][] responses, int currentIdUser)
+        public async Task<bool> Test_Dominos(char?[][] responses, int currentIdUser)
         {
-            byte?[,] responsesInByte = new byte?[44, 2];
-
-            for (int i = 0; i < 11; i++)
-            {
-                responsesInByte[i, 0] = Convert.ToByte(responses[i][0]);
-                responsesInByte[i, 1] = Convert.ToByte(responses[i][1]);
-
-                if (responsesInByte[i, 0] < 0 ||
-                    responsesInByte[i, 0] > 6 ||
-                    responsesInByte[i, 1] < 0 ||
-                    responsesInByte[i, 1] > 6) return false;
-            }
-
-            byte score = Results_Dominos.GetScoreTotal(responsesInByte);
+            byte score = Results_Dominos.GetScoreTotal(responses);
 
             Expedient expedient = await context.Expedients.FirstOrDefaultAsync(e => e.IdCandidate == currentIdUser);
 
             byte percentile = Results_Dominos.GetPercentileByScore(score, expedient.AcademicTraining);
 
-            return true;
+            string description = Results_Dominos.GetDescriptionByPercentile(percentile);
+
+            return await AddResults_Dominos(expedient.IdExpedient, score, percentile, description); 
         }
 
         public async Task<bool> Test_OTIS(char[] responses, int currentIdUser)
@@ -165,11 +112,11 @@ namespace RHPsicotest.WebSite.Repositories
         }
 
 
-        // Guarda el puntaje por factor y percentil
+        // Guarda el puntaje por factor, percentil y descripción
         private async Task<bool> AddResults_PPGIPG(int expedientId, byte[] scoresByFactor, byte[] scoresByPercentile, string[] description)
         {
             List<Result> results = new List<Result>();
-            List<Result> removes = context.Results.Where(r => r.IdExpedient == expedientId).ToList();
+            List<Result> removes = context.Results.Where(r => r.IdExpedient == expedientId && r.IdTest == 1).ToList();
 
             if(removes != null)
             {
@@ -179,7 +126,7 @@ namespace RHPsicotest.WebSite.Repositories
 
             for (int i = 0; i <= 8; i++)
             {
-                results.Add(Conversion.ConvertToResult(expedientId, i + 1, scoresByFactor[i], scoresByPercentile[i], description[i]));
+                results.Add(Conversion.ConvertToResult(expedientId, 1, i + 1, scoresByFactor[i], scoresByPercentile[i], description[i]));
             }
 
             await context.Results.AddRangeAsync(results);
@@ -188,16 +135,15 @@ namespace RHPsicotest.WebSite.Repositories
 
         private async Task<bool> AddResults_OTIS(int expedientId, byte score, byte IQ, string description)
         {
-            List<Result> results = new List<Result>();
-            List<Result> removes = context.Results.Where(r => r.IdExpedient == expedientId).ToList();
+            Result remove = await context.Results.FirstOrDefaultAsync(r => r.IdExpedient == expedientId && r.IdTest == 2);
 
-            if (removes != null)
+            if (remove != null)
             {
-                context.Results.RemoveRange(removes);
+                context.Results.Remove(remove);
                 context.SaveChanges();
             }
 
-            Result result = Conversion.ConvertToResult(expedientId, 10, score, IQ, description);
+            Result result = Conversion.ConvertToResult(expedientId, 2, 10, score, IQ, description);
             
             await context.Results.AddAsync(result);
             return await context.SaveChangesAsync() > 0;
@@ -205,15 +151,15 @@ namespace RHPsicotest.WebSite.Repositories
 
         private async Task<bool> AddResults_Dominos(int expedientId, byte score, byte percentile, string description)
         {
-            Result removes = await context.Results.FirstOrDefaultAsync(r => r.IdExpedient == expedientId && r.IdFactor == 9);
+            Result remove = await context.Results.FirstOrDefaultAsync(r => r.IdExpedient == expedientId && r.IdTest == 3);
 
-            if (removes != null)
+            if (remove != null)
             {
-                context.Results.Remove(removes);
+                context.Results.Remove(remove);
                 context.SaveChanges();
             }
 
-            Result result = Conversion.ConvertToResult(expedientId, 10, score, percentile, description);
+            Result result = Conversion.ConvertToResult(expedientId, 3, 10, score, percentile, description);
 
             await context.Results.AddAsync(result);
             return await context.SaveChangesAsync() > 0;

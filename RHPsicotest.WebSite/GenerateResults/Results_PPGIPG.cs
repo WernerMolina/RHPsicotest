@@ -1,10 +1,60 @@
 ﻿using RHPsicotest.WebSite.Tests.Responses;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace RHPsicotest.WebSite.GenerateResults
 {
     public class Results_PPGIPG
     {
+        public static byte[] GetScores(char[][] responses)
+        {
+            byte[] scoresByFactor = new byte[9];
+
+            // Obtenemos las puntuaciones de la pregunta 1 a la 18
+            char[,] responsesPPG = new char[18, 2];
+
+            for (int j = 0; j < 18; j++)
+            {
+                responsesPPG[j, 0] = responses[j][0];
+                responsesPPG[j, 1] = responses[j][1];
+            }
+
+            // Obtenemos las puntuaciones de la pregunta 19 a la 38
+            int k = 18;
+            char[,] responsesIPG = new char[20, 2];
+
+            for (int j = 0; j < 20; j++)
+            {
+                responsesIPG[j, 0] = responses[k][0];
+                responsesIPG[j, 1] = responses[k][1];
+
+                k++;
+            }
+
+            for (int i = 1; i <= 8; i++)
+            {
+                List<Responses_PPGIPG> responsesByFactor = Responses_PPGIPG.GetResponses().Where(r => r.IdFactor == i).ToList();
+
+                if (i <= 4)
+                {
+                    byte scores = GetScoreByFactor(responsesPPG, responsesByFactor);
+
+                    scoresByFactor[i - 1] = scores;
+                }
+                else
+                {
+                    byte scores = GetScoreByFactor(responsesIPG, responsesByFactor);
+
+                    scoresByFactor[i - 1] = scores;
+                }
+            }
+
+            // Suma para obtener el factor de Autoestima
+            scoresByFactor[8] = (byte)(scoresByFactor[0] + scoresByFactor[1] + scoresByFactor[2] + scoresByFactor[3]);
+
+            return scoresByFactor;
+        }
+
         // Retorna el total de puntos de un factor
         public static byte GetScoreByFactor(char[,] candidateResponses, List<Responses_PPGIPG> responsesByFactor)
         {

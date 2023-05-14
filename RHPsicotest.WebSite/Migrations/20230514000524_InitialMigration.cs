@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace RHPsicotest.WebSite.Migrations
 {
-    public partial class TestMigration : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -262,6 +262,7 @@ namespace RHPsicotest.WebSite.Migrations
                 columns: table => new
                 {
                     IdExpedient = table.Column<int>(type: "int", nullable: false),
+                    IdTest = table.Column<int>(type: "int", nullable: false),
                     IdFactor = table.Column<int>(type: "int", nullable: false),
                     Score = table.Column<byte>(type: "tinyint", nullable: false),
                     Percentile = table.Column<byte>(type: "tinyint", nullable: false),
@@ -269,7 +270,7 @@ namespace RHPsicotest.WebSite.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Result", x => new { x.IdExpedient, x.IdFactor });
+                    table.PrimaryKey("PK_Result", x => new { x.IdExpedient, x.IdTest, x.IdFactor });
                     table.ForeignKey(
                         name: "FK_Result_Expedient_IdExpedient",
                         column: x => x.IdExpedient,
@@ -281,6 +282,12 @@ namespace RHPsicotest.WebSite.Migrations
                         column: x => x.IdFactor,
                         principalTable: "Factor",
                         principalColumn: "IdFactor",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Result_Test_IdTest",
+                        column: x => x.IdTest,
+                        principalTable: "Test",
+                        principalColumn: "IdTest",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -297,7 +304,8 @@ namespace RHPsicotest.WebSite.Migrations
                     { 6, "Originalidad: Rango de conducta que se manifiesta por la búsqueda de autenticidad en todo lo que hace.", "Orig." },
                     { 7, "Comprensión: Grado en el cual somos capaces de interpretar o asimilar acontecimientos y hechos particulares o de la vida diaria.", "Comp." },
                     { 8, "Vitalidad: Se dice de la energía psíquica o física que se agrega a cada actividad que se emprende.", "Vital." },
-                    { 9, "Autoestima: Es la valoración positiva o negativa que uno hace de sí mismo.", "Autoest." }
+                    { 9, "Autoestima: Es la valoración positiva o negativa que uno hace de sí mismo.", "Autoest." },
+                    { 10, "", "Inteligencia" }
                 });
 
             migrationBuilder.InsertData(
@@ -316,8 +324,8 @@ namespace RHPsicotest.WebSite.Migrations
                 columns: new[] { "IdPosition", "CreationDate", "Department", "PositionHigher", "PositionName" },
                 values: new object[,]
                 {
-                    { 1, "21/04/2023 02:10 PM", "Tecnología de la Información", "Encargado de IT", "Desarrollador IT" },
-                    { 2, "21/04/2023 02:10 PM", "Ventas", "Gerente Comercial", "Asesor de Venta" }
+                    { 1, "13/05/2023 06:05 PM", "Tecnología de la Información", "Encargado de IT", "Desarrollador IT" },
+                    { 2, "13/05/2023 06:05 PM", "Ventas", "Gerente Comercial", "Asesor de Venta" }
                 });
 
             migrationBuilder.InsertData(
@@ -335,21 +343,22 @@ namespace RHPsicotest.WebSite.Migrations
                 columns: new[] { "IdTest", "Link", "NameTest", "Time" },
                 values: new object[,]
                 {
-                    { 4, "Test_BFQ", "BFQ", "45 min." },
+                    { 5, "Test_16PF", "16PF", "45 min." },
                     { 1, "Test_PPGIPG", "PPG-IPG", "45 min." },
                     { 2, "Test_OTIS", "OTIS", "45 min." },
-                    { 3, "Test_Dominos", "Dominos", "45 min." }
+                    { 3, "Test_Dominos", "Dominos", "45 min." },
+                    { 4, "Test_BFQ", "BFQ", "45 min." }
                 });
 
             migrationBuilder.InsertData(
                 table: "User",
                 columns: new[] { "IdUser", "Email", "Name", "Password", "RegistrationDate" },
-                values: new object[] { 1, "Wm25@gmail.com", "Werner Molina", "827ccb0eea8a706c4c34a16891f84e7b", "21/04/2023 02:10 PM" });
+                values: new object[] { 1, "Wm25@gmail.com", "Werner Molina", "827ccb0eea8a706c4c34a16891f84e7b", "13/05/2023 06:05 PM" });
 
             migrationBuilder.InsertData(
                 table: "Candidate",
                 columns: new[] { "IdCandidate", "Email", "IdPosition", "IdRole", "Password", "RegistrationDate" },
-                values: new object[] { 1, "ml22002@esfe.agape.edu.sv", 1, 3, "TW15", "21/04/2023 02:10 PM" });
+                values: new object[] { 1, "ml22002@esfe.agape.edu.sv", 1, 3, "TW15", "13/05/2023 06:05 PM" });
 
             migrationBuilder.InsertData(
                 table: "Permission_Role",
@@ -392,6 +401,11 @@ namespace RHPsicotest.WebSite.Migrations
                 name: "IX_Result_IdFactor",
                 table: "Result",
                 column: "IdFactor");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Result_IdTest",
+                table: "Result",
+                column: "IdTest");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Role_User_IdUser",

@@ -57,7 +57,7 @@ namespace RHPsicotest.WebSite.Migrations
                             IdPosition = 1,
                             IdRole = 3,
                             Password = "TW15",
-                            RegistrationDate = "21/04/2023 02:10 PM"
+                            RegistrationDate = "13/05/2023 06:05 PM"
                         });
                 });
 
@@ -204,6 +204,12 @@ namespace RHPsicotest.WebSite.Migrations
                             IdFactor = 9,
                             DescriptionFactor = "Autoestima: Es la valoración positiva o negativa que uno hace de sí mismo.",
                             FactorName = "Autoest."
+                        },
+                        new
+                        {
+                            IdFactor = 10,
+                            DescriptionFactor = "",
+                            FactorName = "Inteligencia"
                         });
                 });
 
@@ -308,7 +314,7 @@ namespace RHPsicotest.WebSite.Migrations
                         new
                         {
                             IdPosition = 1,
-                            CreationDate = "21/04/2023 02:10 PM",
+                            CreationDate = "13/05/2023 06:05 PM",
                             Department = "Tecnología de la Información",
                             PositionHigher = "Encargado de IT",
                             PositionName = "Desarrollador IT"
@@ -316,7 +322,7 @@ namespace RHPsicotest.WebSite.Migrations
                         new
                         {
                             IdPosition = 2,
-                            CreationDate = "21/04/2023 02:10 PM",
+                            CreationDate = "13/05/2023 06:05 PM",
                             Department = "Ventas",
                             PositionHigher = "Gerente Comercial",
                             PositionName = "Asesor de Venta"
@@ -326,6 +332,9 @@ namespace RHPsicotest.WebSite.Migrations
             modelBuilder.Entity("RHPsicotest.WebSite.Models.Result", b =>
                 {
                     b.Property<int>("IdExpedient")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdTest")
                         .HasColumnType("int");
 
                     b.Property<int>("IdFactor")
@@ -340,9 +349,11 @@ namespace RHPsicotest.WebSite.Migrations
                     b.Property<byte>("Score")
                         .HasColumnType("tinyint");
 
-                    b.HasKey("IdExpedient", "IdFactor");
+                    b.HasKey("IdExpedient", "IdTest", "IdFactor");
 
                     b.HasIndex("IdFactor");
+
+                    b.HasIndex("IdTest");
 
                     b.ToTable("Result");
                 });
@@ -449,6 +460,13 @@ namespace RHPsicotest.WebSite.Migrations
                             Link = "Test_BFQ",
                             NameTest = "BFQ",
                             Time = "45 min."
+                        },
+                        new
+                        {
+                            IdTest = 5,
+                            Link = "Test_16PF",
+                            NameTest = "16PF",
+                            Time = "45 min."
                         });
                 });
 
@@ -515,7 +533,7 @@ namespace RHPsicotest.WebSite.Migrations
                             Email = "Wm25@gmail.com",
                             Name = "Werner Molina",
                             Password = "827ccb0eea8a706c4c34a16891f84e7b",
-                            RegistrationDate = "21/04/2023 02:10 PM"
+                            RegistrationDate = "13/05/2023 06:05 PM"
                         });
                 });
 
@@ -582,9 +600,17 @@ namespace RHPsicotest.WebSite.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("RHPsicotest.WebSite.Models.Test", "Test")
+                        .WithMany("Results")
+                        .HasForeignKey("IdTest")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Expedient");
 
                     b.Navigation("Factor");
+
+                    b.Navigation("Test");
                 });
 
             modelBuilder.Entity("RHPsicotest.WebSite.Models.Role_User", b =>
@@ -687,6 +713,8 @@ namespace RHPsicotest.WebSite.Migrations
                     b.Navigation("Candidates");
 
                     b.Navigation("Positions");
+
+                    b.Navigation("Results");
                 });
 
             modelBuilder.Entity("RHPsicotest.WebSite.Models.User", b =>

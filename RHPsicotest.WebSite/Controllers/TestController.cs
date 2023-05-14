@@ -1,5 +1,4 @@
-﻿using AspNetCore;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RHPsicotest.WebSite.DTOs;
 using RHPsicotest.WebSite.Models;
@@ -19,13 +18,6 @@ namespace RHPsicotest.WebSite.Controllers
         public TestController(ITestRepository testRepository)
         {
             this.testRepository = testRepository;
-        }
-
-        [HttpGet]
-        [Route("/Indicaciones")]
-        public IActionResult Indications()
-        {
-            return View();
         }
         
         [HttpGet]
@@ -102,7 +94,7 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpPost]
         [Route("/Prueba/Dominos")]
-        public async Task<IActionResult> Test_Dominos(char[][] responses)
+        public async Task<IActionResult> Test_Dominos(char?[][] responses)
         {
             int currentIdUser = Convert.ToInt32(((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value);
 

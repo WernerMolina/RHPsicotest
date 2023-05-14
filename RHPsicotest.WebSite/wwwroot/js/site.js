@@ -15,4 +15,6 @@ function startTest() {
 
     example.classList.add("d-none");
     test.classList.remove("d-none");
+
+    window.scroll(0, 0);
 }

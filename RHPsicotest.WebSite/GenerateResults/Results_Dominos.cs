@@ -1,32 +1,53 @@
 ﻿using RHPsicotest.WebSite.Tests.Responses;
+using System;
 using System.Collections.Generic;
 
 namespace RHPsicotest.WebSite.GenerateResults
 {
     public class Results_Dominos
     {
-        public static byte GetScoreTotal(byte?[,] candidateResponses)
+        public static byte GetScoreTotal(char?[][] responses)
         {
+            byte counter = 0;
             byte scoreTotal = 0;
+
+            int?[,] responsesInByte = new int?[44, 2];
+
+            for (int i = 0; i < 44; i++)
+            {
+                responsesInByte[i, 0] = responses[i][0] is not null ? Convert.ToByte(responses[i][0].ToString()) : null;
+                responsesInByte[i, 1] = responses[i][1] is not null ? Convert.ToByte(responses[i][1].ToString()) : null;
+            }
 
             List<Responses_Dominos> responsesDominos = Responses_Dominos.GetResponses();
 
-            byte counter = 0;
-
             foreach (var response in responsesDominos)
             {
-                if (candidateResponses[counter, 0] == null ||
-                    candidateResponses[counter, 1] == null) continue;
+                if (responsesInByte[counter, 0] == null ||
+                    responsesInByte[counter, 1] == null) continue;
                 else
                 {
-                    if (candidateResponses[counter, 0] == response.Numerator &&
-                        candidateResponses[counter, 1] == response.Denominator) scoreTotal++;
+                    if (responsesInByte[counter, 0] == response.Numerator &&
+                        responsesInByte[counter, 1] == response.Denominator) scoreTotal++;
                 }
 
                 counter++;
             }
 
             return scoreTotal;
+        }
+
+        public static string GetDescriptionByPercentile(byte percentile)
+        {
+            string description = string.Empty;
+
+            if (percentile >= 77) description = "Superior: el coeficiente intelectual de la persona se sitúa en la categoría “superior”, por lo que el rendimiento del individuo se puede ver beneficiado al poseer el dominio particular de habilidades necesarias para abordar con éxito ocupaciones con demandas prácticas complejas.";
+            if (percentile >= 55) description = "Superior al término medio: la persona evaluada se encuentra en un rango “superior al término medio”. El candidato tiene desarrollada su habilidad de pensamiento lógico arriba del promedio, por lo que tiende a una buena ejecución de tareas abstractas que requieran observación, para extraer de ellas principios y poder aplicarlos.";
+            if (percentile == 50) description = "Término medio: la persona evaluada se encuentra en un rango de “término medio” en cuanto a su coeficiente intelectual se puede decir que posee una capacidad promedio dentro de la población. Sus habilidades de procesamiento lógico y razonamiento sistémico son muy significativas para darle solución a diferentes problemáticas.";
+            if (percentile >= 25) description = "Inferior al término medio: la persona evaluada se ubica en un rango “inferior al término medio”, sus habilidades para la solución de problemas prácticos se encuentran por debajo del promedio de la población. Esto en algunas situaciones puede presentar una dificultad para razonar de forma conceptual y sistemática.";
+            if (percentile >= 1) description = "Deficiente: su coeficiente intelectual se encuentra en el rango “deficiente”, por lo que su capacidad para conceptualizar y aplicar el razonamiento sistemático a nuevos problemas, esto puede afectar negativamente en el desempeño del evaluado ante situaciones que ameriten la resolución de problemas prácticos.";
+
+            return description;
         }
 
         public static byte GetPercentileByScore(byte score, string academicTraining)

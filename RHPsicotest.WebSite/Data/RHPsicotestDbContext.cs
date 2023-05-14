@@ -47,7 +47,7 @@ namespace RHPsicotest.WebSite.Data
                         .HasKey(tp => new { tp.IdTest, tp.IdPosition });
                         
             modelBuilder.Entity<Result>()
-                        .HasKey(r => new { r.IdExpedient, r.IdFactor});
+                        .HasKey(r => new { r.IdExpedient, r.IdTest, r.IdFactor});
             
             modelBuilder.Entity<Test_Candidate>()
                         .HasKey(r => new { r.IdCandidate, r.IdTest});
@@ -128,6 +128,14 @@ namespace RHPsicotest.WebSite.Data
                 NameTest = "BFQ",
                 Time = "45 min.",
                 Link = "Test_BFQ"
+            });
+            
+            modelBuilder.Entity<Test>().HasData(new Test
+            {
+                IdTest = 5,
+                NameTest = "16PF",
+                Time = "45 min.",
+                Link = "Test_16PF"
             });
 
             // Tabla de Puestos
@@ -232,6 +240,13 @@ namespace RHPsicotest.WebSite.Data
                 IdFactor = 9,
                 FactorName = "Autoest.",
                 DescriptionFactor = "Autoestima: Es la valoración positiva o negativa que uno hace de sí mismo."
+            });
+            
+            modelBuilder.Entity<Factor>().HasData(new Factor
+            {
+                IdFactor = 10,
+                FactorName = "Inteligencia",
+                DescriptionFactor = ""
             });
 
             // Tabla Intermedia de Roles y Usuarios

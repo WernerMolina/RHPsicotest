@@ -1,0 +1,53 @@
+@model IEnumerable<Result>
+
+@{
+    Layout = null;
+
+    Result result = Model.ElementAtOrDefault(0);
+
+    int score = result.Score;
+    int percentile = result.Percentile;
+}
+
+<h2 class="text-center fw-bold">OTIS</h2>
+
+<div class="mt-4">
+    <table class="table-otis table-bordered">
+        <tbody>
+            <tr class="tr-result-otis">
+                <td></td>
+                <td></td>
+            </tr>
+            <tr class="text-center fs-5">
+                <td class="t-head">Rango Bajo</td>
+                <td class="t-head">Rango Intermedio</td>
+                <td class="t-head">Rango Alto</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="my-4">
+    <p class="my-2 fs-4 fw-bold">Puntaje Total: <span class="fs-4">@result.Score</span></p>
+    <p class="my-2 fs-4 fw-bold">Percentil: <span class="fs-4">@result.Percentile</span></p>
+</div>
+
+<div class="">
+    <h2 class="mb-4 fw-bold">Interpretación</h2>
+    <p class="my-4 fs-5 fw-bold">@result.Description</p>
+</div>
+
+
+<script type="text/javascript">
+    let pseudoOtis = document.querySelector(".tr-result-otis");
+
+    let IQ = @percentile;
+    let widthOtis = "";
+
+    if (IQ >= 102) widthOtis = "85%";
+    if (IQ == 100) widthOtis = "51%";
+    if (IQ <= 98) widthOtis = "17%";
+
+    pseudoOtis.style.setProperty('--width-pseudo', widthOtis);
+</script>
+

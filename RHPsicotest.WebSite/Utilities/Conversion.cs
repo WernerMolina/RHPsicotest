@@ -283,6 +283,15 @@ namespace RHPsicotest.WebSite.Utilities
             };
         }
         
+        public static ResultDTO ConvertToResultDTO(int testId, List<Result> results)
+        {
+            return new ResultDTO
+            {
+                IdTest = testId,
+                Results = results
+            };
+        }
+        
         // Prueba
         public static TestDTO ConvertToTestDTO(Test test, bool status)
         {

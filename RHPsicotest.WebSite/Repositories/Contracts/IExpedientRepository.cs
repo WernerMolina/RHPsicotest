@@ -8,10 +8,13 @@ namespace RHPsicotest.WebSite.Repositories.Contracts
 {
     public interface IExpedientRepository
     {
+        public Task<Expedient> GetExpedient(int expedientId);
         public Task<List<ExpedientDTO>> GetAllExpedients();
         public Task<bool> AddExpedient(ExpedientVM expedientVM, (string, string, string) currentCandidate);
         public Task<bool> UpdateExpedient(ExpedientUpdateVM expedientUpdateVM);
         public Task<ExpedientUpdateVM> GetExpedientUpdateVM(int expedientId);
         public Task<byte[]> GetPDFInBytes(int id);
+
+        public Task<List<ResultDTO>> GetResults(int expedientId);
     }
 }

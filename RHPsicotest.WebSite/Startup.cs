@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Mvc.ViewEngines;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -42,6 +44,8 @@ namespace RHPsicotest.WebSite
             services.AddScoped<ICandidateRepository, CandidateRepository>();
             services.AddScoped<IExpedientRepository, ExpedientRepository>();
             services.AddScoped<ITestRepository, TestRepository>();
+            services.AddSingleton<ICompositeViewEngine, CompositeViewEngine>();
+            services.AddSingleton<ITempDataProvider, CookieTempDataProvider>();
 
             //services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
             //.AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, option =>

@@ -75,8 +75,15 @@ using Microsoft.AspNetCore.Authorization;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 10 "C:\Users\WernerMolina\source\repos\RHPsicotest\RHPsicotest.WebSite\Views\_ViewImports.cshtml"
+using Newtonsoft.Json;
+
+#line default
+#line hidden
+#nullable disable
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"85de361d33b0e13cad668f1c325b22e7601eab61", @"/Views/User/Index.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"58463026d13bcaa327480f71439c8fdaf43f7e4f", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"009ee07ee2b96682d536e74a1e08408ea8d628a8", @"/Views/_ViewImports.cshtml")]
     #nullable restore
     public class Views_User_Index : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<IEnumerable<UserDTO>>
     #nullable disable
@@ -126,7 +133,7 @@ using Microsoft.AspNetCore.Authorization;
 #nullable disable
             WriteLiteral("\r\n<h1 class=\"fw-bold\">Lista de Usuarios</h1>\r\n\r\n");
             WriteLiteral("<p class=\"mt-4\">\r\n    ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "85de361d33b0e13cad668f1c325b22e7601eab617648", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "85de361d33b0e13cad668f1c325b22e7601eab617846", async() => {
                 WriteLiteral("Crear Usuario");
             }
             );
@@ -234,7 +241,7 @@ using Microsoft.AspNetCore.Authorization;
 #nullable disable
             WriteLiteral("                </td>\r\n                <td>\r\n");
             WriteLiteral("                    ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "85de361d33b0e13cad668f1c325b22e7601eab6112663", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "85de361d33b0e13cad668f1c325b22e7601eab6112861", async() => {
                 WriteLiteral("<i class=\"bi bi-pencil-fill\"></i>");
             }
             );
@@ -266,7 +273,7 @@ using Microsoft.AspNetCore.Authorization;
             Write(__tagHelperExecutionContext.Output);
             __tagHelperExecutionContext = __tagHelperScopeManager.End();
             WriteLiteral(" <span class=\"fw-bold\">|</span>\r\n\r\n                    ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "85de361d33b0e13cad668f1c325b22e7601eab6115001", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "85de361d33b0e13cad668f1c325b22e7601eab6115199", async() => {
                 WriteLiteral("\r\n                        <input type=\"hidden\" name=\"id\"");
                 BeginWriteAttribute("value", " value=\"", 2890, "\"", 2910, 1);
 #nullable restore

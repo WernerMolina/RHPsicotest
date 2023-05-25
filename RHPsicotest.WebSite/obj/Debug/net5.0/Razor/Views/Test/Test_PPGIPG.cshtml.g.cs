@@ -75,8 +75,15 @@ using Microsoft.AspNetCore.Authorization;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 10 "C:\Users\WernerMolina\source\repos\RHPsicotest\RHPsicotest.WebSite\Views\_ViewImports.cshtml"
+using Newtonsoft.Json;
+
+#line default
+#line hidden
+#nullable disable
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"b0ddb107b48cc4796a80eec245f62347ca3e768c", @"/Views/Test/Test_PPGIPG.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"58463026d13bcaa327480f71439c8fdaf43f7e4f", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"009ee07ee2b96682d536e74a1e08408ea8d628a8", @"/Views/_ViewImports.cshtml")]
     #nullable restore
     public class Views_Test_Test_PPGIPG : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<IEnumerable<Questions_PPGIPG>>
     #nullable disable
@@ -305,7 +312,7 @@ using Microsoft.AspNetCore.Authorization;
 <div class=""d-none"" id=""test"">
     <h2 >Prueba PPG-IPG</h2>
     ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b0ddb107b48cc4796a80eec245f62347ca3e768c15795", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b0ddb107b48cc4796a80eec245f62347ca3e768c15993", async() => {
                 WriteLiteral("\r\n");
 #nullable restore
 #line 141 "C:\Users\WernerMolina\source\repos\RHPsicotest\RHPsicotest.WebSite\Views\Test\Test_PPGIPG.cshtml"

@@ -1,13 +1,17 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using RHPsicotest.WebSite.Data;
 using RHPsicotest.WebSite.DTOs;
+using RHPsicotest.WebSite.GenerateResults;
 using RHPsicotest.WebSite.Models;
 using RHPsicotest.WebSite.Repositories.Contracts;
 using RHPsicotest.WebSite.Utilities;
 using RHPsicotest.WebSite.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace RHPsicotest.WebSite.Repositories
 {
@@ -66,6 +70,11 @@ namespace RHPsicotest.WebSite.Repositories
             return expedientDTOs;
         }
 
+        public async Task<Expedient> GetExpedient(int expedientId)
+        {
+            return await context.Expedients.FirstOrDefaultAsync(e => e.IdExpedient == expedientId);
+        }
+
         public async Task<ExpedientUpdateVM> GetExpedientUpdateVM(int expedientId)
         {
             Expedient expedient = await context.Expedients.FirstOrDefaultAsync(e => e.IdExpedient == expedientId);
@@ -80,12 +89,52 @@ namespace RHPsicotest.WebSite.Repositories
             return expedientUpdateVM;
         }
 
-
         public async Task<byte[]> GetPDFInBytes(int id)
         {
             Expedient expedient = await context.Expedients.FirstOrDefaultAsync(e => e.IdExpedient == id);
 
             return expedient.CurriculumVitae;
+        }
+        
+        public async Task<List<ResultDTO>> GetResults(int expedientId)
+        {
+            List<Result> results = await context.Results.Where(e => e.IdExpedient == expedientId).ToListAsync();
+
+            List<ResultDTO> resultDTOs = new List<ResultDTO>();
+
+            bool isPPGIPG = true;
+
+            foreach (Result result in results)
+            {
+                if(result.IdTest == 1 && isPPGIPG)
+                {
+                    List<Result> resultsPPGIPG = new List<Result>();
+
+                    foreach (Result result2 in results)
+                    {
+                        if (result2.IdFactor <= 9)
+                        {
+                            resultsPPGIPG.Add(result2);
+                        }
+                    }
+                    
+                    resultDTOs.Add(Conversion.ConvertToResultDTO(result.IdTest, resultsPPGIPG));
+
+                    isPPGIPG = false;
+                }
+                
+                if (result.IdTest > 1)
+                {
+                    List<Result> results1 = new List<Result>
+                    {
+                        result
+                    };
+
+                    resultDTOs.Add(Conversion.ConvertToResultDTO(result.IdTest, results1));
+                }
+            }
+
+            return resultDTOs;
         }
 
     }

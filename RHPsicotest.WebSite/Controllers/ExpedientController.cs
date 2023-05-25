@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 using RHPsicotest.WebSite.DTOs;
+using RHPsicotest.WebSite.Models;
 using RHPsicotest.WebSite.Repositories.Contracts;
 using RHPsicotest.WebSite.Utilities;
 using RHPsicotest.WebSite.ViewModels;
@@ -15,7 +17,6 @@ namespace RHPsicotest.WebSite.Controllers
 {
     public class ExpedientController : Controller
     {
-        private readonly IExpedientRepository expedientRepository;
 
         List<string> academicFormations = new List<string>
         {
@@ -44,9 +45,22 @@ namespace RHPsicotest.WebSite.Controllers
             "Supervisora de Ventas",
         };
 
+        private readonly IExpedientRepository expedientRepository;
+
         public ExpedientController(IExpedientRepository expedientRepository)
         {
             this.expedientRepository = expedientRepository;
+        }
+
+        [HttpGet]
+        [Route("/PDF")]
+        public async Task<IActionResult> ShowPDF(int id)
+        {
+            List<ResultDTO> results = await expedientRepository.GetResults(id);
+
+            ViewBag.Expedient = await expedientRepository.GetExpedient(id);
+
+            return View(results);
         }
 
         [HttpGet]

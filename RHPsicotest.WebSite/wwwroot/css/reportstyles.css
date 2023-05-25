@@ -1,0 +1,41 @@
+﻿
+
+.table-domino, .table-otis {
+    width: 100%;
+    border: 1px solid black;
+}
+
+.table-domino th {
+    width: 20%;
+    height: 70px;
+    background-color: blue;
+    color: white;
+}
+
+.table-otis .t-head {
+    width: 33.33%;
+    height: 70px;
+    background-color: blue;
+    color: white;
+    font-weight: bold;
+}
+
+.tr-result-domino, .tr-result-otis {
+    position: relative;
+    --width-pseudo: 0%;
+}
+
+.tr-result-domino td, .tr-result-otis td {
+    height: 75px;
+}
+
+.tr-result-domino::before, .tr-result-otis::before {
+    content: "";
+    width: var(--width-pseudo);
+    height: 25px;
+    background-color: blue;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: -1;
+}

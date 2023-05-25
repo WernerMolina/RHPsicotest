@@ -1,0 +1,62 @@
+﻿@model IEnumerable<Result>
+
+@{
+    Layout = null;
+
+    Result result = Model.ElementAtOrDefault(0);
+
+    int score = result.Score;
+    int percentile = result.Percentile;
+}
+
+<h2 class="text-center fw-bold">Domino 48</h2>
+
+<div class="mt-4">
+    <table class="table-domino table-bordered">
+        <thead>
+            <tr class="text-center fs-5">
+                <th>Deficiente</th>
+                <th>Inferior al Término Medio</th>
+                <th>Término Medio</th>
+                <th>Superior al Término Medio</th>
+                <th>Superior</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="tr-result-domino">
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="my-4">
+    <p class="my-2 fs-4 fw-bold">Puntaje Total: <span class="fs-4">@result.Score</span></p>
+    <p class="my-2 fs-4 fw-bold">Percentil: <span class="fs-4">@result.Percentile</span></p>
+</div>
+
+<div class="">
+    <h2 class="mb-4 fw-bold">Interpretación</h2>
+    <p class="my-4 fs-5 fw-bold">@result.Description</p>
+</div>
+
+
+<script type="text/javascript">
+    let pseudoDomino = document.querySelector(".tr-result-domino");
+
+    let percentileDomino = @percentile;
+    let widthDomino = "";
+
+    if (percentileDomino >= 77) widthDomino = "90%";
+    if (percentileDomino <= 55) widthDomino = "70%";
+    if (percentileDomino == 50) widthDomino = "50%";
+    if (percentileDomino <= 45) widthDomino = "30%";
+    if (percentileDomino <= 23) widthDomino = "10%";
+
+
+    pseudoDomino.style.setProperty('--width-pseudo', widthDomino);
+</script>
+

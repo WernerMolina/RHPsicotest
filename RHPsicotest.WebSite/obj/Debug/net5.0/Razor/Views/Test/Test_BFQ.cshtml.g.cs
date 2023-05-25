@@ -75,8 +75,15 @@ using Microsoft.AspNetCore.Authorization;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 10 "C:\Users\WernerMolina\source\repos\RHPsicotest\RHPsicotest.WebSite\Views\_ViewImports.cshtml"
+using Newtonsoft.Json;
+
+#line default
+#line hidden
+#nullable disable
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"2569e08a3a9719c304a018caa79081a4eb14fa30", @"/Views/Test/Test_BFQ.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"58463026d13bcaa327480f71439c8fdaf43f7e4f", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"009ee07ee2b96682d536e74a1e08408ea8d628a8", @"/Views/_ViewImports.cshtml")]
     #nullable restore
     public class Views_Test_Test_BFQ : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<IEnumerable<Questions_BFQ>>
     #nullable disable
@@ -310,7 +317,7 @@ using Microsoft.AspNetCore.Authorization;
 <div id=""test"" class=""d-none""> 
     <h1 class=""mb-3"">Prueba Big ");
             WriteLiteral("Five</h1>\r\n\r\n    ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "2569e08a3a9719c304a018caa79081a4eb14fa3016604", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "2569e08a3a9719c304a018caa79081a4eb14fa3016802", async() => {
                 WriteLiteral("\r\n");
 #nullable restore
 #line 162 "C:\Users\WernerMolina\source\repos\RHPsicotest\RHPsicotest.WebSite\Views\Test\Test_BFQ.cshtml"

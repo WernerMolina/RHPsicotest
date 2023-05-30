@@ -63,8 +63,8 @@ namespace RHPsicotest.WebSite.GenerateResults
 
             foreach (Responses_PPGIPG response in responsesByFactor)
             {
-                string correct = response.Correct;
-                string incorrect = response.Incorrect;
+                string correct = response.Positive;
+                string incorrect = response.Negative;
 
                 bool a = false;
                 bool b = false;
@@ -447,7 +447,7 @@ namespace RHPsicotest.WebSite.GenerateResults
         {
             if (score >= 35) return 99;
             if (score == 34) return 98;
-            if (score == 33) return 95;
+            if (score == 33) return 96;
             if (score >= 31) return 90;
             if (score == 30) return 80;
             if (score == 29) return 75;
@@ -771,9 +771,9 @@ namespace RHPsicotest.WebSite.GenerateResults
             if (score >= 26) return 90;
             if (score == 25) return 80;
             if (score == 24) return 75;
-            if (score == 23) return 70;
+            if (score == 23) return 65;
             if (score == 22) return 60;
-            if (score == 21) return 55;
+            if (score == 21) return 50;
             if (score == 20) return 45;
             if (score == 19) return 35;
             if (score == 18) return 30;
@@ -1029,11 +1029,12 @@ namespace RHPsicotest.WebSite.GenerateResults
             if (score >= 31) return 99;
             if (score == 30) return 98;
             if (score == 29) return 97;
-            if (score == 28) return 90;
-            if (score == 27) return 85;
-            if (score == 26) return 80;
-            if (score == 25) return 75;
-            if (score == 24) return 70;
+            if (score == 28) return 95;
+            if (score == 27) return 90;
+            if (score == 26) return 85;
+            if (score == 25) return 80;
+            if (score == 24) return 75;
+            if (score == 23) return 70;
             if (score == 22) return 60;
             if (score == 21) return 55;
             if (score == 20) return 45;

@@ -14,8 +14,8 @@ namespace RHPsicotest.WebSite.Utilities
 
             foreach (Responses_PPGIPG response in responsesByFactor)
             {
-                string correct = response.Correct;
-                string incorrect = response.Incorrect;
+                string correct = response.Positive;
+                string incorrect = response.Negative;
 
                 bool a = false;
                 bool b = false;

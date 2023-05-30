@@ -7459,19 +7459,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\WernerMolina\\.nuget\\packages\\": {}
+    "C:\\Users\\Mclovin\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\WernerMolina\\source\\repos\\RHPsicotest\\RHPsicotest.WebSite\\RHPsicotest.WebSite.csproj",
+      "projectUniqueName": "D:\\RHPSICO\\RHPsicotest\\RHPsicotest.WebSite\\RHPsicotest.WebSite.csproj",
       "projectName": "RHPsicotest.WebSite",
-      "projectPath": "C:\\Users\\WernerMolina\\source\\repos\\RHPsicotest\\RHPsicotest.WebSite\\RHPsicotest.WebSite.csproj",
-      "packagesPath": "C:\\Users\\WernerMolina\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\WernerMolina\\source\\repos\\RHPsicotest\\RHPsicotest.WebSite\\obj\\",
+      "projectPath": "D:\\RHPSICO\\RHPsicotest\\RHPsicotest.WebSite\\RHPsicotest.WebSite.csproj",
+      "packagesPath": "C:\\Users\\Mclovin\\.nuget\\packages\\",
+      "outputPath": "D:\\RHPSICO\\RHPsicotest\\RHPsicotest.WebSite\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\WernerMolina\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Mclovin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -7479,7 +7484,6 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\sdk\\7.0.302\\Sdks\\Microsoft.NET.Sdk.Web\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -7536,7 +7540,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.302\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.103\\RuntimeIdentifierGraph.json"
       }
     }
   }

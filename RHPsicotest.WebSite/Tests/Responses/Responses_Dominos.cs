@@ -195,8 +195,8 @@ namespace RHPsicotest.WebSite.Tests.Responses
                 new Responses_Dominos
                 {
                     QuestionNumber = 31,
-                    Numerator = 3,
-                    Denominator = 0
+                    Numerator = 1,
+                    Denominator = 1
                 },
                 new Responses_Dominos
                 {

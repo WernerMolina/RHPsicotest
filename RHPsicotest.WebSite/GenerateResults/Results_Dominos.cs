@@ -551,8 +551,8 @@ namespace RHPsicotest.WebSite.GenerateResults
             if (score == 26) return 50;
             if (score == 25) return 45;
             if (score == 24) return 40;
-            if (score == 23) return 30;
-            if (score >= 21) return 25;
+            if (score >= 22) return 30;
+            if (score == 21) return 25;
             if (score == 20) return 23;
             if (score == 19) return 20;
             if (score >= 17) return 15;
@@ -568,10 +568,10 @@ namespace RHPsicotest.WebSite.GenerateResults
         private static byte Percentile_AsistenteAdministrativa(byte score)
         {
             if (score >= 37) return 99;
-            if (score == 35) return 97;
+            if (score >= 35) return 97;
             if (score == 34) return 96;
             if (score == 33) return 95;
-            if (score == 31) return 90;
+            if (score >= 31) return 90;
             if (score == 30) return 85;
             if (score == 29) return 80;
             if (score == 28) return 75;
@@ -586,12 +586,12 @@ namespace RHPsicotest.WebSite.GenerateResults
             if (score == 19) return 30;
             if (score == 18) return 25;
             if (score == 17) return 23;
-            if (score == 16) return 20;
+            if (score >= 15) return 20;
             if (score == 14) return 15;
             if (score == 13) return 11;
-            if (score == 12) return 10;
+            if (score >= 10) return 10;
             if (score == 9) return 5;
-            if (score == 8) return 4;
+            if (score >= 3) return 4;
             if (score <= 2) return 1;
 
             return 0;

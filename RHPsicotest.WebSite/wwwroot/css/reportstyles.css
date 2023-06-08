@@ -5,11 +5,12 @@
     border: 1px solid black;
 }
 
-.table-domino th {
+.table-domino .t-head {
     width: 20%;
     height: 70px;
     background-color: blue;
     color: white;
+    font-weight: bold;
 }
 
 .table-otis .t-head {

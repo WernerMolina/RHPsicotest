@@ -20,8 +20,6 @@ namespace RHPsicotest.WebSite.Controllers
 
         List<string> academicFormations = new List<string>
         {
-            
-            "Agente Comercial",
             "Bachiller",
             "Directivo",
             "Ingeniero",
@@ -30,12 +28,13 @@ namespace RHPsicotest.WebSite.Controllers
             "Técnico Industrial",
             "Técnico Comercial",
             "Jefe de Vigilancia",
+            "Agente Comercial",
             "Jefe Administrativo",
             "Administrativo",
             "Analista Programador",
             "Técnico en Método",
-            "Operario Mecánico",
             "Jefatura",
+            "Operario Mecánico",
             "Secretaria",
             "Asistente Administrativa",
             "Vendedor",
@@ -44,6 +43,8 @@ namespace RHPsicotest.WebSite.Controllers
             "Profesinal de Oficio",
             "Subalternos",
             "Supervisora de Ventas",
+            "Ninguna Formación",
+            "Otra"
         };
 
         private readonly IExpedientRepository expedientRepository;
@@ -51,17 +52,6 @@ namespace RHPsicotest.WebSite.Controllers
         public ExpedientController(IExpedientRepository expedientRepository)
         {
             this.expedientRepository = expedientRepository;
-        }
-
-        [HttpGet]
-        [Route("/PDF")]
-        public async Task<IActionResult> ShowPDF(int id)
-        {
-            List<ResultDTO> results = await expedientRepository.GetResults(id);
-
-            ViewBag.Expedient = await expedientRepository.GetExpedient(id);
-
-            return View(results);
         }
 
         [HttpGet]
@@ -191,33 +181,44 @@ namespace RHPsicotest.WebSite.Controllers
         }
 
         [HttpGet]
-        [Route("/Resultados")]
-        //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "Create-User-Policy")]
-        public async Task<IActionResult> ShowResultsPDF(int id)
+        [Route("/Reporte")]
+        public async Task<IActionResult> ReportPDF(int id)
         {
-            try
-            {
-                string url = $"http://localhost:8080/jasperserver/rest_v2/reports/reports/TESTTER.pdf?j_username=jasperadmin&j_password=jasperadmin&inline=true&Identificador={id}";
+            List<ResultDTO> results = await expedientRepository.GetResults(id);
 
-                using (HttpClient client = new HttpClient())
-                {
-                    HttpResponseMessage response = await client.GetAsync(url);
+            ViewBag.Expedient = await expedientRepository.GetExpedient(id);
 
-                    if (response.IsSuccessStatusCode)
-                    {
-                        byte[] fileBytes = await response.Content.ReadAsByteArrayAsync();
-
-                        return File(fileBytes, "application/pdf");
-                    }
-
-                    return StatusCode(StatusCodes.Status500InternalServerError, response.RequestMessage);
-                }
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
-            }
+            return View(results);
         }
+
+        //[HttpGet]
+        //[Route("/Resultados")]
+        ////[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "Create-User-Policy")]
+        //public async Task<IActionResult> ShowResultsPDF(int id)
+        //{
+        //    try
+        //    {
+        //        string url = $"http://localhost:8080/jasperserver/rest_v2/reports/reports/TESTTER.pdf?j_username=jasperadmin&j_password=jasperadmin&inline=true&Identificador={id}";
+
+        //        using (HttpClient client = new HttpClient())
+        //        {
+        //            HttpResponseMessage response = await client.GetAsync(url);
+
+        //            if (response.IsSuccessStatusCode)
+        //            {
+        //                byte[] fileBytes = await response.Content.ReadAsByteArrayAsync();
+
+        //                return File(fileBytes, "application/pdf");
+        //            }
+
+        //            return StatusCode(StatusCodes.Status500InternalServerError, response.RequestMessage);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+        //    }
+        //}
 
     }
 }

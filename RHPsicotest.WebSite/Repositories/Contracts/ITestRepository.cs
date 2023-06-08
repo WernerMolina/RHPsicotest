@@ -15,7 +15,9 @@ namespace RHPsicotest.WebSite.Repositories.Contracts
 
         public List<Questions_PPGIPG> GetTest_PPGIPG();
 
-        public (List<Questions_16PF>, List<Questions_16PF>) GetTest_16PF();
+        public List<Questions_16PF> GetTest_16PF_A();
+
+        public List<Questions_16PF> GetTest_16PF_B();
 
         public Task<List<TestDTO>> GetAssignedTests(int candidateId);
 

@@ -539,7 +539,6 @@ C:\Users\Mclovin\Desktop\RH\RHPsicotest\RHPsicotest.WebSite\obj\Debug\net5.0\ref
 C:\Users\Mclovin\Desktop\RH\RHPsicotest\RHPsicotest.WebSite\obj\Debug\net5.0\RHPsicotest.WebSite.pdb
 C:\Users\Mclovin\Desktop\RH\RHPsicotest\RHPsicotest.WebSite\obj\Debug\net5.0\RHPsicotest.WebSite.genruntimeconfig.cache
 C:\Users\Mclovin\Desktop\RH\RHPsicotest\RHPsicotest.WebSite\obj\Debug\net5.0\ref\RHPsicotest.WebSite.dll
-C:\Users\WernerMolina\Source\Repos\RHPsicotest\RHPsicotest.WebSite\obj\Debug\net5.0\Razor\Views\Test\Test_16PF.cshtml.g.cs
 C:\Users\WernerMolina\source\repos\RHPsicotest\RHPsicotest.WebSite\obj\Debug\net5.0\Razor\Views\Expedient\Reports\_Report_PPGIPG.cshtml.g.cs
 C:\Users\WernerMolina\source\repos\RHPsicotest\RHPsicotest.WebSite\obj\Debug\net5.0\Razor\Views\Expedient\Reports\_Report_Dominos.cshtml.g.cs
 C:\Users\WernerMolina\source\repos\RHPsicotest\RHPsicotest.WebSite\obj\Debug\net5.0\Razor\Views\Shared\_LayoutReport.cshtml.g.cs
@@ -733,3 +732,6 @@ D:\RHPSICO\RHPsicotest\RHPsicotest.WebSite\obj\Debug\net5.0\RHPsicotest.WebSite.
 D:\RHPSICO\RHPsicotest\RHPsicotest.WebSite\obj\Debug\net5.0\RHPsicotest.WebSite.genruntimeconfig.cache
 D:\RHPSICO\RHPsicotest\RHPsicotest.WebSite\obj\Debug\net5.0\ref\RHPsicotest.WebSite.dll
 C:\Users\WernerMolina\source\repos\RHPsicotest\RHPsicotest.WebSite\obj\Debug\net5.0\Razor\Views\Expedient\ReportPDF.cshtml.g.cs
+C:\Users\WernerMolina\source\repos\RHPsicotest\RHPsicotest.WebSite\obj\Debug\net5.0\Razor\Views\Test\Test_16PF_A.cshtml.g.cs
+C:\Users\WernerMolina\source\repos\RHPsicotest\RHPsicotest.WebSite\obj\Debug\net5.0\Razor\Views\Test\Test_16PF_B.cshtml.g.cs
+C:\Users\WernerMolina\source\repos\RHPsicotest\RHPsicotest.WebSite\obj\Debug\net5.0\Razor\Views\Test\_Test_16PF.cshtml.g.cs

@@ -38,9 +38,14 @@ namespace RHPsicotest.WebSite.Repositories
             return Questions_BFQ.Questions();
         }
         
-        public (List<Questions_16PF>, List<Questions_16PF>) GetTest_16PF()
+        public List<Questions_16PF> GetTest_16PF_A()
         {
-            return (Questions_16PF.Questions_WayA(), Questions_16PF.Questions_WayB());
+            return Questions_16PF.Questions_WayA();
+        }
+        
+        public List<Questions_16PF> GetTest_16PF_B()
+        {
+            return Questions_16PF.Questions_WayB();
         }
         
         public async Task<List<TestDTO>> GetAssignedTests(int candidateId)

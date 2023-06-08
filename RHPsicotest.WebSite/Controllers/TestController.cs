@@ -127,20 +127,35 @@ namespace RHPsicotest.WebSite.Controllers
         }
         
         [HttpGet]
-        [Route("/Prueba/16PF")]
-        public IActionResult Test_16PF()
+        [Route("/Prueba/16PF-A")]
+        public IActionResult Test_16PF_A()
         {
-            (List<Questions_16PF>, List<Questions_16PF>) questions = testRepository.GetTest_16PF();
+            List<Questions_16PF> questions = testRepository.GetTest_16PF_A();
 
-            ViewBag.Questions_WayA = questions.Item1;
-            ViewBag.Questions_WayB = questions.Item2;
-
-            return View();
+            return View(questions);
         }
 
         [HttpPost]
-        [Route("/Prueba/16PF")]
-        public IActionResult Test_16PF(char[] responsesA, char[] responsesB)
+        [Route("/Prueba/16PF-A")]
+        public IActionResult Test_16PF_A(char[] responses)
+        {
+            int currentIdUser = Convert.ToInt32(((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value);
+
+            return View();
+        }
+        
+        [HttpGet]
+        [Route("/Prueba/16PF-B")]
+        public IActionResult Test_16PF_B()
+        {
+            List<Questions_16PF> questions = testRepository.GetTest_16PF_B();
+
+            return View(questions);
+        }
+
+        [HttpPost]
+        [Route("/Prueba/16PF-B")]
+        public IActionResult Test_16PF_B(char[] responses)
         {
             int currentIdUser = Convert.ToInt32(((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value);
 

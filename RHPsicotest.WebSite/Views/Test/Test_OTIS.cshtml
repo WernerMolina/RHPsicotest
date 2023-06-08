@@ -366,11 +366,14 @@
                                 D) @test.OptionD
                             </div>
                         </div>
-                        <div class="card">
-                            <div class="card-body">
-                                E) @test.OptionE
+                        @if (test.QuestionNumber != 43)
+                        {
+                            <div class="card">
+                                <div class="card-body">
+                                    E) @test.OptionE
+                                </div>
                             </div>
-                        </div>
+                        }
                     </div>
                     <div class="d-flex flex-column gap-2">
                         <div class=" d-flex align-items-start gap-2" id="optionA-@test.QuestionNumber">
@@ -405,14 +408,17 @@
                                 </div>
                             </div>
                         </div>
-                        <div class=" d-flex align-items-start gap-2" id="optionE-@test.QuestionNumber">
-                            <div class="card">
-                                <div class="card-body">
-                                    <input class="" type="radio" id="" name="responses[@i]" value="E"
-                                       style="width:25px; height: 25px" required />
+                        @if (test.QuestionNumber != 43)
+                        {
+                            <div class=" d-flex align-items-start gap-2" id="optionE-@test.QuestionNumber">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <input class="" type="radio" id="" name="responses[@i]" value="E"
+                                               style="width:25px; height: 25px" required />
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        }
                     </div>
                 </div>
             </div>

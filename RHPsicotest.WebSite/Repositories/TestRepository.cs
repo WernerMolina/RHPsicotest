@@ -5,7 +5,6 @@ using RHPsicotest.WebSite.Models;
 using RHPsicotest.WebSite.Repositories.Contracts;
 using RHPsicotest.WebSite.GenerateResults;
 using RHPsicotest.WebSite.Tests.Questions;
-using RHPsicotest.WebSite.Tests.Responses;
 using RHPsicotest.WebSite.Utilities;
 using System;
 using System.Collections.Generic;
@@ -105,9 +104,9 @@ namespace RHPsicotest.WebSite.Repositories
         {
             byte score = Results_OTIS.GetScoreTotal(responses);
 
-            byte IQ = Results_OTIS.GetCIByScore(score);
+            byte IQ = Results_OTIS.GetIQByScore(score);
 
-            string description = Results_OTIS.GetDescriptionByCI(IQ);
+            string description = Results_OTIS.GetDescriptionByIQ(IQ);
 
             Expedient expedient = await context.Expedients.FirstOrDefaultAsync(e => e.IdCandidate == currentIdUser);
 
@@ -116,9 +115,25 @@ namespace RHPsicotest.WebSite.Repositories
             return result;
         }
 
+        public async Task<bool> Test_16PF(char[] responses, int currentIdUser, bool isWayA)
+        {
+            byte[] scoresByFactor = Results_16PF.GetScoreByFactor(responses);
+
+            Expedient expedient = await context.Expedients.FirstOrDefaultAsync(e => e.IdCandidate == currentIdUser);
+
+            byte[] decatypesByFactor = Results_16PF.GetDecatypeByFactor(scoresByFactor, expedient.Gender, isWayA);
+
+            string[] descriptions = Results_16PF.GetDescriptionsByFactor(decatypesByFactor);
+
+            float[] scoresSecondaryFactors = Results_16PF.GetScoreOfSecondaryFactors(decatypesByFactor, expedient.Gender);
+
+            bool result = await AddResults_16PF(expedient.IdExpedient, scoresByFactor, decatypesByFactor, descriptions, isWayA);
+
+            return result;
+        }
 
         // Guarda el puntaje por factor, percentil y descripción
-        private async Task<bool> AddResults_PPGIPG(int expedientId, byte[] scoresByFactor, byte[] scoresByPercentile, string[] description)
+        private async Task<bool> AddResults_PPGIPG(int expedientId, byte[] scoresByFactor, byte[] percentilesByFactor, string[] descriptions)
         {
             List<Result> results = new List<Result>();
             List<Result> removes = context.Results.Where(r => r.IdExpedient == expedientId && r.IdTest == 1).ToList();
@@ -129,9 +144,9 @@ namespace RHPsicotest.WebSite.Repositories
                 context.SaveChanges();
             }
 
-            for (int i = 0; i <= 8; i++)
+            for (byte i = 0; i <= 8; i++)
             {
-                results.Add(Conversion.ConvertToResult(expedientId, 1, i + 1, scoresByFactor[i], scoresByPercentile[i], description[i]));
+                results.Add(Conversion.ConvertToResult(expedientId, 1, i + 1, scoresByFactor[i], percentilesByFactor[i], descriptions[i]));
             }
 
             await context.Results.AddRangeAsync(results);
@@ -167,6 +182,30 @@ namespace RHPsicotest.WebSite.Repositories
             Result result = Conversion.ConvertToResult(expedientId, 3, 10, score, percentile, description);
 
             await context.Results.AddAsync(result);
+            return await context.SaveChangesAsync() > 0;
+        }
+
+        private async Task<bool> AddResults_16PF(int expedientId, byte[] scoresByFactor, byte[] decatypesByFactor, string[] descriptions, bool isWayA)
+        {
+            int testId = isWayA ? 5 : 6;
+
+            List<Result> results = new List<Result>();
+            List<Result> removes = context.Results.Where(r => r.IdExpedient == expedientId && r.IdTest == testId).ToList();
+
+            if (removes != null)
+            {
+                context.Results.RemoveRange(removes);
+                context.SaveChanges();
+            }
+
+            byte factorId = 11;
+
+            for (int i = 0; i <= 15; i++)
+            {
+                results.Add(Conversion.ConvertToResult(expedientId, testId, factorId + i, scoresByFactor[i], decatypesByFactor[i], descriptions[i]));
+            }
+
+            await context.Results.AddRangeAsync(results);
             return await context.SaveChangesAsync() > 0;
         }
     }

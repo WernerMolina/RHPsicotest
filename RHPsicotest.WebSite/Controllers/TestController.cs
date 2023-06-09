@@ -137,9 +137,16 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpPost]
         [Route("/Prueba/16PF-A")]
-        public IActionResult Test_16PF_A(char[] responses)
+        public async Task<IActionResult> Test_16PF_A(char[] responses)
         {
             int currentIdUser = Convert.ToInt32(((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value);
+
+            bool result = await testRepository.Test_16PF(responses, currentIdUser, true);
+
+            if (result)
+            {
+                return RedirectToAction(nameof(AssignedTests));
+            }
 
             return View();
         }
@@ -155,9 +162,16 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpPost]
         [Route("/Prueba/16PF-B")]
-        public IActionResult Test_16PF_B(char[] responses)
+        public async Task<IActionResult> Test_16PF_B(char[] responses)
         {
             int currentIdUser = Convert.ToInt32(((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value);
+
+            bool result = await testRepository.Test_16PF(responses, currentIdUser, false);
+
+            if (result)
+            {
+                return RedirectToAction(nameof(AssignedTests));
+            }
 
             return View();
         }

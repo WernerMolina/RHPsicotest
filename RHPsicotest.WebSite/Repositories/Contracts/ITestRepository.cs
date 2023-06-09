@@ -27,5 +27,7 @@ namespace RHPsicotest.WebSite.Repositories.Contracts
 
         public Task<bool> Test_OTIS(char[] responses, int currentIdUser);
 
+        public Task<bool> Test_16PF(char[] responses, int currentIdUser, bool isWayA);
+
     }
 }

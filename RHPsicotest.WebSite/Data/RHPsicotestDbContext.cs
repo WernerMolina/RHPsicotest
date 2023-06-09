@@ -370,6 +370,34 @@ namespace RHPsicotest.WebSite.Data
                 DescriptionFactor = ""
             });
 
+            modelBuilder.Entity<Factor>().HasData(new Factor
+            {
+                IdFactor = 27,
+                FactorName = "QI",
+                DescriptionFactor = ""
+            });
+
+            modelBuilder.Entity<Factor>().HasData(new Factor
+            {
+                IdFactor = 28,
+                FactorName = "QII",
+                DescriptionFactor = ""
+            });
+
+            modelBuilder.Entity<Factor>().HasData(new Factor
+            {
+                IdFactor = 29,
+                FactorName = "QIII",
+                DescriptionFactor = ""
+            });
+
+            modelBuilder.Entity<Factor>().HasData(new Factor
+            {
+                IdFactor = 30,
+                FactorName = "QIV",
+                DescriptionFactor = ""
+            });
+
             // Tabla Intermedia de Roles y Usuarios
             modelBuilder.Entity<Role_User>().HasData(new Role_User
             {

@@ -1,5 +1,6 @@
 ﻿using RHPsicotest.WebSite.Models;
 using RHPsicotest.WebSite.Tests.Responses;
+using System;
 using System.Collections.Generic;
 
 namespace RHPsicotest.WebSite.GenerateResults
@@ -62,39 +63,104 @@ namespace RHPsicotest.WebSite.GenerateResults
             return decatypes;
         }
 
-        public static float[] GetScoreOfSecondaryFactors(byte[] decatypes, string gender)
+        public static byte[] GetScoreOfSecondaryFactors(byte[] decatypes, string gender)
         {
-            float[] scores = new float[4];
+            byte[] scores = new byte[4];
 
-            scores[0] = FactorAnsiedad(decatypes, gender);
+            scores[0] = FactorAnxiety(decatypes, gender);
+            scores[1] = FactorExtraversion(decatypes, gender);
+            scores[2] = FactorSocialization(decatypes, gender);
+            scores[3] = FactorIndependence(decatypes, gender);
 
             return scores;
         }
         
-        public static float FactorAnsiedad(byte[] decatypes, string gender)
+        public static byte FactorAnxiety(byte[] decatypes, string gender)
         {
             int positive, negative;
 
             if (gender == "Hombre")
             {
-                // Factor A + Factor I + Factor L + Factor O + Factor Q4 + 46
                 positive = decatypes[0] + decatypes[7] + (decatypes[8] * 2) + (decatypes[11] * 3) + (decatypes[15] * 3) + 46;
 
-                // Factor C + Factor H + Factor M + Factor Q3
                 negative = (decatypes[2] * 3) + (decatypes[6] * 2) + decatypes[9] + decatypes[14];
             }
             else
             {
-                // Factor G + Factor L + Factor O + Factor Q4 + 51
                 positive = decatypes[5] + (decatypes[8] * 2) + (decatypes[11] * 3) + (decatypes[15] * 3) + 51;
 
-                // Factor C + Factor H + Factor M + Factor Q3
                 negative = (decatypes[2] * 3) + (decatypes[6] * 2) + decatypes[9] + decatypes[14];
             }
 
-            float total = (positive - negative) / 10;
+            return Convert.ToByte(positive - negative);
+        }
 
-            return total;
+        public static byte FactorExtraversion(byte[] decatypes, string gender)
+        {
+            int positive, negative;
+
+            if (gender == "Hombre")
+            {
+                positive = (decatypes[0] * 4) + decatypes[3] + (decatypes[4] * 3) + (decatypes[5] * 2) + (decatypes[6] * 3) + decatypes[7] + decatypes[8] + decatypes[14] + decatypes[15] + 2;
+
+                negative = decatypes[1] + decatypes[2] + decatypes[9] + (decatypes[13] * 4);
+            }
+            else
+            {
+                positive = (decatypes[0] * 5) + (decatypes[3] * 3) + (decatypes[4] * 3) + decatypes[5] + (decatypes[6] * 3) + (decatypes[7] * 5) + decatypes[13] + decatypes[14];
+
+                negative = decatypes[2] + decatypes[7] + decatypes[9] + 47;
+            }
+
+            return Convert.ToByte(positive - negative);
+        }
+
+        public static byte FactorSocialization(byte[] decatypes, string gender)
+        {
+            int positive, negative;
+
+            if (gender == "Hombre")
+            {
+                // Factor A + Factor E + Factor F + Factor G + Factor H + Factor I + Factor L + Factor Q3 + Factor Q4 + 2
+                positive = decatypes[0] + (decatypes[1] * 3) + (decatypes[5] * 4) + decatypes[7] + (decatypes[10] * 4) + (decatypes[14] * 3) + 23;
+
+                // Factor B + Factor C + Factor M + Factor Q2
+                negative = decatypes[2] + (decatypes[3] * 2) + (decatypes[4] * 3) + decatypes[6] + decatypes[9] + decatypes[15];
+            }
+            else
+            {
+                // Factor G + Factor L + Factor O + Factor Q4 + 51
+                positive = decatypes[0] + (decatypes[1] * 2) + (decatypes[5] * 4) + decatypes[8] + (decatypes[10] * 3) + (decatypes[14] * 3) + 22;
+
+                // Factor C + Factor H + Factor M + Factor Q3
+                negative = decatypes[2] + (decatypes[3] * 2)+ (decatypes[4] * 2) + decatypes[6] + decatypes[9] + decatypes[12] + decatypes[15];
+            }
+
+            return Convert.ToByte(positive - negative);
+        }
+
+        public static byte FactorIndependence(byte[] decatypes, string gender)
+        {
+            int positive, negative;
+
+            if (gender == "Hombre")
+            {
+                // Factor A + Factor E + Factor F + Factor G + Factor H + Factor I + Factor L + Factor Q3 + Factor Q4 + 2
+                positive = (decatypes[1] * 5) + (decatypes[4] * 3) + (decatypes[8] * 3) + decatypes[9] + decatypes[10] + (decatypes[12] * 4) + decatypes[13];
+
+                // Factor B + Factor C + Factor M + Factor Q2
+                negative = decatypes[11] + 46;
+            }
+            else
+            {
+                // Factor G + Factor L + Factor O + Factor Q4 + 51
+                positive = (decatypes[1] + 6) + (decatypes[3] * 2) + decatypes[5] + decatypes[7] + decatypes[8] + (decatypes[9] * 3) + (decatypes[12] * 4) + decatypes[14];
+
+                // Factor C + Factor H + Factor M + Factor Q3
+                negative = (decatypes[0] * 2) + decatypes[10] + decatypes[13] + 31;
+            }
+
+            return Convert.ToByte(positive - negative);
         }
 
         // 1- A
@@ -114,7 +180,7 @@ namespace RHPsicotest.WebSite.GenerateResults
         // 15- Q3
         // 16- Q4
 
-        public static string[] GetDescriptionsByFactor(byte[] decatypes)
+        public static string[] GetDescriptionsPrimaryFactors(byte[] decatypes)
         {
             string[] descriptions = new string[16];
 
@@ -134,6 +200,18 @@ namespace RHPsicotest.WebSite.GenerateResults
             descriptions[13] = Description_FactorQ2(decatypes[13]);
             descriptions[14] = Description_FactorQ3(decatypes[14]);
             descriptions[15] = Description_FactorQ4(decatypes[15]);
+
+            return descriptions;
+        }
+        
+        public static string[] GetDescriptionsSecondaryFactors(byte[] decatypes)
+        {
+            string[] descriptions = new string[16];
+
+            descriptions[0] = Description_FactorA(decatypes[0]);
+            descriptions[1] = Description_FactorB(decatypes[1]);
+            descriptions[2] = Description_FactorC(decatypes[2]);
+            descriptions[3] = Description_FactorE(decatypes[3]);
 
             return descriptions;
         }

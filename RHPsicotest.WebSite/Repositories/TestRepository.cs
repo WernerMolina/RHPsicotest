@@ -26,32 +26,32 @@ namespace RHPsicotest.WebSite.Repositories
         {
             return Questions_PPGIPG.Questions();
         }
-        
+
         public List<Questions_OTIS> GetTest_OTIS()
         {
             return Questions_OTIS.Questions();
         }
-        
+
         public List<Questions_BFQ> GetTest_BFQ()
         {
             return Questions_BFQ.Questions();
         }
-        
+
         public List<Questions_16PF> GetTest_16PF_A()
         {
             return Questions_16PF.Questions_WayA();
         }
-        
+
         public List<Questions_16PF> GetTest_16PF_B()
         {
             return Questions_16PF.Questions_WayB();
         }
-        
+
         public async Task<List<TestDTO>> GetAssignedTests(int candidateId)
         {
             List<Test_Candidate> tests = await context.Test_Candidates.Where(t => t.IdCandidate == candidateId).ToListAsync();
 
-            List<TestDTO> testDTOs = new List<TestDTO>(); 
+            List<TestDTO> testDTOs = new List<TestDTO>();
 
             if (tests != null)
             {
@@ -72,7 +72,7 @@ namespace RHPsicotest.WebSite.Repositories
 
             // Traemos el expediente del candidato que esta realizando la prueba
             Expedient expedient = await context.Expedients.FirstOrDefaultAsync(e => e.IdCandidate == currentIdUser);
-            
+
             // Guarda el genero, la edad y la formacion academica del candidato
             (string, byte, string) infoCandidate = (expedient.Gender, expedient.Age, expedient.AcademicTraining);
 
@@ -97,7 +97,7 @@ namespace RHPsicotest.WebSite.Repositories
 
             string description = Results_Dominos.GetDescriptionByPercentile(percentile);
 
-            return await AddResults_Dominos(expedient.IdExpedient, score, percentile, description); 
+            return await AddResults_Dominos(expedient.IdExpedient, score, percentile, description);
         }
 
         public async Task<bool> Test_OTIS(char[] responses, int currentIdUser)
@@ -117,17 +117,23 @@ namespace RHPsicotest.WebSite.Repositories
 
         public async Task<bool> Test_16PF(char[] responses, int currentIdUser, bool isWayA)
         {
-            byte[] scoresByFactor = Results_16PF.GetScoreByFactor(responses);
+            byte[] scoresPrimaryFactors = Results_16PF.GetScoreByFactor(responses);
 
             Expedient expedient = await context.Expedients.FirstOrDefaultAsync(e => e.IdCandidate == currentIdUser);
 
-            byte[] decatypesByFactor = Results_16PF.GetDecatypeByFactor(scoresByFactor, expedient.Gender, isWayA);
+            byte[] decatypesByFactor = Results_16PF.GetDecatypeByFactor(scoresPrimaryFactors, expedient.Gender, isWayA);
 
-            string[] descriptions = Results_16PF.GetDescriptionsByFactor(decatypesByFactor);
+            byte[] scoresSecondaryFactors = Results_16PF.GetScoreOfSecondaryFactors(decatypesByFactor, expedient.Gender);
 
-            float[] scoresSecondaryFactors = Results_16PF.GetScoreOfSecondaryFactors(decatypesByFactor, expedient.Gender);
+            string[] descriptionsPrimaryFactors = Results_16PF.GetDescriptionsPrimaryFactors(decatypesByFactor);
 
-            bool result = await AddResults_16PF(expedient.IdExpedient, scoresByFactor, decatypesByFactor, descriptions, isWayA);
+            string[] descriptionsSecondaryFactors = Results_16PF.GetDescriptionsPrimaryFactors(decatypesByFactor);
+
+            byte[] scoresByFactor = scoresPrimaryFactors.Concat(scoresSecondaryFactors).ToArray();
+
+            string[] descriptionsByFactor = descriptionsPrimaryFactors.Concat(descriptionsSecondaryFactors).ToArray();
+
+            bool result = await AddResults_16PF(expedient.IdExpedient, scoresPrimaryFactors, scoresByFactor, decatypesByFactor, descriptionsByFactor, isWayA);
 
             return result;
         }
@@ -185,7 +191,7 @@ namespace RHPsicotest.WebSite.Repositories
             return await context.SaveChangesAsync() > 0;
         }
 
-        private async Task<bool> AddResults_16PF(int expedientId, byte[] scoresByFactor, byte[] decatypesByFactor, string[] descriptions, bool isWayA)
+        private async Task<bool> AddResults_16PF(int expedientId, byte[] scoresPrimaryFactors, byte[] scoresSecondaryFactors, byte[] decatypesByFactor, string[] descriptions, bool isWayA)
         {
             int testId = isWayA ? 5 : 6;
 
@@ -200,9 +206,9 @@ namespace RHPsicotest.WebSite.Repositories
 
             byte factorId = 11;
 
-            for (int i = 0; i <= 15; i++)
+            for (byte i = 0; i <= 15; i++)
             {
-                results.Add(Conversion.ConvertToResult(expedientId, testId, factorId + i, scoresByFactor[i], decatypesByFactor[i], descriptions[i]));
+                results.Add(Conversion.ConvertToResult(expedientId, testId, factorId + i, scoresPrimaryFactors[i], decatypesByFactor[i], descriptions[i]));
             }
 
             await context.Results.AddRangeAsync(results);

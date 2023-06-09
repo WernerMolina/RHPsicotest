@@ -23,7 +23,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return scoreTotal;
         }
 
-        public static byte GetCIByScore(byte score)
+        public static byte GetIQByScore(byte score)
         {
             if (score == 75) return 127;
             if (score == 74) return 126;
@@ -63,7 +63,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return 0;
         }
 
-        public static string GetDescriptionByCI(byte IQ)
+        public static string GetDescriptionByIQ(byte IQ)
         {
             if (IQ >= 102) return "Rango Alto: El sujeto posee una inteligencia general muy buena, indicando una alta capacidad para utilizar su razonamiento a la hora de comprender y resolver los problemas. Posee una muy buena facultad de aprender, comprender y abstraer conceptos para luego aplicarlos a la resolución de problemas.";
             if (IQ == 100) return "Rango Intermedio: El sujeto posee una inteligencia general promedio, indicando una capacidad promedio para utilizar su razonamiento a la hora de comprender y resolver los problemas. Posee una facultad promedio de aprender, comprender y abstraer conceptos para luego aplicarlos a la resolución de problemas.";

@@ -13,14 +13,14 @@ namespace RHPsicotest.WebSite.GenerateResults
             // Obtenemos las puntuaciones de la pregunta 1 a la 18
             char[,] responsesPPG = new char[18, 2];
 
-            for (int j = 0; j < 18; j++)
+            for (byte j = 0; j < 18; j++)
             {
                 responsesPPG[j, 0] = responses[j][0];
                 responsesPPG[j, 1] = responses[j][1];
             }
 
             // Obtenemos las puntuaciones de la pregunta 19 a la 38
-            int k = 18;
+            byte k = 18;
             char[,] responsesIPG = new char[20, 2];
 
             for (int j = 0; j < 20; j++)
@@ -31,7 +31,7 @@ namespace RHPsicotest.WebSite.GenerateResults
                 k++;
             }
 
-            for (int i = 1; i <= 8; i++)
+            for (byte i = 1; i <= 8; i++)
             {
                 List<Responses_PPGIPG> responsesByFactor = Responses_PPGIPG.GetResponses().Where(r => r.IdFactor == i).ToList();
 
@@ -63,28 +63,28 @@ namespace RHPsicotest.WebSite.GenerateResults
 
             foreach (Responses_PPGIPG response in responsesByFactor)
             {
-                string correct = response.Positive;
-                string incorrect = response.Negative;
+                char? correct = response.Positive;
+                char? incorrect = response.Negative;
 
                 bool a = false;
                 bool b = false;
                 bool c = false;
                 bool d = false;
 
-                if (correct.Length == 1)
+                if (correct.HasValue)
                 {
                     switch (correct)
                     {
-                        case "A":
+                        case 'A':
                             a = true;
                             break;
-                        case "B":
+                        case 'B':
                             b = true;
                             break;
-                        case "C":
+                        case 'C':
                             c = true;
                             break;
-                        case "D":
+                        case 'D':
                             d = true;
                             break;
                     }
@@ -98,16 +98,16 @@ namespace RHPsicotest.WebSite.GenerateResults
 
                     switch (incorrect)
                     {
-                        case "A":
+                        case 'A':
                             a = false;
                             break;
-                        case "B":
+                        case 'B':
                             b = false;
                             break;
-                        case "C":
+                        case 'C':
                             c = false;
                             break;
-                        case "D":
+                        case 'D':
                             d = false;
                             break;
                     }
@@ -181,7 +181,7 @@ namespace RHPsicotest.WebSite.GenerateResults
 
             if (infoCandidate.Item1 == "Hombre")
             {
-                if (infoCandidate.Item2 < 20 || infoCandidate.Item3 == "Bachillerato")
+                if (infoCandidate.Item2 < 20 || infoCandidate.Item3 == "Bachiller")
                 {
                     percentils = Percentil_TablaHombreJoven(scoresByFactor);
                 }
@@ -193,7 +193,7 @@ namespace RHPsicotest.WebSite.GenerateResults
 
             if (infoCandidate.Item1 == "Mujer")
             {
-                if (infoCandidate.Item2 < 20 || infoCandidate.Item3 == "Bachillerato")
+                if (infoCandidate.Item2 < 20 || infoCandidate.Item3 == "Bachiller")
                 {
                     percentils = Percentil_TablaMujerJoven(scoresByFactor);
                 }
@@ -223,7 +223,6 @@ namespace RHPsicotest.WebSite.GenerateResults
 
             return descriptions;
         }
-
 
 
         // ------------------------------------------------------------------------
@@ -1255,7 +1254,7 @@ namespace RHPsicotest.WebSite.GenerateResults
         }
 
 
-        // Métodos para obtener la descripcion de cada factor
+        // Métodos para obtener la descripción de cada factor
 
         private static string Descripcion_Ascendencia(byte percentile)
         {

@@ -4,7 +4,7 @@ namespace RHPsicotest.WebSite.Tests.Responses
 {
     public class Responses_Dominos
     {
-        public int QuestionNumber { get; set; }
+        public byte QuestionNumber { get; set; }
         public byte Numerator { get; set; }
         public byte Denominator { get; set; }
 

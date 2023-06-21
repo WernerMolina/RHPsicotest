@@ -75,111 +75,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return scores;
         }
         
-        public static byte FactorAnxiety(byte[] decatypes, string gender)
-        {
-            int positive, negative;
-
-            if (gender == "Hombre")
-            {
-                positive = decatypes[0] + decatypes[7] + (decatypes[8] * 2) + (decatypes[11] * 3) + (decatypes[15] * 3) + 46;
-
-                negative = (decatypes[2] * 3) + (decatypes[6] * 2) + decatypes[9] + decatypes[14];
-            }
-            else
-            {
-                positive = decatypes[5] + (decatypes[8] * 2) + (decatypes[11] * 3) + (decatypes[15] * 3) + 51;
-
-                negative = (decatypes[2] * 3) + (decatypes[6] * 2) + decatypes[9] + decatypes[14];
-            }
-
-            return Convert.ToByte(positive - negative);
-        }
-
-        public static byte FactorExtraversion(byte[] decatypes, string gender)
-        {
-            int positive, negative;
-
-            if (gender == "Hombre")
-            {
-                positive = (decatypes[0] * 4) + decatypes[3] + (decatypes[4] * 3) + (decatypes[5] * 2) + (decatypes[6] * 3) + decatypes[7] + decatypes[8] + decatypes[14] + decatypes[15] + 2;
-
-                negative = decatypes[1] + decatypes[2] + decatypes[9] + (decatypes[13] * 4);
-            }
-            else
-            {
-                positive = (decatypes[0] * 5) + (decatypes[3] * 3) + (decatypes[4] * 3) + decatypes[5] + (decatypes[6] * 3) + (decatypes[7] * 5) + decatypes[13] + decatypes[14];
-
-                negative = decatypes[2] + decatypes[7] + decatypes[9] + 47;
-            }
-
-            return Convert.ToByte(positive - negative);
-        }
-
-        public static byte FactorSocialization(byte[] decatypes, string gender)
-        {
-            int positive, negative;
-
-            if (gender == "Hombre")
-            {
-                // Factor A + Factor E + Factor F + Factor G + Factor H + Factor I + Factor L + Factor Q3 + Factor Q4 + 2
-                positive = decatypes[0] + (decatypes[1] * 3) + (decatypes[5] * 4) + decatypes[7] + (decatypes[10] * 4) + (decatypes[14] * 3) + 23;
-
-                // Factor B + Factor C + Factor M + Factor Q2
-                negative = decatypes[2] + (decatypes[3] * 2) + (decatypes[4] * 3) + decatypes[6] + decatypes[9] + decatypes[15];
-            }
-            else
-            {
-                // Factor G + Factor L + Factor O + Factor Q4 + 51
-                positive = decatypes[0] + (decatypes[1] * 2) + (decatypes[5] * 4) + decatypes[8] + (decatypes[10] * 3) + (decatypes[14] * 3) + 22;
-
-                // Factor C + Factor H + Factor M + Factor Q3
-                negative = decatypes[2] + (decatypes[3] * 2)+ (decatypes[4] * 2) + decatypes[6] + decatypes[9] + decatypes[12] + decatypes[15];
-            }
-
-            return Convert.ToByte(positive - negative);
-        }
-
-        public static byte FactorIndependence(byte[] decatypes, string gender)
-        {
-            int positive, negative;
-
-            if (gender == "Hombre")
-            {
-                // Factor A + Factor E + Factor F + Factor G + Factor H + Factor I + Factor L + Factor Q3 + Factor Q4 + 2
-                positive = (decatypes[1] * 5) + (decatypes[4] * 3) + (decatypes[8] * 3) + decatypes[9] + decatypes[10] + (decatypes[12] * 4) + decatypes[13];
-
-                // Factor B + Factor C + Factor M + Factor Q2
-                negative = decatypes[11] + 46;
-            }
-            else
-            {
-                // Factor G + Factor L + Factor O + Factor Q4 + 51
-                positive = (decatypes[1] + 6) + (decatypes[3] * 2) + decatypes[5] + decatypes[7] + decatypes[8] + (decatypes[9] * 3) + (decatypes[12] * 4) + decatypes[14];
-
-                // Factor C + Factor H + Factor M + Factor Q3
-                negative = (decatypes[0] * 2) + decatypes[10] + decatypes[13] + 31;
-            }
-
-            return Convert.ToByte(positive - negative);
-        }
-
-        // 1- A
-        // 2- B
-        // 3- C
-        // 4- E
-        // 5- F
-        // 6- G 
-        // 7- H
-        // 8- I
-        // 9- L
-        // 10- M
-        // 11- N
-        // 12- O
-        // 13- Q1
-        // 14- Q2
-        // 15- Q3
-        // 16- Q4
-
+        // Descripciones por factor
         public static string[] GetDescriptionsPrimaryFactors(byte[] decatypes)
         {
             string[] descriptions = new string[16];
@@ -1342,6 +1238,95 @@ namespace RHPsicotest.WebSite.GenerateResults
             if (score >= 0) return 1;
 
             return 0;
+        }
+
+        // Factores de segundo orden
+        public static byte FactorAnxiety(byte[] decatypes, string gender)
+        {
+            int positive, negative;
+
+            if (gender == "Hombre")
+            {
+                positive = decatypes[0] + decatypes[7] + (decatypes[8] * 2) + (decatypes[11] * 3) + (decatypes[15] * 3) + 46;
+
+                negative = (decatypes[2] * 3) + (decatypes[6] * 2) + decatypes[9] + decatypes[14];
+            }
+            else
+            {
+                positive = decatypes[5] + (decatypes[8] * 2) + (decatypes[11] * 3) + (decatypes[15] * 3) + 51;
+
+                negative = (decatypes[2] * 3) + (decatypes[6] * 2) + decatypes[9] + decatypes[14];
+            }
+
+            return Convert.ToByte(positive - negative);
+        }
+
+        public static byte FactorExtraversion(byte[] decatypes, string gender)
+        {
+            int positive, negative;
+
+            if (gender == "Hombre")
+            {
+                positive = (decatypes[0] * 4) + decatypes[3] + (decatypes[4] * 3) + (decatypes[5] * 2) + (decatypes[6] * 3) + decatypes[7] + decatypes[8] + decatypes[14] + decatypes[15] + 2;
+
+                negative = decatypes[1] + decatypes[2] + decatypes[9] + (decatypes[13] * 4);
+            }
+            else
+            {
+                positive = (decatypes[0] * 5) + (decatypes[3] * 3) + (decatypes[4] * 3) + decatypes[5] + (decatypes[6] * 3) + (decatypes[7] * 5) + decatypes[13] + decatypes[14];
+
+                negative = decatypes[2] + decatypes[7] + decatypes[9] + 47;
+            }
+
+            return Convert.ToByte(positive - negative);
+        }
+
+        public static byte FactorSocialization(byte[] decatypes, string gender)
+        {
+            int positive, negative;
+
+            if (gender == "Hombre")
+            {
+                // Factor A + Factor E + Factor F + Factor G + Factor H + Factor I + Factor L + Factor Q3 + Factor Q4 + 2
+                positive = decatypes[0] + (decatypes[1] * 3) + (decatypes[5] * 4) + decatypes[7] + (decatypes[10] * 4) + (decatypes[14] * 3) + 23;
+
+                // Factor B + Factor C + Factor M + Factor Q2
+                negative = decatypes[2] + (decatypes[3] * 2) + (decatypes[4] * 3) + decatypes[6] + decatypes[9] + decatypes[15];
+            }
+            else
+            {
+                // Factor G + Factor L + Factor O + Factor Q4 + 51
+                positive = decatypes[0] + (decatypes[1] * 2) + (decatypes[5] * 4) + decatypes[8] + (decatypes[10] * 3) + (decatypes[14] * 3) + 22;
+
+                // Factor C + Factor H + Factor M + Factor Q3
+                negative = decatypes[2] + (decatypes[3] * 2) + (decatypes[4] * 2) + decatypes[6] + decatypes[9] + decatypes[12] + decatypes[15];
+            }
+
+            return Convert.ToByte(positive - negative);
+        }
+
+        public static byte FactorIndependence(byte[] decatypes, string gender)
+        {
+            int positive, negative;
+
+            if (gender == "Hombre")
+            {
+                // Factor A + Factor E + Factor F + Factor G + Factor H + Factor I + Factor L + Factor Q3 + Factor Q4 + 2
+                positive = (decatypes[1] * 5) + (decatypes[4] * 3) + (decatypes[8] * 3) + decatypes[9] + decatypes[10] + (decatypes[12] * 4) + decatypes[13];
+
+                // Factor B + Factor C + Factor M + Factor Q2
+                negative = decatypes[11] + 46;
+            }
+            else
+            {
+                // Factor G + Factor L + Factor O + Factor Q4 + 51
+                positive = (decatypes[1] + 6) + (decatypes[3] * 2) + decatypes[5] + decatypes[7] + decatypes[8] + (decatypes[9] * 3) + (decatypes[12] * 4) + decatypes[14];
+
+                // Factor C + Factor H + Factor M + Factor Q3
+                negative = (decatypes[0] * 2) + decatypes[10] + decatypes[13] + 31;
+            }
+
+            return Convert.ToByte(positive - negative);
         }
 
 

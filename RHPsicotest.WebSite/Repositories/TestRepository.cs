@@ -127,7 +127,7 @@ namespace RHPsicotest.WebSite.Repositories
 
             string[] descriptionsPrimaryFactors = Results_16PF.GetDescriptionsPrimaryFactors(decatypesByFactor);
 
-            string[] descriptionsSecondaryFactors = Results_16PF.GetDescriptionsPrimaryFactors(decatypesByFactor);
+            string[] descriptionsSecondaryFactors = Results_16PF.GetDescriptionsSecondaryFactors(decatypesByFactor);
 
             byte[] scoresByFactor = scoresPrimaryFactors.Concat(scoresSecondaryFactors).ToArray();
 

@@ -41,5 +41,10 @@
         {
             <partial name="/Views/Expedient/Reports/_Report_Dominos.cshtml" model="@resultDTO.Results" />
         }
+        
+        @if (resultDTO.IdTest == 5)
+        {
+            <partial name="/Views/Expedient/Reports/_Report_16PF.cshtml" model="@resultDTO.Results" />
+        }
     }
 </div>

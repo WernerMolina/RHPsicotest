@@ -10,7 +10,7 @@ namespace RHPsicotest.WebSite.Tests.Questions
         public string OptionC { get; set; }
         public string OptionD { get; set; }
 
-        public static List<Questions_PPGIPG> Questions()
+        public static List<Questions_PPGIPG> GetQuestions()
         {
             return new List<Questions_PPGIPG>
             {

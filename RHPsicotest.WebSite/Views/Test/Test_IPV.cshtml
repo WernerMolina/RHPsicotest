@@ -1,6 +1,9 @@
-﻿@model IEnumerable<Questions_16PF>
+@model IEnumerable<Questions_IPV>
 
 @{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Prueba IPV";
+
     byte i = 0;
 }
 
@@ -10,10 +13,13 @@
             <h2 class="card-title">Instrucciones Generales</h2>
             <div class="card-text fs-5">
                 <p class="mb-3">
-                    La siguiente evaluación se compone de diversas preguntas y respuestas que usted habrá de seleccionar. Lea atentamente cada pregunta y las tres posibles respuestas; y seleccione pensando en lo que es más habitual para usted o que vaya mejor con su modo de ser.
+                    En la presente prueba encontrara cierto número de situaciones y de preguntas seguidas de varias respuestas posibles.
                 </p>
                 <p class="mb-3">
-                    Evite dejar preguntas sin contestar y si se le dificulta responder una de ellas puede continuar con la siguiente, pero ya no podrá regresar a las preguntas que ha dejado sin responder.
+                    Se le pide que escoja una alternativa y una sola para cada pregunta, la que de manera espontánea le parezca preferible.
+                </p>
+                <p class="mb-3">
+                    En algunas situaciones estará usted personalmente implicado:
                 </p>
                 <h2 class="mb-3">
                     Ejemplos:
@@ -24,27 +30,27 @@
             </div>
             <div class="mt-3">
                 <div class="card my-2">
-                    <h4 class="card-header">Ejemplo 1. Me gusta presenciar una competición deportiva:</h4>
+                    <h4 class="card-header">Ejemplo 1. Si usted pudiera elegir el tipo de vivienda de manera completamente libre, ¿Qué preferiría?</h4>
                     <div class="card-body d-flex gap-5 pt-3">
                         <div class="w-75 d-flex flex-column gap-3 fs-5">
                             <div class="card">
                                 <div class="card-body">
-                                    A) Sí
+                                    A) Una casa en el campo con un gran jardín.
                                 </div>
                             </div>
                             <div class="card">
                                 <div class="card-body">
-                                    B) A veces
+                                    B) Un lujoso apartamento en una gran ciudad.
                                 </div>
                             </div>
                             <div class="card">
                                 <div class="card-body">
-                                    C) No
+                                    C) Una casa situada en una calle tranquila de una pequeña ciudad.
                                 </div>
                             </div>
                         </div>
                         <div class="d-flex flex-column gap-2">
-                            <div class=" d-flex align-items-start gap-2">
+                            <div class=" d-flex align-items-start gap-2" id="optionA-40">
                                 <div class="card">
                                     <div class="card-body">
                                         <input class="" type="radio" id="" name="responses[500]" value="A"
@@ -71,28 +77,31 @@
                         </div>
                     </div>
                 </div>
+                <p class="mb-3">
+                    En otras situaciones se  refieren a personas ajenas:
+                </p>
                 <div class="card my-2">
-                    <h4 class="card-header">Ejemplo 2. Prefiero las personas:</h4>
+                    <h4 class="card-header">Ejemplo 2. J… está comprando un gran almacén cuando advierte que alguien esconde discretamente un disco bajo su chaqueta. ¿Qué hará J…?</h4>
                     <div class="card-body d-flex gap-5 pt-3">
                         <div class="w-75 d-flex flex-column gap-3 fs-5">
                             <div class="card">
                                 <div class="card-body">
-                                    A) Reservadas
+                                    A) Dar cuenta del hecho al primer vendedor que encuentre.
                                 </div>
                             </div>
                             <div class="card">
                                 <div class="card-body">
-                                    B) Término medio
+                                    B) No hacer nada porque piensa que no es cosa suya.
                                 </div>
                             </div>
                             <div class="card">
                                 <div class="card-body">
-                                    C) Que hacen amigos fácilmente
+                                    C) Indicar al infractor con el gesto o de palabra que ha visto lo que ha hecho.
                                 </div>
                             </div>
                         </div>
                         <div class="d-flex flex-column gap-2">
-                            <div class=" d-flex align-items-start gap-2">
+                            <div class=" d-flex align-items-start gap-2" id="optionA-40">
                                 <div class="card">
                                     <div class="card-body">
                                         <input class="" type="radio" id="" name="responses[501]" value="A"
@@ -100,7 +109,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class=" d-flex align-items-start gap-2">
+                            <div class=" d-flex align-items-start gap-2" id="optionB-40">
                                 <div class="card">
                                     <div class="card-body">
                                         <input class="" type="radio" id="" name="responses[501]" value="B"
@@ -108,7 +117,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class=" d-flex align-items-start gap-2">
+                            <div class=" d-flex align-items-start gap-2" id="optionC-40">
                                 <div class="card">
                                     <div class="card-body">
                                         <input class="" type="radio" id="" name="responses[501]" value="C"
@@ -119,102 +128,18 @@
                         </div>
                     </div>
                 </div>
-                <div class="card my-2">
-                    <h4 class="card-header">Ejemplo 3. El dinero no hace la felicidad:</h4>
-                    <div class="card-body d-flex gap-5 pt-3">
-                        <div class="w-75 d-flex flex-column gap-3 fs-5">
-                            <div class="card">
-                                <div class="card-body">
-                                    A) Verdadero
-                                </div>
-                            </div>
-                            <div class="card">
-                                <div class="card-body">
-                                    B) Término medio
-                                </div>
-                            </div>
-                            <div class="card">
-                                <div class="card-body">
-                                    C) Falso
-                                </div>
-                            </div>
-                        </div>
-                        <div class="d-flex flex-column gap-2">
-                            <div class=" d-flex align-items-start gap-2">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <input class="" type="radio" id="" name="responses[502]" value="A"
-                                               style="width:25px; height: 25px" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class=" d-flex align-items-start gap-2">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <input class="" type="radio" id="" name="responses[502]" value="B"
-                                               style="width:25px; height: 25px" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class=" d-flex align-items-start gap-2">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <input class="" type="radio" id="" name="responses[502]" value="C"
-                                               style="width:25px; height: 25px" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card my-2">
-                    <h4 class="card-header">Ejemplo 4. “Toro” es a “ternero” como “caballo” es a:</h4>
-                    <div class="card-body d-flex gap-5 pt-3">
-                        <div class="w-75 d-flex flex-column gap-3 fs-5">
-                            <div class="card">
-                                <div class="card-body">
-                                    A) Potro
-                                </div>
-                            </div>
-                            <div class="card">
-                                <div class="card-body">
-                                    B) Ternera
-                                </div>
-                            </div>
-                            <div class="card">
-                                <div class="card-body">
-                                    C) Yegua
-                                </div>
-                            </div>
-                        </div>
-                        <div class="d-flex flex-column gap-2">
-                            <div class=" d-flex align-items-start gap-2">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <input class="" type="radio" id="" name="responses[503]" value="A"
-                                               style="width:25px; height: 25px" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class=" d-flex align-items-start gap-2">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <input class="" type="radio" id="" name="responses[503]" value="B"
-                                               style="width:25px; height: 25px" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class=" d-flex align-items-start gap-2">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <input class="" type="radio" id="" name="responses[503]" value="C"
-                                               style="width:25px; height: 25px" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <p class="mb-3">
+                    En este caso, usted debe contestar lo que, según su propia opinión, es más probable que haga J…
+                </p>
+                <p class="mb-3">
+                    En el siguiente test, no hay respuestas buenas ni malas; cada uno piensa y actúa como cree conveniente en función de su carácter y de sus intereses.
+                </p>
+                <p class="mb-3">
+                    Para dar sus  respuestas  deben ir seleccionando la letra,  que coincida con la alternativa que usted elija, en caso que desee anular la respuesta, solo debe seleccionar  otra opción.
+                </p>
+                <p class="mb-3">
+                    Responda lo más espontánea y sinceramente posible con la contestación que se le ocurra inmediatamente al leer las alternativas que se proponen. Conteste rápidamente, sin reflexionar demasiado y en algunos casos que ninguna de las contestaciones propuestas le convenza del todo; esfuércese entonces en elegir la que crea mejor entre las alternativas que se ofrecen.
+                </p>
             </div>
             <div class="text-end">
                 <button type="button" class="btn btn-primary" onclick="startTest()">Empezar</button>
@@ -223,7 +148,7 @@
     </div>
 </div>
 <div class="d-none" id="test">
-    @foreach (Questions_16PF question in Model)
+    @foreach (Questions_IPV question in Model)
     {
         <div class="card my-3">
             <h4 class="card-header">Pregunta @question.QuestionNumber. @question.Question</h4>
@@ -239,11 +164,14 @@
                             B) @question.OptionB
                         </div>
                     </div>
-                    <div class="card">
-                        <div class="card-body">
-                            C) @question.OptionC
+                    @if (question.OptionC != "")
+                    {
+                        <div class="card">
+                            <div class="card-body">
+                                C) @question.OptionC
+                            </div>
                         </div>
-                    </div>
+                    }
                 </div>
                 <div class="d-flex flex-column gap-2">
                     <div class=" d-flex align-items-start gap-2">
@@ -262,14 +190,17 @@
                             </div>
                         </div>
                     </div>
-                    <div class=" d-flex align-items-start gap-2">
-                        <div class="card">
-                            <div class="card-body">
-                                <input class="" type="radio" name="responses[@i]" value="C"
-                                    style="width:25px; height: 25px" />
+                    @if (question.OptionC != "")
+                    {
+                        <div class=" d-flex align-items-start gap-2">
+                            <div class="card">
+                                <div class="card-body">
+                                    <input class="" type="radio" name="responses[@i]" value="C"
+                                        style="width:25px; height: 25px" />
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    }
                 </div>
             </div>
         </div>

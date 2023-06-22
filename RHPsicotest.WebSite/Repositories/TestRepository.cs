@@ -24,27 +24,32 @@ namespace RHPsicotest.WebSite.Repositories
 
         public List<Questions_PPGIPG> GetTest_PPGIPG()
         {
-            return Questions_PPGIPG.Questions();
+            return Questions_PPGIPG.GetQuestions();
         }
 
         public List<Questions_OTIS> GetTest_OTIS()
         {
-            return Questions_OTIS.Questions();
+            return Questions_OTIS.GetQuestions();
         }
 
         public List<Questions_BFQ> GetTest_BFQ()
         {
-            return Questions_BFQ.Questions();
+            return Questions_BFQ.GetQuestions();
         }
 
         public List<Questions_16PF> GetTest_16PF_A()
         {
-            return Questions_16PF.Questions_WayA();
+            return Questions_16PF.GetQuestions_WayA();
         }
 
         public List<Questions_16PF> GetTest_16PF_B()
         {
-            return Questions_16PF.Questions_WayB();
+            return Questions_16PF.GetQuestions_WayB();
+        }
+        
+        public List<Questions_IPV> GetTest_IPV()
+        {
+            return Questions_IPV.GetQuestions();
         }
 
         public async Task<List<TestDTO>> GetAssignedTests(int candidateId)
@@ -73,7 +78,7 @@ namespace RHPsicotest.WebSite.Repositories
             // Traemos el expediente del candidato que esta realizando la prueba
             Expedient expedient = await context.Expedients.FirstOrDefaultAsync(e => e.IdCandidate == currentIdUser);
 
-            // Guarda el genero, la edad y la formacion academica del candidato
+            // Guarda el genero, la edad y la formación académica del candidato
             (string, byte, string) infoCandidate = (expedient.Gender, expedient.Age, expedient.AcademicTraining);
 
             // Guarda los percentiles de todos los factores

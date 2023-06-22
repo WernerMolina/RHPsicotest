@@ -24,9 +24,9 @@ namespace RHPsicotest.WebSite.Controllers
         [Route("/PruebasAsignadas")]
         public async Task<IActionResult> AssignedTests()
         {
-            int candidateId = Convert.ToInt16(((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value);
+            int userId = GetCurrentUserId();
 
-            List<TestDTO> tests = await testRepository.GetAssignedTests(candidateId);
+            List<TestDTO> tests = await testRepository.GetAssignedTests(userId);
 
             return View(tests);
         }
@@ -44,9 +44,9 @@ namespace RHPsicotest.WebSite.Controllers
         [Route("/Prueba/PPG-IPG")]
         public async Task<IActionResult> Test_PPGIPG(char[][] responses)
         {
-            int currentIdUser = Convert.ToInt32(((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value);
+            int userId = GetCurrentUserId();
 
-            bool result = await testRepository.Test_PPGIPG(responses, currentIdUser);
+            bool result = await testRepository.Test_PPGIPG(responses, userId);
 
             if (result)
             {
@@ -71,9 +71,9 @@ namespace RHPsicotest.WebSite.Controllers
         [Route("/Prueba/OTIS")]
         public async Task<IActionResult> Test_OTIS(char[] responses)
         {
-            int currentIdUser = Convert.ToInt32(((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value);
+            int userId = GetCurrentUserId();
 
-            bool result = await testRepository.Test_OTIS(responses, currentIdUser);
+            bool result = await testRepository.Test_OTIS(responses, userId);
 
             if (result)
             {
@@ -96,9 +96,9 @@ namespace RHPsicotest.WebSite.Controllers
         [Route("/Prueba/Dominos")]
         public async Task<IActionResult> Test_Dominos(char?[][] responses)
         {
-            int currentIdUser = Convert.ToInt32(((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value);
+            int userId = GetCurrentUserId();
 
-            bool result = await testRepository.Test_Dominos(responses, currentIdUser);
+            bool result = await testRepository.Test_Dominos(responses, userId);
 
             if (result)
             {
@@ -121,7 +121,7 @@ namespace RHPsicotest.WebSite.Controllers
         [Route("/Prueba/BFQ")]
         public IActionResult Test_BFQ(char[][] responses)
         {
-            int currentIdUser = Convert.ToInt32(((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value);
+            int userId = GetCurrentUserId();
 
             return View();
         }
@@ -139,9 +139,9 @@ namespace RHPsicotest.WebSite.Controllers
         [Route("/Prueba/16PF-A")]
         public async Task<IActionResult> Test_16PF_A(char[] responses)
         {
-            int currentIdUser = Convert.ToInt32(((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value);
+            int userId = GetCurrentUserId();
 
-            bool result = await testRepository.Test_16PF(responses, currentIdUser, true);
+            bool result = await testRepository.Test_16PF(responses, userId, true);
 
             if (result)
             {
@@ -164,9 +164,34 @@ namespace RHPsicotest.WebSite.Controllers
         [Route("/Prueba/16PF-B")]
         public async Task<IActionResult> Test_16PF_B(char[] responses)
         {
-            int currentIdUser = Convert.ToInt32(((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value);
+            int userId = GetCurrentUserId();
 
-            bool result = await testRepository.Test_16PF(responses, currentIdUser, false);
+            bool result = await testRepository.Test_16PF(responses, userId, false);
+
+            if (result)
+            {
+                return RedirectToAction(nameof(AssignedTests));
+            }
+
+            return View();
+        }
+        
+        [HttpGet]
+        [Route("/Prueba/IPV")]
+        public IActionResult Test_IPV()
+        {
+            List<Questions_IPV> questions = testRepository.GetTest_IPV();
+
+            return View(questions);
+        }
+
+        [HttpPost]
+        [Route("/Prueba/IPV")]
+        public async Task<IActionResult> Test_IPV(char[] responses)
+        {
+            int userId = GetCurrentUserId();
+
+            bool result = await testRepository.Test_16PF(responses, userId, false);
 
             if (result)
             {
@@ -176,5 +201,10 @@ namespace RHPsicotest.WebSite.Controllers
             return View();
         }
 
+
+        private int GetCurrentUserId()
+        {
+            return Convert.ToInt32(((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value);
+        }
     }
 }

@@ -7,7 +7,7 @@ namespace RHPsicotest.WebSite.Tests.Questions
         public byte QuestionNumber { get; set; }
         public string Question { get; set; }
         
-        public static List<Questions_BFQ> Questions()
+        public static List<Questions_BFQ> GetQuestions()
         {
             return new List<Questions_BFQ>
             {

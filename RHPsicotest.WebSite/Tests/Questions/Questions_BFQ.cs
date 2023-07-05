@@ -56,6 +56,7 @@ namespace RHPsicotest.WebSite.Tests.Questions
                     QuestionNumber = 9,
                     Question = "No suelo sentirme tenso."
                 },
+                // 10 y 11 se parecen
                 new Questions_BFQ
                 {
                     QuestionNumber = 10,

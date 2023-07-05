@@ -11,13 +11,9 @@ namespace RHPsicotest.WebSite.GenerateResults
 
             List<Responses_OTIS> responsesOTIS = Responses_OTIS.GetResponses();
 
-            byte counter = 0;
-
             foreach (Responses_OTIS response in responsesOTIS)
             {
-                if (candidateResponses[counter] == response.Correct) scoreTotal++;
-
-                counter++;
+                if (candidateResponses[--response.QuestionNumber] == response.Correct) scoreTotal++;
             }
 
             return scoreTotal;

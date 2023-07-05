@@ -35,7 +35,7 @@ namespace RHPsicotest.WebSite.Controllers
         [Route("/Prueba/PPG-IPG")]
         public IActionResult Test_PPGIPG()
         {
-            List<Questions_PPGIPG> test = testRepository.GetTest_PPGIPG();
+            List<Questions_PPGIPG> test = testRepository.GetQuestions_Test_PPGIPG();
 
             return View(test);
         }
@@ -46,14 +46,14 @@ namespace RHPsicotest.WebSite.Controllers
         {
             int userId = GetCurrentUserId();
 
-            bool result = await testRepository.Test_PPGIPG(responses, userId);
+            bool result = await testRepository.GenerateResults_Test_PPGIPG(responses, userId);
 
             if (result)
             {
                 return RedirectToAction(nameof(AssignedTests));
             }
 
-            List<Questions_PPGIPG> test = testRepository.GetTest_PPGIPG();
+            List<Questions_PPGIPG> test = testRepository.GetQuestions_Test_PPGIPG();
 
             return View(test);
         }
@@ -62,7 +62,7 @@ namespace RHPsicotest.WebSite.Controllers
         [Route("/Prueba/OTIS")]
         public IActionResult Test_OTIS()
         {
-            List<Questions_OTIS> test = testRepository.GetTest_OTIS();
+            List<Questions_OTIS> test = testRepository.GetQuestions_Test_OTIS();
 
             return View(test);
         }
@@ -73,14 +73,14 @@ namespace RHPsicotest.WebSite.Controllers
         {
             int userId = GetCurrentUserId();
 
-            bool result = await testRepository.Test_OTIS(responses, userId);
+            bool result = await testRepository.GenerateResults_Test_OTIS(responses, userId);
 
             if (result)
             {
                 return RedirectToAction(nameof(AssignedTests));
             }
 
-            List<Questions_OTIS> test = testRepository.GetTest_OTIS();
+            List<Questions_OTIS> test = testRepository.GetQuestions_Test_OTIS();
 
             return View(test);
         }
@@ -98,7 +98,7 @@ namespace RHPsicotest.WebSite.Controllers
         {
             int userId = GetCurrentUserId();
 
-            bool result = await testRepository.Test_Dominos(responses, userId);
+            bool result = await testRepository.GenerateResults_Test_Dominos(responses, userId);
 
             if (result)
             {
@@ -112,7 +112,7 @@ namespace RHPsicotest.WebSite.Controllers
         [Route("/Prueba/BFQ")]
         public IActionResult Test_BFQ()
         {
-            List<Questions_BFQ> test = testRepository.GetTest_BFQ();
+            List<Questions_BFQ> test = testRepository.GetQuestions_Test_BFQ();
 
             return View(test);
         }
@@ -130,7 +130,7 @@ namespace RHPsicotest.WebSite.Controllers
         [Route("/Prueba/16PF-A")]
         public IActionResult Test_16PF_A()
         {
-            List<Questions_16PF> questions = testRepository.GetTest_16PF_A();
+            List<Questions_16PF> questions = testRepository.GetQuestions_Test_16PF_A();
 
             return View(questions);
         }
@@ -141,7 +141,7 @@ namespace RHPsicotest.WebSite.Controllers
         {
             int userId = GetCurrentUserId();
 
-            bool result = await testRepository.Test_16PF(responses, userId, true);
+            bool result = await testRepository.GenerateResults_Test_16PF(responses, userId, true);
 
             if (result)
             {
@@ -155,7 +155,7 @@ namespace RHPsicotest.WebSite.Controllers
         [Route("/Prueba/16PF-B")]
         public IActionResult Test_16PF_B()
         {
-            List<Questions_16PF> questions = testRepository.GetTest_16PF_B();
+            List<Questions_16PF> questions = testRepository.GetQuestions_Test_16PF_B();
 
             return View(questions);
         }
@@ -166,7 +166,7 @@ namespace RHPsicotest.WebSite.Controllers
         {
             int userId = GetCurrentUserId();
 
-            bool result = await testRepository.Test_16PF(responses, userId, false);
+            bool result = await testRepository.GenerateResults_Test_16PF(responses, userId, false);
 
             if (result)
             {
@@ -180,7 +180,7 @@ namespace RHPsicotest.WebSite.Controllers
         [Route("/Prueba/IPV")]
         public IActionResult Test_IPV()
         {
-            List<Questions_IPV> questions = testRepository.GetTest_IPV();
+            List<Questions_IPV> questions = testRepository.GetQuestions_Test_IPV();
 
             return View(questions);
         }
@@ -191,7 +191,7 @@ namespace RHPsicotest.WebSite.Controllers
         {
             int userId = GetCurrentUserId();
 
-            bool result = await testRepository.Test_16PF(responses, userId, false);
+            bool result = await testRepository.GenerateResults_Test_IPV(responses, userId);
 
             if (result)
             {

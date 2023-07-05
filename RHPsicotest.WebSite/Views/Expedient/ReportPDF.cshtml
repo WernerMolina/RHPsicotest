@@ -46,5 +46,10 @@
         {
             <partial name="/Views/Expedient/Reports/_Report_16PF.cshtml" model="@resultDTO.Results" />
         }
+        
+        @if (resultDTO.IdTest == 7)
+        {
+            <partial name="/Views/Expedient/Reports/_Report_IPV.cshtml" model="@resultDTO.Results" />
+        }
     }
 </div>

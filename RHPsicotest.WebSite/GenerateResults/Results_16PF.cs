@@ -7,7 +7,7 @@ namespace RHPsicotest.WebSite.GenerateResults
 {
     public class Results_16PF
     {
-        public static byte[] GetScoreByFactor(char[] responsesCandidate)
+        public static byte[] GetScoresByFactor(char[] responsesCandidate)
         {
             byte[] scoresByFactor = new byte[16];
 
@@ -41,36 +41,36 @@ namespace RHPsicotest.WebSite.GenerateResults
             return scoresByFactor;
         }
 
-        public static byte[] GetDecatypeByFactor(byte[] scoresByFactor, string gender, bool isWayA)
+        public static byte[] GetDecatypesByFactor(byte[] scoresByFactor, string gender, bool isWayA)
         {
             byte[] decatypes = new byte[16];
 
             if (isWayA)
             {
                 if (gender == "Hombre")
-                    decatypes = WayA_TableMan(scoresByFactor);
+                    decatypes = GetDecatype_WayA_Man(scoresByFactor);
                 else
-                    decatypes = WayA_TableWoman(scoresByFactor);
+                    decatypes = GetDecatype_WayA_Woman(scoresByFactor);
             }
             else
             {
                 if (gender == "Hombre")
-                    decatypes = WayB_TableMan(scoresByFactor);
+                    decatypes = GetDecatype_WayB_Man(scoresByFactor);
                 else
-                    decatypes = WayB_TableWoman(scoresByFactor);
+                    decatypes = GetDecatype_WayB_Woman(scoresByFactor);
             }
 
             return decatypes;
         }
 
-        public static byte[] GetScoreOfSecondaryFactors(byte[] decatypes, string gender)
+        public static byte[] GetScoresOfSecondaryFactors(byte[] decatypes, string gender)
         {
             byte[] scores = new byte[4];
 
-            scores[0] = FactorAnxiety(decatypes, gender);
-            scores[1] = FactorExtraversion(decatypes, gender);
-            scores[2] = FactorSocialization(decatypes, gender);
-            scores[3] = FactorIndependence(decatypes, gender);
+            scores[0] = GetScore_FactorAnxiety(decatypes, gender);
+            scores[1] = GetScore_FactorExtraversion(decatypes, gender);
+            scores[2] = GetScore_FactorSocialization(decatypes, gender);
+            scores[3] = GetScore_FactorIndependence(decatypes, gender);
 
             return scores;
         }
@@ -80,22 +80,22 @@ namespace RHPsicotest.WebSite.GenerateResults
         {
             string[] descriptions = new string[16];
 
-            descriptions[0] = Description_FactorA(decatypes[0]);
-            descriptions[1] = Description_FactorB(decatypes[1]);
-            descriptions[2] = Description_FactorC(decatypes[2]);
-            descriptions[3] = Description_FactorE(decatypes[3]);
-            descriptions[4] = Description_FactorF(decatypes[4]);
-            descriptions[5] = Description_FactorG(decatypes[5]);
-            descriptions[6] = Description_FactorH(decatypes[6]);
-            descriptions[7] = Description_FactorI(decatypes[7]);
-            descriptions[8] = Description_FactorL(decatypes[8]);
-            descriptions[9] = Description_FactorM(decatypes[9]);
-            descriptions[10] = Description_FactorN(decatypes[10]);
-            descriptions[11] = Description_FactorO(decatypes[11]);
-            descriptions[12] = Description_FactorQ1(decatypes[12]);
-            descriptions[13] = Description_FactorQ2(decatypes[13]);
-            descriptions[14] = Description_FactorQ3(decatypes[14]);
-            descriptions[15] = Description_FactorQ4(decatypes[15]);
+            descriptions[0] = GetDescription_FactorA(decatypes[0]);
+            descriptions[1] = GetDescription_FactorB(decatypes[1]);
+            descriptions[2] = GetDescription_FactorC(decatypes[2]);
+            descriptions[3] = GetDescription_FactorE(decatypes[3]);
+            descriptions[4] = GetDescription_FactorF(decatypes[4]);
+            descriptions[5] = GetDescription_FactorG(decatypes[5]);
+            descriptions[6] = GetDescription_FactorH(decatypes[6]);
+            descriptions[7] = GetDescription_FactorI(decatypes[7]);
+            descriptions[8] = GetDescription_FactorL(decatypes[8]);
+            descriptions[9] = GetDescription_FactorM(decatypes[9]);
+            descriptions[10] = GetDescription_FactorN(decatypes[10]);
+            descriptions[11] = GetDescription_FactorO(decatypes[11]);
+            descriptions[12] = GetDescription_FactorQ1(decatypes[12]);
+            descriptions[13] = GetDescription_FactorQ2(decatypes[13]);
+            descriptions[14] = GetDescription_FactorQ3(decatypes[14]);
+            descriptions[15] = GetDescription_FactorQ4(decatypes[15]);
 
             return descriptions;
         }
@@ -104,114 +104,114 @@ namespace RHPsicotest.WebSite.GenerateResults
         {
             string[] descriptions = new string[16];
 
-            descriptions[0] = Description_FactorA(decatypes[0]);
-            descriptions[1] = Description_FactorB(decatypes[1]);
-            descriptions[2] = Description_FactorC(decatypes[2]);
-            descriptions[3] = Description_FactorE(decatypes[3]);
+            descriptions[0] = GetDescription_FactorA(decatypes[0]);
+            descriptions[1] = GetDescription_FactorB(decatypes[1]);
+            descriptions[2] = GetDescription_FactorC(decatypes[2]);
+            descriptions[3] = GetDescription_FactorE(decatypes[3]);
 
             return descriptions;
         }
 
         // Tabla de la Forma A
-        private static byte[] WayA_TableMan(byte[] scoresByFactor)
+        private static byte[] GetDecatype_WayA_Man(byte[] scoresByFactor)
         {
             byte[] decatypes = new byte[16];
 
-            decatypes[0] = WayA_Man_FactorA(scoresByFactor[0]);
-            decatypes[1] = WayA_Man_FactorB(scoresByFactor[1]);
-            decatypes[2] = WayA_Man_FactorC(scoresByFactor[2]);
-            decatypes[3] = WayA_Man_FactorE(scoresByFactor[3]);
-            decatypes[4] = WayA_Man_FactorF(scoresByFactor[4]);
-            decatypes[5] = WayA_Man_FactorG(scoresByFactor[5]);
-            decatypes[6] = WayA_Man_FactorH(scoresByFactor[6]);
-            decatypes[7] = WayA_Man_FactorI(scoresByFactor[7]);
-            decatypes[8] = WayA_Man_FactorL(scoresByFactor[8]);
-            decatypes[9] = WayA_Man_FactorM(scoresByFactor[9]);
-            decatypes[10] = WayA_Man_FactorN(scoresByFactor[10]);
-            decatypes[11] = WayA_Man_FactorO(scoresByFactor[11]);
-            decatypes[12] = WayA_Man_FactorQ1(scoresByFactor[12]);
-            decatypes[13] = WayA_Man_FactorQ2(scoresByFactor[13]);
-            decatypes[14] = WayA_Man_FactorQ3(scoresByFactor[14]);
-            decatypes[15] = WayA_Man_FactorQ4(scoresByFactor[15]);
+            decatypes[0] = GetDecatype_WayA_Man_FactorA(scoresByFactor[0]);
+            decatypes[1] = GetDecatype_WayA_Man_FactorB(scoresByFactor[1]);
+            decatypes[2] = GetDecatype_WayA_Man_FactorC(scoresByFactor[2]);
+            decatypes[3] = GetDecatype_WayA_Man_FactorE(scoresByFactor[3]);
+            decatypes[4] = GetDecatype_WayA_Man_FactorF(scoresByFactor[4]);
+            decatypes[5] = GetDecatype_WayA_Man_FactorG(scoresByFactor[5]);
+            decatypes[6] = GetDecatype_WayA_Man_FactorH(scoresByFactor[6]);
+            decatypes[7] = GetDecatype_WayA_Man_FactorI(scoresByFactor[7]);
+            decatypes[8] = GetDecatype_WayA_Man_FactorL(scoresByFactor[8]);
+            decatypes[9] = GetDecatype_WayA_Man_FactorM(scoresByFactor[9]);
+            decatypes[10] = GetDecatype_WayA_Man_FactorN(scoresByFactor[10]);
+            decatypes[11] = GetDecatype_WayA_Man_FactorO(scoresByFactor[11]);
+            decatypes[12] = GetDecatype_WayA_Man_FactorQ1(scoresByFactor[12]);
+            decatypes[13] = GetDecatype_WayA_Man_FactorQ2(scoresByFactor[13]);
+            decatypes[14] = GetDecatype_WayA_Man_FactorQ3(scoresByFactor[14]);
+            decatypes[15] = GetDecatype_WayA_Man_FactorQ4(scoresByFactor[15]);
 
             return decatypes;
         }
 
-        private static byte[] WayA_TableWoman(byte[] scoresByFactor)
+        private static byte[] GetDecatype_WayA_Woman(byte[] scoresByFactor)
         {
             byte[] decatypes = new byte[16];
 
-            decatypes[0] = WayA_Woman_FactorA(scoresByFactor[0]);
-            decatypes[1] = WayA_Woman_FactorB(scoresByFactor[1]);
-            decatypes[2] = WayA_Woman_FactorC(scoresByFactor[2]);
-            decatypes[3] = WayA_Woman_FactorE(scoresByFactor[3]);
-            decatypes[4] = WayA_Woman_FactorF(scoresByFactor[4]);
-            decatypes[5] = WayA_Woman_FactorG(scoresByFactor[5]);
-            decatypes[6] = WayA_Woman_FactorH(scoresByFactor[6]);
-            decatypes[7] = WayA_Woman_FactorI(scoresByFactor[7]);
-            decatypes[8] = WayA_Woman_FactorL(scoresByFactor[8]);
-            decatypes[9] = WayA_Woman_FactorM(scoresByFactor[9]);
-            decatypes[10] = WayA_Woman_FactorN(scoresByFactor[10]);
-            decatypes[11] = WayA_Woman_FactorO(scoresByFactor[11]);
-            decatypes[12] = WayA_Woman_FactorQ1(scoresByFactor[12]);
-            decatypes[13] = WayA_Woman_FactorQ2(scoresByFactor[13]);
-            decatypes[14] = WayA_Woman_FactorQ3(scoresByFactor[14]);
-            decatypes[15] = WayA_Woman_FactorQ4(scoresByFactor[15]);
+            decatypes[0] = GetDecatype_WayA_Woman_FactorA(scoresByFactor[0]);
+            decatypes[1] = GetDecatype_WayA_Woman_FactorB(scoresByFactor[1]);
+            decatypes[2] = GetDecatype_WayA_Woman_FactorC(scoresByFactor[2]);
+            decatypes[3] = GetDecatype_WayA_Woman_FactorE(scoresByFactor[3]);
+            decatypes[4] = GetDecatype_WayA_Woman_FactorF(scoresByFactor[4]);
+            decatypes[5] = GetDecatype_WayA_Woman_FactorG(scoresByFactor[5]);
+            decatypes[6] = GetDecatype_WayA_Woman_FactorH(scoresByFactor[6]);
+            decatypes[7] = GetDecatype_WayA_Woman_FactorI(scoresByFactor[7]);
+            decatypes[8] = GetDecatype_WayA_Woman_FactorL(scoresByFactor[8]);
+            decatypes[9] = GetDecatype_WayA_Woman_FactorM(scoresByFactor[9]);
+            decatypes[10] = GetDecatype_WayA_Woman_FactorN(scoresByFactor[10]);
+            decatypes[11] = GetDecatype_WayA_Woman_FactorO(scoresByFactor[11]);
+            decatypes[12] = GetDecatype_WayA_Woman_FactorQ1(scoresByFactor[12]);
+            decatypes[13] = GetDecatype_WayA_Woman_FactorQ2(scoresByFactor[13]);
+            decatypes[14] = GetDecatype_WayA_Woman_FactorQ3(scoresByFactor[14]);
+            decatypes[15] = GetDecatype_WayA_Woman_FactorQ4(scoresByFactor[15]);
 
             return decatypes;
         }
 
         // Tabla de la Forma B
-        private static byte[] WayB_TableMan(byte[] scoresByFactor)
+        private static byte[] GetDecatype_WayB_Man(byte[] scoresByFactor)
         {
             byte[] decatypes = new byte[16];
 
-            decatypes[0] = WayB_Man_FactorA(scoresByFactor[0]);
-            decatypes[1] = WayB_Man_FactorB(scoresByFactor[1]);
-            decatypes[2] = WayB_Man_FactorC(scoresByFactor[2]);
-            decatypes[3] = WayB_Man_FactorE(scoresByFactor[3]);
-            decatypes[4] = WayB_Man_FactorF(scoresByFactor[4]);
-            decatypes[5] = WayB_Man_FactorG(scoresByFactor[5]);
-            decatypes[6] = WayB_Man_FactorH(scoresByFactor[6]);
-            decatypes[7] = WayB_Man_FactorI(scoresByFactor[7]);
-            decatypes[8] = WayB_Man_FactorL(scoresByFactor[8]);
-            decatypes[9] = WayB_Man_FactorM(scoresByFactor[9]);
-            decatypes[10] = WayB_Man_FactorN(scoresByFactor[10]);
-            decatypes[11] = WayB_Man_FactorO(scoresByFactor[11]);
-            decatypes[12] = WayB_Man_FactorQ1(scoresByFactor[12]);
-            decatypes[13] = WayB_Man_FactorQ2(scoresByFactor[13]);
-            decatypes[14] = WayB_Man_FactorQ3(scoresByFactor[14]);
-            decatypes[15] = WayB_Man_FactorQ4(scoresByFactor[15]);
+            decatypes[0] = GetDecatype_WayB_Man_FactorA(scoresByFactor[0]);
+            decatypes[1] = GetDecatype_WayB_Man_FactorB(scoresByFactor[1]);
+            decatypes[2] = GetDecatype_WayB_Man_FactorC(scoresByFactor[2]);
+            decatypes[3] = GetDecatype_WayB_Man_FactorE(scoresByFactor[3]);
+            decatypes[4] = GetDecatype_WayB_Man_FactorF(scoresByFactor[4]);
+            decatypes[5] = GetDecatype_WayB_Man_FactorG(scoresByFactor[5]);
+            decatypes[6] = GetDecatype_WayB_Man_FactorH(scoresByFactor[6]);
+            decatypes[7] = GetDecatype_WayB_Man_FactorI(scoresByFactor[7]);
+            decatypes[8] = GetDecatype_WayB_Man_FactorL(scoresByFactor[8]);
+            decatypes[9] = GetDecatype_WayB_Man_FactorM(scoresByFactor[9]);
+            decatypes[10] = GetDecatype_WayB_Man_FactorN(scoresByFactor[10]);
+            decatypes[11] = GetDecatype_WayB_Man_FactorO(scoresByFactor[11]);
+            decatypes[12] = GetDecatype_WayB_Man_FactorQ1(scoresByFactor[12]);
+            decatypes[13] = GetDecatype_WayB_Man_FactorQ2(scoresByFactor[13]);
+            decatypes[14] = GetDecatype_WayB_Man_FactorQ3(scoresByFactor[14]);
+            decatypes[15] = GetDecatype_WayB_Man_FactorQ4(scoresByFactor[15]);
 
             return decatypes;
         }
 
-        private static byte[] WayB_TableWoman(byte[] scoresByFactor)
+        private static byte[] GetDecatype_WayB_Woman(byte[] scoresByFactor)
         {
             byte[] decatypes = new byte[16];
 
-            decatypes[0] = WayB_Woman_FactorA(scoresByFactor[0]);
-            decatypes[1] = WayB_Woman_FactorB(scoresByFactor[1]);
-            decatypes[2] = WayB_Woman_FactorC(scoresByFactor[2]);
-            decatypes[3] = WayB_Woman_FactorE(scoresByFactor[3]);
-            decatypes[4] = WayB_Woman_FactorF(scoresByFactor[4]);
-            decatypes[5] = WayB_Woman_FactorG(scoresByFactor[5]);
-            decatypes[6] = WayB_Woman_FactorH(scoresByFactor[6]);
-            decatypes[7] = WayB_Woman_FactorI(scoresByFactor[7]);
-            decatypes[8] = WayB_Woman_FactorL(scoresByFactor[8]);
-            decatypes[9] = WayB_Woman_FactorM(scoresByFactor[9]);
-            decatypes[10] = WayB_Woman_FactorN(scoresByFactor[10]);
-            decatypes[11] = WayB_Woman_FactorO(scoresByFactor[11]);
-            decatypes[12] = WayB_Woman_FactorQ1(scoresByFactor[12]);
-            decatypes[13] = WayB_Woman_FactorQ2(scoresByFactor[13]);
-            decatypes[14] = WayB_Woman_FactorQ3(scoresByFactor[14]);
-            decatypes[15] = WayB_Woman_FactorQ4(scoresByFactor[15]);
+            decatypes[0] = GetDecatype_WayB_Woman_FactorA(scoresByFactor[0]);
+            decatypes[1] = GetDecatype_WayB_Woman_FactorB(scoresByFactor[1]);
+            decatypes[2] = GetDecatype_WayB_Woman_FactorC(scoresByFactor[2]);
+            decatypes[3] = GetDecatype_WayB_Woman_FactorE(scoresByFactor[3]);
+            decatypes[4] = GetDecatype_WayB_Woman_FactorF(scoresByFactor[4]);
+            decatypes[5] = GetDecatype_WayB_Woman_FactorG(scoresByFactor[5]);
+            decatypes[6] = GetDecatype_WayB_Woman_FactorH(scoresByFactor[6]);
+            decatypes[7] = GetDecatype_WayB_Woman_FactorI(scoresByFactor[7]);
+            decatypes[8] = GetDecatype_WayB_Woman_FactorL(scoresByFactor[8]);
+            decatypes[9] = GetDecatype_WayB_Woman_FactorM(scoresByFactor[9]);
+            decatypes[10] = GetDecatype_WayB_Woman_FactorN(scoresByFactor[10]);
+            decatypes[11] = GetDecatype_WayB_Woman_FactorO(scoresByFactor[11]);
+            decatypes[12] = GetDecatype_WayB_Woman_FactorQ1(scoresByFactor[12]);
+            decatypes[13] = GetDecatype_WayB_Woman_FactorQ2(scoresByFactor[13]);
+            decatypes[14] = GetDecatype_WayB_Woman_FactorQ3(scoresByFactor[14]);
+            decatypes[15] = GetDecatype_WayB_Woman_FactorQ4(scoresByFactor[15]);
 
             return decatypes;
         }
 
         // Factores de la Forma A Hombre
-        private static byte WayA_Man_FactorA(byte score)
+        private static byte GetDecatype_WayA_Man_FactorA(byte score)
         {
             if (score >= 19) return 10;
             if (score >= 17) return 9;
@@ -227,7 +227,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return 0;
         }
 
-        private static byte WayA_Man_FactorB(byte score)
+        private static byte GetDecatype_WayA_Man_FactorB(byte score)
         {
             if (score == 13) return 10;
             if (score == 12) return 9;
@@ -243,7 +243,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return 0;
         }
 
-        private static byte WayA_Man_FactorC(byte score)
+        private static byte GetDecatype_WayA_Man_FactorC(byte score)
         {
             if (score >= 25) return 10;
             if (score >= 23) return 9;
@@ -259,7 +259,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return 0;
         }
 
-        private static byte WayA_Man_FactorE(byte score)
+        private static byte GetDecatype_WayA_Man_FactorE(byte score)
         {
             if (score >= 20) return 10;
             if (score == 19) return 9;
@@ -275,7 +275,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return 0;
         }
 
-        private static byte WayA_Man_FactorF(byte score)
+        private static byte GetDecatype_WayA_Man_FactorF(byte score)
         {
             if (score >= 24) return 10;
             if (score >= 22) return 9;
@@ -291,7 +291,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return 0;
         }
 
-        private static byte WayA_Man_FactorG(byte score)
+        private static byte GetDecatype_WayA_Man_FactorG(byte score)
         {
             if (score == 20) return 10;
             if (score == 19) return 9;
@@ -307,7 +307,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return 0;
         }
 
-        private static byte WayA_Man_FactorH(byte score)
+        private static byte GetDecatype_WayA_Man_FactorH(byte score)
         {
             if (score >= 25) return 10;
             if (score >= 23) return 9;
@@ -323,7 +323,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return 0;
         }
 
-        private static byte WayA_Man_FactorI(byte score)
+        private static byte GetDecatype_WayA_Man_FactorI(byte score)
         {
             if (score >= 18) return 10;
             if (score >= 16) return 9;
@@ -339,7 +339,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return 0;
         }
 
-        private static byte WayA_Man_FactorL(byte score)
+        private static byte GetDecatype_WayA_Man_FactorL(byte score)
         {
             if (score >= 17) return 10;
             if (score >= 15) return 9;
@@ -355,7 +355,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return 0;
         }
 
-        private static byte WayA_Man_FactorM(byte score)
+        private static byte GetDecatype_WayA_Man_FactorM(byte score)
         {
             if (score >= 18) return 10;
             if (score == 17) return 9;
@@ -371,7 +371,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return 0;
         }
 
-        private static byte WayA_Man_FactorN(byte score)
+        private static byte GetDecatype_WayA_Man_FactorN(byte score)
         {
             if (score >= 16) return 10;
             if (score == 15) return 9;
@@ -387,7 +387,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return 0;
         }
 
-        private static byte WayA_Man_FactorO(byte score)
+        private static byte GetDecatype_WayA_Man_FactorO(byte score)
         {
             if (score >= 19) return 10;
             if (score >= 17) return 9;
@@ -403,7 +403,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return 0;
         }
 
-        private static byte WayA_Man_FactorQ1(byte score)
+        private static byte GetDecatype_WayA_Man_FactorQ1(byte score)
         {
             if (score >= 16) return 10;
             if (score == 15) return 9;
@@ -419,7 +419,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return 0;
         }
 
-        private static byte WayA_Man_FactorQ2(byte score)
+        private static byte GetDecatype_WayA_Man_FactorQ2(byte score)
         {
             if (score >= 17) return 10;
             if (score >= 15) return 9;
@@ -435,7 +435,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return 0;
         }
 
-        private static byte WayA_Man_FactorQ3(byte score)
+        private static byte GetDecatype_WayA_Man_FactorQ3(byte score)
         {
             if (score >= 19) return 10;
             if (score == 18) return 9;
@@ -451,7 +451,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return 0;
         }
 
-        private static byte WayA_Man_FactorQ4(byte score)
+        private static byte GetDecatype_WayA_Man_FactorQ4(byte score)
         {
             if (score >= 20) return 10;
             if (score >= 18) return 9;
@@ -469,7 +469,7 @@ namespace RHPsicotest.WebSite.GenerateResults
 
 
         // Factores de la Forma A Mujer
-        private static byte WayA_Woman_FactorA(byte score)
+        private static byte GetDecatype_WayA_Woman_FactorA(byte score)
         {
             if (score >= 19) return 10;
             if (score >= 17) return 9;
@@ -485,7 +485,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return 0;
         }
 
-        private static byte WayA_Woman_FactorB(byte score)
+        private static byte GetDecatype_WayA_Woman_FactorB(byte score)
         {
             if (score == 13) return 10;
             if (score == 12) return 9;
@@ -501,7 +501,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return 0;
         }
 
-        private static byte WayA_Woman_FactorC(byte score)
+        private static byte GetDecatype_WayA_Woman_FactorC(byte score)
         {
             if (score >= 24) return 10;
             if (score >= 22) return 9;
@@ -517,7 +517,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return 0;
         }
 
-        private static byte WayA_Woman_FactorE(byte score)
+        private static byte GetDecatype_WayA_Woman_FactorE(byte score)
         {
             if (score >= 19) return 10;
             if (score >= 17) return 9;
@@ -533,7 +533,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return 0;
         }
 
-        private static byte WayA_Woman_FactorF(byte score)
+        private static byte GetDecatype_WayA_Woman_FactorF(byte score)
         {
             if (score >= 24) return 10;
             if (score == 23) return 9;
@@ -549,7 +549,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return 0;
         }
 
-        private static byte WayA_Woman_FactorG(byte score)
+        private static byte GetDecatype_WayA_Woman_FactorG(byte score)
         {
             if (score == 20) return 10;
             if (score == 19) return 9;
@@ -565,7 +565,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return 0;
         }
 
-        private static byte WayA_Woman_FactorH(byte score)
+        private static byte GetDecatype_WayA_Woman_FactorH(byte score)
         {
             if (score >= 25) return 10;
             if (score >= 23) return 9;
@@ -581,7 +581,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return 0;
         }
 
-        private static byte WayA_Woman_FactorI(byte score)
+        private static byte GetDecatype_WayA_Woman_FactorI(byte score)
         {
             if (score >= 19) return 10;
             if (score == 18) return 9;
@@ -597,7 +597,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return 0;
         }
 
-        private static byte WayA_Woman_FactorL(byte score)
+        private static byte GetDecatype_WayA_Woman_FactorL(byte score)
         {
             if (score >= 17) return 10;
             if (score >= 15) return 9;
@@ -613,7 +613,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return 0;
         }
 
-        private static byte WayA_Woman_FactorM(byte score)
+        private static byte GetDecatype_WayA_Woman_FactorM(byte score)
         {
             if (score >= 18) return 10;
             if (score >= 16) return 9;
@@ -629,7 +629,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return 0;
         }
 
-        private static byte WayA_Woman_FactorN(byte score)
+        private static byte GetDecatype_WayA_Woman_FactorN(byte score)
         {
             if (score >= 17) return 10;
             if (score == 16) return 9;
@@ -645,7 +645,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return 0;
         }
 
-        private static byte WayA_Woman_FactorO(byte score)
+        private static byte GetDecatype_WayA_Woman_FactorO(byte score)
         {
             if (score >= 21) return 10;
             if (score >= 19) return 9;
@@ -661,7 +661,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return 0;
         }
 
-        private static byte WayA_Woman_FactorQ1(byte score)
+        private static byte GetDecatype_WayA_Woman_FactorQ1(byte score)
         {
             if (score >= 16) return 10;
             if (score >= 14) return 9;
@@ -677,7 +677,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return 0;
         }
 
-        private static byte WayA_Woman_FactorQ2(byte score)
+        private static byte GetDecatype_WayA_Woman_FactorQ2(byte score)
         {
             if (score >= 18) return 10;
             if (score >= 16) return 9;
@@ -693,7 +693,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return 0;
         }
 
-        private static byte WayA_Woman_FactorQ3(byte score)
+        private static byte GetDecatype_WayA_Woman_FactorQ3(byte score)
         {
             if (score >= 19) return 10;
             if (score == 18) return 9;
@@ -709,7 +709,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return 0;
         }
 
-        private static byte WayA_Woman_FactorQ4(byte score)
+        private static byte GetDecatype_WayA_Woman_FactorQ4(byte score)
         {
             if (score >= 22) return 10;
             if (score >= 20) return 9;
@@ -727,7 +727,7 @@ namespace RHPsicotest.WebSite.GenerateResults
 
 
         // Factores de la Forma B Hombre
-        private static byte WayB_Man_FactorA(byte score)
+        private static byte GetDecatype_WayB_Man_FactorA(byte score)
         {
             if (score >= 19) return 10;
             if (score >= 17) return 9;
@@ -743,7 +743,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return 0;
         }
 
-        private static byte WayB_Man_FactorB(byte score)
+        private static byte GetDecatype_WayB_Man_FactorB(byte score)
         {
             if (score >= 12) return 10;
             if (score == 11) return 9;
@@ -758,7 +758,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return 0;
         }
 
-        private static byte WayB_Man_FactorC(byte score)
+        private static byte GetDecatype_WayB_Man_FactorC(byte score)
         {
             if (score == 26) return 10;
             if (score >= 24) return 9;
@@ -774,7 +774,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return 0;
         }
 
-        private static byte WayB_Man_FactorE(byte score)
+        private static byte GetDecatype_WayB_Man_FactorE(byte score)
         {
             if (score >= 21) return 10;
             if (score >= 19) return 9;
@@ -790,7 +790,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return 0;
         }
 
-        private static byte WayB_Man_FactorF(byte score)
+        private static byte GetDecatype_WayB_Man_FactorF(byte score)
         {
             if (score >= 21) return 10;
             if (score >= 19) return 9;
@@ -806,7 +806,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return 0;
         }
 
-        private static byte WayB_Man_FactorG(byte score)
+        private static byte GetDecatype_WayB_Man_FactorG(byte score)
         {
             if (score == 20) return 10;
             if (score == 19) return 9;
@@ -822,7 +822,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return 0;
         }
 
-        private static byte WayB_Man_FactorH(byte score)
+        private static byte GetDecatype_WayB_Man_FactorH(byte score)
         {
             if (score == 26) return 10;
             if (score == 25) return 9;
@@ -838,7 +838,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return 0;
         }
 
-        private static byte WayB_Man_FactorI(byte score)
+        private static byte GetDecatype_WayB_Man_FactorI(byte score)
         {
             if (score >= 17) return 10;
             if (score >= 15) return 9;
@@ -854,7 +854,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return 0;
         }
 
-        private static byte WayB_Man_FactorL(byte score)
+        private static byte GetDecatype_WayB_Man_FactorL(byte score)
         {
             if (score >= 16) return 10;
             if (score >= 14) return 9;
@@ -870,7 +870,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return 0;
         }
 
-        private static byte WayB_Man_FactorM(byte score)
+        private static byte GetDecatype_WayB_Man_FactorM(byte score)
         {
             if (score >= 20) return 10;
             if (score >= 18) return 9;
@@ -886,7 +886,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return 0;
         }
 
-        private static byte WayB_Man_FactorN(byte score)
+        private static byte GetDecatype_WayB_Man_FactorN(byte score)
         {
             if (score >= 17) return 10;
             if (score == 16) return 9;
@@ -902,7 +902,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return 0;
         }
 
-        private static byte WayB_Man_FactorO(byte score)
+        private static byte GetDecatype_WayB_Man_FactorO(byte score)
         {
             if (score >= 19) return 10;
             if (score >= 16) return 9;
@@ -918,7 +918,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return 0;
         }
 
-        private static byte WayB_Man_FactorQ1(byte score)
+        private static byte GetDecatype_WayB_Man_FactorQ1(byte score)
         {
             if (score >= 16) return 10;
             if (score == 15) return 9;
@@ -934,7 +934,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return 0;
         }
 
-        private static byte WayB_Man_FactorQ2(byte score)
+        private static byte GetDecatype_WayB_Man_FactorQ2(byte score)
         {
             if (score >= 14) return 10;
             if (score == 13) return 9;
@@ -950,7 +950,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return 0;
         }
 
-        private static byte WayB_Man_FactorQ3(byte score)
+        private static byte GetDecatype_WayB_Man_FactorQ3(byte score)
         {
             if (score >= 19) return 10;
             if (score == 18) return 9;
@@ -966,7 +966,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return 0;
         }
 
-        private static byte WayB_Man_FactorQ4(byte score)
+        private static byte GetDecatype_WayB_Man_FactorQ4(byte score)
         {
             if (score >= 18) return 10;
             if (score >= 15) return 9;
@@ -984,7 +984,7 @@ namespace RHPsicotest.WebSite.GenerateResults
 
 
         // Factores de la Forma B Mujer
-        private static byte WayB_Woman_FactorA(byte score)
+        private static byte GetDecatype_WayB_Woman_FactorA(byte score)
         {
             if (score >= 18) return 10;
             if (score >= 16) return 9;
@@ -1000,7 +1000,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return 0;
         }
 
-        private static byte WayB_Woman_FactorB(byte score)
+        private static byte GetDecatype_WayB_Woman_FactorB(byte score)
         {
             if (score == 13) return 10;
             if (score == 12) return 9;
@@ -1016,7 +1016,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return 0;
         }
 
-        private static byte WayB_Woman_FactorC(byte score)
+        private static byte GetDecatype_WayB_Woman_FactorC(byte score)
         {
             if (score >= 22) return 10;
             if (score == 21) return 9;
@@ -1032,7 +1032,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return 0;
         }
 
-        private static byte WayB_Woman_FactorE(byte score)
+        private static byte GetDecatype_WayB_Woman_FactorE(byte score)
         {
             if (score >= 21) return 10;
             if (score >= 19) return 9;
@@ -1048,7 +1048,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return 0;
         }
 
-        private static byte WayB_Woman_FactorF(byte score)
+        private static byte GetDecatype_WayB_Woman_FactorF(byte score)
         {
             if (score >= 23) return 10;
             if (score >= 21) return 9;
@@ -1064,7 +1064,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return 0;
         }
 
-        private static byte WayB_Woman_FactorG(byte score)
+        private static byte GetDecatype_WayB_Woman_FactorG(byte score)
         {
             if (score == 20) return 10;
             if (score == 19) return 9;
@@ -1080,7 +1080,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return 0;
         }
 
-        private static byte WayB_Woman_FactorH(byte score)
+        private static byte GetDecatype_WayB_Woman_FactorH(byte score)
         {
             if (score >= 25) return 10;
             if (score >= 23) return 9;
@@ -1096,7 +1096,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return 0;
         }
 
-        private static byte WayB_Woman_FactorI(byte score)
+        private static byte GetDecatype_WayB_Woman_FactorI(byte score)
         {
             if (score >= 19) return 10;
             if (score == 18) return 9;
@@ -1112,7 +1112,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return 0;
         }
 
-        private static byte WayB_Woman_FactorL(byte score)
+        private static byte GetDecatype_WayB_Woman_FactorL(byte score)
         {
             if (score >= 17) return 10;
             if (score >= 14) return 9;
@@ -1128,7 +1128,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return 0;
         }
 
-        private static byte WayB_Woman_FactorM(byte score)
+        private static byte GetDecatype_WayB_Woman_FactorM(byte score)
         {
             if (score >= 21) return 10;
             if (score >= 19) return 9;
@@ -1144,7 +1144,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return 0;
         }
 
-        private static byte WayB_Woman_FactorN(byte score)
+        private static byte GetDecatype_WayB_Woman_FactorN(byte score)
         {
             if (score >= 17) return 10;
             if (score >= 15) return 9;
@@ -1160,7 +1160,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return 0;
         }
 
-        private static byte WayB_Woman_FactorO(byte score)
+        private static byte GetDecatype_WayB_Woman_FactorO(byte score)
         {
             if (score >= 22) return 10;
             if (score >= 20) return 9;
@@ -1176,7 +1176,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return 0;
         }
 
-        private static byte WayB_Woman_FactorQ1(byte score)
+        private static byte GetDecatype_WayB_Woman_FactorQ1(byte score)
         {
             if (score >= 17) return 10;
             if (score == 16) return 9;
@@ -1192,7 +1192,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return 0;
         }
 
-        private static byte WayB_Woman_FactorQ2(byte score)
+        private static byte GetDecatype_WayB_Woman_FactorQ2(byte score)
         {
             if (score >= 15) return 10;
             if (score >= 13) return 9;
@@ -1208,7 +1208,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return 0;
         }
 
-        private static byte WayB_Woman_FactorQ3(byte score)
+        private static byte GetDecatype_WayB_Woman_FactorQ3(byte score)
         {
             if (score >= 17) return 10;
             if (score == 16) return 9;
@@ -1224,7 +1224,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return 0;
         }
 
-        private static byte WayB_Woman_FactorQ4(byte score)
+        private static byte GetDecatype_WayB_Woman_FactorQ4(byte score)
         {
             if (score >= 24) return 10;
             if (score >= 22) return 9;
@@ -1241,7 +1241,7 @@ namespace RHPsicotest.WebSite.GenerateResults
         }
 
         // Factores de segundo orden
-        public static byte FactorAnxiety(byte[] decatypes, string gender)
+        public static byte GetScore_FactorAnxiety(byte[] decatypes, string gender)
         {
             int positive, negative;
 
@@ -1261,7 +1261,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return Convert.ToByte(positive - negative);
         }
 
-        public static byte FactorExtraversion(byte[] decatypes, string gender)
+        public static byte GetScore_FactorExtraversion(byte[] decatypes, string gender)
         {
             int positive, negative;
 
@@ -1281,7 +1281,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return Convert.ToByte(positive - negative);
         }
 
-        public static byte FactorSocialization(byte[] decatypes, string gender)
+        public static byte GetScore_FactorSocialization(byte[] decatypes, string gender)
         {
             int positive, negative;
 
@@ -1305,7 +1305,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return Convert.ToByte(positive - negative);
         }
 
-        public static byte FactorIndependence(byte[] decatypes, string gender)
+        public static byte GetScore_FactorIndependence(byte[] decatypes, string gender)
         {
             int positive, negative;
 
@@ -1331,7 +1331,7 @@ namespace RHPsicotest.WebSite.GenerateResults
 
 
         // Descripciones
-        private static string Description_FactorA(byte decatype)
+        private static string GetDescription_FactorA(byte decatype)
         {
             if (decatype >= 5)
                 return "Sizotimia: La persona que puntúa bajo tiende a ser dura, fría, indiferente y se mantiene alejada. Le gustan más las cosas que las personas, trabajar en solitario y evitar las opiniones comprometidas. Suele ser precisa y rígida en su manera de hacer las cosas y en sus criterios personales, rasgos que son deseables en muchas ocupaciones. En ocasiones puede ser critica, obstaculizadora e inflexible.";
@@ -1341,7 +1341,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return string.Empty;
         }
 
-        private static string Description_FactorB(byte decatype)
+        private static string GetDescription_FactorB(byte decatype)
         {
             if (decatype >= 5)
                 return "Mucha capacidad mental para los estudios: La persona que puntúa alto tiende a ser rápida en su comprensión y aprendizaje de las ideas. Existe alguna relación con el nivel cultural y con la viveza mental. En una situación de diagnóstico psicopatológico, estas puntuaciones altas contraindican la existencia de un deterioro mental.";
@@ -1351,7 +1351,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return string.Empty;
         }
 
-        private static string Description_FactorC(byte decatype)
+        private static string GetDescription_FactorC(byte decatype)
         {
             if (decatype >= 5)
                 return "Mucha fuerza de ego: La persona que puntúa alto tiende a ser emocionalmente madura, estable, realista acerca de la vida, tranquila, con buena firmeza interior y capacidad para mantener una solida moral de grupo. A veces puede presentar ajustes conformistas en el caso de problemas no resueltos.";
@@ -1361,7 +1361,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return string.Empty;
         }
 
-        private static string Description_FactorE(byte decatype)
+        private static string GetDescription_FactorE(byte decatype)
         {
             if (decatype >= 5)
                 return "Dominancia: La persona que puntúa alto es dogmática, segura de sí misma, de mentalidad independiente. Tiende a ser austera, autoreguladora, hostil y extrapunitiva, autoritaria (en el manejo de los demás), y a hacer caso omiso de toda autoridad.";
@@ -1371,7 +1371,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return string.Empty;
         }
 
-        private static string Description_FactorF(byte decatype)
+        private static string GetDescription_FactorF(byte decatype)
         {
             if (decatype >= 5)
                 return "Surgencia: La persona que puntúa alto tiende a ser jovial, activa, charlatana, franca, expresiva, acalorada y descuidada. Frecuentemente se le escoge como líder electo. Puede ser impulsiva y de actividad imprevisible o cambiante.";
@@ -1381,7 +1381,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return string.Empty;
         }
 
-        private static string Description_FactorG(byte decatype)
+        private static string GetDescription_FactorG(byte decatype)
         {
             if (decatype >= 5)
                 return "Mucha fuerza de superego: La persona que puntúa alto tiende a ser de carácter exigente, dominada por el sentido del deber, perseverante, responsable, organizada, y a “no malgasta un minuto”. Normalmente es escrupulosa y moralista. Más que a tipos graciosos, prefiere como compañeros a personas trabajadoras.";
@@ -1391,7 +1391,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return string.Empty;
         }
 
-        private static string Description_FactorH(byte decatype)
+        private static string GetDescription_FactorH(byte decatype)
         {
             if (decatype >= 5)
                 return "Parmia: La persona que puntúa alto tiende a ser sociable, atrevida, dispuesta a intentar nuevas cosas, espontanea, de numerosas respuestas emocionales. Su indiferencia (falta de vergüenza) le permite soportar sin fatiga el “toma y dame” del trato con la gente y las situaciones emocionales abrumadoras. Sin embargo, puede despreocuparse por los detalles, e invertir mucho tiempo charlando. Tiende a ser emprendedora y estar activamente interesada por el otro sexo.";
@@ -1401,7 +1401,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return string.Empty;
         }
 
-        private static string Description_FactorI(byte decatype)
+        private static string GetDescription_FactorI(byte decatype)
         {
             if (decatype >= 5)
                 return "Premisa: La persona que puntúa alto suele dejarse afectar por los sentimientos, idealistas, soñadora, artista, insatisfecha, femenina. A veces solicita para sí la atención y ayuda de los otros; es impaciente, dependiente, poco practica. Le disgustan las personas y profesiones rudas. Suele frenar la acción del grupo y alterar su moral con actividades inútiles e idealistas.";
@@ -1411,7 +1411,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return string.Empty;
         }
 
-        private static string Description_FactorL(byte decatype)
+        private static string GetDescription_FactorL(byte decatype)
         {
             if (decatype >= 5)
                 return "Alaxia: La persona que puntúa alto suele ser desconfiada y ambigua. A menudo se encuentra complicada con su propio yo, le gusta opinar sobre sí misma, y se sumerge en sus fantasías (no necesariamente será “paranoia”). Suele actuar con premeditación; es desapegada de los otros y colabora deficientemente con el grupo.";
@@ -1421,7 +1421,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return string.Empty;
         }
 
-        private static string Description_FactorM(byte decatype)
+        private static string GetDescription_FactorM(byte decatype)
         {
             if (decatype >= 5)
                 return "Praxernia: La persona que puntúa alto tiende a ser poco convencional, despreocupada de lo cotidiano, desorganizada, motivada por sí misma, creadora, imaginativa, preocupada por lo “esencial” y despreocupada de las personas particulares y la realidad física. Sus intereses, dirigidos hacia su intimidad, la llevan a veces a situaciones irreales, con explosiones expresivas. Su individualidad le empuja verse excluido de las actividades del grupo.";
@@ -1431,7 +1431,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return string.Empty;
         }
 
-        private static string Description_FactorN(byte decatype)
+        private static string GetDescription_FactorN(byte decatype)
         {
             if (decatype >= 5)
                 return "Astucia: La persona que puntúa alto suele ser refinada, experimentada, mundana y astuta. A menudo es “cabeza dura” y analítica. Su enfoque es intelectual y poco sentimental, aproximándose a las situaciones de una manera casi cínica.";
@@ -1441,7 +1441,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return string.Empty;
         }
 
-        private static string Description_FactorO(byte decatype)
+        private static string GetDescription_FactorO(byte decatype)
         {
             if (decatype >= 5)
                 return "Tendencia a la cupabilidad: La persona que puntúa alto suele ser depresiva, preocupada, llena de presagios e ideas largamente gestadas. Ante las dificultades presenta tendencia infantil a la ansiedad. En los grupos no se siente aceptada ni con libertad para actuar. Una puntuación alta es muy corriente en los grupos clínicos de todo tipo.";
@@ -1451,7 +1451,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return string.Empty;
         }
 
-        private static string Description_FactorQ1(byte decatype)
+        private static string GetDescription_FactorQ1(byte decatype)
         {
             if (decatype >= 5)
                 return "Radicalismo: La persona que puntúa alto suele interesarse por cuestiones intelectuales y dudar de los principios fundamentales. Es escéptica y de espíritu inquisitivo en las ideas, sean tradicionales o nuevas. Suele estar bien informada, poco inclinada a moralizar y mas a preguntarse por la vida en general y a ser más tolerante con las molestias y el cambio.";
@@ -1461,7 +1461,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return string.Empty;
         }
 
-        private static string Description_FactorQ2(byte decatype)
+        private static string GetDescription_FactorQ2(byte decatype)
         {
             if (decatype >= 5)
                 return "Autosuficiencia: La persona que puntúa alto es temperamentalmente independiente, acostumbrada a seguir su propio camino; toma sus decisiones y actúa por su propio camino; toma decisiones y actúa por su cuenta. No tiene en consideración la opinión del grupo, aunque no es necesariamente dominante en sus relaciones con los demás. No le disgusta la gente, simplemente no necesita de su asentimiento y apoyo.";
@@ -1471,7 +1471,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return string.Empty;
         }
 
-        private static string Description_FactorQ3(byte decatype)
+        private static string GetDescription_FactorQ3(byte decatype)
         {
             if (decatype >= 5)
                 return "Mucho control de su autoimagen: La persona que puntúa alto suele tener mucho control de sus emociones y conducta en general, y ser cuidadosa y abierta a lo social; evidencia lo que comúnmente se llama “respeto hacia sí misma”; tiene en cuenta la reputación social. No obstante, a veces tiende a ser obstinada. Los lideres eficaces y algunos paranoicos puntúan alto en Q3.";
@@ -1481,7 +1481,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             return string.Empty;
         }
 
-        private static string Description_FactorQ4(byte decatype)
+        private static string GetDescription_FactorQ4(byte decatype)
         {
             if (decatype >= 5)
                 return "Emociones fuertes: La persona que puntúa alto suele ser tensa, excitable, intranquila, irritable e impaciente. Esta a menudo fatigada, pero incapaz de permanecer inactiva. Dentro del grupo tiene una pobre visión del grado de unión, del orden y del mando. Su frustración representa un exceso del impulso de estimulación no descargada.";

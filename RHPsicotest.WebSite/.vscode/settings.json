@@ -4,5 +4,8 @@
         "Psicotest"
     ],
     "dotnet.defaultSolution": "RHPsicotest.WebSite.sln",
-    "cSpell.language": "en,es,es-ES,en-GB,lorem,en-US"
+    "cSpell.language": "en,es,es-ES,en-GB,lorem,en-US",
+    "cSpell.enableFiletypes": [
+        "aspnetcorerazor"
+    ]
 }

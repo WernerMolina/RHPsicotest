@@ -551,6 +551,135 @@ namespace RHPsicotest.WebSite.Tests.Responses
                     QuestionNumber = 72,
                     Correct = 'A',
                 },
+
+                // Factor DGV
+                new Responses_IPV
+                {
+                    IdFactor = 10,
+                    QuestionNumber = 1,
+                    Correct = 'B',
+                },
+                new Responses_IPV
+                {
+                    IdFactor = 10,
+                    QuestionNumber = 2,
+                    Correct = 'B',
+                },
+                new Responses_IPV
+                {
+                    IdFactor = 10,
+                    QuestionNumber = 3,
+                    Correct = 'B',
+                },
+                new Responses_IPV
+                {
+                    IdFactor = 10,
+                    QuestionNumber = 4,
+                    Correct = 'B',
+                },
+                new Responses_IPV
+                {
+                    IdFactor = 10,
+                    QuestionNumber = 5,
+                    Correct = 'A',
+                },
+                new Responses_IPV
+                {
+                    IdFactor = 10,
+                    QuestionNumber = 6,
+                    Correct = 'C',
+                },
+                new Responses_IPV
+                {
+                    IdFactor = 10,
+                    QuestionNumber = 7,
+                    Correct = 'A',
+                },
+                new Responses_IPV
+                {
+                    IdFactor = 10,
+                    QuestionNumber = 8,
+                    Correct = 'A',
+                },
+                new Responses_IPV
+                {
+                    IdFactor = 10,
+                    QuestionNumber = 8,
+                    Correct = 'C',
+                },
+                new Responses_IPV
+                {
+                    IdFactor = 10,
+                    QuestionNumber = 9,
+                    Correct = 'A',
+                },
+                new Responses_IPV
+                {
+                    IdFactor = 10,
+                    QuestionNumber = 10,
+                    Correct = 'B',
+                },
+                new Responses_IPV
+                {
+                    IdFactor = 10,
+                    QuestionNumber = 11,
+                    Correct = 'B',
+                },
+                new Responses_IPV
+                {
+                    IdFactor = 10,
+                    QuestionNumber = 12,
+                    Correct = 'C',
+                },
+                new Responses_IPV
+                {
+                    IdFactor = 10,
+                    QuestionNumber = 13,
+                    Correct = 'B',
+                },
+                new Responses_IPV
+                {
+                    IdFactor = 10,
+                    QuestionNumber = 14,
+                    Correct = 'B',
+                },
+                new Responses_IPV
+                {
+                    IdFactor = 10,
+                    QuestionNumber = 15,
+                    Correct = 'A',
+                },
+                new Responses_IPV
+                {
+                    IdFactor = 10,
+                    QuestionNumber = 16,
+                    Correct = 'C',
+                },
+                new Responses_IPV
+                {
+                    IdFactor = 10,
+                    QuestionNumber = 17,
+                    Correct = 'B',
+                },
+                new Responses_IPV
+                {
+                    IdFactor = 10,
+                    QuestionNumber = 18,
+                    Correct = 'C',
+                },
+                new Responses_IPV
+                {
+                    IdFactor = 10,
+                    QuestionNumber = 27,
+                    Correct = 'A',
+                },
+                new Responses_IPV
+                {
+                    IdFactor = 10,
+                    QuestionNumber = 35,
+                    Correct = 'A',
+                },
+
             };
         }
     }

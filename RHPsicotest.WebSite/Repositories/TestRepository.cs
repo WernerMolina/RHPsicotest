@@ -229,7 +229,7 @@ namespace RHPsicotest.WebSite.Repositories
 
             for (byte i = 0; i <= 15; i++)
             {
-                results.Add(Conversion.ConvertToResult(expedientId, testId, factorId + i, scoresPrimaryFactors[i], decatypesByFactor[i], descriptions[i]));
+                results.Add(Conversion.ConvertToResult(expedientId, testId, factorId++, scoresPrimaryFactors[i], decatypesByFactor[i], descriptions[i]));
             }
 
             await context.Results.AddRangeAsync(results);
@@ -247,9 +247,11 @@ namespace RHPsicotest.WebSite.Repositories
                 context.SaveChanges();
             }
 
-            for (byte i = 0; i <= 10; i++)
+            byte factorId = 31;
+
+            for (byte i = 0; i <= 11; i++)
             {
-                results.Add(Conversion.ConvertToResult(expedientId, 1, i + 1, scoresByFactor[i], decatypesByFactor[i], descriptions[i]));
+                results.Add(Conversion.ConvertToResult(expedientId, 7, factorId++, scoresByFactor[i], decatypesByFactor[i], descriptions[i]));
             }
 
             await context.Results.AddRangeAsync(results);

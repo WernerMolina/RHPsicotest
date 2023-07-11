@@ -102,35 +102,33 @@ namespace RHPsicotest.WebSite.Repositories
 
             List<ResultDTO> resultDTOs = new List<ResultDTO>();
 
-            bool isPPGIPG = true;
+            byte testId = Convert.ToByte(results.ElementAtOrDefault(0).IdTest);
+            byte lastFactorId = Convert.ToByte(results.Last().IdFactor);
+
+            List<Result> results2 = new List<Result>();
 
             foreach (Result result in results)
             {
-                if(result.IdTest == 1 && isPPGIPG)
+                if (testId == result.IdTest)
                 {
-                    List<Result> resultsPPGIPG = new List<Result>();
+                    results2.Add(result);
 
-                    foreach (Result result2 in results)
+                    if (lastFactorId == result.IdFactor)
                     {
-                        if (result2.IdFactor <= 9)
-                        {
-                            resultsPPGIPG.Add(result2);
-                        }
+                        resultDTOs.Add(Conversion.ConvertToResultDTO(testId, results2));
+
+                        break;
                     }
-                    
-                    resultDTOs.Add(Conversion.ConvertToResultDTO(result.IdTest, resultsPPGIPG));
-
-                    isPPGIPG = false;
                 }
-                
-                if (result.IdTest > 1)
+                else
                 {
-                    List<Result> results1 = new List<Result>
-                    {
-                        result
-                    };
+                    resultDTOs.Add(Conversion.ConvertToResultDTO(testId, results2));
 
-                    resultDTOs.Add(Conversion.ConvertToResultDTO(result.IdTest, results1));
+                    testId = Convert.ToByte(result.IdTest);
+
+                    results2.Clear();
+
+                    results2.Add(result);
                 }
             }
 

@@ -45,8 +45,10 @@
 <div class="">
     @foreach (Result result in Model)
     {
-        <p class="mt-4 fs-5 fw-bold text-danger">Factor @factors[i++]</p>
+        <p class="mt-4 fs-5 fw-bold text-danger">Factor @factors[i]</p>
         <p class="my-3 fs-5 fw-bold">@result.Description</p>
+
+        i++;
     }
 </div>
 

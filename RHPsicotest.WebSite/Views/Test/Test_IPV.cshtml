@@ -77,7 +77,7 @@
                         </div>
                     </div>
                 </div>
-                <p class="mb-3">
+                <p class="mb-3 fs-5">
                     En otras situaciones se  refieren a personas ajenas:
                 </p>
                 <div class="card my-2">
@@ -128,16 +128,16 @@
                         </div>
                     </div>
                 </div>
-                <p class="mb-3">
+                <p class="mb-3 fs-5">
                     En este caso, usted debe contestar lo que, según su propia opinión, es más probable que haga J…
                 </p>
-                <p class="mb-3">
+                <p class="mb-3 fs-5">
                     En el siguiente test, no hay respuestas buenas ni malas; cada uno piensa y actúa como cree conveniente en función de su carácter y de sus intereses.
                 </p>
-                <p class="mb-3">
+                <p class="mb-3 fs-5">
                     Para dar sus  respuestas  deben ir seleccionando la letra,  que coincida con la alternativa que usted elija, en caso que desee anular la respuesta, solo debe seleccionar  otra opción.
                 </p>
-                <p class="mb-3">
+                <p class="mb-3 fs-5">
                     Responda lo más espontánea y sinceramente posible con la contestación que se le ocurra inmediatamente al leer las alternativas que se proponen. Conteste rápidamente, sin reflexionar demasiado y en algunos casos que ninguna de las contestaciones propuestas le convenza del todo; esfuércese entonces en elegir la que crea mejor entre las alternativas que se ofrecen.
                 </p>
             </div>
@@ -148,68 +148,71 @@
     </div>
 </div>
 <div class="d-none" id="test">
-    @foreach (Questions_IPV question in Model)
-    {
-        <div class="card my-3">
-            <h4 class="card-header">Pregunta @question.QuestionNumber. @question.Question</h4>
-            <div class="card-body d-flex gap-5 pt-3">
-                <div class="w-75 d-flex flex-column gap-3 fs-5">
-                    <div class="card">
-                        <div class="card-body">
-                            A) @question.OptionA
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-body">
-                            B) @question.OptionB
-                        </div>
-                    </div>
-                    @if (question.OptionC != "")
-                    {
+    <form asp-action="Test_IPV" method="post">
+        @foreach (Questions_IPV question in Model)
+        {
+            <div class="card my-3">
+                <h4 class="card-header">Pregunta @question.QuestionNumber. @question.Question</h4>
+                <div class="card-body d-flex gap-5 pt-3">
+                    <div class="w-75 d-flex flex-column gap-3 fs-5">
                         <div class="card">
                             <div class="card-body">
-                                C) @question.OptionC
+                                A) @question.OptionA
                             </div>
                         </div>
-                    }
-                </div>
-                <div class="d-flex flex-column gap-2">
-                    <div class=" d-flex align-items-start gap-2">
                         <div class="card">
                             <div class="card-body">
-                                <input class="" type="radio" name="responses[@i]" value="A"
-                                    style="width:25px; height: 25px" checked/>
+                                B) @question.OptionB
                             </div>
                         </div>
-                    </div>
-                    <div class=" d-flex align-items-start gap-2">
-                        <div class="card">
-                            <div class="card-body">
-                                <input class="" type="radio" name="responses[@i]" value="B"
-                                    style="width:25px; height: 25px" />
+                        @if (question.OptionC != "")
+                        {
+                            <div class="card">
+                                <div class="card-body">
+                                    C) @question.OptionC
+                                </div>
                             </div>
-                        </div>
+                        }
                     </div>
-                    @if (question.OptionC != "")
-                    {
+                    <div class="d-flex flex-column gap-2">
                         <div class=" d-flex align-items-start gap-2">
                             <div class="card">
                                 <div class="card-body">
-                                    <input class="" type="radio" name="responses[@i]" value="C"
-                                        style="width:25px; height: 25px" />
+                                    <input class="" type="radio" name="responses[@i]" value="A"
+                                           style="width:25px; height: 25px" checked />
                                 </div>
                             </div>
                         </div>
-                    }
+                        <div class=" d-flex align-items-start gap-2">
+                            <div class="card">
+                                <div class="card-body">
+                                    <input class="" type="radio" name="responses[@i]" value="B"
+                                           style="width:25px; height: 25px" />
+                                </div>
+                            </div>
+                        </div>
+                        @if (question.OptionC != "")
+                        {
+                            <div class=" d-flex align-items-start gap-2">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <input class="" type="radio" name="responses[@i]" value="C"
+                                               style="width:25px; height: 25px" />
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
                 </div>
             </div>
+
+            i++;
+        }
+
+        <div class="text-end my-3">
+            <button type="submit" class="btn btn-primary">Terminar</button>
         </div>
+    </form>
 
-        i++;
-    }
-
-    <div class="text-end my-3">
-        <button type="submit" class="btn btn-primary">Terminar</button>
-    </div>
 </div>
 

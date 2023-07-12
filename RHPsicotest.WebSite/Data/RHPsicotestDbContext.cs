@@ -373,75 +373,76 @@ namespace RHPsicotest.WebSite.Data
             modelBuilder.Entity<Factor>().HasData(new Factor
             {
                 IdFactor = 31,
-                FactorName = "I- Compresión",
-                DescriptionFactor = ""
-            });
-            modelBuilder.Entity<Factor>().HasData(new Factor
-            {
-                IdFactor = 32,
-                FactorName = "II- Adaptabilidad",
-                DescriptionFactor = ""
-            });
-            modelBuilder.Entity<Factor>().HasData(new Factor
-            {
-                IdFactor = 33,
-                FactorName = "III- Control de sí mismo",
-                DescriptionFactor = ""
-            });
-            modelBuilder.Entity<Factor>().HasData(new Factor
-            {
-                IdFactor = 34,
-                FactorName = "IV- Tolerancia a la frustración",
-                DescriptionFactor = ""
-            });
-            modelBuilder.Entity<Factor>().HasData(new Factor
-            {
-                IdFactor = 35,
-                FactorName = "V- Combatividad",
-                DescriptionFactor = ""
-            });
-            modelBuilder.Entity<Factor>().HasData(new Factor
-            {
-                IdFactor = 36,
-                FactorName = "VI- Dominio",
-                DescriptionFactor = ""
-            });
-            modelBuilder.Entity<Factor>().HasData(new Factor
-            {
-                IdFactor = 37,
-                FactorName = "VII- Seguridad",
-                DescriptionFactor = ""
-            });
-            modelBuilder.Entity<Factor>().HasData(new Factor
-            {
-                IdFactor = 38,
-                FactorName = "VIII- Actividad",
-                DescriptionFactor = ""
-            });
-            modelBuilder.Entity<Factor>().HasData(new Factor
-            {
-                IdFactor = 39,
-                FactorName = "IX- Sociabilidad",
-                DescriptionFactor = ""
-            });
-            modelBuilder.Entity<Factor>().HasData(new Factor
-            {
-                IdFactor = 40,
                 FactorName = "Disposición General para la Venta",
                 DescriptionFactor = ""
             });
             modelBuilder.Entity<Factor>().HasData(new Factor
             {
-                IdFactor = 41,
+                IdFactor = 32,
                 FactorName = "Receptividad",
                 DescriptionFactor = ""
             });
             modelBuilder.Entity<Factor>().HasData(new Factor
             {
-                IdFactor = 42,
+                IdFactor = 33,
                 FactorName = "Agresividad",
                 DescriptionFactor = ""
             });
+            modelBuilder.Entity<Factor>().HasData(new Factor
+            {
+                IdFactor = 34,
+                FactorName = "I- Compresión",
+                DescriptionFactor = ""
+            });
+            modelBuilder.Entity<Factor>().HasData(new Factor
+            {
+                IdFactor = 35,
+                FactorName = "II- Adaptabilidad",
+                DescriptionFactor = ""
+            });
+            modelBuilder.Entity<Factor>().HasData(new Factor
+            {
+                IdFactor = 36,
+                FactorName = "III- Control de sí mismo",
+                DescriptionFactor = ""
+            });
+            modelBuilder.Entity<Factor>().HasData(new Factor
+            {
+                IdFactor = 37,
+                FactorName = "IV- Tolerancia a la frustración",
+                DescriptionFactor = ""
+            });
+            modelBuilder.Entity<Factor>().HasData(new Factor
+            {
+                IdFactor = 38,
+                FactorName = "V- Combatividad",
+                DescriptionFactor = ""
+            });
+            modelBuilder.Entity<Factor>().HasData(new Factor
+            {
+                IdFactor = 39,
+                FactorName = "VI- Dominio",
+                DescriptionFactor = ""
+            });
+            modelBuilder.Entity<Factor>().HasData(new Factor
+            {
+                IdFactor = 40,
+                FactorName = "VII- Seguridad",
+                DescriptionFactor = ""
+            });
+            modelBuilder.Entity<Factor>().HasData(new Factor
+            {
+                IdFactor = 41,
+                FactorName = "VIII- Actividad",
+                DescriptionFactor = ""
+            });
+            modelBuilder.Entity<Factor>().HasData(new Factor
+            {
+                IdFactor = 42,
+                FactorName = "IX- Sociabilidad",
+                DescriptionFactor = ""
+            });
+            
 
             // Tabla Intermedia de Roles y Usuarios
             modelBuilder.Entity<Role_User>().HasData(new Role_User

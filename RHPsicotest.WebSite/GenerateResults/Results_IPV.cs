@@ -12,39 +12,30 @@ namespace RHPsicotest.WebSite.GenerateResults
         {
             byte[] scoresByFactor = new byte[12];
 
-            List<Responses_IPV> responses_IPV = Responses_IPV.GetResponses();
-
-            byte factorId = 1;
-            byte scoreFactor = 0;
-
-            foreach (Responses_IPV response in responses_IPV)
+            for (byte i = 0; i < 12; i++)
             {
-                if (factorId == response.IdFactor)
+                if (i == 1 || i == 2) continue;
+
+                List<Responses_IPV> responses_IPV = Responses_IPV.GetResponses().Where(r => r.IdFactor == i + 1).ToList();
+
+                foreach (Responses_IPV response in responses_IPV)
                 {
-                    if (responsesCandidate[--response.QuestionNumber] == response.Correct) scoreFactor++;
-                }
-                else
-                {
-                    scoresByFactor[--factorId] = scoreFactor;
-
-                    factorId = response.IdFactor;
-
-                    scoreFactor = 0;
-
-                    if (responsesCandidate[--response.QuestionNumber] == response.Correct) scoreFactor++;
+                    if (responsesCandidate[--response.QuestionNumber] == response.Correct) scoresByFactor[i]++;
                 }
             }
 
+            scoresByFactor[6] = Convert.ToByte(8 - scoresByFactor[6]);
+
             // Receptividad = I -> IV
-            for (byte i = 0; i <= 3; i++)
+            for (byte i = 3; i <= 6; i++)
             {
-                scoresByFactor[10] += scoresByFactor[i];
+                scoresByFactor[1] += scoresByFactor[i];
             }
             
             // Agresividad = V -> IX 
-            for (byte i = 4; i <= 8; i++)
+            for (byte i = 7; i <= 10; i++)
             {
-                scoresByFactor[11] += scoresByFactor[i];
+                scoresByFactor[2] += scoresByFactor[i];
             }
 
             return scoresByFactor;
@@ -54,19 +45,18 @@ namespace RHPsicotest.WebSite.GenerateResults
         {
             byte[] decatypes = new byte[12];
 
-            decatypes[0] = GetDecatype_FactorI(scoresByFactor[0]);
-            decatypes[1] = GetDecatype_FactorII(scoresByFactor[1]);
-            decatypes[2] = GetDecatype_FactorIII(scoresByFactor[2]);
-            decatypes[3] = GetDecatype_FactorIV(scoresByFactor[3]);
-            decatypes[4] = GetDecatype_FactorV(scoresByFactor[4]);
-            decatypes[5] = GetDecatype_FactorVI(scoresByFactor[5]);
-            decatypes[6] = GetDecatype_FactorVII(scoresByFactor[6]);
-            decatypes[7] = GetDecatype_FactorVIII(scoresByFactor[7]);
-            decatypes[8] = GetDecatype_FactorIX(scoresByFactor[8]);
-            decatypes[9] = GetDecatype_FactorDGV(scoresByFactor[9]);
-            decatypes[10] = GetDecatype_FactorR(scoresByFactor[10]);
-            decatypes[11] = GetDecatype_FactorA(scoresByFactor[11]);
-
+            decatypes[0] = GetDecatype_FactorDGV(scoresByFactor[0]);
+            decatypes[1] = GetDecatype_FactorR(scoresByFactor[1]);
+            decatypes[2] = GetDecatype_FactorA(scoresByFactor[2]);
+            decatypes[3] = GetDecatype_FactorI(scoresByFactor[3]);
+            decatypes[4] = GetDecatype_FactorII(scoresByFactor[4]);
+            decatypes[5] = GetDecatype_FactorIII(scoresByFactor[5]);
+            decatypes[6] = GetDecatype_FactorIV(scoresByFactor[6]);
+            decatypes[7] = GetDecatype_FactorV(scoresByFactor[7]);
+            decatypes[8] = GetDecatype_FactorVI(scoresByFactor[8]);
+            decatypes[9] = GetDecatype_FactorVII(scoresByFactor[9]);
+            decatypes[10] = GetDecatype_FactorVIII(scoresByFactor[10]);
+            decatypes[11] = GetDecatype_FactorIX(scoresByFactor[11]);
             return decatypes;
         }
 
@@ -74,23 +64,71 @@ namespace RHPsicotest.WebSite.GenerateResults
         {
             string[] descriptions = new string[12];
 
-            descriptions[0] = GetDescription_FactorI(decatypesByFactor[0]);
-            descriptions[1] = GetDescription_FactorII(decatypesByFactor[1]);
-            descriptions[2] = GetDescription_FactorIII(decatypesByFactor[2]);
-            descriptions[3] = GetDescription_FactorIV(decatypesByFactor[3]);
-            descriptions[4] = GetDescription_FactorV(decatypesByFactor[4]);
-            descriptions[5] = GetDescription_FactorVI(decatypesByFactor[5]);
-            descriptions[6] = GetDescription_FactorVII(decatypesByFactor[6]);
-            descriptions[7] = GetDescription_FactorVIII(decatypesByFactor[7]);
-            descriptions[8] = GetDescription_FactorIX(decatypesByFactor[8]);
-            descriptions[9] = GetDescription_FactorDGV(decatypesByFactor[9]);
-            descriptions[10] = GetDescription_FactorR(decatypesByFactor[10]);
-            descriptions[11] = GetDescription_FactorA(decatypesByFactor[11]);
+            descriptions[0] = GetDescription_FactorDGV(decatypesByFactor[0]);
+            descriptions[1] = GetDescription_FactorR(decatypesByFactor[1]);
+            descriptions[2] = GetDescription_FactorA(decatypesByFactor[2]);
+            descriptions[3] = GetDescription_FactorI(decatypesByFactor[3]);
+            descriptions[4] = GetDescription_FactorII(decatypesByFactor[4]);
+            descriptions[5] = GetDescription_FactorIII(decatypesByFactor[5]);
+            descriptions[6] = GetDescription_FactorIV(decatypesByFactor[6]);
+            descriptions[7] = GetDescription_FactorV(decatypesByFactor[7]);
+            descriptions[8] = GetDescription_FactorVI(decatypesByFactor[8]);
+            descriptions[9] = GetDescription_FactorVII(decatypesByFactor[9]);
+            descriptions[10] = GetDescription_FactorVIII(decatypesByFactor[10]);
+            descriptions[11] = GetDescription_FactorIX(decatypesByFactor[11]);
 
             return descriptions;
         }
 
         // Tabla de Baremos para obtener el Decatipo
+        private static byte GetDecatype_FactorDGV(byte score)
+        {
+            if (score >= 16) return 10;
+            if (score == 15) return 9;
+            if (score >= 13) return 8;
+            if (score == 12) return 7;
+            if (score == 11) return 6;
+            if (score == 10) return 5;
+            if (score == 9) return 4;
+            if (score >= 7) return 3;
+            if (score == 6) return 2;
+            if (score >= 0) return 1;
+
+            return 0;
+        }
+
+        private static byte GetDecatype_FactorR(byte score)
+        {
+            if (score >= 29) return 10;
+            if (score >= 27) return 9;
+            if (score >= 25) return 8;
+            if (score >= 23) return 7;
+            if (score >= 21) return 6;
+            if (score == 20) return 5;
+            if (score >= 18) return 4;
+            if (score >= 16) return 3;
+            if (score == 15) return 2;
+            if (score >= 0) return 1;
+
+            return 0;
+        }
+
+        private static byte GetDecatype_FactorA(byte score)
+        {
+            if (score >= 21) return 10;
+            if (score >= 19) return 9;
+            if (score >= 17) return 8;
+            if (score == 16) return 7;
+            if (score >= 14) return 6;
+            if (score == 13) return 5;
+            if (score >= 11) return 4;
+            if (score >= 9) return 3;
+            if (score == 8) return 2;
+            if (score >= 0) return 1;
+
+            return 0;
+        }
+
         private static byte GetDecatype_FactorI(byte score)
         {
             if (score >= 9) return 10;
@@ -215,56 +253,35 @@ namespace RHPsicotest.WebSite.GenerateResults
 
             return 0;
         }
-        
-        private static byte GetDecatype_FactorDGV(byte score)
-        {
-            if (score >= 16) return 10;
-            if (score == 15) return 9;
-            if (score >= 13) return 8;
-            if (score == 12) return 7;
-            if (score == 11) return 6;
-            if (score == 10) return 5;
-            if (score == 9) return 4;
-            if (score >= 7) return 3;
-            if (score == 6) return 2;
-            if (score >= 0) return 1;
-
-            return 0;
-        }
-        
-        private static byte GetDecatype_FactorR(byte score)
-        {
-            if (score >= 29) return 10;
-            if (score >= 27) return 9;
-            if (score >= 25) return 8;
-            if (score >= 23) return 7;
-            if (score >= 21) return 6;
-            if (score == 20) return 5;
-            if (score >= 18) return 4;
-            if (score >= 16) return 3;
-            if (score == 15) return 2;
-            if (score >= 0) return 1;
-
-            return 0;
-        }
-        
-        private static byte GetDecatype_FactorA(byte score)
-        {
-            if (score >= 21) return 10;
-            if (score >= 19) return 9;
-            if (score >= 17) return 8;
-            if (score == 16) return 7;
-            if (score >= 14) return 6;
-            if (score == 13) return 5;
-            if (score >= 11) return 4;
-            if (score >= 9) return 3;
-            if (score == 8) return 2;
-            if (score >= 0) return 1;
-
-            return 0;
-        }
 
         // Descripciones
+        private static string GetDescription_FactorDGV(byte decatype)
+        {
+            if (decatype >= 7) return "Alto: Señala a una persona que posee una gran capacidad para establecer relaciones con los demás, muestra combatividad y bastante control de sí mismo que le permite persuadir al cliente. En sí, cuenta con rasgos de personalidad acordes a actividades comerciales.";
+            if (decatype >= 5) return "Promedio: La persona tiene un espíritu de combatividad que le ayudara a subir las ventas y a persuadir al cliente. Con la adecuada formación y motivación puede llegar a desarrollar habilidades y convertirse en una persona dotada para el área comercial.";
+            if (decatype >= 1) return "Bajo: La persona no muestra la destreza de combatividad para poder elevar las ventas, enfrentar los retos y desacuerdos que puedan surgir en el proceso.  No cuenta con las características idóneas para el área de ventas.";
+
+            return string.Empty;
+        }
+
+        private static string GetDescription_FactorR(byte decatype)
+        {
+            if (decatype >= 7) return "Alto: El índice de receptividad por arriba del promedio, muestra a una persona con gran capacidad de empatía, que sabe escuchar y comprender, que se adapta fácilmente a personas y circunstancias y que posee control de sí mismo y resistencia a la frustración.";
+            if (decatype >= 5) return "Promedio: Es una persona que sabe ponerse en lugar de los demás, sabe escuchar y comprender, cuenta con capacidad de adaptación a personas y circunstancias, posee control de sí mismo y resistencia a la frustración.";
+            if (decatype >= 1) return "Bajo: Es una persona que está por desarrollar la competencia para ponerse en lugar de los demás, sabe escuchar y comprender, así mismo con capacidad de adaptación a personas y circunstancias, posee control de sí mismo y resistencia a la frustración.";
+
+            return string.Empty;
+        }
+
+        private static string GetDescription_FactorA(byte decatype)
+        {
+            if (decatype >= 7) return "Alto: Posee la capacidad para enfrentar situaciones conflictivas o para poder utilizarlas a su favor con el propósito de sacar lo mejor de la situación.  Este tipo de perfil corresponde al tipo agresivo de ventas, como apertura de mercados, acción competitiva hacia otros clientes, etc.";
+            if (decatype >= 5) return "Promedio: Es una persona que muestra un índice de agresividad comercial al promedio de la mayoría de la gente, es decir, es un tanto activo y dinámico, cuenta con cierta capacidad para soportar situaciones conflictivas, tiene una actitud de poder o ascendencia suficiente para dominar, intenta estar seguro de sí y puede ser capaz de enfrentar riesgos en casos necesarios.";
+            if (decatype >= 1) return "Bajo: El nivel de agresividad que se encuentra es deficiente, mantienen una actitud pasiva lo cual no favorece en el área de las ventas; asimismo no presenta una fuerte capacidad de combatividad en relación a otros clientes.";
+
+            return string.Empty;
+        }
+
         private static string GetDescription_FactorI(byte decatype)
         {
             if (decatype >= 7) return "Alto: La persona presenta altos niveles de empatía, por lo que puede mantener buenas relaciones con los demás. Es objetivo en sus relaciones interpersonales y es capaz de integrar diferentes sucesos a su contexto.";
@@ -342,33 +359,6 @@ namespace RHPsicotest.WebSite.GenerateResults
             if (decatype >= 7) return "Alto: Es extrovertido, capaz de crear nuevos contactos y convivir con los demás, es sensible a las relaciones humanas y prefiere estar acompañado que solo.";
             if (decatype >= 5) return "Promedio: El índice de sociabilidad promedio, muestra a una persona extrovertida, capaz de crear nuevos contactos y convivir con los demás, sensible a las relaciones humanas y el cual prefiere estar acompañado que solo.";
             if (decatype >= 1) return "Bajo: Es una persona tímida con una actitud pasiva, evita mantener contactos sociales, prefiere realizar las cosas de una manera individual, no le agrada trabajar en grupo.";
-
-            return string.Empty;
-        }
-
-        private static string GetDescription_FactorDGV(byte decatype)
-        {
-            if (decatype >= 7) return "Alto: Señala a una persona que posee una gran capacidad para establecer relaciones con los demás, muestra combatividad y bastante control de sí mismo que le permite persuadir al cliente. En sí, cuenta con rasgos de personalidad acordes a actividades comerciales.";
-            if (decatype >= 5) return "Promedio: La persona tiene un espíritu de combatividad que le ayudara a subir las ventas y a persuadir al cliente. Con la adecuada formación y motivación puede llegar a desarrollar habilidades y convertirse en una persona dotada para el área comercial.";
-            if (decatype >= 1) return "Bajo: La persona no muestra la destreza de combatividad para poder elevar las ventas, enfrentar los retos y desacuerdos que puedan surgir en el proceso.  No cuenta con las características idóneas para el área de ventas.";
-
-            return string.Empty;
-        }
-
-        private static string GetDescription_FactorR(byte decatype)
-        {
-            if (decatype >= 7) return "Alto: El índice de receptividad por arriba del promedio, muestra a una persona con gran capacidad de empatía, que sabe escuchar y comprender, que se adapta fácilmente a personas y circunstancias y que posee control de sí mismo y resistencia a la frustración.";
-            if (decatype >= 5) return "Promedio: Es una persona que sabe ponerse en lugar de los demás, sabe escuchar y comprender, cuenta con capacidad de adaptación a personas y circunstancias, posee control de sí mismo y resistencia a la frustración.";
-            if (decatype >= 1) return "Bajo: Es una persona que está por desarrollar la competencia para ponerse en lugar de los demás, sabe escuchar y comprender, así mismo con capacidad de adaptación a personas y circunstancias, posee control de sí mismo y resistencia a la frustración.";
-
-            return string.Empty;
-        }
-
-        private static string GetDescription_FactorA(byte decatype)
-        {
-            if (decatype >= 7) return "Alto: Posee la capacidad para enfrentar situaciones conflictivas o para poder utilizarlas a su favor con el propósito de sacar lo mejor de la situación.  Este tipo de perfil corresponde al tipo agresivo de ventas, como apertura de mercados, acción competitiva hacia otros clientes, etc.";
-            if (decatype >= 5) return "Promedio: Es una persona que muestra un índice de agresividad comercial al promedio de la mayoría de la gente, es decir, es un tanto activo y dinámico, cuenta con cierta capacidad para soportar situaciones conflictivas, tiene una actitud de poder o ascendencia suficiente para dominar, intenta estar seguro de sí y puede ser capaz de enfrentar riesgos en casos necesarios.";
-            if (decatype >= 1) return "Bajo: El nivel de agresividad que se encuentra es deficiente, mantienen una actitud pasiva lo cual no favorece en el área de las ventas; asimismo no presenta una fuerte capacidad de combatividad en relación a otros clientes.";
 
             return string.Empty;
         }

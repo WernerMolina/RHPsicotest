@@ -6,29 +6,26 @@ namespace RHPsicotest.WebSite.GenerateResults
 {
     public class Results_PPGIPG
     {
-        public static byte[] GetScoresByFactor(char[][] responses)
+        public static byte[] GetScoresByFactor(char[][] candidateResponses)
         {
             byte[] scoresByFactor = new byte[9];
 
             // Obtenemos las puntuaciones de la pregunta 1 a la 18
             char[,] responsesPPG = new char[18, 2];
 
-            for (byte j = 0; j < 18; j++)
+            for (byte i = 0; i < 18; i++)
             {
-                responsesPPG[j, 0] = responses[j][0];
-                responsesPPG[j, 1] = responses[j][1];
+                responsesPPG[i, 0] = candidateResponses[i][0];
+                responsesPPG[i, 1] = candidateResponses[i][1];
             }
 
             // Obtenemos las puntuaciones de la pregunta 19 a la 38
-            byte k = 18;
             char[,] responsesIPG = new char[20, 2];
 
-            for (int j = 0; j < 20; j++)
+            for (int i = 0; i < 20; i++)
             {
-                responsesIPG[j, 0] = responses[k][0];
-                responsesIPG[j, 1] = responses[k][1];
-
-                k++;
+                responsesIPG[i, 0] = candidateResponses[i + 18][0];
+                responsesIPG[i, 1] = candidateResponses[i + 18][1];
             }
 
             for (byte i = 1; i <= 8; i++)
@@ -50,7 +47,10 @@ namespace RHPsicotest.WebSite.GenerateResults
             }
 
             // Suma para obtener el factor de Autoestima
-            scoresByFactor[8] = (byte)(scoresByFactor[0] + scoresByFactor[1] + scoresByFactor[2] + scoresByFactor[3]);
+            for (int i = 0; i <= 3; i++)
+            {
+                scoresByFactor[8] += scoresByFactor[i];
+            }
 
             return scoresByFactor;
         }
@@ -63,110 +63,123 @@ namespace RHPsicotest.WebSite.GenerateResults
 
             foreach (Responses_PPGIPG response in responsesByFactor)
             {
-                char? correct = response.Positive;
-                char? incorrect = response.Negative;
-
-                bool a = false;
-                bool b = false;
-                bool c = false;
-                bool d = false;
-
-                if (correct.HasValue)
+                if (response.Positive != null)
                 {
-                    switch (correct)
-                    {
-                        case 'A':
-                            a = true;
-                            break;
-                        case 'B':
-                            b = true;
-                            break;
-                        case 'C':
-                            c = true;
-                            break;
-                        case 'D':
-                            d = true;
-                            break;
-                    }
+                    if (candidateResponses[i, 0] == response.Positive) score += 2;
+                    else if (candidateResponses[i, 1] == response.Positive) continue;
+                    else score++;
                 }
                 else
                 {
-                    a = true;
-                    b = true;
-                    c = true;
-                    d = true;
-
-                    switch (incorrect)
-                    {
-                        case 'A':
-                            a = false;
-                            break;
-                        case 'B':
-                            b = false;
-                            break;
-                        case 'C':
-                            c = false;
-                            break;
-                        case 'D':
-                            d = false;
-                            break;
-                    }
+                    if (candidateResponses[i, 1] == response.Negative) score += 2;
+                    else if (candidateResponses[i, 0] == response.Negative) continue;
+                    else score++;
                 }
 
-                char positive = candidateResponses[i, 0];
-                char negative = candidateResponses[i, 1];
+                //char? correct = response.Positive;
+                //char? incorrect = response.Negative;
 
-                bool? ap = null;
-                bool? bp = null;
-                bool? cp = null;
-                bool? dp = null;
+                //bool a = false;
+                //bool b = false;
+                //bool c = false;
+                //bool d = false;
 
-                bool? an = null;
-                bool? bn = null;
-                bool? cn = null;
-                bool? dn = null;
+                //if (correct.HasValue)
+                //{
+                //    switch (correct)
+                //    {
+                //        case 'A':
+                //            a = true;
+                //            break;
+                //        case 'B':
+                //            b = true;
+                //            break;
+                //        case 'C':
+                //            c = true;
+                //            break;
+                //        case 'D':
+                //            d = true;
+                //            break;
+                //    }
+                //}
+                //else
+                //{
+                //    a = true;
+                //    b = true;
+                //    c = true;
+                //    d = true;
 
-                switch (positive)
-                {
-                    case 'A':
-                        ap = true;
-                        break;
-                    case 'B':
-                        bp = true;
-                        break;
-                    case 'C':
-                        cp = true;
-                        break;
-                    case 'D':
-                        dp = true;
-                        break;
-                }
+                //    switch (incorrect)
+                //    {
+                //        case 'A':
+                //            a = false;
+                //            break;
+                //        case 'B':
+                //            b = false;
+                //            break;
+                //        case 'C':
+                //            c = false;
+                //            break;
+                //        case 'D':
+                //            d = false;
+                //            break;
+                //    }
+                //}
 
-                switch (negative)
-                {
-                    case 'A':
-                        an = false;
-                        break;
-                    case 'B':
-                        bn = false;
-                        break;
-                    case 'C':
-                        cn = false;
-                        break;
-                    case 'D':
-                        dn = false;
-                        break;
-                }
+                //char positive = candidateResponses[i, 0];
+                //char negative = candidateResponses[i, 1];
 
-                if (ap == a) score++;
-                if (bp == b) score++;
-                if (cp == c) score++;
-                if (dp == d) score++;
+                //bool? ap = null;
+                //bool? bp = null;
+                //bool? cp = null;
+                //bool? dp = null;
 
-                if (an == a) score++;
-                if (bn == b) score++;
-                if (cn == c) score++;
-                if (dn == d) score++;
+                //bool? an = null;
+                //bool? bn = null;
+                //bool? cn = null;
+                //bool? dn = null;
+
+                //switch (positive)
+                //{
+                //    case 'A':
+                //        ap = true;
+                //        break;
+                //    case 'B':
+                //        bp = true;
+                //        break;
+                //    case 'C':
+                //        cp = true;
+                //        break;
+                //    case 'D':
+                //        dp = true;
+                //        break;
+                //}
+
+                //switch (negative)
+                //{
+                //    case 'A':
+                //        an = false;
+                //        break;
+                //    case 'B':
+                //        bn = false;
+                //        break;
+                //    case 'C':
+                //        cn = false;
+                //        break;
+                //    case 'D':
+                //        dn = false;
+                //        break;
+                //}
+
+                //if (ap == a) score++;
+                //if (bp == b) score++;
+                //if (cp == c) score++;
+                //if (dp == d) score++;
+
+                //if (an == a) score++;
+                //if (bn == b) score++;
+                //if (cn == c) score++;
+                //if (dn == d) score++;
 
                 i++;
             }

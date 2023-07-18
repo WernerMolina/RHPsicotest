@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\RHPsicotest.WebSite\RHPsicotest.WebSite.csproj" />
+    <ProjectReference Include="..\RHPsicotest.UTB\RHPsicotest.UTB.csproj" />
   </ItemGroup>
 
 </Project>

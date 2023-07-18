@@ -1,6 +1,7 @@
 ﻿using RHPsicotest.WebSite.Tests.Responses;
 using System.Collections.Generic;
 using System.Linq;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace RHPsicotest.WebSite.GenerateResults
 {
@@ -10,181 +11,34 @@ namespace RHPsicotest.WebSite.GenerateResults
         {
             byte[] scoresByFactor = new byte[9];
 
-            // Obtenemos las puntuaciones de la pregunta 1 a la 18
-            char[,] responsesPPG = new char[18, 2];
-
-            for (byte i = 0; i < 18; i++)
-            {
-                responsesPPG[i, 0] = candidateResponses[i][0];
-                responsesPPG[i, 1] = candidateResponses[i][1];
-            }
-
-            // Obtenemos las puntuaciones de la pregunta 19 a la 38
-            char[,] responsesIPG = new char[20, 2];
-
-            for (int i = 0; i < 20; i++)
-            {
-                responsesIPG[i, 0] = candidateResponses[i + 18][0];
-                responsesIPG[i, 1] = candidateResponses[i + 18][1];
-            }
-
             for (byte i = 1; i <= 8; i++)
             {
                 List<Responses_PPGIPG> responsesByFactor = Responses_PPGIPG.GetResponses().Where(r => r.IdFactor == i).ToList();
 
-                if (i <= 4)
+                foreach (Responses_PPGIPG response in responsesByFactor)
                 {
-                    byte scores = GetScoreByFactor(responsesPPG, responsesByFactor);
-
-                    scoresByFactor[i - 1] = scores;
-                }
-                else
-                {
-                    byte scores = GetScoreByFactor(responsesIPG, responsesByFactor);
-
-                    scoresByFactor[i - 1] = scores;
+                    if (response.Positive != null)
+                    {
+                        if (candidateResponses[response.QuestionNumber - 1][0] == response.Positive) scoresByFactor[i - 1] += 2;
+                        else if (candidateResponses[response.QuestionNumber - 1][1] == response.Positive) continue;
+                        else scoresByFactor[i - 1]++;
+                    }
+                    else
+                    {
+                        if (candidateResponses[response.QuestionNumber - 1][1] == response.Negative) scoresByFactor[i - 1] += 2;
+                        else if (candidateResponses[response.QuestionNumber - 1][0] == response.Negative) continue;
+                        else scoresByFactor[i - 1]++;
+                    }
                 }
             }
 
             // Suma para obtener el factor de Autoestima
-            for (int i = 0; i <= 3; i++)
+            for (byte i = 0; i <= 3; i++)
             {
                 scoresByFactor[8] += scoresByFactor[i];
             }
 
             return scoresByFactor;
-        }
-
-        // Retorna el total de puntos de un factor
-        private static byte GetScoreByFactor(char[,] candidateResponses, List<Responses_PPGIPG> responsesByFactor)
-        {
-            byte i = 0;
-            byte score = 0;
-
-            foreach (Responses_PPGIPG response in responsesByFactor)
-            {
-                if (response.Positive != null)
-                {
-                    if (candidateResponses[i, 0] == response.Positive) score += 2;
-                    else if (candidateResponses[i, 1] == response.Positive) continue;
-                    else score++;
-                }
-                else
-                {
-                    if (candidateResponses[i, 1] == response.Negative) score += 2;
-                    else if (candidateResponses[i, 0] == response.Negative) continue;
-                    else score++;
-                }
-
-                //char? correct = response.Positive;
-                //char? incorrect = response.Negative;
-
-                //bool a = false;
-                //bool b = false;
-                //bool c = false;
-                //bool d = false;
-
-                //if (correct.HasValue)
-                //{
-                //    switch (correct)
-                //    {
-                //        case 'A':
-                //            a = true;
-                //            break;
-                //        case 'B':
-                //            b = true;
-                //            break;
-                //        case 'C':
-                //            c = true;
-                //            break;
-                //        case 'D':
-                //            d = true;
-                //            break;
-                //    }
-                //}
-                //else
-                //{
-                //    a = true;
-                //    b = true;
-                //    c = true;
-                //    d = true;
-
-                //    switch (incorrect)
-                //    {
-                //        case 'A':
-                //            a = false;
-                //            break;
-                //        case 'B':
-                //            b = false;
-                //            break;
-                //        case 'C':
-                //            c = false;
-                //            break;
-                //        case 'D':
-                //            d = false;
-                //            break;
-                //    }
-                //}
-
-                //char positive = candidateResponses[i, 0];
-                //char negative = candidateResponses[i, 1];
-
-                //bool? ap = null;
-                //bool? bp = null;
-                //bool? cp = null;
-                //bool? dp = null;
-
-                //bool? an = null;
-                //bool? bn = null;
-                //bool? cn = null;
-                //bool? dn = null;
-
-                //switch (positive)
-                //{
-                //    case 'A':
-                //        ap = true;
-                //        break;
-                //    case 'B':
-                //        bp = true;
-                //        break;
-                //    case 'C':
-                //        cp = true;
-                //        break;
-                //    case 'D':
-                //        dp = true;
-                //        break;
-                //}
-
-                //switch (negative)
-                //{
-                //    case 'A':
-                //        an = false;
-                //        break;
-                //    case 'B':
-                //        bn = false;
-                //        break;
-                //    case 'C':
-                //        cn = false;
-                //        break;
-                //    case 'D':
-                //        dn = false;
-                //        break;
-                //}
-
-                //if (ap == a) score++;
-                //if (bp == b) score++;
-                //if (cp == c) score++;
-                //if (dp == d) score++;
-
-                //if (an == a) score++;
-                //if (bn == b) score++;
-                //if (cn == c) score++;
-                //if (dn == d) score++;
-
-                i++;
-            }
-
-            return score;
         }
 
         // Retorna un array con el percentil total de cada factor
@@ -1285,7 +1139,7 @@ namespace RHPsicotest.WebSite.GenerateResults
         private static string GetDescription_Estabilidad(byte percentile)
         {
             if (percentile >= 71) return "Alto: Es calmado(a) y fácil de tratar, se siente libre de preocupaciones, ansiedades y tensión nerviosa, le resulta fácil relajarse. Es equilibrada y con una buena tolerancia a la frustración.";
-            if (percentile >= 41) return " Promedio: Esta persona tiene una evaluación promedio como persona equilibrada, emotivamente estable y relativamente libre de ansiedades y de tensión nerviosa.";
+            if (percentile >= 41) return "Promedio: Esta persona tiene una evaluación promedio como persona equilibrada, emotivamente estable y relativamente libre de ansiedades y de tensión nerviosa.";
             if (percentile >= 1) return "Bajo: Siempre parece preocupado(a), tiende a ser una persona nerviosa. Se disgusta fácilmente si las cosas van mal. Baja tolerancia a la frustración. Puede reflejar un ajuste emocional deficiente.";
 
             return string.Empty;

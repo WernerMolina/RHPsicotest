@@ -35,6 +35,19 @@ namespace RHPsicotest.UTB
             return result;
         }
 
+        public bool GenerateResults_Test_Dominos(char?[][] responses, int currentIdUser)
+        {
+            byte score = Results_Dominos.GetScoreTotal(responses);
+
+            Expedient expedient = context.Expedients.FirstOrDefault(e => e.IdCandidate == currentIdUser);
+
+            byte percentile = Results_Dominos.GetPercentileByScore(score, expedient.AcademicTraining);
+
+            string description = Results_Dominos.GetDescriptionByPercentile(percentile);
+
+            return AddResults_Dominos(expedient.IdExpedient, score, percentile, description);
+        }
+
         private bool AddResults_PPGIPG(int expedientId, byte[] scoresByFactor, byte[] percentilesByFactor, string[] descriptions)
         {
             List<Result> results = new List<Result>();
@@ -52,6 +65,22 @@ namespace RHPsicotest.UTB
             }
 
             context.Results.AddRange(results);
+            return context.SaveChanges() > 0;
+        }
+
+        private bool AddResults_Dominos(int expedientId, byte score, byte percentile, string description)
+        {
+            Result remove = context.Results.FirstOrDefault(r => r.IdExpedient == expedientId && r.IdTest == 3);
+
+            if (remove != null)
+            {
+                context.Results.Remove(remove);
+                context.SaveChanges();
+            }
+
+            Result result = Conversion.ConvertToResult(expedientId, 3, 10, score, percentile, description);
+
+            context.Results.AddAsync(result);
             return context.SaveChanges() > 0;
         }
 

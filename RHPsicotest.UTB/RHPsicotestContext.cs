@@ -31,6 +31,7 @@ namespace RHPsicotest.UTB
         {
             //Conection Somee
             optionsBuilder.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=RHPsicotestDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
+            //optionsBuilder.UseSqlServer(@"workstation id=RHPsicotestDB2.mssql.somee.com;packet size=4096;user id=WernerMolina_SQLLogin_1;pwd=pj6scdgx7i;data source=RHPsicotestDB2.mssql.somee.com;persist security info=False;initial catalog=RHPsicotestDB2");
 
         }
 

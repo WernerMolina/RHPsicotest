@@ -52,7 +52,7 @@ namespace RHPsicotest.UT
             new char[] { 'A', 'B' }, // 38
         };
 
-        // Josue Saul 4
+        // Josue Saul 
         private char[][] josue =
         {
             new char[] { 'C', 'D' }, // 1
@@ -95,7 +95,7 @@ namespace RHPsicotest.UT
             new char[] { 'C', 'D' }, // 38
         };
 
-        // Jose David 5
+        // Jose David 
         private char[][] jose =
         {
             new char[] { 'C', 'B' }, // 1
@@ -138,7 +138,7 @@ namespace RHPsicotest.UT
             new char[] { 'C', 'A' }, // 38
         };
 
-        // Ever Misael 6
+        // Ever Misael 
         private char[][] ever =
         {
             new char[] { 'B', 'A' }, // 1
@@ -181,7 +181,7 @@ namespace RHPsicotest.UT
             new char[] { 'B', 'D' }, // 38
         };
 
-        // Adrian Alexander 7
+        // Adrian Alexander 
         private char[][] adrian =
         {
             new char[] { 'B', 'A' }, // 1
@@ -224,7 +224,7 @@ namespace RHPsicotest.UT
             new char[] { 'C', 'D' }, // 38
         };
 
-        // Carlos Alfredo 8
+        // Carlos Alfredo
         private char[][] carlos =
         {
             new char[] { 'C', 'D' }, // 1
@@ -272,9 +272,17 @@ namespace RHPsicotest.UT
         [TestMethod]
         public void GeneratedResult_PPGIPG()
         {
-            var result = test.GenerateResults_Test_PPGIPG(carlos, 1);
+            var result = test.GenerateResults_Test_PPGIPG(josue, 4);
+            var result1 = test.GenerateResults_Test_PPGIPG(jose, 5);
+            var result2 = test.GenerateResults_Test_PPGIPG(ever, 6);
+            var result3 = test.GenerateResults_Test_PPGIPG(adrian, 7);
+            var result4= test.GenerateResults_Test_PPGIPG(carlos, 8);
 
             Assert.IsTrue(result);
+            Assert.IsTrue(result1);
+            Assert.IsTrue(result2);
+            Assert.IsTrue(result3);
+            Assert.IsTrue(result4);
         }
     }
 }

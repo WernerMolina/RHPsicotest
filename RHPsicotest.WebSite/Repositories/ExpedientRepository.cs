@@ -102,34 +102,11 @@ namespace RHPsicotest.WebSite.Repositories
 
             List<ResultDTO> resultDTOs = new List<ResultDTO>();
 
-            byte testId = Convert.ToByte(results.ElementAtOrDefault(0).IdTest);
-            byte lastFactorId = Convert.ToByte(results.Last().IdFactor);
-
-            List<Result> results2 = new List<Result>();
-
-            foreach (Result result in results)
+            for (int i = 1; i < 5; i++)
             {
-                if (testId == result.IdTest)
-                {
-                    results2.Add(result);
+                List<Result> results2 = results.Where(r => r.IdTest == i).ToList();
 
-                    if (lastFactorId == result.IdFactor)
-                    {
-                        resultDTOs.Add(Conversion.ConvertToResultDTO(testId, results2));
-
-                        break;
-                    }
-                }
-                else
-                {
-                    resultDTOs.Add(Conversion.ConvertToResultDTO(testId, results2));
-
-                    testId = Convert.ToByte(result.IdTest);
-
-                    results2.Clear();
-
-                    results2.Add(result);
-                }
+                if (results2.Count != 0) resultDTOs.Add(Conversion.ConvertToResultDTO(i, results2));
             }
 
             return resultDTOs;

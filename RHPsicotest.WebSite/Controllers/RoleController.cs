@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using RHPsicotest.WebSite.Models;
 using RHPsicotest.WebSite.Repositories.Contracts;
 using RHPsicotest.WebSite.ViewModels.Role;
@@ -28,7 +25,7 @@ namespace RHPsicotest.WebSite.Controllers
 
             return View(roles);
         }
-        
+
         [HttpGet]
         [Route("/Rol/Crear")]
         //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "Create-Role-Policy")]
@@ -41,110 +38,108 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpPost]
         [Route("/Rol/Crear")]
-        public async Task<IActionResult> Create(RoleVM role, List<int> permissionsId)
+        public async Task<IActionResult> Create(RoleVM roleVM)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    bool roleExists = await roleRepository.RoleExists(role.RoleName);
-                 
-                    if(roleExists)
+                    roleVM.RoleName = roleVM.RoleName.Trim();
+
+                    bool roleExists = await roleRepository.RoleExists(roleVM.RoleName);
+
+                    if (roleExists)
                     {
-                        ViewBag.Error = "Este rol ya esta registrado";
-
-                        ViewBag.Permissions = await roleRepository.GetAllPermissions();
-
-                        return View(role);
-                    }
-
-                    bool result = await roleRepository.AddRole(role, permissionsId);
-
-                    if(result)
-                    {
-                        return RedirectToAction("Index", "Role");
+                        ViewBag.Message = "El nombre del rol ya esta registrado";
                     }
                     else
                     {
-                        ViewBag.Error = "No se pudo guardar el rol, intentelo después";
+                        bool result = await roleRepository.AddRole(roleVM);
 
-                        ViewBag.Permissions = await roleRepository.GetAllPermissions();
-
-                        return View(role);
+                        if (result)
+                        {
+                            return RedirectToAction(nameof(Index));
+                        }
+                        else
+                        {
+                            ViewBag.Message = "No se pudo guardar el rol, intentelo después";
+                        }
                     }
                 }
 
-                ViewBag.Error = "Es necesario completar todos los inputs";
-
                 ViewBag.Permissions = await roleRepository.GetAllPermissions();
 
-                return View(role);
+                return View(roleVM);
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                ViewBag.Message = ex.Message;
+
+                ViewBag.Permissions = await roleRepository.GetAllPermissions();
+
+                return View(roleVM);
             }
         }
 
         [HttpGet]
         [Route("/Rol/Editar")]
         //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "Edit-Role-Policy")]
-        public async Task<IActionResult> Edit(int id)
+        public async Task<IActionResult> Edit(int roleId)
         {
-            RoleUpdateVM role = await roleRepository.GetRoleUpdate(id);
+            RoleUpdateVM role = await roleRepository.GetRoleUpdate(roleId);
 
-            ViewBag.Permissions = await roleRepository.GetPermissionsSelected(id);
+            if (role == null) return RedirectToAction(nameof(Index));
+
+            ViewBag.Permissions = await roleRepository.GetAllPermissions();
 
             return View(role);
         }
 
         [HttpPost]
         [Route("/Rol/Editar")]
-        public async Task<IActionResult> Edit(RoleUpdateVM role, List<int> permissionsId)
+        public async Task<IActionResult> Edit(RoleUpdateVM roleUpdateVM)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    bool roleExists = await roleRepository.RoleExists(role.RoleName, role.IdRole);
+                    roleUpdateVM.RoleName = roleUpdateVM.RoleName.Trim();
+
+                    bool roleExists = await roleRepository.RoleExists(roleUpdateVM.RoleName, roleUpdateVM.IdRole);
 
                     if (roleExists)
                     {
-                        ViewBag.Error = "Este rol ya esta registrado";
-
-                        ViewBag.Permissions = await roleRepository.GetPermissionsSelected(role.IdRole);
-
-                        return View(role);
-                    }
-
-                    bool result = await roleRepository.UpdateRole(role, permissionsId);
-
-                    if(result)
-                    {
-                        return RedirectToAction("Index", "Role");
+                        ViewBag.Message = "El nombre del rol ya esta registrado";
                     }
                     else
                     {
-                        ViewBag.Error = "No se pudo actualizar el rol, intentelo después";
+                        bool result = await roleRepository.UpdateRole(roleUpdateVM);
 
-                        ViewBag.Permissions = await roleRepository.GetPermissionsSelected(role.IdRole);
-
-                        return View(role);
+                        if (result)
+                        {
+                            return RedirectToAction(nameof(Index));
+                        }
+                        else
+                        {
+                            ViewBag.Message = "No se pudo actualizar el rol, intentelo después";
+                        }
                     }
                 }
 
-                ViewBag.Error = "Es necesario completar todos los inputs";
+                ViewBag.Permissions = await roleRepository.GetAllPermissions();
 
-                ViewBag.Permissions = await roleRepository.GetPermissionsSelected(role.IdRole);
-
-                return View(role);
+                return View(roleUpdateVM);
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                ViewBag.Message = ex.Message;
+
+                ViewBag.Permissions = await roleRepository.GetAllPermissions();
+
+                return View(roleUpdateVM);
             }
         }
-        
+
         [HttpPost]
         [Route("/Rol/Eliminar")]
         public async Task<IActionResult> Delete(int roleId)
@@ -153,16 +148,16 @@ namespace RHPsicotest.WebSite.Controllers
             {
                 bool result = await roleRepository.DeleteRole(roleId);
 
-                if(result)
+                if (result)
                 {
-                    return RedirectToAction("Index", "Role");
+                    return RedirectToAction(nameof(Index));
                 }
 
                 return BadRequest();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                return BadRequest();
             }
         }
     }

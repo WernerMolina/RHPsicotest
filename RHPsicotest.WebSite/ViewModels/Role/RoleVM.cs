@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace RHPsicotest.WebSite.ViewModels.Role
 {
@@ -7,5 +8,7 @@ namespace RHPsicotest.WebSite.ViewModels.Role
         [Display(Name = "Nombre del Rol")]
         [Required(ErrorMessage = "El nombre es obligatorio")]
         public string RoleName { get; set; }
+
+        public List<int> PermissionsId { get; set; }
     }
 }

@@ -3,11 +3,7 @@
 
 // Write your JavaScript code.
 
-function closeModal(event) {
-    let modal = document.querySelector("#modal");
 
-    modal.classList.add("d-none");
-}
 
 function startTest() {
     let example = document.querySelector("#example");

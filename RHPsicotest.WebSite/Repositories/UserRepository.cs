@@ -1,12 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using RHPsicotest.WebSite.Data;
-using RHPsicotest.WebSite.DTOs;
 using RHPsicotest.WebSite.Models;
 using RHPsicotest.WebSite.Repositories.Contracts;
 using RHPsicotest.WebSite.Utilities;
 using RHPsicotest.WebSite.ViewModels.User;
-using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -24,42 +21,30 @@ namespace RHPsicotest.WebSite.Repositories
             this.context = context;
         }
 
-
-
-        public async Task<bool> AddUser(UserVM userVM, List<int> rolesId)
+        public async Task<bool> AddUser(UserVM userVM)
         {
-            bool result = false;
+            bool result;
 
-            bool userExists = await UserExists(userVM);
+            userVM.Password = Helper.EncryptMD5(userVM.Password);
 
-            if (!userExists)
-            {
-                userVM.Password = Helper.EncryptMD5(userVM.Password);
+            User user = Conversion.ConvertToUser(userVM);
 
-                User user = Conversion.ConvertToUser(userVM);
+            await context.Users.AddAsync(user);
+            result = await context.SaveChangesAsync() > 0;
 
-                await context.Users.AddAsync(user);
-                result = await context.SaveChangesAsync() > 0;
-
-                AssignRoles(user.IdUser, rolesId);
-            }
+            if (result) AddRolesToUser(user.IdUser, userVM.RolesId);
 
             return result;
         }
 
-        public async Task<bool> UpdateUser(UserUpdateVM userUpdateVM, List<int> rolesId)
+        public async Task<bool> UpdateUser(UserUpdateVM userUpdateVM)
         {
             bool result = false;
 
-            User user = await context.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Email == userUpdateVM.Email);
+            User user = await context.Users.AsNoTracking().FirstOrDefaultAsync(u => u.IdUser == userUpdateVM.IdUser);
 
-            if (user == null || user.IdUser == userUpdateVM.IdUser)
+            if (user != null)
             {
-                if (user == null)
-                {
-                    user = await context.Users.AsNoTracking().FirstOrDefaultAsync(u => u.IdUser == userUpdateVM.IdUser);
-                }
-
                 if (userUpdateVM.Password != null) user.Password = Helper.EncryptMD5(userUpdateVM.Password);
 
                 user = Conversion.ConvertToUser(user, userUpdateVM);
@@ -67,7 +52,7 @@ namespace RHPsicotest.WebSite.Repositories
                 context.Users.Update(user);
                 result = await context.SaveChangesAsync() > 0;
 
-                if (result) AssignRoles(user.IdUser, rolesId, true);
+                if (result) AddRolesToUser(user.IdUser, userUpdateVM.RolesId, true);
             }
 
             return result;
@@ -76,7 +61,8 @@ namespace RHPsicotest.WebSite.Repositories
         public async Task<bool> DeleteUser(int userId)
         {
             bool result = false;
-            User user = await context.Users.Include(u => u.Roles).FirstOrDefaultAsync(u => u.IdUser == userId);
+
+            User user = await context.Users.FirstOrDefaultAsync(u => u.IdUser == userId);
 
             if (user != null)
             {
@@ -87,132 +73,56 @@ namespace RHPsicotest.WebSite.Repositories
             return result;
         }
 
-
-        // Retorna todos los usuarios en version DTO
-        // UserDTO = Datos del usuario + los roles + los permisos
-        public async Task<List<UserDTO>> GetAllUsers()
+        public async Task<List<User>> GetAllUsers()
         {
-            List<User> users = await context.Users.Include(u => u.Roles).ToListAsync();
-
-            List<UserDTO> userDTOs = new List<UserDTO>();
-
-            if (users != null)
-            {
-                foreach (User user in users)
-                {
-                    userDTOs.Add(await GetUserDTO(user, false));
-                }
-            }
-
-            return userDTOs;
+            return await context.Users.Include("Roles.Role").ToListAsync();
         }
 
-
-        // Cuando el admin da clic en actualizar un usuario
-        // Retorna los datos del usuario y todos los roles.
-        // También van seleccionados los roles que tiene asignados el usuario
-        public async Task<(UserUpdateVM, MultiSelectList)> GetUserAndRolesSelected(int userId)
+        public async Task<UserUpdateVM> GetUserUpdate(int userId)
         {
             User user = await context.Users.Include(u => u.Roles).FirstOrDefaultAsync(u => u.IdUser == userId);
 
-            UserUpdateVM userUpdateVM = Conversion.ConvertToUserUpdateVM(user);
+            List<int> roles = new List<int>();
 
-            MultiSelectList rolesList = await GetRolesSelected(user);
-
-            return (userUpdateVM, rolesList);
-        }
-
-
-        // Retorna todos los roles 
-        public async Task<MultiSelectList> GetAllRoles()
-        {
-            List<Role> roles = await context.Roles.ToListAsync();
-
-            return new MultiSelectList(roles, "IdRole", "RoleName");
-        }
-
-
-
-
-        public async Task<MultiSelectList> GetRolesSelected(List<int> rolesId)
-        {
-            List<int> selectedRoles = new List<int>();
-            List<Role> roles = await context.Roles.ToListAsync();
-
-            foreach (int role in rolesId)
+            if (user != null)
             {
-                selectedRoles.Add(role);
-            }
-
-            return new MultiSelectList(roles, "IdRole", "RoleName", selectedRoles);
-        }
-
-        // ------------------------ Métodos Complementarios-----------------------------
-
-        // Convierte un usuario en DTO para mostrar los datos en una vista
-        // UserDTO = Datos del usuario + los roles + los permisos
-        private async Task<UserDTO> GetUserDTO(User user, bool withPermissions)
-        {
-            List<string> roles = new List<string>();
-            List<string> permissions = new List<string>();
-
-            List<Role> userRoles = new List<Role>();
-
-            foreach (var role in user.Roles)
-            {
-                userRoles.Add(await context.Roles.Include(r => r.Permissions).FirstOrDefaultAsync(r => r.IdRole == role.IdRole));
-            }
-
-            foreach (Role role in userRoles)
-            {
-                roles.Add(role.RoleName);
-
-                if (withPermissions)
+                foreach (Role_User roleId in user.Roles)
                 {
-                    foreach (var permission in role.Permissions)
-                    {
-                        Permission permiso = await context.Permissions.FirstOrDefaultAsync(p => p.IdPermission == permission.IdPermission);
+                    Role role = await context.Roles.FirstOrDefaultAsync(p => p.IdRole == roleId.IdRole);
 
-                        permissions.Add(permiso.PermissionName);
-                    }
+                    roles.Add(role.IdRole);
                 }
             }
 
-            UserDTO userDTO = Conversion.ConvertToUserDTO(user, roles, permissions);
+            UserUpdateVM userUpdateVM = Conversion.ConvertToUserUpdateVM(user, roles);
 
-            return userDTO;
+            return userUpdateVM;
         }
 
-
-        // Método que se utiliza cuando se va actualizar un usuario
-        // Retorna todos los roles y también van seleccionados los roles del usuario
-        private async Task<MultiSelectList> GetRolesSelected(User user)
+        public async Task<List<Role>> GetAllRoles()
         {
-            List<int> selectedRoles = new List<int>();
-            List<Role> roles = await context.Roles.ToListAsync();
+            return await context.Roles.ToListAsync();
+        }
 
-            foreach (var role in user.Roles)
+        public async Task<bool> UserExists(string email, int id = 0)
+        {
+            if (id > 0)
             {
-                selectedRoles.Add(role.IdRole);
+                User user = await context.Users.AsNoTracking().FirstOrDefaultAsync(u => u.EmailNormalized == email.ToUpper());
+
+                if (user != null)
+                {
+                    return !(user.IdUser == id && user.EmailNormalized == email.ToUpper());
+                }
+
+                return false;
             }
 
-            return new MultiSelectList(roles, "IdRole", "RoleName", selectedRoles);
+            return await context.Users.AnyAsync(r => r.EmailNormalized == email.ToLower()); ;
         }
 
-        private async Task<bool> UserExists(UserVM user)
+        private void AddRolesToUser(int userId, List<int> roles, bool delete = false)
         {
-            return await context.Users.AnyAsync(u => u.Email == user.Email);
-        }
-        
-        public async Task<User> GetUser(int id)
-        {
-            return await context.Users.FirstOrDefaultAsync(u => u.IdUser == id);
-        }
-
-        // Actualiza los roles del usuario
-        private void AssignRoles(int userId, List<int> roles, bool delete = false)
-        {
-            // Aquí se eliminan los roles actuales del usuario
             if (delete)
             {
                 List<Role_User> rolesUser = context.Role_Users.Where(ru => ru.IdUser == userId).ToList();
@@ -224,17 +134,19 @@ namespace RHPsicotest.WebSite.Repositories
                 }
             }
 
-            // Aquí se guardan los nuevos roles asignados
-            foreach (int id in roles)
+            if (roles != null)
             {
-                context.Role_Users.Add(new Role_User
+                foreach (int id in roles)
                 {
-                    IdRole = id,
-                    IdUser = userId
-                });
-            }
+                    context.Role_Users.Add(new Role_User
+                    {
+                        IdRole = id,
+                        IdUser = userId
+                    });
+                }
 
-            context.SaveChanges();
+                context.SaveChanges();
+            }
         }
 
     }

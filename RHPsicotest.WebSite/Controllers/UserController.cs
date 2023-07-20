@@ -1,19 +1,9 @@
-﻿using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Newtonsoft.Json;
-using RHPsicotest.WebSite.DTOs;
+﻿using Microsoft.AspNetCore.Mvc;
 using RHPsicotest.WebSite.Models;
 using RHPsicotest.WebSite.Repositories.Contracts;
-using RHPsicotest.WebSite.Utilities;
 using RHPsicotest.WebSite.ViewModels.User;
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace RHPsicotest.WebSite.Controllers
@@ -32,11 +22,11 @@ namespace RHPsicotest.WebSite.Controllers
         //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "List-Users-Policy")]
         public async Task<IActionResult> Index()
         {
-            List<UserDTO> users = await userRepository.GetAllUsers();
+            List<User> users = await userRepository.GetAllUsers();
 
             return View(users);
         }
-        
+
         [HttpGet]
         [Route("/Usuario/Crear")]
         //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "Create-User-Policy")]
@@ -49,27 +39,48 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpPost]
         [Route("/Usuario/Crear")]
-        public async Task<IActionResult> Create(UserVM user, List<int> rolesId)
+        public async Task<IActionResult> Create(UserVM userVM)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    bool result = await userRepository.AddUser(user, rolesId);
+                    userVM.Name = userVM.Name.Trim();
+                    userVM.Email = userVM.Email.Trim();
+                    userVM.Password = userVM.Password.Trim();
 
-                    if (result)
+                    bool userExists = await userRepository.UserExists(userVM.Email);
+
+                    if (userExists)
                     {
-                        return RedirectToAction("Index", "user");
+                        ViewBag.Message = "El correo del usuario ya esta registrado";
+                    }
+                    else
+                    {
+                        bool result = await userRepository.AddUser(userVM);
+
+                        if (result)
+                        {
+                            return RedirectToAction(nameof(Index));
+                        }
+                        else
+                        {
+                            ViewBag.Message = "No se pudo guardar el usuario, intentelo después";
+                        }
                     }
                 }
 
                 ViewBag.Roles = await userRepository.GetAllRoles();
 
-                return View(user);
+                return View(userVM);
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                ViewBag.Message = ex.Message;
+
+                ViewBag.Roles = await userRepository.GetAllRoles();
+
+                return View(userVM);
             }
         }
 
@@ -78,57 +89,78 @@ namespace RHPsicotest.WebSite.Controllers
         //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "Edit-User-Policy")]
         public async Task<IActionResult> Edit(int id)
         {
-            (UserUpdateVM, MultiSelectList) user = await userRepository.GetUserAndRolesSelected(id);
+            UserUpdateVM userUpdateVM = await userRepository.GetUserUpdate(id);
 
-            ViewBag.Roles = user.Item2;
+            ViewBag.Roles = await userRepository.GetAllRoles();
 
-            return View(user.Item1);
+            return View(userUpdateVM);
         }
 
         [HttpPost]
         [Route("/Usuario/Editar")]
-        public async Task<IActionResult> Edit(UserUpdateVM user, List<int> rolesId)
+        public async Task<IActionResult> Edit(UserUpdateVM userUpdateVM)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    bool result = await userRepository.UpdateUser(user, rolesId);
+                    userUpdateVM.Name = userUpdateVM.Name.Trim();
+                    userUpdateVM.Email = userUpdateVM.Email.Trim();
+                    userUpdateVM.Password = userUpdateVM.Password.Trim();
 
-                    if (result)
+                    bool userExists = await userRepository.UserExists(userUpdateVM.Email, userUpdateVM.IdUser);
+
+                    if (userExists)
                     {
-                        return RedirectToAction("Index", "user");
+                        ViewBag.Message = "El correo del usuario ya esta registrado";
+                    }
+                    else
+                    {
+                        bool result = await userRepository.UpdateUser(userUpdateVM);
+
+                        if (result)
+                        {
+                            return RedirectToAction(nameof(Index));
+                        }
+                        else
+                        {
+                            ViewBag.Message = "No se pudo actualizar el usuario, intentelo después";
+                        }
                     }
                 }
 
-                ViewBag.Roles = await userRepository.GetRolesSelected(rolesId);
+                ViewBag.Roles = await userRepository.GetAllRoles();
 
-                return View(user);
+                return View(userUpdateVM);
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                ViewBag.Message = ex.Message;
+
+                ViewBag.Roles = await userRepository.GetAllRoles();
+
+                return View(userUpdateVM);
             }
         }
 
         [HttpPost]
         [Route("/Usuario/Eliminar")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(int userId)
         {
             try
             {
-                bool result = await userRepository.DeleteUser(id);
+                bool result = await userRepository.DeleteUser(userId);
 
                 if (result)
                 {
                     return RedirectToAction("Index", "User");
                 }
 
-                return RedirectToAction("Index", "User");
+                return BadRequest();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                return BadRequest();
             }
         }
 

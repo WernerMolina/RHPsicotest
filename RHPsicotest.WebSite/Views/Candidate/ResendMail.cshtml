@@ -15,17 +15,17 @@
             </div>
             <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label h5">Para:</label>
-                <input asp-for="Email" class="form-control" type="text" value="Email" readonly>
+                <input asp-for="Email" class="form-control" type="text" readonly>
             </div>
             <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label h5">Contraseña:</label>
-                <input asp-for="Password" class="form-control" type="text" value="Password" readonly>
+                <input asp-for="Password" class="form-control" type="text" readonly>
             </div>
             <div class="mb-3">
                 <label for="" class="form-label h5">Pruebas a Recuperar:</label>
                 <select asp-for="Tests" class="form-select" name="testsId" id="multiple-select-clear-field" requered multiple>
                     <option>Seleccionar Pruebas</option>
-                    @foreach (var test in Model.Tests)
+                    @foreach (Test test in Model.Tests)
                     {
                         <option value="@test.IdTest">@test.NameTest</option>
                     }

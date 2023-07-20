@@ -13,7 +13,7 @@ namespace RHPsicotest.WebSite.Utilities
     public class Conversion
     {
         // Usuario
-        public static UserDTO ConvertToUserDTO(User user, List<string> roles, List<string> permissions = null)
+        public static UserDTO ConvertToUserDTO(User user, List<string> roles)
         {
             return  new UserDTO
             {
@@ -21,8 +21,7 @@ namespace RHPsicotest.WebSite.Utilities
                 Name = user.Name,
                 Email = user.Email,
                 RegistrationDate = user.RegistrationDate,
-                Roles = roles,
-                Permissions = permissions
+                Roles = roles
             };
         }
 
@@ -32,6 +31,7 @@ namespace RHPsicotest.WebSite.Utilities
             {
                 Name = userVM.Name,
                 Email = userVM.Email,
+                EmailNormalized = userVM.Email.ToUpper(),
                 Password = userVM.Password,
                 RegistrationDate = DateTime.Now.ToString("dd/MM/yyyy hh:mm tt", CultureInfo.CreateSpecificCulture("en-En")),
             };
@@ -44,19 +44,21 @@ namespace RHPsicotest.WebSite.Utilities
                 IdUser = userUpdateVM.IdUser,
                 Name = userUpdateVM.Name,
                 Email = userUpdateVM.Email,
+                EmailNormalized = userUpdateVM.Email.ToUpper(),
                 Password = user.Password,
                 RegistrationDate = user.RegistrationDate
             };
         }
 
-        public static UserUpdateVM ConvertToUserUpdateVM(User user)
+        public static UserUpdateVM ConvertToUserUpdateVM(User user, List<int> roles)
         {
             return new UserUpdateVM
             {
                 IdUser = user.IdUser,
                 Name = user.Name,
                 Email = user.Email,
-                Password = string.Empty
+                Password = string.Empty,
+                RolesId = roles
             };
         }
 
@@ -112,7 +114,8 @@ namespace RHPsicotest.WebSite.Utilities
         {
             return new Role
             {
-                RoleName = roleVM.RoleName
+                RoleName = roleVM.RoleName,
+                RoleNameNormalized = roleVM.RoleName.ToUpper()
             };
         }
         
@@ -121,16 +124,18 @@ namespace RHPsicotest.WebSite.Utilities
             return new Role
             {
                 IdRole = roleUpdateVM.IdRole,
-                RoleName = roleUpdateVM.RoleName
+                RoleName = roleUpdateVM.RoleName,
+                RoleNameNormalized = roleUpdateVM.RoleName.ToUpper()
             };
         }
         
-        public static RoleUpdateVM ConvertToRoleUpdateVM(Role role)
+        public static RoleUpdateVM ConvertToRoleUpdateVM(Role role, List<int> permissions)
         {
             return new RoleUpdateVM
             {
                 IdRole = role.IdRole,
-                RoleName = role.RoleName
+                RoleName = role.RoleName,
+                PermissionsId = permissions
             };
         }
         

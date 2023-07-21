@@ -30,7 +30,7 @@ namespace RHPsicotest.WebSite.ViewModels
         [Required(ErrorMessage = "Requerido")]
         public byte Age { get; set; }
 
-        [Display(Name = "Genero")]
+        [Display(Name = "Género")]
         [Required(ErrorMessage = "Requerido")]
         public string Gender { get; set; }
 
@@ -42,7 +42,7 @@ namespace RHPsicotest.WebSite.ViewModels
         [Required(ErrorMessage = "Requerido")]
         public string AcademicTraining { get; set; }
 
-        [Display(Name = "Título")]
+        [Display(Name = "Título Técnico/Universitario")]
         [Required(ErrorMessage = "Requerido")]
         public string Certificate { get; set; }
 
@@ -50,7 +50,7 @@ namespace RHPsicotest.WebSite.ViewModels
         [Required(ErrorMessage = "Requerido")]
         public string Direction { get; set; }
 
-        [Display(Name = "Pais")]
+        [Display(Name = "País")]
         [Required(ErrorMessage = "Requerido")]
         public string Country { get; set; }
 

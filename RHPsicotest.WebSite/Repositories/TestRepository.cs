@@ -60,7 +60,7 @@ namespace RHPsicotest.WebSite.Repositories
 
             if (tests != null)
             {
-                foreach (var testCandidate in tests)
+                foreach (Test_Candidate testCandidate in tests)
                 {
                     Test test = await context.Tests.FirstOrDefaultAsync(t => t.IdTest == testCandidate.IdTest);
 

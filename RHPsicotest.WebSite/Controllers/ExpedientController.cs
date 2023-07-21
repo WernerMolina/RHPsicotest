@@ -42,9 +42,7 @@ namespace RHPsicotest.WebSite.Controllers
             "Operario no Cualificado",
             "Profesinal de Oficio",
             "Subalternos",
-            "Supervisora de Ventas",
-            "Ninguna Formación",
-            "Otra"
+            "Supervisora de Ventas"
         };
 
         private readonly IExpedientRepository expedientRepository;
@@ -83,7 +81,7 @@ namespace RHPsicotest.WebSite.Controllers
         }
 
         [HttpGet]
-        [Route("/Crear/Expediente")]
+        [Route("/Expediente/Crear")]
         //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "Create-User-Policy")]
         public IActionResult Create()
         {
@@ -93,40 +91,57 @@ namespace RHPsicotest.WebSite.Controllers
         }
 
         [HttpPost]
-        [Route("/Crear/Expediente")]
+        [Route("/Expediente/Crear")]
         public async Task<IActionResult> Create(ExpedientVM expedientVM)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    bool isFileTypePDF = Helper.IsFileTypePDF(expedientVM.CurriculumVitae);
+                    byte isAgeCorrect = Helper.CalculateAge(expedientVM.DateOfBirth);
 
-                    if (isFileTypePDF)
+                    if (isAgeCorrect >= 15)
                     {
-                        string candidateId = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value;
-                        string email = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Email).Value;
-                        string position = ((ClaimsIdentity)User.Identity).FindFirst("Position").Value;
+                        bool isFileTypePDF = Helper.IsFileTypePDF(expedientVM.CurriculumVitae);
 
-                        // Id, Correo, Puesto
-                        (string, string, string) currentCandidate = (candidateId, email, position);
-
-                        bool result = await expedientRepository.AddExpedient(expedientVM, currentCandidate);
-
-                        if (result)
+                        if (isFileTypePDF)
                         {
-                            return RedirectToAction("AssignedTests", "Test");
+                            string candidateId = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value;
+                            string email = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Email).Value;
+                            string position = ((ClaimsIdentity)User.Identity).FindFirst("Position").Value;
+
+                            // Id, Correo, Puesto
+                            (string, string, string) currentCandidate = (candidateId, email, position);
+
+                            bool result = await expedientRepository.AddExpedient(expedientVM, currentCandidate);
+
+                            if (result)
+                            {
+                                return RedirectToAction("AssignedTests", "Test");
+                            }
+                            else
+                            {
+                                ViewBag.Message = "No se pudo guardar su información, por favor, intentelo otra vez";
+                            }
                         }
+
+                        ViewBag.Message = "El archivo del curriculum tiene que ser de tipo PDF";
                     }
+
+                    ViewBag.Message = "Su edad no esta permitida";
                 }
 
                 ViewBag.AcademicFormations = academicFormations;
 
                 return View(expedientVM);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                ViewBag.Message = "Ocurrio un problema en el sistema, intentelo otra vez, si el problema persiste, contactese con la encargada";
+
+                ViewBag.AcademicFormations = academicFormations;
+
+                return View(expedientVM);
             }
         }
 
@@ -136,6 +151,8 @@ namespace RHPsicotest.WebSite.Controllers
         public async Task<IActionResult> Edit(int id)
         {
             ExpedientUpdateVM expedient = await expedientRepository.GetExpedientUpdateVM(id);
+
+            if (expedient == null) return RedirectToAction(nameof(Index));
 
             ViewBag.AcademicFormations = academicFormations;
 
@@ -150,11 +167,22 @@ namespace RHPsicotest.WebSite.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    bool result = await expedientRepository.UpdateExpedient(expedientUpdateVM);
-
-                    if (result)
+                    if (expedientUpdateVM.Age < 15)
                     {
-                        return RedirectToAction("Index", "Expedient");
+                        ViewBag.Message = "La edad establecida no esta permitida";
+                    }
+                    else
+                    {
+                        bool result = await expedientRepository.UpdateExpedient(expedientUpdateVM);
+
+                        if (result)
+                        {
+                            return RedirectToAction(nameof(Index));
+                        }
+                        else
+                        {
+                            ViewBag.Message = "No se pudo actualizar el expediente, por favor, intentelo otra vez";
+                        }
                     }
                 }
 
@@ -164,7 +192,11 @@ namespace RHPsicotest.WebSite.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                ViewBag.Message = ex.Message;
+
+                ViewBag.AcademicFormations = academicFormations;
+
+                return View(expedientUpdateVM);
             }
         }
 
@@ -174,8 +206,6 @@ namespace RHPsicotest.WebSite.Controllers
         public async Task<IActionResult> ShowCurriculum(int id)
         {
             byte[] fileBytes = await expedientRepository.GetPDFInBytes(id);
-
-            ViewData["PDF"] = fileBytes;
 
             return File(fileBytes, "application/pdf");
         }
@@ -190,35 +220,5 @@ namespace RHPsicotest.WebSite.Controllers
 
             return View(results);
         }
-
-        //[HttpGet]
-        //[Route("/Resultados")]
-        ////[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "Create-User-Policy")]
-        //public async Task<IActionResult> ShowResultsPDF(int id)
-        //{
-        //    try
-        //    {
-        //        string url = $"http://localhost:8080/jasperserver/rest_v2/reports/reports/TESTTER.pdf?j_username=jasperadmin&j_password=jasperadmin&inline=true&Identificador={id}";
-
-        //        using (HttpClient client = new HttpClient())
-        //        {
-        //            HttpResponseMessage response = await client.GetAsync(url);
-
-        //            if (response.IsSuccessStatusCode)
-        //            {
-        //                byte[] fileBytes = await response.Content.ReadAsByteArrayAsync();
-
-        //                return File(fileBytes, "application/pdf");
-        //            }
-
-        //            return StatusCode(StatusCodes.Status500InternalServerError, response.RequestMessage);
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
-        //    }
-        //}
-
     }
 }

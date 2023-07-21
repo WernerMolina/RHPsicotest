@@ -43,7 +43,7 @@ namespace RHPsicotest.WebSite.ViewModels
         [Required(ErrorMessage = "Requerido")]
         public string AcademicTraining { get; set; }
 
-        [Display(Name = "Título")]
+        [Display(Name = "Título Técnico/Universitario")]
         [Required(ErrorMessage = "Requerido")]
         public string Certificate { get; set; }
 
@@ -51,7 +51,7 @@ namespace RHPsicotest.WebSite.ViewModels
         [Required(ErrorMessage = "Requerido")]
         public IFormFile CurriculumVitae { get; set; }
 
-        [Display(Name = "Pais")]
+        [Display(Name = "País")]
         [Required(ErrorMessage = "Requerido")]
         public string Country { get; set; }
 

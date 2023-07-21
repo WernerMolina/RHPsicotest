@@ -55,7 +55,7 @@ namespace RHPsicotest.WebSite.Repositories
 
         public async Task<List<ExpedientDTO>> GetAllExpedients()
         {
-            List<Expedient> expedients = await context.Expedients.ToListAsync();
+            List<Expedient> expedients = await context.Expedients.OrderByDescending(e => e.IdExpedient).ToListAsync();
 
             List<ExpedientDTO> expedientDTOs = new List<ExpedientDTO>();
 

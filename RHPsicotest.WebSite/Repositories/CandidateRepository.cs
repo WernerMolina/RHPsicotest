@@ -66,7 +66,7 @@ namespace RHPsicotest.WebSite.Repositories
 
         public async Task<List<CandidateDTO>> GetAllCandidates()
         {
-            List<Candidate> candidates = await context.Candidates.Include(c => c.Position).ToListAsync();
+            List<Candidate> candidates = await context.Candidates.Include(c => c.Position).OrderByDescending(c => c.IdCandidate).ToListAsync();
 
             List<CandidateDTO> candidateDTOs = new List<CandidateDTO>();
 

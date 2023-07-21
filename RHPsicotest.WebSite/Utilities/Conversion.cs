@@ -192,24 +192,24 @@ namespace RHPsicotest.WebSite.Utilities
             return new Expedient
             {
                 IdCandidate = Convert.ToInt16(currentCandidate.Item1),
-                DUI = expedientVM.DUI,
-                Names = expedientVM.Names,
-                Lastnames = expedientVM.Lastnames,
-                Email = currentCandidate.Item2,
-                MovilePhoneNumber = expedientVM.MovilePhoneNumber,
-                LandlineNumber = expedientVM.LandlineNumber,
+                DUI = expedientVM.DUI.Trim(),
+                Names = expedientVM.Names.Trim(),
+                Lastnames = expedientVM.Lastnames.Trim(),
+                Email = currentCandidate.Item2.Trim(),
+                MovilePhoneNumber = expedientVM.MovilePhoneNumber.Trim(),
+                LandlineNumber = expedientVM.LandlineNumber.Trim(),
                 EvaluationDate = DateTime.Now.ToString("dd/MM/yyyy hh:mm tt", CultureInfo.CreateSpecificCulture("en-En")),
                 Age = Helper.CalculateAge(expedientVM.DateOfBirth),
-                Gender = expedientVM.Gender,
-                CivilStatus = expedientVM.CivilStatus,
-                Position = currentCandidate.Item3,
-                AcademicTraining = expedientVM.AcademicTraining,
-                Certificate = expedientVM.Certificate,
+                Gender = expedientVM.Gender.Trim(),
+                CivilStatus = expedientVM.CivilStatus.Trim(),
+                Position = currentCandidate.Item3.Trim(),
+                AcademicTraining = expedientVM.AcademicTraining.Trim(),
+                Certificate = expedientVM.Certificate.Trim(),
                 CurriculumVitae = Helper.FilePDFConvertToArrayOfBytes(expedientVM.CurriculumVitae),
-                Country = expedientVM.Country,
-                Department = expedientVM.Department,
-                Municipality = expedientVM.Municipality,
-                Direction = expedientVM.Direction
+                Country = expedientVM.Country.Trim(),
+                Department = expedientVM.Department.Trim(),
+                Municipality = expedientVM.Municipality.Trim(),
+                Direction = expedientVM.Direction.Trim()
             };
         }
         
@@ -219,24 +219,24 @@ namespace RHPsicotest.WebSite.Utilities
             {
                 IdExpedient = expedientUpdateVM.IdExpedient,
                 IdCandidate = expedient.IdCandidate,
-                DUI = expedientUpdateVM.DUI,
-                Names = expedientUpdateVM.Names,
-                Lastnames = expedientUpdateVM.Lastnames,
+                DUI = expedientUpdateVM.DUI.Trim(),
+                Names = expedientUpdateVM.Names.Trim(),
+                Lastnames = expedientUpdateVM.Lastnames.Trim(),
                 Email = expedient.Email,
-                MovilePhoneNumber = expedientUpdateVM.MovilePhoneNumber,
-                LandlineNumber = expedientUpdateVM.LandlineNumber,
+                MovilePhoneNumber = expedientUpdateVM.MovilePhoneNumber.Trim(),
+                LandlineNumber = expedientUpdateVM.LandlineNumber.Trim(),
                 EvaluationDate = expedient.EvaluationDate,
                 Age = expedientUpdateVM.Age,
                 Gender = expedientUpdateVM.Gender,
-                CivilStatus = expedientUpdateVM.CivilStatus,
+                CivilStatus = expedientUpdateVM.CivilStatus.Trim(),
                 Position = expedient.Position,
-                AcademicTraining = expedientUpdateVM.AcademicTraining,
-                Certificate = expedientUpdateVM.Certificate,
+                AcademicTraining = expedientUpdateVM.AcademicTraining.Trim(),
+                Certificate = expedientUpdateVM.Certificate.Trim(),
                 CurriculumVitae = expedient.CurriculumVitae,
-                Country = expedientUpdateVM.Country,
-                Department = expedientUpdateVM.Department,
-                Municipality = expedientUpdateVM.Municipality,
-                Direction = expedientUpdateVM.Direction
+                Country = expedientUpdateVM.Country.Trim(),
+                Department = expedientUpdateVM.Department.Trim(),
+                Municipality = expedientUpdateVM.Municipality.Trim(),
+                Direction = expedientUpdateVM.Direction.Trim()
             };
         }
         

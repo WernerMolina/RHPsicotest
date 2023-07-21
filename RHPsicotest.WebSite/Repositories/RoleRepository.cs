@@ -78,9 +78,7 @@ namespace RHPsicotest.WebSite.Repositories
             {
                 foreach (Permission_Role permissionId in role.Permissions)
                 {
-                    Permission permission = await context.Permissions.FirstOrDefaultAsync(p => p.IdPermission == permissionId.IdPermission);
-
-                    permissions.Add(permission.IdPermission);
+                    permissions.Add(permissionId.IdPermission);
                 }
             }
 

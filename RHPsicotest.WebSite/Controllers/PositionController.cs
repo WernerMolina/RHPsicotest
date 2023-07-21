@@ -41,17 +41,25 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpPost]
         [Route("/Puesto/Crear")]
-        public async Task<IActionResult> Create(PositionVM positionVM, List<int> testsId)
+        public async Task<IActionResult> Create(PositionVM positionVM)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    bool result = await positionRepository.AddPosition(positionVM, testsId);
+                    positionVM.PositionName = positionVM.PositionName.Trim();
+                    positionVM.PositionHigher = positionVM.PositionHigher.Trim();
+                    positionVM.Department = positionVM.Department.Trim();
+
+                    bool result = await positionRepository.AddPosition(positionVM);
 
                     if (result)
                     {
-                        return RedirectToAction("Index", "Position");
+                        return RedirectToAction(nameof(Index));
+                    }
+                    else
+                    {
+                        ViewBag.Message = "No se pudo guardar el puesto, intentelo después";
                     }
                 }
 
@@ -61,7 +69,11 @@ namespace RHPsicotest.WebSite.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                ViewBag.Message = ex.Message;
+
+                ViewBag.Tests = await positionRepository.GetAllTests();
+
+                return View(positionVM);
             }
         }
 
@@ -69,57 +81,71 @@ namespace RHPsicotest.WebSite.Controllers
         [Route("/Puesto/Editar")]
         public async Task<IActionResult> Edit(int id)
         {
-            (PositionUpdateVM, MultiSelectList) position = await positionRepository.GetPositionAndTestsSelected(id);
+            PositionUpdateVM position = await positionRepository.GetPositionUpdate(id);
 
-            ViewBag.Tests = position.Item2;
+            if (position == null) return RedirectToAction(nameof(Index));
 
-            return View(position.Item1);
+            ViewBag.Tests = await positionRepository.GetAllTests();
+
+            return View(position);
         }
 
         [HttpPost]
         [Route("/Puesto/Editar")]
-        public async Task<IActionResult> Edit(PositionUpdateVM position, List<int> testsId)
+        public async Task<IActionResult> Edit(PositionUpdateVM positionUpdateVM)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    bool result = await positionRepository.UpdatePosition(position, testsId);
+                    positionUpdateVM.PositionName = positionUpdateVM.PositionName.Trim();
+                    positionUpdateVM.PositionHigher = positionUpdateVM.PositionHigher.Trim();
+                    positionUpdateVM.Department = positionUpdateVM.Department.Trim();
+
+                    bool result = await positionRepository.UpdatePosition(positionUpdateVM);
 
                     if (result)
                     {
-                        return RedirectToAction("Index", "Position");
+                        return RedirectToAction(nameof(Index));
+                    }
+                    else
+                    {
+                        ViewBag.Message = "No se pudo guardar el puesto, intentelo después";
                     }
                 }
 
-                ViewBag.Tests = await positionRepository.GetTestsSelected(testsId);
+                ViewBag.Tests = await positionRepository.GetAllTests();
 
-                return View(position);
+                return View(positionUpdateVM);
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                ViewBag.Message = ex.Message;
+
+                ViewBag.Tests = await positionRepository.GetAllTests();
+
+                return View(positionUpdateVM);
             }
         }
 
         [HttpPost]
         [Route("/Puesto/Eliminar")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(int positionId)
         {
             try
             {
-                bool result = await positionRepository.DeletePosition(id);
+                bool result = await positionRepository.DeletePosition(positionId);
 
                 if (result)
                 {
-                    return RedirectToAction("Index", "Position");
+                    return RedirectToAction(nameof(Index));
                 }
 
-                return RedirectToAction("Index", "Position");
+                return BadRequest();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                return BadRequest();
             }
         }
 

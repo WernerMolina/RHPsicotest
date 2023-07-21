@@ -98,14 +98,15 @@ namespace RHPsicotest.WebSite.Utilities
             };
         }
         
-        public static PositionUpdateVM ConvertToPositionUpdateVM(Position position)
+        public static PositionUpdateVM ConvertToPositionUpdateVM(Position position, List<int> testsId)
         {
             return new PositionUpdateVM
             {
                 IdPosition = position.IdPosition,
                 PositionName = position.PositionName,
                 PositionHigher = position.PositionHigher,
-                Department = position.Department
+                Department = position.Department,
+                TestsId = testsId
             };
         }
         

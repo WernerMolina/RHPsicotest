@@ -5,6 +5,11 @@
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
+@if (ViewBag.Message is not null)
+{
+    <partial name="/Views/Shared/_ModalMessage.cshtml" model="(String)ViewBag.Message" />
+}
+
 <form asp-action="SendMail">
     <div class="row d-flex justify-content-center">
         <div class="col-6">
@@ -14,11 +19,11 @@
             </div>
             <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label h5">Para:</label>
-                <input asp-for="Email" class="form-control" type="text" value="@Model.Email" readonly>
+                <input asp-for="Email" class="form-control" type="text" readonly>
             </div>
             <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label h5">Contraseña:</label>
-                <input asp-for="Password" class="form-control" type="text" value="@Model.Password" readonly>
+                <input asp-for="Password" class="form-control" type="text" readonly>
             </div>
             <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label h5">Asunto:</label>

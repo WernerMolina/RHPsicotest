@@ -121,17 +121,17 @@ namespace RHPsicotest.WebSite.Repositories
         {
             if (id > 0)
             {
-                Role role = await context.Roles.AsNoTracking().FirstOrDefaultAsync(r => r.RoleNameNormalized == roleName.ToUpper());
+                Role role = await context.Roles.AsNoTracking().FirstOrDefaultAsync(r => r.RoleNameNormalized == roleName);
 
                 if (role != null)
                 {
-                    return !(role.IdRole == id && role.RoleNameNormalized == roleName.ToUpper());
+                    return !(role.IdRole == id && role.RoleNameNormalized == roleName);
                 }
 
                 return false;
             }
 
-            return await context.Roles.AnyAsync(r => r.RoleNameNormalized == roleName.ToUpper()); ;
+            return await context.Roles.AnyAsync(r => r.RoleNameNormalized == roleName); ;
         }
 
 

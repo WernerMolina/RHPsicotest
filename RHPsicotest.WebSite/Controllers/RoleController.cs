@@ -44,9 +44,7 @@ namespace RHPsicotest.WebSite.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    roleVM.RoleName = roleVM.RoleName.Trim();
-
-                    bool roleExists = await roleRepository.RoleExists(roleVM.RoleName);
+                    bool roleExists = await roleRepository.RoleExists(roleVM.RoleName.Trim().ToUpper());
 
                     if (roleExists)
                     {
@@ -103,9 +101,7 @@ namespace RHPsicotest.WebSite.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    roleUpdateVM.RoleName = roleUpdateVM.RoleName.Trim();
-
-                    bool roleExists = await roleRepository.RoleExists(roleUpdateVM.RoleName, roleUpdateVM.IdRole);
+                    bool roleExists = await roleRepository.RoleExists(roleUpdateVM.RoleName.Trim().ToUpper(), roleUpdateVM.IdRole);
 
                     if (roleExists)
                     {

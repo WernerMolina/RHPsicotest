@@ -8,8 +8,6 @@ namespace RHPsicotest.WebSite.Utilities
 {
     public class SendEmail
     {
-        //private static IConfiguration Configuration;
-
         private static string Email { get; set; }
 
         private static string Password { get; set; }

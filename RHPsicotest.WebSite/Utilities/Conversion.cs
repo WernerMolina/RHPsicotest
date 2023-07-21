@@ -29,10 +29,10 @@ namespace RHPsicotest.WebSite.Utilities
         {
             return new User
             {
-                Name = userVM.Name,
-                Email = userVM.Email,
-                EmailNormalized = userVM.Email.ToUpper(),
-                Password = userVM.Password,
+                Name = userVM.Name.Trim(),
+                Email = userVM.Email.Trim(),
+                EmailNormalized = userVM.Email.ToUpper().Trim(),
+                Password = userVM.Password.Trim(),
                 RegistrationDate = DateTime.Now.ToString("dd/MM/yyyy hh:mm tt", CultureInfo.CreateSpecificCulture("en-En")),
             };
         }
@@ -42,10 +42,10 @@ namespace RHPsicotest.WebSite.Utilities
             return new User
             {
                 IdUser = userUpdateVM.IdUser,
-                Name = userUpdateVM.Name,
-                Email = userUpdateVM.Email,
-                EmailNormalized = userUpdateVM.Email.ToUpper(),
-                Password = user.Password,
+                Name = userUpdateVM.Name.Trim(),
+                Email = userUpdateVM.Email.Trim(),
+                EmailNormalized = userUpdateVM.Email.ToUpper().Trim(),
+                Password = user.Password.Trim(),
                 RegistrationDate = user.RegistrationDate
             };
         }
@@ -67,9 +67,9 @@ namespace RHPsicotest.WebSite.Utilities
         {
             return new Position
             {
-                PositionName = positionVM.PositionName,
-                PositionHigher = positionVM.PositionHigher,
-                Department = positionVM.Department,
+                PositionName = positionVM.PositionName.Trim(),
+                PositionHigher = positionVM.PositionHigher.Trim(),
+                Department = positionVM.Department.Trim(),
                 CreationDate = DateTime.Now.ToString("dd/MM/yyyy hh:mm tt", CultureInfo.CreateSpecificCulture("en-En"))
             };
         }
@@ -91,9 +91,9 @@ namespace RHPsicotest.WebSite.Utilities
             return new Position
             {
                 IdPosition = positionUpdateVM.IdPosition,
-                PositionName = positionUpdateVM.PositionName,
-                PositionHigher = positionUpdateVM.PositionHigher,
-                Department = positionUpdateVM.Department,
+                PositionName = positionUpdateVM.PositionName.Trim(),
+                PositionHigher = positionUpdateVM.PositionHigher.Trim(),
+                Department = positionUpdateVM.Department.Trim(),
                 CreationDate = position.CreationDate
             };
         }
@@ -115,8 +115,8 @@ namespace RHPsicotest.WebSite.Utilities
         {
             return new Role
             {
-                RoleName = roleVM.RoleName,
-                RoleNameNormalized = roleVM.RoleName.ToUpper()
+                RoleName = roleVM.RoleName.Trim(),
+                RoleNameNormalized = roleVM.RoleName.ToUpper().Trim()
             };
         }
         
@@ -125,8 +125,8 @@ namespace RHPsicotest.WebSite.Utilities
             return new Role
             {
                 IdRole = roleUpdateVM.IdRole,
-                RoleName = roleUpdateVM.RoleName,
-                RoleNameNormalized = roleUpdateVM.RoleName.ToUpper()
+                RoleName = roleUpdateVM.RoleName.Trim(),
+                RoleNameNormalized = roleUpdateVM.RoleName.ToUpper().Trim()
             };
         }
         
@@ -147,8 +147,9 @@ namespace RHPsicotest.WebSite.Utilities
             {
                 IdRole = candidateVM.IdRole,
                 IdPosition = candidateVM.IdPosition,
-                Email = candidateVM.Email,
-                Password = candidateVM.Password,
+                Email = candidateVM.Email.Trim(),
+                EmailNormalized = candidateVM.Email.Trim().ToUpper(),
+                Password = candidateVM.Password.Trim(),
                 RegistrationDate = DateTime.Now.ToString("dd/MM/yyyy hh:mm tt", CultureInfo.CreateSpecificCulture("en-En")),
             };
         }
@@ -160,7 +161,6 @@ namespace RHPsicotest.WebSite.Utilities
                 IdCandidate = candidate.IdCandidate,
                 Email = candidate.Email,
                 Password = candidate.Password,
-                Role = candidate.Role.RoleName,
                 Position = candidate.Position.PositionName,
                 RegistrationDate = candidate.RegistrationDate
             };
@@ -170,8 +170,8 @@ namespace RHPsicotest.WebSite.Utilities
         {
             return new CandidateSendVM
             {
-                Email = candidateVM.Email,
-                Password = candidateVM.Password,
+                Email = candidateVM.Email.Trim(),
+                Password = candidateVM.Password.Trim()
             };
         }
         

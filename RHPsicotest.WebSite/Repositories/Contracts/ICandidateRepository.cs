@@ -14,13 +14,15 @@ namespace RHPsicotest.WebSite.Repositories.Contracts
 
         public Task<List<Position>> GetAllPositions();
 
-        public Task<bool> DeleteResults(int candidateId, List<int> testsId);
+        public Task<bool> DeleteResultsToCandidate(int candidateId, List<int> testsId);
 
         public Task<CandidateSendVM> AddCandidate(CandidateVM candidateVM);
 
         public Task<CandidateResendMailVM> GetCandidateResendMailVM(int candidateId);
 
         public Task<Role> GetRoleName();
+
+        public Task<bool> CandidateExists(string email, int id = 0);
 
         public Task<List<string>> GetTestNames(int positionId);
 

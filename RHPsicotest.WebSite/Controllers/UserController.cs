@@ -45,11 +45,7 @@ namespace RHPsicotest.WebSite.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    userVM.Name = userVM.Name.Trim();
-                    userVM.Email = userVM.Email.Trim();
-                    userVM.Password = userVM.Password.Trim();
-
-                    bool userExists = await userRepository.UserExists(userVM.Email);
+                    bool userExists = await userRepository.UserExists(userVM.Email.Trim().ToUpper());
 
                     if (userExists)
                     {
@@ -104,11 +100,7 @@ namespace RHPsicotest.WebSite.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    userUpdateVM.Name = userUpdateVM.Name.Trim();
-                    userUpdateVM.Email = userUpdateVM.Email.Trim();
-                    userUpdateVM.Password = userUpdateVM.Password.Trim();
-
-                    bool userExists = await userRepository.UserExists(userUpdateVM.Email, userUpdateVM.IdUser);
+                    bool userExists = await userRepository.UserExists(userUpdateVM.Email.Trim().ToUpper(), userUpdateVM.IdUser);
 
                     if (userExists)
                     {
@@ -153,7 +145,7 @@ namespace RHPsicotest.WebSite.Controllers
 
                 if (result)
                 {
-                    return RedirectToAction("Index", "User");
+                    return RedirectToAction(nameof(Index));
                 }
 
                 return BadRequest();

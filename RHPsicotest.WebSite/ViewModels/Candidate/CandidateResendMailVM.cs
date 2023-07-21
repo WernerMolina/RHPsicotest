@@ -15,5 +15,8 @@ namespace RHPsicotest.WebSite.ViewModels.Candidate
         public string Password { get; set; }
 
         public List<Test> Tests { get; set; }
+
+        [Required(ErrorMessage = "Requerido")]
+        public List<int> TestsId { get; set; }
     }
 }

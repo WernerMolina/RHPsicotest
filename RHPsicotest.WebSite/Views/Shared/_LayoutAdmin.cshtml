@@ -6,7 +6,7 @@
     <link href="~/img/favicon.png" rel="icon">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>@ViewData["Title"] - RHPsicotest</title>
+    <title>RHPsicotest - @ViewData["Title"]</title>
     
     <!-- Google Fonts -->
     <link href="https://fonts.gstatic.com" rel="preconnect">
@@ -14,6 +14,9 @@
 
     <!-- Bootstrap CSS-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+
+    <!-- Bootstrap DataTable -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/dataTables.bootstrap4.min.css" />
 
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css" integrity="sha384-b6lVK+yci+bfDmaY1u0zE8YYJt0TZxLEAFyYSLHId4xoVvsrQu3INevFKo+Xir8e" crossorigin="anonymous">
@@ -33,13 +36,13 @@
         @RenderBody()
     </main>
 
-    <footer id="footer" class="footer">
+@*    <footer id="footer" class="footer">
         <div class="copyright">
-            &copy; Copyright <strong><span>RhPsicotest</span></strong>. All Rights Reserved
+            &copy; Copyright <strong><span>RHPsicotest</span></strong>. All Rights Reserved
         </div>
         <div class="credits">Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
         </div>
-    </footer>
+    </footer>*@
 
     <!-- Bootstrap JS -->
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous"></script>
@@ -51,7 +54,11 @@
     <!-- Bootstrap Selects -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
 
-    <!-- Files Main JS -->
+    <!-- DataTable JS -->
+    <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"> </script>
+    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+
+     <!-- Files Main JS -->
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/main.js"></script>
 

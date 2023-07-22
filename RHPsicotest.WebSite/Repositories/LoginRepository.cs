@@ -20,66 +20,75 @@ namespace RHPsicotest.WebSite.Repositories
             this.context = context;
         }
 
-
-        public async Task<(Candidate, List<string>)> GetCandidateLogin(Login login)
+        public async Task<CandidateLoginDTO> GetCandidateLogin(Login login)
         {
-            Candidate candidate = await context.Candidates.Include(c => c.Expedient).Include(c => c.Role).Include(c => c.Position).FirstOrDefaultAsync(u => u.Email == login.Email);
+            Candidate candidate = await context.Candidates
+                .Include(c => c.Expedient)
+                .Include(c => c.Role)
+                .Include(c => c.Position)
+                .FirstOrDefaultAsync(u => u.EmailNormalized == login.Email.Trim().ToUpper());
 
             List<string> permissions = new List<string>();
 
-            bool isPassCorrect = candidate.Password == login.Password;
+            CandidateLoginDTO candidateLoginDTO = null;
+
+            bool isPassCorrect = candidate.Password == login.Password.Trim();
 
             if (isPassCorrect)
             {
                 permissions = await GetCandidatePermissions(candidate.IdRole);
-            }
-            else
-            {
-                candidate = null;
+
+                candidateLoginDTO = Conversion.ConvertToCandidateLoginDTO(candidate, permissions);
             }
 
-            return (candidate, permissions);
+            return candidateLoginDTO;
         }
 
-
-        public async Task<(User, List<string>)> GetUserLogin(Login login)
+        public async Task<UserLoginDTO> GetUserLogin(Login login)
         {
             User user = await context.Users.Include(u => u.Roles).FirstOrDefaultAsync(u => u.Email == login.Email);
 
+            List<string> roles = new List<string>();
             List<string> permissions = new List<string>();
 
-            bool isPassCorrect = user.Password == Helper.EncryptMD5(login.Password);
+            UserLoginDTO userLoginDTO = null;
+
+            bool isPassCorrect = user.Password == Helper.EncryptMD5(login.Password.Trim());
 
             if (isPassCorrect)
             {
+                foreach (Role_User roleUser in user.Roles)
+                {
+                    Role role = await context.Roles.FirstOrDefaultAsync(r => r.IdRole == roleUser.IdRole);
+
+                    roles.Add(role.RoleName);
+                }
+
                 permissions = await GetUserPermissions(user);
-            }
-            else
-            {
-                user = null;
-            }
 
-            return (user, permissions);
+                userLoginDTO = Conversion.ConvertToUserLoginDTO(user, roles, permissions);
+            }
+ 
+            return userLoginDTO;
         }
-
 
         private async Task<List<string>> GetUserPermissions(User user)
         {
+            List<Role> roles = new List<Role>();
             List<string> permissions = new List<string>();
-            List<Role> userRoles = new List<Role>();
 
-            foreach (var role in user.Roles)
+            foreach (Role_User role in user.Roles)
             {
-                userRoles.Add(await context.Roles.Include(r => r.Permissions).FirstOrDefaultAsync(r => r.IdRole == role.IdRole));
+                roles.Add(await context.Roles.Include(r => r.Permissions).FirstOrDefaultAsync(r => r.IdRole == role.IdRole));
             }
 
-            foreach (Role role in userRoles)
+            foreach (Role role in roles)
             {
-                foreach (var permission in role.Permissions)
+                foreach (Permission_Role permissionRole in role.Permissions)
                 {
-                    Permission permiso = await context.Permissions.FirstOrDefaultAsync(p => p.IdPermission == permission.IdPermission);
+                    Permission permission = await context.Permissions.FirstOrDefaultAsync(p => p.IdPermission == permissionRole.IdPermission);
 
-                    permissions.Add(permiso.PermissionName);
+                    permissions.Add(permission.PermissionName);
                 }
             }
 
@@ -92,11 +101,11 @@ namespace RHPsicotest.WebSite.Repositories
 
             Role role = await context.Roles.Include(r => r.Permissions).FirstOrDefaultAsync(r => r.IdRole == roleId);
 
-            foreach (var permission in role.Permissions)
+            foreach (Permission_Role permissionRole in role.Permissions)
             {
-                Permission permiso = await context.Permissions.FirstOrDefaultAsync(p => p.IdPermission == permission.IdPermission);
+                Permission permission = await context.Permissions.FirstOrDefaultAsync(p => p.IdPermission == permissionRole.IdPermission);
 
-                permissions.Add(permiso.PermissionName);
+                permissions.Add(permission.PermissionName);
             }
 
             return permissions;
@@ -106,10 +115,10 @@ namespace RHPsicotest.WebSite.Repositories
         {
             if (isCandidate)
             {
-                return await context.Candidates.AnyAsync(c => c.Email == email);
+                return await context.Candidates.AnyAsync(c => c.EmailNormalized == email);
             }
 
-            return await context.Users.AnyAsync(c => c.Email == email);
+            return await context.Users.AnyAsync(c => c.EmailNormalized == email);
         }
 
     }

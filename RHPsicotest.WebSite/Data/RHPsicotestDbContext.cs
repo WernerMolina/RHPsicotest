@@ -58,26 +58,163 @@ namespace RHPsicotest.WebSite.Data
             {
                 IdPermission = 1,
                 PermissionName = "Lista-Usuarios",
+                Assigned = "Adminitradores",
             });
 
             modelBuilder.Entity<Permission>().HasData(new Permission
             {
                 IdPermission = 2,
                 PermissionName = "Crear-Usuario",
+                Assigned = "Adminitradores",
             });
 
             modelBuilder.Entity<Permission>().HasData(new Permission
             {
                 IdPermission = 3,
                 PermissionName = "Editar-Usuario",
+                Assigned = "Adminitradores",
             });
 
             modelBuilder.Entity<Permission>().HasData(new Permission
             {
                 IdPermission = 4,
                 PermissionName = "Eliminar-Usuario",
+                Assigned = "Adminitradores",
             });
-            
+
+            modelBuilder.Entity<Permission>().HasData(new Permission
+            {
+                IdPermission = 5,
+                PermissionName = "Lista-Roles",
+                Assigned = "Adminitradores",
+            });
+
+            modelBuilder.Entity<Permission>().HasData(new Permission
+            {
+                IdPermission = 6,
+                PermissionName = "Crear-Rol",
+                Assigned = "Adminitradores",
+            });
+
+            modelBuilder.Entity<Permission>().HasData(new Permission
+            {
+                IdPermission = 7,
+                PermissionName = "Editar-Role",
+                Assigned = "Adminitradores",
+            });
+
+            modelBuilder.Entity<Permission>().HasData(new Permission
+            {
+                IdPermission = 8,
+                PermissionName = "Eliminar-Rol",
+                Assigned = "Adminitradores",
+            });
+
+            modelBuilder.Entity<Permission>().HasData(new Permission
+            {
+                IdPermission = 9,
+                PermissionName = "Lista-Candidatos",
+                Assigned = "Adminitradores",
+            });
+
+            modelBuilder.Entity<Permission>().HasData(new Permission
+            {
+                IdPermission = 10,
+                PermissionName = "Crear-Candidato",
+                Assigned = "Adminitradores",
+            });
+
+            modelBuilder.Entity<Permission>().HasData(new Permission
+            {
+                IdPermission = 11,
+                PermissionName = "Eliminar-Candidato",
+                Assigned = "Adminitradores",
+            });
+
+            modelBuilder.Entity<Permission>().HasData(new Permission
+            {
+                IdPermission = 12,
+                PermissionName = "Reenviar-Correo",
+                Assigned = "Adminitradores",
+            });
+
+            modelBuilder.Entity<Permission>().HasData(new Permission
+            {
+                IdPermission = 13,
+                PermissionName = "Lista-Expedientes",
+                Assigned = "Adminitradores",
+            });
+
+            modelBuilder.Entity<Permission>().HasData(new Permission
+            {
+                IdPermission = 14,
+                PermissionName = "Editar-Expediente",
+                Assigned = "Adminitradores",
+            });
+
+            modelBuilder.Entity<Permission>().HasData(new Permission
+            {
+                IdPermission = 15,
+                PermissionName = "Ver-Curriculums",
+                Assigned = "Adminitradores",
+            });
+
+            modelBuilder.Entity<Permission>().HasData(new Permission
+            {
+                IdPermission = 16,
+                PermissionName = "Ver-Reportes",
+                Assigned = "Adminitradores",
+            });
+
+            modelBuilder.Entity<Permission>().HasData(new Permission
+            {
+                IdPermission = 17,
+                PermissionName = "Lista-Puestos",
+                Assigned = "Adminitradores",
+            });
+
+            modelBuilder.Entity<Permission>().HasData(new Permission
+            {
+                IdPermission = 18,
+                PermissionName = "Crear-Puesto",
+                Assigned = "Adminitradores",
+            });
+
+            modelBuilder.Entity<Permission>().HasData(new Permission
+            {
+                IdPermission = 19,
+                PermissionName = "Editar-Puesto",
+                Assigned = "Adminitradores",
+            });
+
+            modelBuilder.Entity<Permission>().HasData(new Permission
+            {
+                IdPermission = 20,
+                PermissionName = "Eliminar-Puesto",
+                Assigned = "Adminitradores"
+            });
+
+            modelBuilder.Entity<Permission>().HasData(new Permission
+            {
+                IdPermission = 21,
+                PermissionName = "Crear-Expediente",
+                Assigned = "Candidatos",
+            });
+
+            modelBuilder.Entity<Permission>().HasData(new Permission
+            {
+                IdPermission = 22,
+                PermissionName = "Confirmar-Politicas",
+                Assigned = "Candidatos",
+            });
+
+            modelBuilder.Entity<Permission>().HasData(new Permission
+            {
+                IdPermission = 23,
+                PermissionName = "Pruebas-Asignadas",
+                Assigned = "Candidatos",
+            });
+
             // Tabla de Roles
             modelBuilder.Entity<Role>().HasData(new Role
             {

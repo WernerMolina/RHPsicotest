@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.AspNetCore.Mvc;
 using RHPsicotest.WebSite.ViewModels;
 using System.Diagnostics;
 
@@ -9,28 +6,16 @@ namespace RHPsicotest.WebSite.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
-
         public ActionResult Index()
         {
             return View();
         }
 
         [HttpGet]
-        [Route("Dashboard")]
+        [Route("/Dashboard")]
         //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Super-Admin")]
         //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Candidato")]
         public ActionResult Dashboard()
-        {
-            return View();
-        }
-
-        public ActionResult Privacy()
         {
             return View();
         }

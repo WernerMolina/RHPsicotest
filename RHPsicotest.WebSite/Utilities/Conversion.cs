@@ -13,15 +13,15 @@ namespace RHPsicotest.WebSite.Utilities
     public class Conversion
     {
         // Usuario
-        public static UserDTO ConvertToUserDTO(User user, List<string> roles)
+        public static UserLoginDTO ConvertToUserLoginDTO(User user, List<string> roles, List<string> permissions)
         {
-            return  new UserDTO
+            return new UserLoginDTO
             {
                 IdUser = user.IdUser,
                 Name = user.Name,
                 Email = user.Email,
-                RegistrationDate = user.RegistrationDate,
-                Roles = roles
+                Roles = roles,
+                Permissions = permissions
             };
         }
 
@@ -36,7 +36,7 @@ namespace RHPsicotest.WebSite.Utilities
                 RegistrationDate = DateTime.Now.ToString("dd/MM/yyyy hh:mm tt", CultureInfo.CreateSpecificCulture("en-En")),
             };
         }
-        
+
         public static User ConvertToUser(User user, UserUpdateVM userUpdateVM)
         {
             return new User
@@ -73,7 +73,7 @@ namespace RHPsicotest.WebSite.Utilities
                 CreationDate = DateTime.Now.ToString("dd/MM/yyyy hh:mm tt", CultureInfo.CreateSpecificCulture("en-En"))
             };
         }
-        
+
         public static PositionDTO ConvertToPositionDTO(Position position)
         {
             return new PositionDTO
@@ -85,7 +85,7 @@ namespace RHPsicotest.WebSite.Utilities
                 CreationDate = position.CreationDate
             };
         }
-        
+
         public static Position ConvertToPosition(Position position, PositionUpdateVM positionUpdateVM)
         {
             return new Position
@@ -97,7 +97,7 @@ namespace RHPsicotest.WebSite.Utilities
                 CreationDate = position.CreationDate
             };
         }
-        
+
         public static PositionUpdateVM ConvertToPositionUpdateVM(Position position, List<int> testsId)
         {
             return new PositionUpdateVM
@@ -109,7 +109,7 @@ namespace RHPsicotest.WebSite.Utilities
                 TestsId = testsId
             };
         }
-        
+
         // Rol
         public static Role ConvertToRole(RoleVM roleVM)
         {
@@ -119,7 +119,7 @@ namespace RHPsicotest.WebSite.Utilities
                 RoleNameNormalized = roleVM.RoleName.ToUpper().Trim()
             };
         }
-        
+
         public static Role ConvertToRole(RoleUpdateVM roleUpdateVM)
         {
             return new Role
@@ -129,7 +129,7 @@ namespace RHPsicotest.WebSite.Utilities
                 RoleNameNormalized = roleUpdateVM.RoleName.ToUpper().Trim()
             };
         }
-        
+
         public static RoleUpdateVM ConvertToRoleUpdateVM(Role role, List<int> permissions)
         {
             return new RoleUpdateVM
@@ -139,7 +139,7 @@ namespace RHPsicotest.WebSite.Utilities
                 PermissionsId = permissions
             };
         }
-        
+
         // Candidato
         public static Candidate ConvertToCandidate(CandidateVM candidateVM)
         {
@@ -153,7 +153,7 @@ namespace RHPsicotest.WebSite.Utilities
                 RegistrationDate = DateTime.Now.ToString("dd/MM/yyyy hh:mm tt", CultureInfo.CreateSpecificCulture("en-En")),
             };
         }
-        
+
         public static CandidateDTO ConvertToCandidateDTO(Candidate candidate)
         {
             return new CandidateDTO
@@ -166,6 +166,19 @@ namespace RHPsicotest.WebSite.Utilities
             };
         }
 
+        public static CandidateLoginDTO ConvertToCandidateLoginDTO(Candidate candidate, List<string> permissions)
+        {
+            return new CandidateLoginDTO
+            {
+                IdCandidate = candidate.IdCandidate,
+                Email = candidate.Email,
+                PositionName = candidate.Position.PositionName,
+                RoleName = candidate.Role.RoleName,
+                HasExpediente = candidate.Expedient != null,
+                Permissions = permissions
+            };
+        }
+
         public static CandidateSendVM ConvertToCandidateSendVM(CandidateVM candidateVM)
         {
             return new CandidateSendVM
@@ -174,7 +187,7 @@ namespace RHPsicotest.WebSite.Utilities
                 Password = candidateVM.Password.Trim()
             };
         }
-        
+
         public static CandidateResendMailVM ConvertToCandidateResendMailVM(Candidate candidate, List<Test> tests)
         {
             return new CandidateResendMailVM
@@ -212,7 +225,7 @@ namespace RHPsicotest.WebSite.Utilities
                 Direction = expedientVM.Direction.Trim()
             };
         }
-        
+
         public static Expedient ConvertToExpedient(Expedient expedient, ExpedientUpdateVM expedientUpdateVM)
         {
             return new Expedient
@@ -239,7 +252,7 @@ namespace RHPsicotest.WebSite.Utilities
                 Direction = expedientUpdateVM.Direction.Trim()
             };
         }
-        
+
         public static ExpedientDTO ConvertToExpedientDTO(Expedient expedient)
         {
             return new ExpedientDTO
@@ -252,7 +265,7 @@ namespace RHPsicotest.WebSite.Utilities
                 Position = expedient.Position
             };
         }
-        
+
         public static ExpedientUpdateVM ConvertToExpedientUpdateVM(Expedient expedient)
         {
             return new ExpedientUpdateVM
@@ -261,7 +274,7 @@ namespace RHPsicotest.WebSite.Utilities
                 DUI = expedient.DUI,
                 Names = expedient.Names,
                 Lastnames = expedient.Lastnames,
-                MovilePhoneNumber= expedient.MovilePhoneNumber,
+                MovilePhoneNumber = expedient.MovilePhoneNumber,
                 LandlineNumber = expedient.LandlineNumber,
                 Age = expedient.Age,
                 Gender = expedient.Gender,
@@ -274,7 +287,7 @@ namespace RHPsicotest.WebSite.Utilities
                 Direction = expedient.Direction
             };
         }
-        
+
         // Resultado
         public static Result ConvertToResult(int expedientId, int testId, int factorId, byte scoreFactor, byte scorePercentile, string description)
         {
@@ -288,7 +301,7 @@ namespace RHPsicotest.WebSite.Utilities
                 Description = description,
             };
         }
-        
+
         public static ResultDTO ConvertToResultDTO(int testId, List<Result> results)
         {
             return new ResultDTO
@@ -297,7 +310,7 @@ namespace RHPsicotest.WebSite.Utilities
                 Results = results
             };
         }
-        
+
         // Prueba
         public static TestDTO ConvertToTestDTO(Test test, bool status)
         {

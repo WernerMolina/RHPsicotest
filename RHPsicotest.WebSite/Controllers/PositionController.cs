@@ -47,10 +47,6 @@ namespace RHPsicotest.WebSite.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    positionVM.PositionName = positionVM.PositionName.Trim();
-                    positionVM.PositionHigher = positionVM.PositionHigher.Trim();
-                    positionVM.Department = positionVM.Department.Trim();
-
                     bool result = await positionRepository.AddPosition(positionVM);
 
                     if (result)
@@ -98,10 +94,6 @@ namespace RHPsicotest.WebSite.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    positionUpdateVM.PositionName = positionUpdateVM.PositionName.Trim();
-                    positionUpdateVM.PositionHigher = positionUpdateVM.PositionHigher.Trim();
-                    positionUpdateVM.Department = positionUpdateVM.Department.Trim();
-
                     bool result = await positionRepository.UpdatePosition(positionUpdateVM);
 
                     if (result)

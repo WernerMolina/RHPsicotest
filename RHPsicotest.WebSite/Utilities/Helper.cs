@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using RHPsicotest.WebSite.DTOs;
-using RHPsicotest.WebSite.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -28,21 +27,21 @@ namespace RHPsicotest.WebSite.Utilities
             }
         }
 
-        public static ClaimsIdentity Authenticate(User user, List<string> permissions)
+        public static ClaimsIdentity UserAuthenticate(UserLoginDTO userLoginDTO)
         {
             List<Claim> claims = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier, user.IdUser.ToString()),
-                new Claim(ClaimTypes.Name, user.Name), 
-                new Claim(ClaimTypes.Email, user.Email) 
+                new Claim(ClaimTypes.NameIdentifier, userLoginDTO.IdUser.ToString()),
+                new Claim(ClaimTypes.Name, userLoginDTO.Name),
+                new Claim(ClaimTypes.Email, userLoginDTO.Email)
             };
 
-            foreach (var role in user.Roles)
+            foreach (string role in userLoginDTO.Roles)
             {
-                claims.Add(new Claim(ClaimTypes.Role, role.Role.RoleName));
+                claims.Add(new Claim(ClaimTypes.Role, role));
             }
 
-            foreach (string permission in permissions)
+            foreach (string permission in userLoginDTO.Permissions)
             {
                 claims.Add(new Claim("Permission", permission));
             }
@@ -51,18 +50,18 @@ namespace RHPsicotest.WebSite.Utilities
 
             return identity;
         }
-        
-        public static ClaimsIdentity CandidateAuthenticate(Candidate candidate, List<string> permissions)
+
+        public static ClaimsIdentity CandidateAuthenticate(CandidateLoginDTO candidateLoginDTO)
         {
             List<Claim> claims = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier, candidate.IdCandidate.ToString()),
-                new Claim(ClaimTypes.Email, candidate.Email),
-                new Claim(ClaimTypes.Role, candidate.Role.RoleName),
-                new Claim("Position", candidate.Position.PositionName)
+                new Claim(ClaimTypes.NameIdentifier, candidateLoginDTO.IdCandidate.ToString()),
+                new Claim(ClaimTypes.Email, candidateLoginDTO.Email),
+                new Claim(ClaimTypes.Role, candidateLoginDTO.RoleName),
+                new Claim("Position", candidateLoginDTO.PositionName)
             };
 
-            foreach (string permission in permissions)
+            foreach (string permission in candidateLoginDTO.Permissions)
             {
                 claims.Add(new Claim("Permission", permission));
             }
@@ -76,7 +75,7 @@ namespace RHPsicotest.WebSite.Utilities
         {
             string type = formFile.ContentType;
 
-            if(type == "application/pdf")
+            if (type == "application/pdf")
             {
                 return true;
             }
@@ -86,7 +85,7 @@ namespace RHPsicotest.WebSite.Utilities
 
         public static byte[] FilePDFConvertToArrayOfBytes(IFormFile formFile)
         {
-            using(MemoryStream stream = new MemoryStream())
+            using (MemoryStream stream = new MemoryStream())
             {
                 formFile.CopyTo(stream);
 

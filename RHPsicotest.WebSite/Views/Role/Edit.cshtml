@@ -24,6 +24,8 @@
                 <select asp-for="PermissionsId" class="form-select" id="multiple-select-clear-field" multiple>
                     @foreach (Permission permission in permissions)
                     {
+                        if (permission.Assigned == "Candidatos") continue;
+                            
                         <option value="@permission.IdPermission">@permission.PermissionName</option>
                     }
                 </select>

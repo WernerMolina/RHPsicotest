@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RHPsicotest.WebSite.DTOs;
 using RHPsicotest.WebSite.Repositories.Contracts;
@@ -22,7 +24,8 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpGet]
         [Route("/Candidatos")]
-        //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "List-Users-Policy")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, 
+            Policy = "List-Candidate-Policy")]
         public async Task<IActionResult> Index()
         {
             List<CandidateDTO> candidates = await candidateRepository.GetAllCandidates();
@@ -32,7 +35,6 @@ namespace RHPsicotest.WebSite.Controllers
         
         [HttpGet]
         [Route("/Tests")]
-        //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "List-Users-Policy")]
         public async Task<IActionResult> GetTestNames(int positionId)
         {
             List<string> tests = await candidateRepository.GetTestNames(positionId);
@@ -42,7 +44,8 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpGet]
         [Route("/Candidato/Crear")]
-        //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "Create-User-Policy")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme,
+            Policy = "Create-Candidate-Policy")]
         public async Task<IActionResult> Create()
         {
             ViewBag.Role = await candidateRepository.GetRoleName();
@@ -53,6 +56,8 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpPost]
         [Route("/Candidato/Crear")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme,
+            Policy = "Create-Candidate-Policy")]
         public async Task<IActionResult> Create(CandidateVM candidateVM)
         {
             try
@@ -97,7 +102,8 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpGet]
         [Route("/EnviarCorreo")]
-        //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "List-Users-Policy")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme,
+            Policy = "Create-Candidate-Policy")]
         public IActionResult SendMail(CandidateSendVM candidate, string nothing = null)
         {
             return View(candidate);
@@ -105,7 +111,8 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpPost]
         [Route("/EnviarCorreo")]
-        //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "List-Users-Policy")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme,
+            Policy = "Create-Candidate-Policy")]
         public IActionResult SendMail(CandidateSendVM candidateSendVM)
         {
             try
@@ -129,7 +136,8 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpGet]
         [Route("/ReenviarCorreo")]
-        //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "List-Users-Policy")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, 
+            Policy = "Resend-Candidate-Policy")]
         public async Task<IActionResult> ResendMail(int id, string nothing = null)
         {
             CandidateResendMailVM candidate = await candidateRepository.GetCandidateResendMailVM(id);
@@ -139,7 +147,8 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpPost]
         [Route("/ReenviarCorreo")]
-        //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "List-Users-Policy")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme,
+            Policy = "Resend-Candidate-Policy")]
         public async Task<IActionResult> ResendMail(CandidateResendMailVM candidate)
         {
             try

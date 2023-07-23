@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RHPsicotest.WebSite.Models;
 using RHPsicotest.WebSite.Repositories.Contracts;
 using RHPsicotest.WebSite.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace RHPsicotest.WebSite.Controllers
@@ -19,7 +22,8 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpGet]
         [Route("/Usuarios")]
-        //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "List-Users-Policy")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, 
+            Policy = "List-User-Policy")]
         public async Task<IActionResult> Index()
         {
             List<User> users = await userRepository.GetAllUsers();
@@ -29,7 +33,8 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpGet]
         [Route("/Usuario/Crear")]
-        //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "Create-User-Policy")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, 
+            Policy = "Create-User-Policy")]
         public async Task<IActionResult> Create()
         {
             ViewBag.Roles = await userRepository.GetAllRoles();
@@ -39,6 +44,8 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpPost]
         [Route("/Usuario/Crear")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme,
+            Policy = "Create-User-Policy")]
         public async Task<IActionResult> Create(UserVM userVM)
         {
             try
@@ -82,7 +89,8 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpGet]
         [Route("/Usuario/Editar")]
-        //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "Edit-User-Policy")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme,
+            Policy = "Edit-User-Policy")]
         public async Task<IActionResult> Edit(int id)
         {
             UserUpdateVM userUpdateVM = await userRepository.GetUserUpdate(id);
@@ -94,6 +102,8 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpPost]
         [Route("/Usuario/Editar")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme,
+            Policy = "Edit-User-Policy")]
         public async Task<IActionResult> Edit(UserUpdateVM userUpdateVM)
         {
             try
@@ -137,6 +147,8 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpPost]
         [Route("/Usuario/Eliminar")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme,
+            Policy = "Delete-User-Policy")]
         public async Task<IActionResult> Delete(int userId)
         {
             try

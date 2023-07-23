@@ -7,9 +7,13 @@
 
 <h1 class="fw-bold">Lista de Puestos</h1>
 
-<p class="my-4">
-    <a asp-action="Create" class="btn btn-success fw-bold fs-5">Crear Puesto</a>
-</p>
+@if ((await AuthorizationService.AuthorizeAsync(User, "Create-Position-Policy")).Succeeded)
+{
+    <p class="my-4">
+        <a asp-action="Create" class="btn btn-success fw-bold fs-5">Crear Puesto</a>
+    </p>
+}
+
 <table class="table table-striped align-middle" id="dataTable">
     <thead class="table-dark">
         <tr class="text-center">
@@ -45,11 +49,16 @@
                     @Html.DisplayFor(model => position.CreationDate)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@position.IdPosition" class="btn bg-warning fw-bold"><i class="bi bi-pencil-fill"></i></a>
-
-                    <button class="btn btn-danger fw-bold" onclick="activeModalDelete(@position.IdPosition)">
+                    @if ((await AuthorizationService.AuthorizeAsync(User, "Edit-Position-Policy")).Succeeded)
+                    {
+                        <a asp-action="Edit" asp-route-id="@position.IdPosition" class="btn bg-warning fw-bold"><i class="bi bi-pencil-fill"></i></a>
+                    }
+                    @if ((await AuthorizationService.AuthorizeAsync(User, "Delete-Position-Policy")).Succeeded)
+                    {
+                        <button class="btn btn-danger fw-bold" onclick="activeModalDelete(@position.IdPosition)">
                         <i class="bi bi-trash3-fill"></i>
                     </button>
+                    }
                 </td>
             </tr>
         }

@@ -49,9 +49,18 @@
                 </td>
 
                 <td>
-                    <a asp-action="Edit" asp-route-id="@expedient.IdExpedient" class="btn bg-warning fw-bold"><i class="bi bi-pencil-fill"></i></a>
-                    <a asp-action="ShowCurriculum" target="_blank" asp-route-id="@expedient.IdExpedient" class="btn bg-primary text-white"><i class="bi bi-file-earmark-pdf"></i></a>
-                    <a asp-action="ReportPDF" target="_blank" asp-route-id="@expedient.IdExpedient" class="btn bg-success text-white"><i class="bi bi-bar-chart-line-fill"></i></a>
+                    @if ((await AuthorizationService.AuthorizeAsync(User, "Edit-Expedient-Policy")).Succeeded)
+                    {
+                        <a asp-action="Edit" asp-route-id="@expedient.IdExpedient" class="btn bg-warning fw-bold"><i class="bi bi-pencil-fill"></i></a>
+                    }
+                    @if ((await AuthorizationService.AuthorizeAsync(User, "WatchCurriculums-Expedient-Policy")).Succeeded)
+                    {
+                        <a asp-action="ShowCurriculum" target="_blank" asp-route-id="@expedient.IdExpedient" class="btn bg-primary text-white"><i class="bi bi-file-earmark-pdf"></i></a>
+                    }
+                    @if ((await AuthorizationService.AuthorizeAsync(User, "WatchReports-Expedient-Policy")).Succeeded)
+                    {
+                        <a asp-action="ReportPDF" target="_blank" asp-route-id="@expedient.IdExpedient" class="btn bg-success text-white"><i class="bi bi-bar-chart-line-fill"></i></a>
+                    }
                 </td>
             </tr>
         }

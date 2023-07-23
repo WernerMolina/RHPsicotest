@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RHPsicotest.WebSite.DTOs;
 using RHPsicotest.WebSite.Repositories.Contracts;
 using RHPsicotest.WebSite.ViewModels;
@@ -17,7 +19,10 @@ namespace RHPsicotest.WebSite.Controllers
             this.positionRepository = positionRepository;
         }
 
+        [HttpGet]
         [Route("/Puestos")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme,
+            Policy = "List-Position-Policy")]
         public async Task<IActionResult> Index()
         {
             List<PositionDTO> positions = await positionRepository.GetAllPositions();
@@ -27,6 +32,8 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpGet]
         [Route("/Puesto/Crear")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme,
+            Policy = "Create-Position-Policy")]
         public async Task<IActionResult> Create()
         {
             ViewBag.Tests = await positionRepository.GetAllTests();
@@ -36,6 +43,8 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpPost]
         [Route("/Puesto/Crear")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme,
+            Policy = "Create-Position-Policy")]
         public async Task<IActionResult> Create(PositionVM positionVM)
         {
             try
@@ -70,6 +79,8 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpGet]
         [Route("/Puesto/Editar")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme,
+            Policy = "Edit-Position-Policy")]
         public async Task<IActionResult> Edit(int id)
         {
             PositionUpdateVM position = await positionRepository.GetPositionUpdate(id);
@@ -83,6 +94,8 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpPost]
         [Route("/Puesto/Editar")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme,
+            Policy = "Edit-Position-Policy")]
         public async Task<IActionResult> Edit(PositionUpdateVM positionUpdateVM)
         {
             try
@@ -117,6 +130,8 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpPost]
         [Route("/Puesto/Eliminar")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme,
+            Policy = "Delete-Position-Policy")]
         public async Task<IActionResult> Delete(int positionId)
         {
             try

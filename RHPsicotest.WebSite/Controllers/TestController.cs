@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RHPsicotest.WebSite.DTOs;
 using RHPsicotest.WebSite.Repositories.Contracts;
 using RHPsicotest.WebSite.Tests.Questions;
@@ -20,6 +22,8 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpGet]
         [Route("/PruebasAsignadas")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme,
+            Policy = "AssignedTests-Test-Policy")]
         public async Task<IActionResult> AssignedTests()
         {
             int userId = GetCandidateId();

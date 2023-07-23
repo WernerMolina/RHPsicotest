@@ -12,6 +12,8 @@ namespace RHPsicotest.WebSite.Models
 
         public string PermissionName { get; set; }
 
+        public string PermissionNamePolicy { get; set; }
+
         public string Assigned { get; set; }
 
         [InverseProperty(nameof(Permission_Role.Permission))]

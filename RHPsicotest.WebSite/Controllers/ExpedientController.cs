@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using RHPsicotest.WebSite.DTOs;
@@ -51,6 +52,8 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpGet]
         [Route("/Expedientes")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme,
+            Policy = "List-Expedient-Policy")]
         public async Task<IActionResult> Index()
         {
             List<ExpedientDTO> expedients = await expedientRepository.GetAllExpedients();
@@ -61,6 +64,8 @@ namespace RHPsicotest.WebSite.Controllers
         [HttpGet]
         [AllowAnonymous]
         [Route("/ConfirmarPoliticas")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme,
+            Policy = "ConfirmPolicies-Expedient-Policy")]
         public IActionResult ConfirmPolicies()
         {
             return View();
@@ -69,6 +74,8 @@ namespace RHPsicotest.WebSite.Controllers
         [HttpPost]
         [AllowAnonymous]
         [Route("/ConfirmarPoliticas")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme,
+            Policy = "ConfirmPolicies-Expedient-Policy")]
         public IActionResult ConfirmPolicies(bool accept)
         {
             if (accept)
@@ -79,7 +86,8 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpGet]
         [Route("/Expediente/Crear")]
-        //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "Create-User-Policy")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, 
+            Policy = "Create-Expedient-Policy")]
         public async Task<IActionResult> Create()
         {
             int candidateId = Convert.ToInt32(((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value);
@@ -95,6 +103,8 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpPost]
         [Route("/Expediente/Crear")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme,
+            Policy = "Create-Expedient-Policy")]
         public async Task<IActionResult> Create(ExpedientVM expedientVM)
         {
             try
@@ -150,7 +160,8 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpGet]
         [Route("/Expediente/Editar")]
-        //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "Create-User-Policy")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, 
+            Policy = "Edit-Expedient-Policy")]
         public async Task<IActionResult> Edit(int id)
         {
             ExpedientUpdateVM expedient = await expedientRepository.GetExpedientUpdateVM(id);
@@ -164,6 +175,8 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpPost]
         [Route("/Expediente/Editar")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme,
+            Policy = "Edit-Expedient-Policy")]
         public async Task<IActionResult> Edit(ExpedientUpdateVM expedientUpdateVM)
         {
             try
@@ -205,7 +218,8 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpGet]
         [Route("/CurriculumVitae")]
-        //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "Create-User-Policy")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, 
+            Policy = "WatchCurriculums-Policy")]
         public async Task<IActionResult> ShowCurriculum(int id)
         {
             byte[] fileBytes = await expedientRepository.GetPDFInBytes(id);
@@ -215,6 +229,8 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpGet]
         [Route("/Reporte")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme,
+            Policy = "WatchReports-Policy")]
         public async Task<IActionResult> ReportPDF(int id)
         {
             List<ResultDTO> results = await expedientRepository.GetResults(id);

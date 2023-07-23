@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RHPsicotest.WebSite.Data;
 
 namespace RHPsicotest.WebSite.Migrations
 {
     [DbContext(typeof(RHPsicotestDbContext))]
-    partial class RHPsicotestDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230723012713_AddPermissions")]
+    partial class AddPermissions
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -61,7 +63,7 @@ namespace RHPsicotest.WebSite.Migrations
                             IdPosition = 1,
                             IdRole = 2,
                             Password = "TW15",
-                            RegistrationDate = "22/07/2023 08:54 PM"
+                            RegistrationDate = "22/07/2023 07:27 PM"
                         });
                 });
 
@@ -388,140 +390,140 @@ namespace RHPsicotest.WebSite.Migrations
                         new
                         {
                             IdPermission = 1,
-                            Assigned = "Administradores",
+                            Assigned = "Adminitradores",
                             PermissionName = "Ver Lista de Usuarios",
                             PermissionNamePolicy = "Lista-Usuarios"
                         },
                         new
                         {
                             IdPermission = 2,
-                            Assigned = "Administradores",
+                            Assigned = "Adminitradores",
                             PermissionName = "Crear Usuarios",
                             PermissionNamePolicy = "Crear-Usuario"
                         },
                         new
                         {
                             IdPermission = 3,
-                            Assigned = "Administradores",
+                            Assigned = "Adminitradores",
                             PermissionName = "Editar Usuarios",
                             PermissionNamePolicy = "Editar-Usuario"
                         },
                         new
                         {
                             IdPermission = 4,
-                            Assigned = "Administradores",
+                            Assigned = "Adminitradores",
                             PermissionName = "Eliminar Usuarios",
                             PermissionNamePolicy = "Eliminar-Usuario"
                         },
                         new
                         {
                             IdPermission = 5,
-                            Assigned = "Administradores",
+                            Assigned = "Adminitradores",
                             PermissionName = "Ver Lista de Roles",
                             PermissionNamePolicy = "Lista-Roles"
                         },
                         new
                         {
                             IdPermission = 6,
-                            Assigned = "Administradores",
+                            Assigned = "Adminitradores",
                             PermissionName = "Crear Roles",
                             PermissionNamePolicy = "Crear-Rol"
                         },
                         new
                         {
                             IdPermission = 7,
-                            Assigned = "Administradores",
+                            Assigned = "Adminitradores",
                             PermissionName = "Editar Roles",
-                            PermissionNamePolicy = "Editar-Rol"
+                            PermissionNamePolicy = "Editar-Role"
                         },
                         new
                         {
                             IdPermission = 8,
-                            Assigned = "Administradores",
+                            Assigned = "Adminitradores",
                             PermissionName = "Eliminar Roles",
                             PermissionNamePolicy = "Eliminar-Rol"
                         },
                         new
                         {
                             IdPermission = 9,
-                            Assigned = "Administradores",
+                            Assigned = "Adminitradores",
                             PermissionName = "Ver Lista de Candidatos",
                             PermissionNamePolicy = "Lista-Candidatos"
                         },
                         new
                         {
                             IdPermission = 10,
-                            Assigned = "Administradores",
+                            Assigned = "Adminitradores",
                             PermissionName = "Crear Candidatos",
                             PermissionNamePolicy = "Crear-Candidato"
                         },
                         new
                         {
                             IdPermission = 11,
-                            Assigned = "Administradores",
+                            Assigned = "Adminitradores",
                             PermissionName = "Eliminar Candidatos",
                             PermissionNamePolicy = "Eliminar-Candidato"
                         },
                         new
                         {
                             IdPermission = 12,
-                            Assigned = "Administradores",
+                            Assigned = "Adminitradores",
                             PermissionName = "Reenviar Correos",
                             PermissionNamePolicy = "Reenviar-Correo"
                         },
                         new
                         {
                             IdPermission = 13,
-                            Assigned = "Administradores",
+                            Assigned = "Adminitradores",
                             PermissionName = "Ver Lista de Expedientes",
                             PermissionNamePolicy = "Lista-Expedientes"
                         },
                         new
                         {
                             IdPermission = 14,
-                            Assigned = "Administradores",
+                            Assigned = "Adminitradores",
                             PermissionName = "Editar Expedientes",
                             PermissionNamePolicy = "Editar-Expediente"
                         },
                         new
                         {
                             IdPermission = 15,
-                            Assigned = "Administradores",
+                            Assigned = "Adminitradores",
                             PermissionName = "Ver Curriculums",
                             PermissionNamePolicy = "Ver-Curriculums"
                         },
                         new
                         {
                             IdPermission = 16,
-                            Assigned = "Administradores",
+                            Assigned = "Adminitradores",
                             PermissionName = "Ver Reportes",
                             PermissionNamePolicy = "Ver-Reportes"
                         },
                         new
                         {
                             IdPermission = 17,
-                            Assigned = "Administradores",
+                            Assigned = "Adminitradores",
                             PermissionName = "Ver Lista de Puestos",
                             PermissionNamePolicy = "Lista-Puestos"
                         },
                         new
                         {
                             IdPermission = 18,
-                            Assigned = "Administradores",
+                            Assigned = "Adminitradores",
                             PermissionName = "Crear Puestos",
                             PermissionNamePolicy = "Crear-Puesto"
                         },
                         new
                         {
                             IdPermission = 19,
-                            Assigned = "Administradores",
+                            Assigned = "Adminitradores",
                             PermissionName = "Editar Puestos",
                             PermissionNamePolicy = "Editar-Puesto"
                         },
                         new
                         {
                             IdPermission = 20,
-                            Assigned = "Administradores",
+                            Assigned = "Adminitradores",
                             PermissionName = "Eliminar Puestos",
                             PermissionNamePolicy = "Eliminar-Puesto"
                         },
@@ -545,13 +547,6 @@ namespace RHPsicotest.WebSite.Migrations
                             Assigned = "Candidatos",
                             PermissionName = "Pruebas Asignadas",
                             PermissionNamePolicy = "Pruebas-Asignadas"
-                        },
-                        new
-                        {
-                            IdPermission = 24,
-                            Assigned = "Administradores",
-                            PermissionName = "Acceso a Dashboard",
-                            PermissionNamePolicy = "Dashboard"
                         });
                 });
 
@@ -589,121 +584,6 @@ namespace RHPsicotest.WebSite.Migrations
                         {
                             IdPermission = 4,
                             IdRole = 1
-                        },
-                        new
-                        {
-                            IdPermission = 5,
-                            IdRole = 1
-                        },
-                        new
-                        {
-                            IdPermission = 6,
-                            IdRole = 1
-                        },
-                        new
-                        {
-                            IdPermission = 7,
-                            IdRole = 1
-                        },
-                        new
-                        {
-                            IdPermission = 8,
-                            IdRole = 1
-                        },
-                        new
-                        {
-                            IdPermission = 9,
-                            IdRole = 1
-                        },
-                        new
-                        {
-                            IdPermission = 10,
-                            IdRole = 1
-                        },
-                        new
-                        {
-                            IdPermission = 11,
-                            IdRole = 1
-                        },
-                        new
-                        {
-                            IdPermission = 12,
-                            IdRole = 1
-                        },
-                        new
-                        {
-                            IdPermission = 13,
-                            IdRole = 1
-                        },
-                        new
-                        {
-                            IdPermission = 14,
-                            IdRole = 1
-                        },
-                        new
-                        {
-                            IdPermission = 15,
-                            IdRole = 1
-                        },
-                        new
-                        {
-                            IdPermission = 16,
-                            IdRole = 1
-                        },
-                        new
-                        {
-                            IdPermission = 17,
-                            IdRole = 1
-                        },
-                        new
-                        {
-                            IdPermission = 18,
-                            IdRole = 1
-                        },
-                        new
-                        {
-                            IdPermission = 19,
-                            IdRole = 1
-                        },
-                        new
-                        {
-                            IdPermission = 20,
-                            IdRole = 1
-                        },
-                        new
-                        {
-                            IdPermission = 21,
-                            IdRole = 1
-                        },
-                        new
-                        {
-                            IdPermission = 22,
-                            IdRole = 1
-                        },
-                        new
-                        {
-                            IdPermission = 23,
-                            IdRole = 1
-                        },
-                        new
-                        {
-                            IdPermission = 24,
-                            IdRole = 1
-                        },
-                        new
-                        {
-                            IdPermission = 21,
-                            IdRole = 2
-                        },
-                        new
-                        {
-                            IdPermission = 22,
-                            IdRole = 2
-                        },
-                        new
-                        {
-                            IdPermission = 23,
-                            IdRole = 2
                         });
                 });
 
@@ -734,7 +614,7 @@ namespace RHPsicotest.WebSite.Migrations
                         new
                         {
                             IdPosition = 1,
-                            CreationDate = "22/07/2023 08:54 PM",
+                            CreationDate = "22/07/2023 07:27 PM",
                             Department = "Tecnología de la Información",
                             PositionHigher = "Encargado de IT",
                             PositionName = "Desarrollador IT"
@@ -742,7 +622,7 @@ namespace RHPsicotest.WebSite.Migrations
                         new
                         {
                             IdPosition = 2,
-                            CreationDate = "22/07/2023 08:54 PM",
+                            CreationDate = "22/07/2023 07:27 PM",
                             Department = "Ventas",
                             PositionHigher = "Gerente Comercial",
                             PositionName = "Asesor de Venta"
@@ -977,7 +857,7 @@ namespace RHPsicotest.WebSite.Migrations
                             EmailNormalized = "WM25@GMAIL.COM",
                             Name = "Werner Molina",
                             Password = "827ccb0eea8a706c4c34a16891f84e7b",
-                            RegistrationDate = "22/07/2023 08:54 PM"
+                            RegistrationDate = "22/07/2023 07:27 PM"
                         });
                 });
 

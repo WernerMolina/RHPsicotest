@@ -59,25 +59,25 @@ namespace RHPsicotest.UTB
             modelBuilder.Entity<Permission>().HasData(new Permission
             {
                 IdPermission = 1,
-                PermissionName = "Lista-Usuarios",
+                PermissionNamePolicy = "Lista-Usuarios",
             });
 
             modelBuilder.Entity<Permission>().HasData(new Permission
             {
                 IdPermission = 2,
-                PermissionName = "Crear-Usuario",
+                PermissionNamePolicy = "Crear-Usuario",
             });
 
             modelBuilder.Entity<Permission>().HasData(new Permission
             {
                 IdPermission = 3,
-                PermissionName = "Editar-Usuario",
+                PermissionNamePolicy = "Editar-Usuario",
             });
 
             modelBuilder.Entity<Permission>().HasData(new Permission
             {
                 IdPermission = 4,
-                PermissionName = "Eliminar-Usuario",
+                PermissionNamePolicy = "Eliminar-Usuario",
             });
 
             // Tabla de Roles

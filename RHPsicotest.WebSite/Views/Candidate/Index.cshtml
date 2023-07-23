@@ -7,15 +7,13 @@
 
 <h1 class="fw-bold">Lista de Contraseñas</h1>
 
-@*@if ((await AuthorizationService.AuthorizeAsync(User, "Create-User-Policy")).Succeeded)
+@if ((await AuthorizationService.AuthorizeAsync(User, "Create-Candidate-Policy")).Succeeded)
 {
-    <p class="mt-4">
-        <a asp-action="Create" class="btn btn-success fw-bold fs-5">Crear Usuario</a>
+    <p class="my-4">
+        <a asp-action="Create" class="btn btn-success fw-bold fs-5">Crear Contraseña</a>
     </p>
-}*@
-<p class="my-4">
-    <a asp-action="Create" class="btn btn-success fw-bold fs-5">Crear Contraseña</a>
-</p>
+}
+
 <table class="table table-striped align-middle" id="dataTable">
     <thead class="table-dark">
         <tr class="text-center">
@@ -31,7 +29,10 @@
             <th>
                 @Html.DisplayNameFor(model => model.Position)
             </th>
-            <th>Reenviar</th>
+            @if ((await AuthorizationService.AuthorizeAsync(User, "Resend-Candidate-Policy")).Succeeded)
+            {
+                <th>Reenviar</th>
+            }
         </tr>
     </thead>
     <tbody class="text-center">
@@ -50,9 +51,12 @@
                 <td>
                     @Html.DisplayFor(modelItem => candidate.Position)
                 </td>
-                <td>
-                    <a asp-action="ResendMail" asp-route-id="@candidate.IdCandidate" class="text-primary fs-4"><i class="bi bi-envelope"></i></a>
-                </td>
+                @if ((await AuthorizationService.AuthorizeAsync(User, "Resend-Candidate-Policy")).Succeeded)
+                {
+                    <td>
+                        <a asp-action="ResendMail" asp-route-id="@candidate.IdCandidate" class="text-primary fs-4"><i class="bi bi-envelope"></i></a>
+                    </td>
+                }
             </tr>
         }
     </tbody>

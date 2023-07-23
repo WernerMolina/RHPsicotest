@@ -7,9 +7,12 @@
 
 <h1 class="fw-bold">Lista de Usuarios</h1>
 
-<p class="my-4">
-    <a asp-action="Create" class="btn btn-success fw-bold fs-5">Crear Usuario</a>
-</p>
+@if ((await AuthorizationService.AuthorizeAsync(User, "Create-User-Policy")).Succeeded)
+{
+    <p class="my-4">
+        <a asp-action="Create" class="btn btn-success fw-bold fs-5">Crear Usuario</a>
+    </p>
+}
 
 <table class="table table-striped align-middle" id="dataTable">
     <thead class="table-dark">
@@ -51,12 +54,16 @@
                     }
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@user.IdUser" class="btn bg-warning fw-bold"><i class="bi bi-pencil-fill"></i></a>
-
-                    <button class="btn btn-danger fw-bold" onclick="activeModalDelete(@user.IdUser)">
+                    @if ((await AuthorizationService.AuthorizeAsync(User, "Edit-User-Policy")).Succeeded)
+                    {
+                        <a asp-action="Edit" asp-route-id="@user.IdUser" class="btn bg-warning fw-bold"><i class="bi bi-pencil-fill"></i></a>
+                    }
+                    @if ((await AuthorizationService.AuthorizeAsync(User, "Delete-User-Policy")).Succeeded)
+                    {
+                        <button class="btn btn-danger fw-bold" onclick="activeModalDelete(@user.IdUser)">
                         <i class="bi bi-trash3-fill"></i>
                     </button>
-
+                    }
                 </td>
             </tr>
         }

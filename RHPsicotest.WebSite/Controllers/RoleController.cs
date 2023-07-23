@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RHPsicotest.WebSite.Models;
 using RHPsicotest.WebSite.Repositories.Contracts;
 using RHPsicotest.WebSite.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace RHPsicotest.WebSite.Controllers
@@ -18,7 +21,8 @@ namespace RHPsicotest.WebSite.Controllers
         }
 
         [Route("/Roles")]
-        //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "List-Roles-Policy")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, 
+            Policy = "List-Role-Policy")]
         public async Task<IActionResult> Index()
         {
             List<Role> roles = await roleRepository.GetAllRoles();
@@ -28,7 +32,8 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpGet]
         [Route("/Rol/Crear")]
-        //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "Create-Role-Policy")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, 
+            Policy = "Create-Role-Policy")]
         public async Task<IActionResult> Create()
         {
             ViewBag.Permissions = await roleRepository.GetAllPermissions();
@@ -38,6 +43,8 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpPost]
         [Route("/Rol/Crear")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme,
+            Policy = "Create-Role-Policy")]
         public async Task<IActionResult> Create(RoleVM roleVM)
         {
             try
@@ -81,7 +88,8 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpGet]
         [Route("/Rol/Editar")]
-        //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "Edit-Role-Policy")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, 
+            Policy = "Edit-Role-Policy")]
         public async Task<IActionResult> Edit(int roleId)
         {
             RoleUpdateVM role = await roleRepository.GetRoleUpdate(roleId);
@@ -95,6 +103,8 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpPost]
         [Route("/Rol/Editar")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme,
+            Policy = "Edit-Role-Policy")]
         public async Task<IActionResult> Edit(RoleUpdateVM roleUpdateVM)
         {
             try
@@ -138,6 +148,8 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpPost]
         [Route("/Rol/Eliminar")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme,
+            Policy = "Delete-Role-Policy")]
         public async Task<IActionResult> Delete(int roleId)
         {
             try

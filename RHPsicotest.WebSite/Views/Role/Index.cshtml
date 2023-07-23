@@ -3,12 +3,11 @@
 @{
     ViewData["Title"] = "Roles";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
-
 }
 
 <h1 class="fw-bold">Lista de Roles</h1>
 
-@if (!(await AuthorizationService.AuthorizeAsync(User, "Create-Role-Policy")).Succeeded)
+@if ((await AuthorizationService.AuthorizeAsync(User, "Create-Role-Policy")).Succeeded)
 {
     <p class="my-4">
         <a asp-action="Create" class="btn btn-success fw-bold fs-5">Crear Rol</a>
@@ -44,11 +43,11 @@
                     }
                 </td>
                 <td>
-                    @if (!(await AuthorizationService.AuthorizeAsync(User, "Edit-Role-Policy")).Succeeded)
+                    @if ((await AuthorizationService.AuthorizeAsync(User, "Edit-Role-Policy")).Succeeded)
                     {
                         <a asp-action="Edit" asp-route-roleId="@role.IdRole" class="btn bg-warning fw-bold"><i class="bi bi-pencil-fill"></i></a>
                     }
-                    @if (!(await AuthorizationService.AuthorizeAsync(User, "Delete-Role-Policy")).Succeeded)
+                    @if ((await AuthorizationService.AuthorizeAsync(User, "Delete-Role-Policy")).Succeeded)
                     {
                         <button class="btn btn-danger fw-bold" onclick="activeModalDelete(@role.IdRole)">
                             <i class="bi bi-trash3-fill"></i>

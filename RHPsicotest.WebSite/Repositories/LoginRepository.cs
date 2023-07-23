@@ -88,7 +88,7 @@ namespace RHPsicotest.WebSite.Repositories
                 {
                     Permission permission = await context.Permissions.FirstOrDefaultAsync(p => p.IdPermission == permissionRole.IdPermission);
 
-                    permissions.Add(permission.PermissionName);
+                    permissions.Add(permission.PermissionNamePolicy);
                 }
             }
 
@@ -105,7 +105,7 @@ namespace RHPsicotest.WebSite.Repositories
             {
                 Permission permission = await context.Permissions.FirstOrDefaultAsync(p => p.IdPermission == permissionRole.IdPermission);
 
-                permissions.Add(permission.PermissionName);
+                permissions.Add(permission.PermissionNamePolicy);
             }
 
             return permissions;

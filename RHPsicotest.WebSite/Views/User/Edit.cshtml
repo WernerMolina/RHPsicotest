@@ -24,6 +24,9 @@
                 <select asp-for="RolesId" class="form-select" id="multiple-select-clear-field" multiple>
                     @foreach (Role role in roles)
                     {
+                        if (!User.IsInRole("Super-Admin") && role.IdRole == 1) continue;
+                        if (role.IdRole == 2) continue;
+
                         <option value="@role.IdRole">@role.RoleName</option>
                     }
                 </select>

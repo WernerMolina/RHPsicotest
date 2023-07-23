@@ -23,15 +23,19 @@ namespace RHPsicotest.WebSite.Repositories.Contracts
 
         public Task<List<TestDTO>> GetAssignedTests(int candidateId);
 
-        public Task<bool> GenerateResults_Test_PPGIPG(char[][] responses, int currentIdUser);
+        public Task<int> GetTestId(string testName);
 
-        public Task<bool> GenerateResults_Test_Dominos(char?[][] responses, int currentIdUser);
+        public Task<bool> HasCompleteTest(int candidateId, int testId);
 
-        public Task<bool> GenerateResults_Test_OTIS(char[] responses, int currentIdUser);
+        public Task<bool> GenerateResults_Test_PPGIPG(char[][] responses, int candidateId, int testId);
 
-        public Task<bool> GenerateResults_Test_16PF(char[] responses, int currentIdUser, bool isWayA);
+        public Task<bool> GenerateResults_Test_Dominos(char?[][] responses, int candidateId, int testId);
 
-        public Task<bool> GenerateResults_Test_IPV(char[] responses, int currentIdUser);
+        public Task<bool> GenerateResults_Test_OTIS(char[] responses, int candidateId, int testId);
+
+        public Task<bool> GenerateResults_Test_16PF(char[] responses, int candidateId, int testId, bool isWayA);
+
+        public Task<bool> GenerateResults_Test_IPV(char[] responses, int candidateId, int testId);
 
 
     }

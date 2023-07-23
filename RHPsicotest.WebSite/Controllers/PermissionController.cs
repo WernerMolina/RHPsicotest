@@ -1,11 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using RHPsicotest.WebSite.Models;
-using RHPsicotest.WebSite.Repositories;
 using RHPsicotest.WebSite.Repositories.Contracts;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using System;
 
 namespace RHPsicotest.WebSite.Controllers
 {

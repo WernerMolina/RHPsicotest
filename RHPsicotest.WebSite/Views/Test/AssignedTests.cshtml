@@ -4,7 +4,7 @@
     ViewData["Title"] = "Pruebas Asignadas";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
-    int i = 1;
+    byte i = 1;
 }
 
 <h1 class="fw-bold mb-5">Pruebas Asignadas</h1>
@@ -29,7 +29,7 @@
                 Tiempo Apróximado
             </th>
             <th>
-                Estado
+                Completado
             </th>
             <th>
                 Iniciar
@@ -52,21 +52,19 @@
                 @if (test.Status)
                 {
                     <td>
-                        <i class="bi bi-check-square-fill text-success fs-4"></i>
+                        <span class="btn btn-success fw-bold p-1">Si</span>
                     </td>
-                    <td>
-                        <a href="#" class="btn btn-success"><i class="bi bi-play-fill"></i></a>
-                    </td>
+
                 }
                 else
                 {
                     <td>
-                        Pendiente
-                    </td>
-                    <td>
-                        <a asp-action="@test.Link" class="btn btn-success"><i class="bi bi-play-fill"></i></a>
+                        <span class="btn btn-danger fw-bold p-1">No</span>
                     </td>
                 }
+                <td>
+                    <a asp-action="@test.Link" class="btn btn-success"><i class="bi bi-play-fill"></i></a>
+                </td>
             </tr>
 
             i++;

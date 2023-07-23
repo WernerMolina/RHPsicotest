@@ -1,15 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using RHPsicotest.WebSite.DTOs;
-using RHPsicotest.WebSite.Models;
 using RHPsicotest.WebSite.Repositories.Contracts;
 using RHPsicotest.WebSite.Utilities;
 using RHPsicotest.WebSite.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -83,8 +80,14 @@ namespace RHPsicotest.WebSite.Controllers
         [HttpGet]
         [Route("/Expediente/Crear")]
         //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "Create-User-Policy")]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            int candidateId = Convert.ToInt32(((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value);
+
+            bool hasExpedient = await expedientRepository.HasExpedient(candidateId);
+
+            if (hasExpedient) return RedirectToAction("AssignedTests", "Test");
+
             ViewBag.AcademicFormations = academicFormations;
 
             return View();

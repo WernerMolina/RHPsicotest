@@ -2,7 +2,6 @@
 using RHPsicotest.WebSite.DTOs;
 using RHPsicotest.WebSite.Models;
 using RHPsicotest.WebSite.ViewModels;
-using RHPsicotest.WebSite.ViewModels.Candidate;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

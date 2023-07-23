@@ -59,9 +59,9 @@ namespace RHPsicotest.WebSite.Migrations
                             Email = "ml22002@esfe.agape.edu.sv",
                             EmailNormalized = "ML22002@ESFE.AGAPE.EDU.SV",
                             IdPosition = 1,
-                            IdRole = 3,
+                            IdRole = 2,
                             Password = "TW15",
-                            RegistrationDate = "20/07/2023 04:45 PM"
+                            RegistrationDate = "22/07/2023 05:57 PM"
                         });
                 });
 
@@ -371,6 +371,9 @@ namespace RHPsicotest.WebSite.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
+                    b.Property<string>("Assigned")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("PermissionName")
                         .HasColumnType("nvarchar(max)");
 
@@ -382,22 +385,140 @@ namespace RHPsicotest.WebSite.Migrations
                         new
                         {
                             IdPermission = 1,
+                            Assigned = "Adminitradores",
                             PermissionName = "Lista-Usuarios"
                         },
                         new
                         {
                             IdPermission = 2,
+                            Assigned = "Adminitradores",
                             PermissionName = "Crear-Usuario"
                         },
                         new
                         {
                             IdPermission = 3,
+                            Assigned = "Adminitradores",
                             PermissionName = "Editar-Usuario"
                         },
                         new
                         {
                             IdPermission = 4,
+                            Assigned = "Adminitradores",
                             PermissionName = "Eliminar-Usuario"
+                        },
+                        new
+                        {
+                            IdPermission = 5,
+                            Assigned = "Adminitradores",
+                            PermissionName = "Lista-Roles"
+                        },
+                        new
+                        {
+                            IdPermission = 6,
+                            Assigned = "Adminitradores",
+                            PermissionName = "Crear-Rol"
+                        },
+                        new
+                        {
+                            IdPermission = 7,
+                            Assigned = "Adminitradores",
+                            PermissionName = "Editar-Role"
+                        },
+                        new
+                        {
+                            IdPermission = 8,
+                            Assigned = "Adminitradores",
+                            PermissionName = "Eliminar-Rol"
+                        },
+                        new
+                        {
+                            IdPermission = 9,
+                            Assigned = "Adminitradores",
+                            PermissionName = "Lista-Candidatos"
+                        },
+                        new
+                        {
+                            IdPermission = 10,
+                            Assigned = "Adminitradores",
+                            PermissionName = "Crear-Candidato"
+                        },
+                        new
+                        {
+                            IdPermission = 11,
+                            Assigned = "Adminitradores",
+                            PermissionName = "Eliminar-Candidato"
+                        },
+                        new
+                        {
+                            IdPermission = 12,
+                            Assigned = "Adminitradores",
+                            PermissionName = "Reenviar-Correo"
+                        },
+                        new
+                        {
+                            IdPermission = 13,
+                            Assigned = "Adminitradores",
+                            PermissionName = "Lista-Expedientes"
+                        },
+                        new
+                        {
+                            IdPermission = 14,
+                            Assigned = "Adminitradores",
+                            PermissionName = "Editar-Expediente"
+                        },
+                        new
+                        {
+                            IdPermission = 15,
+                            Assigned = "Adminitradores",
+                            PermissionName = "Ver-Curriculums"
+                        },
+                        new
+                        {
+                            IdPermission = 16,
+                            Assigned = "Adminitradores",
+                            PermissionName = "Ver-Reportes"
+                        },
+                        new
+                        {
+                            IdPermission = 17,
+                            Assigned = "Adminitradores",
+                            PermissionName = "Lista-Puestos"
+                        },
+                        new
+                        {
+                            IdPermission = 18,
+                            Assigned = "Adminitradores",
+                            PermissionName = "Crear-Puesto"
+                        },
+                        new
+                        {
+                            IdPermission = 19,
+                            Assigned = "Adminitradores",
+                            PermissionName = "Editar-Puesto"
+                        },
+                        new
+                        {
+                            IdPermission = 20,
+                            Assigned = "Adminitradores",
+                            PermissionName = "Eliminar-Puesto"
+                        },
+                        new
+                        {
+                            IdPermission = 21,
+                            Assigned = "Candidatos",
+                            PermissionName = "Crear-Expediente"
+                        },
+                        new
+                        {
+                            IdPermission = 22,
+                            Assigned = "Candidatos",
+                            PermissionName = "Confirmar-Politicas"
+                        },
+                        new
+                        {
+                            IdPermission = 23,
+                            Assigned = "Candidatos",
+                            PermissionName = "Pruebas-Asignadas"
                         });
                 });
 
@@ -465,7 +586,7 @@ namespace RHPsicotest.WebSite.Migrations
                         new
                         {
                             IdPosition = 1,
-                            CreationDate = "20/07/2023 04:45 PM",
+                            CreationDate = "22/07/2023 05:57 PM",
                             Department = "Tecnología de la Información",
                             PositionHigher = "Encargado de IT",
                             PositionName = "Desarrollador IT"
@@ -473,7 +594,7 @@ namespace RHPsicotest.WebSite.Migrations
                         new
                         {
                             IdPosition = 2,
-                            CreationDate = "20/07/2023 04:45 PM",
+                            CreationDate = "22/07/2023 05:57 PM",
                             Department = "Ventas",
                             PositionHigher = "Gerente Comercial",
                             PositionName = "Asesor de Venta"
@@ -708,7 +829,7 @@ namespace RHPsicotest.WebSite.Migrations
                             EmailNormalized = "WM25@GMAIL.COM",
                             Name = "Werner Molina",
                             Password = "827ccb0eea8a706c4c34a16891f84e7b",
-                            RegistrationDate = "20/07/2023 04:45 PM"
+                            RegistrationDate = "22/07/2023 05:57 PM"
                         });
                 });
 

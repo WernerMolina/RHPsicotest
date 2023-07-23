@@ -1,10 +1,9 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,10 +11,6 @@ using Microsoft.Extensions.Hosting;
 using RHPsicotest.WebSite.Data;
 using RHPsicotest.WebSite.Repositories;
 using RHPsicotest.WebSite.Repositories.Contracts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace RHPsicotest.WebSite
 {
@@ -44,8 +39,8 @@ namespace RHPsicotest.WebSite
             services.AddScoped<ICandidateRepository, CandidateRepository>();
             services.AddScoped<IExpedientRepository, ExpedientRepository>();
             services.AddScoped<ITestRepository, TestRepository>();
-            services.AddSingleton<ICompositeViewEngine, CompositeViewEngine>();
-            services.AddSingleton<ITempDataProvider, CookieTempDataProvider>();
+            //services.AddSingleton<ICompositeViewEngine, CompositeViewEngine>();
+            //services.AddSingleton<ITempDataProvider, CookieTempDataProvider>();
 
             //services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
             //.AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, option =>
@@ -72,11 +67,11 @@ namespace RHPsicotest.WebSite
             services.AddAuthorization(option =>
             {
                 // Politicas de Usuario
-                option.AddPolicy("List-Users-Policy", pol => pol.RequireClaim("Permission", new[] {"Lista-Usuarios"}));
+                option.AddPolicy("List-Users-Policy", pol => pol.RequireClaim("Permission", new[] { "Lista-Usuarios" }));
                 option.AddPolicy("Create-User-Policy", pol => pol.RequireClaim("Permission", new[] { "Crear-Usuario" }));
                 option.AddPolicy("Edit-User-Policy", pol => pol.RequireClaim("Permission", new[] { "Editar-Usuario" }));
                 option.AddPolicy("Delete-User-Policy", pol => pol.RequireClaim("Permission", new[] { "Eliminar-Usuario" }));
-                
+
                 //Politicas de Rol
                 option.AddPolicy("List-Roles-Policy", pol => pol.RequireClaim("Permission", new[] { "Lista-Roles" }));
                 option.AddPolicy("Create-Role-Policy", pol => pol.RequireClaim("Permission", new[] { "Crear-Rol" }));
@@ -101,7 +96,7 @@ namespace RHPsicotest.WebSite
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            
+
             app.UseRouting();
 
             app.UseAuthorization();
@@ -111,7 +106,7 @@ namespace RHPsicotest.WebSite
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Login}/{action=Login}/{id?}");
             });
         }
     }

@@ -96,6 +96,15 @@ namespace RHPsicotest.WebSite.Repositories
             return expedient.CurriculumVitae;
         }
         
+        public async Task<bool> HasExpedient(int candidateId)
+        {
+            Candidate candidate = await context.Candidates.Include(t => t.Expedient).FirstOrDefaultAsync(e => e.IdCandidate == candidateId);
+
+            if (candidate.Expedient != null) return true;
+
+            return false;
+        }
+        
         public async Task<List<ResultDTO>> GetResults(int expedientId)
         {
             List<Result> results = await context.Results.Where(e => e.IdExpedient == expedientId).ToListAsync();

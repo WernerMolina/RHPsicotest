@@ -1,16 +1,13 @@
-﻿using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using RHPsicotest.WebSite.DTOs;
+using RHPsicotest.WebSite.Repositories.Contracts;
 using RHPsicotest.WebSite.Utilities;
 using RHPsicotest.WebSite.ViewModels;
+using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using RHPsicotest.WebSite.Repositories.Contracts;
-using RHPsicotest.WebSite.Models;
-using System.Collections.Generic;
-using System;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using RHPsicotest.WebSite.DTOs;
 
 namespace RHPsicotest.WebSite.Controllers
 {
@@ -24,12 +21,17 @@ namespace RHPsicotest.WebSite.Controllers
         }
 
         [HttpGet]
-        [Route("/Login")]
+        //[Route("/Login")]
         public IActionResult Login()
         {
             if (User.Identity.IsAuthenticated)
             {
-                return RedirectToAction("Index", "Home");
+                if (User.IsInRole("Candidato"))
+                {
+                    return RedirectToAction("Create", "Expedient");
+                }
+
+                return RedirectToAction("Dashboard", "Home");
             }
 
             return View();
@@ -69,7 +71,7 @@ namespace RHPsicotest.WebSite.Controllers
 
                         await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
 
-                        if(candidateLoginDTO.HasExpediente)
+                        if (candidateLoginDTO.HasExpediente)
                         {
                             return RedirectToAction("AssignedTests", "Test");
                         }

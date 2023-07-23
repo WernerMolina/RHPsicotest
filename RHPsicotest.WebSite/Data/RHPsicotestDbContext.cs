@@ -322,7 +322,7 @@ namespace RHPsicotest.WebSite.Data
             {
                 IdCandidate = 1,
                 IdPosition = 1,
-                IdRole = 3,
+                IdRole = 2,
                 Email = "ml22002@esfe.agape.edu.sv",
                 EmailNormalized = "ml22002@esfe.agape.edu.sv".ToUpper(),
                 Password = "TW15",

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RHPsicotest.WebSite.Models;
 using RHPsicotest.WebSite.Repositories.Contracts;
-using RHPsicotest.WebSite.ViewModels.User;
+using RHPsicotest.WebSite.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;

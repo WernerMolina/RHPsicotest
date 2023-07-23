@@ -30,6 +30,9 @@
     <tbody class="text-center">
         @foreach (Role role in Model)
         {
+            if (!User.IsInRole("Super-Admin") && role.IdRole == 1) continue;
+            if (role.IdRole == 2) continue;
+
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => role.RoleName)

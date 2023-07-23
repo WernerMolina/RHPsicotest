@@ -4,7 +4,6 @@ using RHPsicotest.WebSite.DTOs;
 using RHPsicotest.WebSite.Repositories.Contracts;
 using RHPsicotest.WebSite.Utilities;
 using RHPsicotest.WebSite.ViewModels;
-using RHPsicotest.WebSite.ViewModels.Candidate;
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;

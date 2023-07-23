@@ -1,9 +1,6 @@
 ﻿using RHPsicotest.WebSite.DTOs;
 using RHPsicotest.WebSite.Models;
 using RHPsicotest.WebSite.ViewModels;
-using RHPsicotest.WebSite.ViewModels.Candidate;
-using RHPsicotest.WebSite.ViewModels.Role;
-using RHPsicotest.WebSite.ViewModels.User;
 using System;
 using System.Collections.Generic;
 using System.Globalization;

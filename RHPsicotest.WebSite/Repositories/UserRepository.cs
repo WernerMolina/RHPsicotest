@@ -3,7 +3,7 @@ using RHPsicotest.WebSite.Data;
 using RHPsicotest.WebSite.Models;
 using RHPsicotest.WebSite.Repositories.Contracts;
 using RHPsicotest.WebSite.Utilities;
-using RHPsicotest.WebSite.ViewModels.User;
+using RHPsicotest.WebSite.ViewModels;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;

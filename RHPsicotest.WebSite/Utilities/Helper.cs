@@ -56,6 +56,7 @@ namespace RHPsicotest.WebSite.Utilities
             List<Claim> claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, candidateLoginDTO.IdCandidate.ToString()),
+                new Claim(ClaimTypes.Name, candidateLoginDTO.Email),
                 new Claim(ClaimTypes.Email, candidateLoginDTO.Email),
                 new Claim(ClaimTypes.Role, candidateLoginDTO.RoleName),
                 new Claim("Position", candidateLoginDTO.PositionName)

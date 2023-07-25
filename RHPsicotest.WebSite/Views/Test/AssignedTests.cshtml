@@ -5,18 +5,42 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     byte i = 1;
+    bool hasCompletedTest = false;
+
+    foreach (TestDTO test in Model)
+    {
+        hasCompletedTest = test.Status;
+    }
 }
 
 <h1 class="fw-bold mb-5">Pruebas Asignadas</h1>
 
-<div class="container">
+<div class="container mb-5">
     <p class="mb-4 fs-5">A continuación, se muestra un listado de pruebas asignadas las cuales estarán disponibles por un corto período de tiempo.</p>
     <p class="mb-4 fs-5">Le recordamos que antes de iniciar se asegure de tener una conexión de internet estable además de un ambiente sin interrupciones lo cual le ayudará a realizar sus evaluaciones sin complicaciones.</p>
     <p class="mb-4 fs-5">Cada prueba contiene instrucciones específicas, léalas cuidadosamente y analice el ejemplo antes de comenzar.</p>
     <p class="mb-4 fs-5">Buena Suerte!</p>
 </div>
 
-<table class="table table-striped align-middle">
+@if (hasCompletedTest)
+{
+    <div class="d-flex justify-content-center">
+        <div class="card">
+            <div class="card-header text-center h2 fw-bold">
+                EXCELENTE!!!
+            </div>
+            <div class="card-body text-center">
+                <p class="card-text fs-4">
+                    Agradecemos el tiempo invertido para completar las evaluaciones psicólogicas.
+                </p>
+                <a asp-controller="Login" asp-action="Logout" class="btn btn-primary">Aceptar</a>
+            </div>
+        </div>
+    </div>
+}
+else
+{   
+    <table class="table table-striped align-middle">
     <thead class="table-dark">
         <tr class="text-center">
             <th>
@@ -71,3 +95,6 @@
         }
     </tbody>
 </table>
+}
+
+

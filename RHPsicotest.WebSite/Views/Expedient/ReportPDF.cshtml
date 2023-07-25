@@ -7,7 +7,7 @@
 
     string name = "Reporte-" + (expedient.Names + expedient.Lastnames).Replace(" ", "");
 
-    ViewData["Title"] = "Reporte - " + name;
+    ViewData["Title"] = "Reporte de " + (expedient.Names + expedient.Lastnames);
 }
 
 <div class="mb-4">

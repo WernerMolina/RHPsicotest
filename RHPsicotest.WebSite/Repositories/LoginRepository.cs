@@ -115,10 +115,10 @@ namespace RHPsicotest.WebSite.Repositories
         {
             if (isCandidate)
             {
-                return await context.Candidates.AnyAsync(c => c.EmailNormalized == email);
+                return await context.Candidates.AnyAsync(c => c.EmailNormalized == email.Trim().ToUpper());
             }
 
-            return await context.Users.AnyAsync(c => c.EmailNormalized == email);
+            return await context.Users.AnyAsync(c => c.EmailNormalized == email.Trim().ToUpper());
         }
 
     }

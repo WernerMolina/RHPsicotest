@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Routing;
@@ -11,6 +12,7 @@ using Microsoft.Extensions.Hosting;
 using RHPsicotest.WebSite.Data;
 using RHPsicotest.WebSite.Repositories;
 using RHPsicotest.WebSite.Repositories.Contracts;
+using System;
 
 namespace RHPsicotest.WebSite
 {
@@ -42,18 +44,6 @@ namespace RHPsicotest.WebSite
             //services.AddSingleton<ICompositeViewEngine, CompositeViewEngine>();
             //services.AddSingleton<ITempDataProvider, CookieTempDataProvider>();
 
-            //services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-            //.AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, option =>
-            //{
-            //    option.AccessDeniedPath = "/Home/Index";
-            //    option.LoginPath = "/User/Login";
-            //});
-
-            //services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(option =>
-            //{
-            //    option.LoginPath = new PathString("/Home/Index");
-            //});
-
             services.AddAuthentication(option =>
             {
                 option.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -62,6 +52,8 @@ namespace RHPsicotest.WebSite
             }).AddCookie(option =>
             {
                 option.LoginPath = "/Login";
+                option.AccessDeniedPath = new PathString("/AccesoDenegado");
+                option.ExpireTimeSpan = TimeSpan.FromDays(7);
             });
 
             services.AddAuthorization(option =>
@@ -124,8 +116,8 @@ namespace RHPsicotest.WebSite
 
             app.UseRouting();
 
-            app.UseAuthorization();
             app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

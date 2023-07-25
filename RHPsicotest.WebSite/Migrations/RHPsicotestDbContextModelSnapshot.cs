@@ -61,7 +61,7 @@ namespace RHPsicotest.WebSite.Migrations
                             IdPosition = 1,
                             IdRole = 2,
                             Password = "TW15",
-                            RegistrationDate = "22/07/2023 08:54 PM"
+                            RegistrationDate = "23/07/2023 10:52 PM"
                         });
                 });
 
@@ -545,13 +545,6 @@ namespace RHPsicotest.WebSite.Migrations
                             Assigned = "Candidatos",
                             PermissionName = "Pruebas Asignadas",
                             PermissionNamePolicy = "Pruebas-Asignadas"
-                        },
-                        new
-                        {
-                            IdPermission = 24,
-                            Assigned = "Administradores",
-                            PermissionName = "Acceso a Dashboard",
-                            PermissionNamePolicy = "Dashboard"
                         });
                 });
 
@@ -673,26 +666,6 @@ namespace RHPsicotest.WebSite.Migrations
                         new
                         {
                             IdPermission = 21,
-                            IdRole = 1
-                        },
-                        new
-                        {
-                            IdPermission = 22,
-                            IdRole = 1
-                        },
-                        new
-                        {
-                            IdPermission = 23,
-                            IdRole = 1
-                        },
-                        new
-                        {
-                            IdPermission = 24,
-                            IdRole = 1
-                        },
-                        new
-                        {
-                            IdPermission = 21,
                             IdRole = 2
                         },
                         new
@@ -734,7 +707,7 @@ namespace RHPsicotest.WebSite.Migrations
                         new
                         {
                             IdPosition = 1,
-                            CreationDate = "22/07/2023 08:54 PM",
+                            CreationDate = "23/07/2023 10:52 PM",
                             Department = "Tecnología de la Información",
                             PositionHigher = "Encargado de IT",
                             PositionName = "Desarrollador IT"
@@ -742,7 +715,7 @@ namespace RHPsicotest.WebSite.Migrations
                         new
                         {
                             IdPosition = 2,
-                            CreationDate = "22/07/2023 08:54 PM",
+                            CreationDate = "23/07/2023 10:52 PM",
                             Department = "Ventas",
                             PositionHigher = "Gerente Comercial",
                             PositionName = "Asesor de Venta"
@@ -977,7 +950,7 @@ namespace RHPsicotest.WebSite.Migrations
                             EmailNormalized = "WM25@GMAIL.COM",
                             Name = "Werner Molina",
                             Password = "827ccb0eea8a706c4c34a16891f84e7b",
-                            RegistrationDate = "22/07/2023 08:54 PM"
+                            RegistrationDate = "23/07/2023 10:52 PM"
                         });
                 });
 

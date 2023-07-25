@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using RHPsicotest.WebSite.DTOs;
+using RHPsicotest.WebSite.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -45,6 +46,8 @@ namespace RHPsicotest.WebSite.Utilities
             {
                 claims.Add(new Claim("Permission", permission));
             }
+
+            claims.Add(new Claim("Permission", "Dashboard"));
 
             ClaimsIdentity identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 

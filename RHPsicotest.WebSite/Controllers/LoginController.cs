@@ -49,9 +49,9 @@ namespace RHPsicotest.WebSite.Controllers
 
                     if (userLogin.IsCandidate)
                     {
-                        bool emailExists = await loginRepository.EmailExists(userLogin.Email.Trim().ToUpper(), true);
+                        bool emailCandidateExists = await loginRepository.EmailExists(userLogin.Email, true);
 
-                        if (!emailExists)
+                        if (!emailCandidateExists)
                         {
                             ViewBag.Error = "El correo no esta registrado";
 
@@ -82,7 +82,16 @@ namespace RHPsicotest.WebSite.Controllers
                     }
                     else
                     {
-                        bool emailExists = await loginRepository.EmailExists(userLogin.Email.Trim().ToUpper(), false);
+                        bool emailCandidateExists = await loginRepository.EmailExists(userLogin.Email, true);
+
+                        if (emailCandidateExists)
+                        {
+                            ViewBag.Error = "Por favor, haga clic en el checkbox de arriba, que indica que es un candidato";
+
+                            return View(userLogin);
+                        }
+
+                        bool emailExists = await loginRepository.EmailExists(userLogin.Email, false);
 
                         if (!emailExists)
                         {

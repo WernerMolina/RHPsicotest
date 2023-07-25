@@ -86,13 +86,13 @@ namespace RHPsicotest.WebSite.Repositories
         {
             Expedient expedient = await context.Expedients.FirstOrDefaultAsync(e => e.IdCandidate == candidateId);
 
-            foreach (int testId in testsId)
-            {
-                List<Result> results = await context.Results.Where(r => r.IdExpedient == expedient.IdExpedient && r.IdTest == testId).ToListAsync();
+            //foreach (int testId in testsId)
+            //{
+            //    List<Result> results = await context.Results.Where(r => r.IdExpedient == expedient.IdExpedient && r.IdTest == testId).ToListAsync();
 
-                context.Results.RemoveRange(results);
-                context.SaveChanges();
-            }
+            //    context.Results.RemoveRange(results);
+            //    context.SaveChanges();
+            //}
 
             foreach (int id in testsId)
             {

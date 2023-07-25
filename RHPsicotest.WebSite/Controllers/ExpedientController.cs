@@ -219,7 +219,7 @@ namespace RHPsicotest.WebSite.Controllers
         [HttpGet]
         [Route("/CurriculumVitae")]
         [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, 
-            Policy = "WatchCurriculums-Policy")]
+            Policy = "WatchCurriculums-Expedient-Policy")]
         public async Task<IActionResult> ShowCurriculum(int id)
         {
             byte[] fileBytes = await expedientRepository.GetPDFInBytes(id);
@@ -229,8 +229,8 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpGet]
         [Route("/Reporte")]
-        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme,
-            Policy = "WatchReports-Policy")]
+        //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme,
+            //Policy = "WatchReports-Expedient-Policy")]
         public async Task<IActionResult> ReportPDF(int id)
         {
             List<ResultDTO> results = await expedientRepository.GetResults(id);

@@ -19,9 +19,9 @@ namespace RHPsicotest.WebSite.Utilities
             Email = Configuration.GetValue<string>("E-Mail:Username");
             Password = Configuration.GetValue<string>("E-Mail:Password");
 
-            string htmlJson = Configuration.GetValue<string>("E-Mail:EmailHtml");
+            string htmlJson = Configuration.GetValue<string>("E-Mail:EmailHtml").Replace("password", "0");
 
-            string html = string.Format(htmlJson, password);
+            string html = string.Format(htmlJson, password, email, password);
 
             MailMessage message = PrepareteMessage(email, html);
 

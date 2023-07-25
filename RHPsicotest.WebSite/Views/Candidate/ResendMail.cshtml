@@ -29,7 +29,6 @@
             <div class="mb-3">
                 <label for="" class="form-label h5">Pruebas a Recuperar:</label>
                 <select asp-for="TestsId" class="form-select" id="multiple-select-clear-field" multiple>
-                    <option>Seleccionar Pruebas</option>
                     @foreach (Test test in Model.Tests)
                     {
                         <option value="@test.IdTest">@test.NameTest</option>

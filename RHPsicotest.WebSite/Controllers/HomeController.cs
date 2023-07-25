@@ -21,6 +21,12 @@ namespace RHPsicotest.WebSite.Controllers
             return View();
         }
 
+        [Route("/AccesoDenegado")]
+        public ActionResult AccessDenied()
+        {
+            return View();
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public ActionResult Error()
         {

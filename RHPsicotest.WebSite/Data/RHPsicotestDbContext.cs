@@ -215,13 +215,6 @@ namespace RHPsicotest.WebSite.Data
                 PermissionNamePolicy = "Pruebas-Asignadas",
                 Assigned = "Candidatos",
             });
-            modelBuilder.Entity<Permission>().HasData(new Permission
-            {
-                IdPermission = 24,
-                PermissionName = "Acceso a Dashboard",
-                PermissionNamePolicy = "Dashboard",
-                Assigned = "Administradores",
-            });
 
             // Tabla de Roles
             modelBuilder.Entity<Role>().HasData(new Role
@@ -658,26 +651,7 @@ namespace RHPsicotest.WebSite.Data
                 IdRole = 1,
                 IdPermission = 20
             });
-            modelBuilder.Entity<Permission_Role>().HasData(new Permission_Role
-            {
-                IdRole = 1,
-                IdPermission = 21
-            });
-            modelBuilder.Entity<Permission_Role>().HasData(new Permission_Role
-            {
-                IdRole = 1,
-                IdPermission = 22
-            });
-            modelBuilder.Entity<Permission_Role>().HasData(new Permission_Role
-            {
-                IdRole = 1,
-                IdPermission = 23
-            });
-            modelBuilder.Entity<Permission_Role>().HasData(new Permission_Role
-            {
-                IdRole = 1,
-                IdPermission = 24
-            });
+
             modelBuilder.Entity<Permission_Role>().HasData(new Permission_Role
             {
                 IdRole = 2,

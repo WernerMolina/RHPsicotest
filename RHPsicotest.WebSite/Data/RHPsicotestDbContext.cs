@@ -229,12 +229,7 @@ namespace RHPsicotest.WebSite.Data
                 RoleName = "Candidato",
                 RoleNameNormalized = "Candidato".ToUpper(),
             });
-            modelBuilder.Entity<Role>().HasData(new Role
-            {
-                IdRole = 3,
-                RoleName = "Administrador",
-                RoleNameNormalized = "Administrador".ToUpper(),
-            });
+            
 
             // Tabla de Pruebas
             modelBuilder.Entity<Test>().HasData(new Test
@@ -255,57 +250,58 @@ namespace RHPsicotest.WebSite.Data
             {
                 IdTest = 3,
                 NameTest = "Dominos",
-                Time = "45 min.",
+                Time = "60 min.",
                 Link = "Test_Dominos"
             });
-            modelBuilder.Entity<Test>().HasData(new Test
-            {
-                IdTest = 4,
-                NameTest = "BFQ",
-                Time = "45 min.",
-                Link = "Test_BFQ"
-            });           
-            modelBuilder.Entity<Test>().HasData(new Test
-            {
-                IdTest = 5,
-                NameTest = "16PF Forma A",
-                Time = "60 min.",
-                Link = "Test_16PF_A"
-            });
-            modelBuilder.Entity<Test>().HasData(new Test
-            {
-                IdTest = 6,
-                NameTest = "16PF Forma B",
-                Time = "60 min.",
-                Link = "Test_16PF_B"
-            });
-            modelBuilder.Entity<Test>().HasData(new Test
-            {
-                IdTest = 7,
-                NameTest = "IPV",
-                Time = "60 min.",
-                Link = "Test_IPV"
-            });
+            //modelBuilder.Entity<Test>().HasData(new Test
+            //{
+            //    IdTest = 4,
+            //    NameTest = "BFQ",
+            //    Time = "45 min.",
+            //    Link = "Test_BFQ"
+            //});           
+            //modelBuilder.Entity<Test>().HasData(new Test
+            //{
+            //    IdTest = 5,
+            //    NameTest = "16PF Forma A",
+            //    Time = "60 min.",
+            //    Link = "Test_16PF_A"
+            //});
+            //modelBuilder.Entity<Test>().HasData(new Test
+            //{
+            //    IdTest = 6,
+            //    NameTest = "16PF Forma B",
+            //    Time = "60 min.",
+            //    Link = "Test_16PF_B"
+            //});
+            //modelBuilder.Entity<Test>().HasData(new Test
+            //{
+            //    IdTest = 7,
+            //    NameTest = "IPV",
+            //    Time = "60 min.",
+            //    Link = "Test_IPV"
+            //});
 
 
             // Tabla de Puestos
-            modelBuilder.Entity<Position>().HasData(new Position
-            {
-                IdPosition = 1,
-                PositionName = "Desarrollador IT",
-                PositionHigher = "Encargado de IT",
-                Department = "Tecnología de la Información",
-                CreationDate = DateTime.Now.ToString("dd/MM/yyyy hh:mm tt", CultureInfo.CreateSpecificCulture("en-En"))
-            });
+
+            //modelBuilder.Entity<Position>().HasData(new Position
+            //{
+            //    IdPosition = 1,
+            //    PositionName = "Desarrollador IT",
+            //    PositionHigher = "Encargado de IT",
+            //    Department = "Tecnología de la Información",
+            //    CreationDate = DateTime.Now.ToString("dd/MM/yyyy hh:mm tt", CultureInfo.CreateSpecificCulture("en-En"))
+            //});
             
-            modelBuilder.Entity<Position>().HasData(new Position
-            {
-                IdPosition = 2,
-                PositionName = "Asesor de Venta",
-                PositionHigher = "Gerente Comercial",
-                Department = "Ventas",
-                CreationDate = DateTime.Now.ToString("dd/MM/yyyy hh:mm tt", CultureInfo.CreateSpecificCulture("en-En"))
-            });
+            //modelBuilder.Entity<Position>().HasData(new Position
+            //{
+            //    IdPosition = 2,
+            //    PositionName = "Asesor de Venta",
+            //    PositionHigher = "Gerente Comercial",
+            //    Department = "Ventas",
+            //    CreationDate = DateTime.Now.ToString("dd/MM/yyyy hh:mm tt", CultureInfo.CreateSpecificCulture("en-En"))
+            //});
 
             // Tabla de Usuario
             modelBuilder.Entity<User>().HasData(new User
@@ -317,18 +313,36 @@ namespace RHPsicotest.WebSite.Data
                 Password = "827ccb0eea8a706c4c34a16891f84e7b",
                 RegistrationDate = DateTime.Now.ToString("dd/MM/yyyy hh:mm tt", CultureInfo.CreateSpecificCulture("en-En"))
             });
-
-            // Tabla de Candidato
-            modelBuilder.Entity<Candidate>().HasData(new Candidate
+            modelBuilder.Entity<User>().HasData(new User
             {
-                IdCandidate = 1,
-                IdPosition = 1,
-                IdRole = 2,
-                Email = "ml22002@esfe.agape.edu.sv",
-                EmailNormalized = "ml22002@esfe.agape.edu.sv".ToUpper(),
-                Password = "TW15",
+                IdUser = 2,
+                Name = "Rosy Hernández",
+                Email = "rosy.vasquez@consulightpf.net",
+                EmailNormalized = "rosy.vasquez@consulightpf.net".ToUpper(),
+                Password = "827ccb0eea8a706c4c34a16891f84e7b",
                 RegistrationDate = DateTime.Now.ToString("dd/MM/yyyy hh:mm tt", CultureInfo.CreateSpecificCulture("en-En"))
             });
+            modelBuilder.Entity<User>().HasData(new User
+            {
+                IdUser = 3,
+                Name = "Roberto",
+                Email = "roberto.ramirez@consulightpf.net",
+                EmailNormalized = "roberto.ramirez@consulightpf.net".ToUpper(),
+                Password = "827ccb0eea8a706c4c34a16891f84e7b",
+                RegistrationDate = DateTime.Now.ToString("dd/MM/yyyy hh:mm tt", CultureInfo.CreateSpecificCulture("en-En"))
+            });
+
+            // Tabla de Candidato
+            //modelBuilder.Entity<Candidate>().HasData(new Candidate
+            //{
+            //    IdCandidate = 1,
+            //    IdPosition = 1,
+            //    IdRole = 2,
+            //    Email = "ml22002@esfe.agape.edu.sv",
+            //    EmailNormalized = "ml22002@esfe.agape.edu.sv".ToUpper(),
+            //    Password = "TW15",
+            //    RegistrationDate = DateTime.Now.ToString("dd/MM/yyyy hh:mm tt", CultureInfo.CreateSpecificCulture("en-En"))
+            //});
 
             // Tabla de Factores
             modelBuilder.Entity<Factor>().HasData(new Factor
@@ -381,166 +395,166 @@ namespace RHPsicotest.WebSite.Data
                 IdFactor = 10,
                 FactorName = "Inteligencia",
             });
-            modelBuilder.Entity<Factor>().HasData(new Factor
-            {
-                IdFactor = 11,
-                FactorName = "A",
-            });
-            modelBuilder.Entity<Factor>().HasData(new Factor
-            {
-                IdFactor = 12,
-                FactorName = "B",
-            });
-            modelBuilder.Entity<Factor>().HasData(new Factor
-            {
-                IdFactor = 13,
-                FactorName = "C",
-            });
-            modelBuilder.Entity<Factor>().HasData(new Factor
-            {
-                IdFactor = 14,
-                FactorName = "E",
-            });
-            modelBuilder.Entity<Factor>().HasData(new Factor
-            {
-                IdFactor = 15,
-                FactorName = "F",
-            });
-            modelBuilder.Entity<Factor>().HasData(new Factor
-            {
-                IdFactor = 16,
-                FactorName = "G",
-            });
-            modelBuilder.Entity<Factor>().HasData(new Factor
-            {
-                IdFactor = 17,
-                FactorName = "H",
-            });
-            modelBuilder.Entity<Factor>().HasData(new Factor
-            {
-                IdFactor = 18,
-                FactorName = "I",
-            });
-            modelBuilder.Entity<Factor>().HasData(new Factor
-            {
-                IdFactor = 19,
-                FactorName = "L",
-            });
-            modelBuilder.Entity<Factor>().HasData(new Factor
-            {
-                IdFactor = 20,
-                FactorName = "M",
-            });
-            modelBuilder.Entity<Factor>().HasData(new Factor
-            {
-                IdFactor = 21,
-                FactorName = "N",
-            });
-            modelBuilder.Entity<Factor>().HasData(new Factor
-            {
-                IdFactor = 22,
-                FactorName = "O",
-            });
-            modelBuilder.Entity<Factor>().HasData(new Factor
-            {
-                IdFactor = 23,
-                FactorName = "Q1",
-            });
-            modelBuilder.Entity<Factor>().HasData(new Factor
-            {
-                IdFactor = 24,
-                FactorName = "Q2",
-            });
-            modelBuilder.Entity<Factor>().HasData(new Factor
-            {
-                IdFactor = 25,
-                FactorName = "Q3",
-            });
-            modelBuilder.Entity<Factor>().HasData(new Factor
-            {
-                IdFactor = 26,
-                FactorName = "Q4",
-            });
-            modelBuilder.Entity<Factor>().HasData(new Factor
-            {
-                IdFactor = 27,
-                FactorName = "QI",
-            });
-            modelBuilder.Entity<Factor>().HasData(new Factor
-            {
-                IdFactor = 28,
-                FactorName = "QII",
-            });
-            modelBuilder.Entity<Factor>().HasData(new Factor
-            {
-                IdFactor = 29,
-                FactorName = "QIII",
-            });
-            modelBuilder.Entity<Factor>().HasData(new Factor
-            {
-                IdFactor = 30,
-                FactorName = "QIV",
-            });
-            modelBuilder.Entity<Factor>().HasData(new Factor
-            {
-                IdFactor = 31,
-                FactorName = "Disposición General para la Venta",
-            });
-            modelBuilder.Entity<Factor>().HasData(new Factor
-            {
-                IdFactor = 32,
-                FactorName = "Receptividad",
-            });
-            modelBuilder.Entity<Factor>().HasData(new Factor
-            {
-                IdFactor = 33,
-                FactorName = "Agresividad",
-            });
-            modelBuilder.Entity<Factor>().HasData(new Factor
-            {
-                IdFactor = 34,
-                FactorName = "I- Compresión",
-            });
-            modelBuilder.Entity<Factor>().HasData(new Factor
-            {
-                IdFactor = 35,
-                FactorName = "II- Adaptabilidad",
-            });
-            modelBuilder.Entity<Factor>().HasData(new Factor
-            {
-                IdFactor = 36,
-                FactorName = "III- Control de sí mismo",
-            });
-            modelBuilder.Entity<Factor>().HasData(new Factor
-            {
-                IdFactor = 37,
-                FactorName = "IV- Tolerancia a la frustración",
-            });
-            modelBuilder.Entity<Factor>().HasData(new Factor
-            {
-                IdFactor = 38,
-                FactorName = "V- Combatividad",
-            });
-            modelBuilder.Entity<Factor>().HasData(new Factor
-            {
-                IdFactor = 39,
-                FactorName = "VI- Dominio",
-            });
-            modelBuilder.Entity<Factor>().HasData(new Factor
-            {
-                IdFactor = 40,
-                FactorName = "VII- Seguridad",
-            });
-            modelBuilder.Entity<Factor>().HasData(new Factor
-            {
-                IdFactor = 41,
-                FactorName = "VIII- Actividad",
-            });
-            modelBuilder.Entity<Factor>().HasData(new Factor
-            {
-                IdFactor = 42,
-                FactorName = "IX- Sociabilidad",
-            });
+            //modelBuilder.Entity<Factor>().HasData(new Factor
+            //{
+            //    IdFactor = 11,
+            //    FactorName = "A",
+            //});
+            //modelBuilder.Entity<Factor>().HasData(new Factor
+            //{
+            //    IdFactor = 12,
+            //    FactorName = "B",
+            //});
+            //modelBuilder.Entity<Factor>().HasData(new Factor
+            //{
+            //    IdFactor = 13,
+            //    FactorName = "C",
+            //});
+            //modelBuilder.Entity<Factor>().HasData(new Factor
+            //{
+            //    IdFactor = 14,
+            //    FactorName = "E",
+            //});
+            //modelBuilder.Entity<Factor>().HasData(new Factor
+            //{
+            //    IdFactor = 15,
+            //    FactorName = "F",
+            //});
+            //modelBuilder.Entity<Factor>().HasData(new Factor
+            //{
+            //    IdFactor = 16,
+            //    FactorName = "G",
+            //});
+            //modelBuilder.Entity<Factor>().HasData(new Factor
+            //{
+            //    IdFactor = 17,
+            //    FactorName = "H",
+            //});
+            //modelBuilder.Entity<Factor>().HasData(new Factor
+            //{
+            //    IdFactor = 18,
+            //    FactorName = "I",
+            //});
+            //modelBuilder.Entity<Factor>().HasData(new Factor
+            //{
+            //    IdFactor = 19,
+            //    FactorName = "L",
+            //});
+            //modelBuilder.Entity<Factor>().HasData(new Factor
+            //{
+            //    IdFactor = 20,
+            //    FactorName = "M",
+            //});
+            //modelBuilder.Entity<Factor>().HasData(new Factor
+            //{
+            //    IdFactor = 21,
+            //    FactorName = "N",
+            //});
+            //modelBuilder.Entity<Factor>().HasData(new Factor
+            //{
+            //    IdFactor = 22,
+            //    FactorName = "O",
+            //});
+            //modelBuilder.Entity<Factor>().HasData(new Factor
+            //{
+            //    IdFactor = 23,
+            //    FactorName = "Q1",
+            //});
+            //modelBuilder.Entity<Factor>().HasData(new Factor
+            //{
+            //    IdFactor = 24,
+            //    FactorName = "Q2",
+            //});
+            //modelBuilder.Entity<Factor>().HasData(new Factor
+            //{
+            //    IdFactor = 25,
+            //    FactorName = "Q3",
+            //});
+            //modelBuilder.Entity<Factor>().HasData(new Factor
+            //{
+            //    IdFactor = 26,
+            //    FactorName = "Q4",
+            //});
+            //modelBuilder.Entity<Factor>().HasData(new Factor
+            //{
+            //    IdFactor = 27,
+            //    FactorName = "QI",
+            //});
+            //modelBuilder.Entity<Factor>().HasData(new Factor
+            //{
+            //    IdFactor = 28,
+            //    FactorName = "QII",
+            //});
+            //modelBuilder.Entity<Factor>().HasData(new Factor
+            //{
+            //    IdFactor = 29,
+            //    FactorName = "QIII",
+            //});
+            //modelBuilder.Entity<Factor>().HasData(new Factor
+            //{
+            //    IdFactor = 30,
+            //    FactorName = "QIV",
+            //});
+            //modelBuilder.Entity<Factor>().HasData(new Factor
+            //{
+            //    IdFactor = 31,
+            //    FactorName = "Disposición General para la Venta",
+            //});
+            //modelBuilder.Entity<Factor>().HasData(new Factor
+            //{
+            //    IdFactor = 32,
+            //    FactorName = "Receptividad",
+            //});
+            //modelBuilder.Entity<Factor>().HasData(new Factor
+            //{
+            //    IdFactor = 33,
+            //    FactorName = "Agresividad",
+            //});
+            //modelBuilder.Entity<Factor>().HasData(new Factor
+            //{
+            //    IdFactor = 34,
+            //    FactorName = "I- Compresión",
+            //});
+            //modelBuilder.Entity<Factor>().HasData(new Factor
+            //{
+            //    IdFactor = 35,
+            //    FactorName = "II- Adaptabilidad",
+            //});
+            //modelBuilder.Entity<Factor>().HasData(new Factor
+            //{
+            //    IdFactor = 36,
+            //    FactorName = "III- Control de sí mismo",
+            //});
+            //modelBuilder.Entity<Factor>().HasData(new Factor
+            //{
+            //    IdFactor = 37,
+            //    FactorName = "IV- Tolerancia a la frustración",
+            //});
+            //modelBuilder.Entity<Factor>().HasData(new Factor
+            //{
+            //    IdFactor = 38,
+            //    FactorName = "V- Combatividad",
+            //});
+            //modelBuilder.Entity<Factor>().HasData(new Factor
+            //{
+            //    IdFactor = 39,
+            //    FactorName = "VI- Dominio",
+            //});
+            //modelBuilder.Entity<Factor>().HasData(new Factor
+            //{
+            //    IdFactor = 40,
+            //    FactorName = "VII- Seguridad",
+            //});
+            //modelBuilder.Entity<Factor>().HasData(new Factor
+            //{
+            //    IdFactor = 41,
+            //    FactorName = "VIII- Actividad",
+            //});
+            //modelBuilder.Entity<Factor>().HasData(new Factor
+            //{
+            //    IdFactor = 42,
+            //    FactorName = "IX- Sociabilidad",
+            //});
             
 
             // Tabla Intermedia de Roles y Usuarios
@@ -548,6 +562,16 @@ namespace RHPsicotest.WebSite.Data
             {
                 IdRole = 1,
                 IdUser = 1
+            });
+            modelBuilder.Entity<Role_User>().HasData(new Role_User
+            {
+                IdRole = 1,
+                IdUser = 2
+            });
+            modelBuilder.Entity<Role_User>().HasData(new Role_User
+            {
+                IdRole = 1,
+                IdUser = 3
             });
 
             // Tabla Intermedia de Permisos y Roles

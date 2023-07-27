@@ -19,7 +19,7 @@ namespace RHPsicotest.WebSite.Utilities
             Email = Configuration.GetValue<string>("E-Mail:Username");
             Password = Configuration.GetValue<string>("E-Mail:Password");
 
-            string htmlJson = Configuration.GetValue<string>("E-Mail:EmailHtml").Replace("password", "0");
+            string htmlJson = Configuration.GetValue<string>("E-Mail:EmailHtml");
 
             string html = string.Format(htmlJson, password, email, password);
 
@@ -45,7 +45,7 @@ namespace RHPsicotest.WebSite.Utilities
         {
             SmtpClient smtpClient = new SmtpClient();
 
-            smtpClient.Host = "smtp.gmail.com";
+            smtpClient.Host = "smtp.titan.email";
             smtpClient.Port = 587;
             smtpClient.EnableSsl = true;
             smtpClient.Timeout = 50000;

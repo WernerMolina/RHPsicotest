@@ -13,8 +13,7 @@ namespace RHPsicotest.WebSite.Migrations
                 {
                     IdFactor = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    FactorName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DescriptionFactor = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    FactorName = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -27,7 +26,9 @@ namespace RHPsicotest.WebSite.Migrations
                 {
                     IdPermission = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    PermissionName = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    PermissionName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PermissionNamePolicy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Assigned = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -56,7 +57,8 @@ namespace RHPsicotest.WebSite.Migrations
                 {
                     IdRole = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    RoleName = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    RoleName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RoleNameNormalized = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -86,6 +88,7 @@ namespace RHPsicotest.WebSite.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EmailNormalized = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     RegistrationDate = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
@@ -103,6 +106,7 @@ namespace RHPsicotest.WebSite.Migrations
                     IdRole = table.Column<int>(type: "int", nullable: false),
                     IdPosition = table.Column<int>(type: "int", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EmailNormalized = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     RegistrationDate = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
@@ -293,49 +297,58 @@ namespace RHPsicotest.WebSite.Migrations
 
             migrationBuilder.InsertData(
                 table: "Factor",
-                columns: new[] { "IdFactor", "DescriptionFactor", "FactorName" },
+                columns: new[] { "IdFactor", "FactorName" },
                 values: new object[,]
                 {
-                    { 1, "Ascendencia: Rasgo que se refiere a la dominancia e iniciativa en situaciones de grupo.", "Asc." },
-                    { 2, "Responsabilidad: Rasgo que alude a la constancia y perseverancia en las tareas propuestas.", "Resp." },
-                    { 3, "Estabilidad Emocional: Rasgo que refleja la ausencia de hipersensibilidad, ansiedad y tensión nerviosa.", "Estab." },
-                    { 4, "Sociabilidad: Rasgo que facilita el trato con los demás.", "Soc." },
-                    { 5, "Cautela: Es el tipo de conducta caracterizada por prever las situaciones o efectos de una decisión antes de actuar.", "Caut." },
-                    { 6, "Originalidad: Rango de conducta que se manifiesta por la búsqueda de autenticidad en todo lo que hace.", "Orig." },
-                    { 7, "Comprensión: Grado en el cual somos capaces de interpretar o asimilar acontecimientos y hechos particulares o de la vida diaria.", "Comp." },
-                    { 8, "Vitalidad: Se dice de la energía psíquica o física que se agrega a cada actividad que se emprende.", "Vital." },
-                    { 9, "Autoestima: Es la valoración positiva o negativa que uno hace de sí mismo.", "Autoest." },
-                    { 10, "", "Inteligencia" }
+                    { 1, "Ascendencia" },
+                    { 2, "Responsabilidad" },
+                    { 3, "Estabilidad Emocional" },
+                    { 4, "Sociabilidad" },
+                    { 5, "Cautela" },
+                    { 6, "Originalidad" },
+                    { 7, "Comprensión" },
+                    { 8, "Vitalidad" },
+                    { 9, "Autoestima" },
+                    { 10, "Inteligencia" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Permission",
-                columns: new[] { "IdPermission", "PermissionName" },
+                columns: new[] { "IdPermission", "Assigned", "PermissionName", "PermissionNamePolicy" },
                 values: new object[,]
                 {
-                    { 4, "Eliminar-Usuario" },
-                    { 3, "Editar-Usuario" },
-                    { 1, "Lista-Usuarios" },
-                    { 2, "Crear-Usuario" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Position",
-                columns: new[] { "IdPosition", "CreationDate", "Department", "PositionHigher", "PositionName" },
-                values: new object[,]
-                {
-                    { 1, "13/05/2023 06:05 PM", "Tecnología de la Información", "Encargado de IT", "Desarrollador IT" },
-                    { 2, "13/05/2023 06:05 PM", "Ventas", "Gerente Comercial", "Asesor de Venta" }
+                    { 15, "Administradores", "Ver Curriculums", "Ver-Curriculums" },
+                    { 16, "Administradores", "Ver Reportes", "Ver-Reportes" },
+                    { 17, "Administradores", "Ver Lista de Puestos", "Lista-Puestos" },
+                    { 18, "Administradores", "Crear Puestos", "Crear-Puesto" },
+                    { 23, "Candidatos", "Pruebas Asignadas", "Pruebas-Asignadas" },
+                    { 20, "Administradores", "Eliminar Puestos", "Eliminar-Puesto" },
+                    { 21, "Candidatos", "Crear Expediente", "Crear-Expediente" },
+                    { 22, "Candidatos", "Confirmar Políticas", "Confirmar-Politicas" },
+                    { 14, "Administradores", "Editar Expedientes", "Editar-Expediente" },
+                    { 19, "Administradores", "Editar Puestos", "Editar-Puesto" },
+                    { 13, "Administradores", "Ver Lista de Expedientes", "Lista-Expedientes" },
+                    { 11, "Administradores", "Eliminar Candidatos", "Eliminar-Candidato" },
+                    { 2, "Administradores", "Crear Usuarios", "Crear-Usuario" },
+                    { 10, "Administradores", "Crear Candidatos", "Crear-Candidato" },
+                    { 9, "Administradores", "Ver Lista de Candidatos", "Lista-Candidatos" },
+                    { 8, "Administradores", "Eliminar Roles", "Eliminar-Rol" },
+                    { 7, "Administradores", "Editar Roles", "Editar-Rol" },
+                    { 6, "Administradores", "Crear Roles", "Crear-Rol" },
+                    { 5, "Administradores", "Ver Lista de Roles", "Lista-Roles" },
+                    { 4, "Administradores", "Eliminar Usuarios", "Eliminar-Usuario" },
+                    { 3, "Administradores", "Editar Usuarios", "Editar-Usuario" },
+                    { 12, "Administradores", "Reenviar Correos", "Reenviar-Correo" },
+                    { 1, "Administradores", "Ver Lista de Usuarios", "Lista-Usuarios" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Role",
-                columns: new[] { "IdRole", "RoleName" },
+                columns: new[] { "IdRole", "RoleName", "RoleNameNormalized" },
                 values: new object[,]
                 {
-                    { 1, "Super-Admin" },
-                    { 2, "Administrador" },
-                    { 3, "Candidato" }
+                    { 1, "Super-Admin", "SUPER-ADMIN" },
+                    { 2, "Candidato", "CANDIDATO" }
                 });
 
             migrationBuilder.InsertData(
@@ -343,22 +356,20 @@ namespace RHPsicotest.WebSite.Migrations
                 columns: new[] { "IdTest", "Link", "NameTest", "Time" },
                 values: new object[,]
                 {
-                    { 5, "Test_16PF", "16PF", "45 min." },
                     { 1, "Test_PPGIPG", "PPG-IPG", "45 min." },
                     { 2, "Test_OTIS", "OTIS", "45 min." },
-                    { 3, "Test_Dominos", "Dominos", "45 min." },
-                    { 4, "Test_BFQ", "BFQ", "45 min." }
+                    { 3, "Test_Dominos", "Dominos", "60 min." }
                 });
 
             migrationBuilder.InsertData(
                 table: "User",
-                columns: new[] { "IdUser", "Email", "Name", "Password", "RegistrationDate" },
-                values: new object[] { 1, "Wm25@gmail.com", "Werner Molina", "827ccb0eea8a706c4c34a16891f84e7b", "13/05/2023 06:05 PM" });
-
-            migrationBuilder.InsertData(
-                table: "Candidate",
-                columns: new[] { "IdCandidate", "Email", "IdPosition", "IdRole", "Password", "RegistrationDate" },
-                values: new object[] { 1, "ml22002@esfe.agape.edu.sv", 1, 3, "TW15", "13/05/2023 06:05 PM" });
+                columns: new[] { "IdUser", "Email", "EmailNormalized", "Name", "Password", "RegistrationDate" },
+                values: new object[,]
+                {
+                    { 2, "rosy.vasquez@consulightpf.net", "ROSY.VASQUEZ@CONSULIGHTPF.NET", "Rosy Hernández", "827ccb0eea8a706c4c34a16891f84e7b", "26/07/2023 11:26 AM" },
+                    { 1, "Wm25@gmail.com", "WM25@GMAIL.COM", "Werner Molina", "827ccb0eea8a706c4c34a16891f84e7b", "26/07/2023 11:26 AM" },
+                    { 3, "roberto.ramirez@consulightpf.net", "ROBERTO.RAMIREZ@CONSULIGHTPF.NET", "Roberto", "827ccb0eea8a706c4c34a16891f84e7b", "26/07/2023 11:26 AM" }
+                });
 
             migrationBuilder.InsertData(
                 table: "Permission_Role",
@@ -366,15 +377,39 @@ namespace RHPsicotest.WebSite.Migrations
                 values: new object[,]
                 {
                     { 1, 1 },
-                    { 2, 1 },
+                    { 23, 2 },
+                    { 22, 2 },
+                    { 21, 2 },
+                    { 20, 1 },
+                    { 19, 1 },
+                    { 18, 1 },
+                    { 17, 1 },
+                    { 16, 1 },
+                    { 15, 1 },
+                    { 14, 1 },
+                    { 13, 1 },
+                    { 11, 1 },
+                    { 10, 1 },
+                    { 9, 1 },
+                    { 8, 1 },
+                    { 7, 1 },
+                    { 6, 1 },
+                    { 5, 1 },
+                    { 4, 1 },
                     { 3, 1 },
-                    { 4, 1 }
+                    { 2, 1 },
+                    { 12, 1 }
                 });
 
             migrationBuilder.InsertData(
                 table: "Role_User",
                 columns: new[] { "IdRole", "IdUser" },
-                values: new object[] { 1, 1 });
+                values: new object[,]
+                {
+                    { 1, 2 },
+                    { 1, 1 },
+                    { 1, 3 }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Candidate_IdPosition",

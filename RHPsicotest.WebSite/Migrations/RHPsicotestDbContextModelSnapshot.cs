@@ -51,18 +51,6 @@ namespace RHPsicotest.WebSite.Migrations
                     b.HasIndex("IdRole");
 
                     b.ToTable("Candidate");
-
-                    b.HasData(
-                        new
-                        {
-                            IdCandidate = 1,
-                            Email = "ml22002@esfe.agape.edu.sv",
-                            EmailNormalized = "ML22002@ESFE.AGAPE.EDU.SV",
-                            IdPosition = 1,
-                            IdRole = 2,
-                            Password = "TW15",
-                            RegistrationDate = "23/07/2023 10:52 PM"
-                        });
                 });
 
             modelBuilder.Entity("RHPsicotest.WebSite.Models.Expedient", b =>
@@ -201,166 +189,6 @@ namespace RHPsicotest.WebSite.Migrations
                         {
                             IdFactor = 10,
                             FactorName = "Inteligencia"
-                        },
-                        new
-                        {
-                            IdFactor = 11,
-                            FactorName = "A"
-                        },
-                        new
-                        {
-                            IdFactor = 12,
-                            FactorName = "B"
-                        },
-                        new
-                        {
-                            IdFactor = 13,
-                            FactorName = "C"
-                        },
-                        new
-                        {
-                            IdFactor = 14,
-                            FactorName = "E"
-                        },
-                        new
-                        {
-                            IdFactor = 15,
-                            FactorName = "F"
-                        },
-                        new
-                        {
-                            IdFactor = 16,
-                            FactorName = "G"
-                        },
-                        new
-                        {
-                            IdFactor = 17,
-                            FactorName = "H"
-                        },
-                        new
-                        {
-                            IdFactor = 18,
-                            FactorName = "I"
-                        },
-                        new
-                        {
-                            IdFactor = 19,
-                            FactorName = "L"
-                        },
-                        new
-                        {
-                            IdFactor = 20,
-                            FactorName = "M"
-                        },
-                        new
-                        {
-                            IdFactor = 21,
-                            FactorName = "N"
-                        },
-                        new
-                        {
-                            IdFactor = 22,
-                            FactorName = "O"
-                        },
-                        new
-                        {
-                            IdFactor = 23,
-                            FactorName = "Q1"
-                        },
-                        new
-                        {
-                            IdFactor = 24,
-                            FactorName = "Q2"
-                        },
-                        new
-                        {
-                            IdFactor = 25,
-                            FactorName = "Q3"
-                        },
-                        new
-                        {
-                            IdFactor = 26,
-                            FactorName = "Q4"
-                        },
-                        new
-                        {
-                            IdFactor = 27,
-                            FactorName = "QI"
-                        },
-                        new
-                        {
-                            IdFactor = 28,
-                            FactorName = "QII"
-                        },
-                        new
-                        {
-                            IdFactor = 29,
-                            FactorName = "QIII"
-                        },
-                        new
-                        {
-                            IdFactor = 30,
-                            FactorName = "QIV"
-                        },
-                        new
-                        {
-                            IdFactor = 31,
-                            FactorName = "Disposición General para la Venta"
-                        },
-                        new
-                        {
-                            IdFactor = 32,
-                            FactorName = "Receptividad"
-                        },
-                        new
-                        {
-                            IdFactor = 33,
-                            FactorName = "Agresividad"
-                        },
-                        new
-                        {
-                            IdFactor = 34,
-                            FactorName = "I- Compresión"
-                        },
-                        new
-                        {
-                            IdFactor = 35,
-                            FactorName = "II- Adaptabilidad"
-                        },
-                        new
-                        {
-                            IdFactor = 36,
-                            FactorName = "III- Control de sí mismo"
-                        },
-                        new
-                        {
-                            IdFactor = 37,
-                            FactorName = "IV- Tolerancia a la frustración"
-                        },
-                        new
-                        {
-                            IdFactor = 38,
-                            FactorName = "V- Combatividad"
-                        },
-                        new
-                        {
-                            IdFactor = 39,
-                            FactorName = "VI- Dominio"
-                        },
-                        new
-                        {
-                            IdFactor = 40,
-                            FactorName = "VII- Seguridad"
-                        },
-                        new
-                        {
-                            IdFactor = 41,
-                            FactorName = "VIII- Actividad"
-                        },
-                        new
-                        {
-                            IdFactor = 42,
-                            FactorName = "IX- Sociabilidad"
                         });
                 });
 
@@ -702,24 +530,6 @@ namespace RHPsicotest.WebSite.Migrations
                     b.HasKey("IdPosition");
 
                     b.ToTable("Position");
-
-                    b.HasData(
-                        new
-                        {
-                            IdPosition = 1,
-                            CreationDate = "23/07/2023 10:52 PM",
-                            Department = "Tecnología de la Información",
-                            PositionHigher = "Encargado de IT",
-                            PositionName = "Desarrollador IT"
-                        },
-                        new
-                        {
-                            IdPosition = 2,
-                            CreationDate = "23/07/2023 10:52 PM",
-                            Department = "Ventas",
-                            PositionHigher = "Gerente Comercial",
-                            PositionName = "Asesor de Venta"
-                        });
                 });
 
             modelBuilder.Entity("RHPsicotest.WebSite.Models.Result", b =>
@@ -780,12 +590,6 @@ namespace RHPsicotest.WebSite.Migrations
                             IdRole = 2,
                             RoleName = "Candidato",
                             RoleNameNormalized = "CANDIDATO"
-                        },
-                        new
-                        {
-                            IdRole = 3,
-                            RoleName = "Administrador",
-                            RoleNameNormalized = "ADMINISTRADOR"
                         });
                 });
 
@@ -808,6 +612,16 @@ namespace RHPsicotest.WebSite.Migrations
                         {
                             IdRole = 1,
                             IdUser = 1
+                        },
+                        new
+                        {
+                            IdRole = 1,
+                            IdUser = 2
+                        },
+                        new
+                        {
+                            IdRole = 1,
+                            IdUser = 3
                         });
                 });
 
@@ -851,34 +665,6 @@ namespace RHPsicotest.WebSite.Migrations
                             IdTest = 3,
                             Link = "Test_Dominos",
                             NameTest = "Dominos",
-                            Time = "45 min."
-                        },
-                        new
-                        {
-                            IdTest = 4,
-                            Link = "Test_BFQ",
-                            NameTest = "BFQ",
-                            Time = "45 min."
-                        },
-                        new
-                        {
-                            IdTest = 5,
-                            Link = "Test_16PF_A",
-                            NameTest = "16PF Forma A",
-                            Time = "60 min."
-                        },
-                        new
-                        {
-                            IdTest = 6,
-                            Link = "Test_16PF_B",
-                            NameTest = "16PF Forma B",
-                            Time = "60 min."
-                        },
-                        new
-                        {
-                            IdTest = 7,
-                            Link = "Test_IPV",
-                            NameTest = "IPV",
                             Time = "60 min."
                         });
                 });
@@ -950,7 +736,25 @@ namespace RHPsicotest.WebSite.Migrations
                             EmailNormalized = "WM25@GMAIL.COM",
                             Name = "Werner Molina",
                             Password = "827ccb0eea8a706c4c34a16891f84e7b",
-                            RegistrationDate = "23/07/2023 10:52 PM"
+                            RegistrationDate = "26/07/2023 11:26 AM"
+                        },
+                        new
+                        {
+                            IdUser = 2,
+                            Email = "rosy.vasquez@consulightpf.net",
+                            EmailNormalized = "ROSY.VASQUEZ@CONSULIGHTPF.NET",
+                            Name = "Rosy Hernández",
+                            Password = "827ccb0eea8a706c4c34a16891f84e7b",
+                            RegistrationDate = "26/07/2023 11:26 AM"
+                        },
+                        new
+                        {
+                            IdUser = 3,
+                            Email = "roberto.ramirez@consulightpf.net",
+                            EmailNormalized = "ROBERTO.RAMIREZ@CONSULIGHTPF.NET",
+                            Name = "Roberto",
+                            Password = "827ccb0eea8a706c4c34a16891f84e7b",
+                            RegistrationDate = "26/07/2023 11:26 AM"
                         });
                 });
 

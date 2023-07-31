@@ -97,4 +97,11 @@ else
 </table>
 }
 
+@if (ViewBag.Message != null)
+{
+    <div class="mt-4">
+        <p class="fw-bold text-danger text-center fs-4">@ViewBag.Message</p>
+    </div>
+}
+
 

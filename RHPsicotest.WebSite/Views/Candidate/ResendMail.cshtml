@@ -9,6 +9,7 @@
 {
     <partial name="/Views/Shared/_ModalMessage.cshtml" model="(String)ViewBag.Message" />
 }
+<h1 class="fw-bold mb-4 text-center">Reenviar Correo al Candidato</h1>
 
 <form asp-action="ResendMail">
     <div class="row d-flex justify-content-center">
@@ -27,14 +28,14 @@
                 <input asp-for="Password" class="form-control" type="text" readonly>
             </div>
             <div class="mb-3">
-                <label for="" class="form-label h5">Pruebas a Recuperar:</label>
+                <label for="" class="form-label h5 fw-bold">Pruebas a Recuperar:</label>
                 <select asp-for="TestsId" class="form-select" id="multiple-select-clear-field" multiple>
                     @foreach (Test test in Model.Tests)
                     {
                         <option value="@test.IdTest">@test.NameTest</option>
                     }
                 </select>
-                <span asp-validation-for="TestsId"></span>
+                <span class="fw-bold text-danger">Sí solo necesita reenviar el correo déjelo vacío</span>
             </div>
             <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label h5">Asunto:</label>

@@ -16,7 +16,6 @@ namespace RHPsicotest.WebSite.ViewModels
 
         public List<Test> Tests { get; set; }
 
-        [Required(ErrorMessage = "Requerido")]
         public List<int> TestsId { get; set; }
     }
 }

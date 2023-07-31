@@ -7,6 +7,7 @@ namespace RHPsicotest.WebSite.ViewModels
     {
         public int IdUser { get; set; }
 
+        [StringLength(25, ErrorMessage = "El máximo de carácteres es 25")]
         [Display(Name = "Nombre")]
         [Required(ErrorMessage = "Requerido")]
         public string Name { get; set; }
@@ -16,6 +17,7 @@ namespace RHPsicotest.WebSite.ViewModels
         [EmailAddress(ErrorMessage = "Dirección de correo invalidad")]
         public string Email { get; set; }
 
+        [StringLength(20, ErrorMessage = "El máximo de carácteres es 20")]
         [Display(Name = "Contraseña")]
         public string Password { get; set; }
 

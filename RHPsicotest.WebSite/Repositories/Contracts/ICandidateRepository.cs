@@ -13,7 +13,7 @@ namespace RHPsicotest.WebSite.Repositories.Contracts
 
         public Task<List<Position>> GetAllPositions();
 
-        public Task<bool> DeleteResultsToCandidate(int candidateId, List<int> testsId);
+        public Task<bool> DeleteResultsToCandidate(CandidateResendMailVM candidateResendMailVM);
 
         public Task<CandidateSendVM> AddCandidate(CandidateVM candidateVM);
 

@@ -82,21 +82,13 @@ namespace RHPsicotest.WebSite.Repositories
             return await context.Positions.ToListAsync();
         }
 
-        public async Task<bool> DeleteResultsToCandidate(int candidateId, List<int> testsId)
+        public async Task<bool> DeleteResultsToCandidate(CandidateResendMailVM candidateResendMailVM)
         {
-            Expedient expedient = await context.Expedients.FirstOrDefaultAsync(e => e.IdCandidate == candidateId);
+            Expedient expedient = await context.Expedients.FirstOrDefaultAsync(e => e.IdCandidate == candidateResendMailVM.IdCandidate);
 
-            //foreach (int testId in testsId)
-            //{
-            //    List<Result> results = await context.Results.Where(r => r.IdExpedient == expedient.IdExpedient && r.IdTest == testId).ToListAsync();
-
-            //    context.Results.RemoveRange(results);
-            //    context.SaveChanges();
-            //}
-
-            foreach (int id in testsId)
+            foreach (int id in candidateResendMailVM.TestsId)
             {
-                Test_Candidate candidate = await context.Test_Candidates.FirstOrDefaultAsync(c => c.IdCandidate == candidateId && c.IdTest == id);
+                Test_Candidate candidate = await context.Test_Candidates.FirstOrDefaultAsync(c => c.IdCandidate == candidateResendMailVM.IdCandidate && c.IdTest == id);
 
                 candidate.Status = false;
 

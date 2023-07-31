@@ -30,9 +30,11 @@ namespace RHPsicotest.WebSite.Controllers
 
             if (userId > 0)
             {
-                List<TestDTO> tests = await testRepository.GetAssignedTests(userId);
+                List<TestDTO> assignedTests = await testRepository.GetAssignedTests(userId);
 
-                return View(tests);
+                ViewBag.Message = TempData["message"];
+
+                return View(assignedTests);
             }
 
             return RedirectToAction("Login", "Login");
@@ -40,6 +42,8 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpGet]
         [Route("/Prueba/PPG-IPG")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme,
+            Roles = "Candidato")]
         public async Task<IActionResult> Test_PPGIPG()
         {
             int userId = GetCandidateId();
@@ -49,6 +53,8 @@ namespace RHPsicotest.WebSite.Controllers
 
             if (isCompleted)
             {
+                TempData["message"] = "Ya has completado la prueba PPG-IPG";
+
                 return RedirectToAction(nameof(AssignedTests));
             }
 
@@ -59,10 +65,12 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpPost]
         [Route("/Prueba/PPG-IPG")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme,
+            Roles = "Candidato")]
         public async Task<IActionResult> Test_PPGIPG(char[][] responses)
         {
             int userId = GetCandidateId();
-            int testId = await GetTestId("OTIS");
+            int testId = await GetTestId("PPG-IPG");
 
             bool result = await testRepository.GenerateResults_Test_PPGIPG(responses, userId, testId);
 
@@ -78,6 +86,8 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpGet]
         [Route("/Prueba/OTIS")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme,
+            Roles = "Candidato")]
         public async Task<IActionResult> Test_OTIS()
         {
             int userId = GetCandidateId();
@@ -87,6 +97,8 @@ namespace RHPsicotest.WebSite.Controllers
 
             if (isCompleted)
             {
+                TempData["message"] = "Ya has completado la prueba OTIS";
+
                 return RedirectToAction(nameof(AssignedTests));
             }
 
@@ -97,6 +109,8 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpPost]
         [Route("/Prueba/OTIS")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme,
+            Roles = "Candidato")]
         public async Task<IActionResult> Test_OTIS(char[] responses)
         {
             int userId = GetCandidateId();
@@ -116,6 +130,8 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpGet]
         [Route("/Prueba/Dominos")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme,
+            Roles = "Candidato")]
         public async Task<IActionResult> Test_Dominos()
         {
             int userId = GetCandidateId();
@@ -125,6 +141,8 @@ namespace RHPsicotest.WebSite.Controllers
 
             if (isCompleted)
             {
+                TempData["message"] = "Ya has completado la prueba Dominos";
+
                 return RedirectToAction(nameof(AssignedTests));
             }
 
@@ -133,6 +151,8 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpPost]
         [Route("/Prueba/Dominos")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme,
+            Roles = "Candidato")]
         public async Task<IActionResult> Test_Dominos(char?[][] responses)
         {
             int userId = GetCandidateId();

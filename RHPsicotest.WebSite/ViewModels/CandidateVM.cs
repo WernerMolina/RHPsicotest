@@ -16,6 +16,7 @@ namespace RHPsicotest.WebSite.ViewModels
         [Required(ErrorMessage = "Requerido")]
         public string Email { get; set; }
 
+        [StringLength(20, ErrorMessage = "El máximo de carácteres es 20")]
         [Display(Name = "Contraseña")]
         [Required(ErrorMessage = "Requerido")]
         public string Password { get; set; }

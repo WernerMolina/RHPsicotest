@@ -149,33 +149,42 @@ namespace RHPsicotest.WebSite.Controllers
         [Route("/ReenviarCorreo")]
         [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme,
             Policy = "Resend-Candidate-Policy")]
-        public async Task<IActionResult> ResendMail(CandidateResendMailVM candidate)
+        public async Task<IActionResult> ResendMail(CandidateResendMailVM candidateResendMailVM)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    bool result = await candidateRepository.DeleteResultsToCandidate(candidate.IdCandidate, candidate.TestsId);
-
-                    if (result)
+                    if (candidateResendMailVM.TestsId != null)
                     {
-                        SendEmail.Send(candidate.Email, candidate.Password);
+                        bool result = await candidateRepository.DeleteResultsToCandidate(candidateResendMailVM);
 
-                        return RedirectToAction(nameof(Index));
+                        if (result)
+                        {
+                            SendEmail.Send(candidateResendMailVM.Email, candidateResendMailVM.Password);
+
+                            return RedirectToAction(nameof(Index));
+                        }
+                        else
+                        {
+                            ViewBag.Message = "No se pudo realizar el reenvio, intentelo otra vez";
+                        }
                     }
                     else
                     {
-                        ViewBag.Message = "No se pudo realizar el reenvio, intentelo otra vez";
+                        SendEmail.Send(candidateResendMailVM.Email, candidateResendMailVM.Password);
+
+                        return RedirectToAction(nameof(Index));
                     }
                 }
 
-                return View(candidate);
+                return View(candidateResendMailVM);
             }
             catch (Exception ex)
             {
                 ViewBag.Message = ex.Message;
 
-                return View(candidate);
+                return View(candidateResendMailVM);
             }
         }
     }

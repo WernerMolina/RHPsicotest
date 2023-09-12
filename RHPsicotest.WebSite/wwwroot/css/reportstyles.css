@@ -8,7 +8,7 @@
 .table-domino .t-head {
     width: 20%;
     height: 70px;
-    background-color: blue;
+    background-color: #385ccd;
     color: white;
     font-weight: bold;
 }
@@ -16,7 +16,7 @@
 .table-otis .t-head {
     width: 33.33%;
     height: 70px;
-    background-color: blue;
+    background-color: #385ccd;
     color: white;
     font-weight: bold;
 }
@@ -34,7 +34,7 @@
     content: "";
     width: var(--width-pseudo);
     height: 25px;
-    background-color: blue;
+    background-color: #385ccd;
     position: absolute;
     top: 50%;
     transform: translateY(-50%);

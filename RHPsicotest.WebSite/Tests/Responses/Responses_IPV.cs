@@ -570,7 +570,7 @@ namespace RHPsicotest.WebSite.Tests.Responses
                 },
                 new Responses_IPV
                 {
-                    IdFactor = 7,
+                    IdFactor = 10,
                     QuestionNumber = 85,
                     Correct = 'C',
                 },
@@ -658,7 +658,7 @@ namespace RHPsicotest.WebSite.Tests.Responses
                 },
                 new Responses_IPV
                 {
-                    IdFactor = 9,
+                    IdFactor = 12,
                     QuestionNumber = 35,
                     Correct = 'A',
                 },

@@ -156,7 +156,7 @@ namespace RHPsicotest.WebSite.Repositories
 
             Expedient expedient = await context.Expedients.FirstOrDefaultAsync(e => e.IdCandidate == candidateId);
 
-            bool result = await AddResults_IPV(expedient.IdExpedient, scoresByFactor, decatypesByFactor, descriptions);
+            bool result = await AddResults_IPV(candidateId, testId, expedient.IdExpedient, scoresByFactor, decatypesByFactor, descriptions);
 
             return result;
         }
@@ -240,26 +240,26 @@ namespace RHPsicotest.WebSite.Repositories
             return await context.SaveChangesAsync() > 0;
         }
 
-        private async Task<bool> AddResults_IPV(int expedientId, byte[] scoresByFactor, byte[] decatypesByFactor, string[] descriptions)
+        private async Task<bool> AddResults_IPV(int candidateId, int testId, int expedientId, byte[] scoresByFactor, byte[] decatypesByFactor, string[] descriptions)
         {
-            List<Result> results = new List<Result>();
-            List<Result> removes = context.Results.Where(r => r.IdExpedient == expedientId && r.IdTest == 7).ToList();
+            bool resultSave;
 
-            if(removes != null)
-            {
-                context.Results.RemoveRange(removes);
-                context.SaveChanges();
-            }
+            DeleteTestResult(expedientId, testId);
 
             byte factorId = 31;
+            List<Result> results = new List<Result>();
 
             for (byte i = 0; i <= 11; i++)
             {
-                results.Add(Conversion.ConvertToResult(expedientId, 7, factorId++, scoresByFactor[i], decatypesByFactor[i], descriptions[i]));
+                results.Add(Conversion.ConvertToResult(expedientId, testId, factorId++, scoresByFactor[i], decatypesByFactor[i], descriptions[i]));
             }
 
             await context.Results.AddRangeAsync(results);
-            return await context.SaveChangesAsync() > 0;
+            resultSave = await context.SaveChangesAsync() > 0;
+
+            if (resultSave) ChangedTestStatus(candidateId, testId);
+
+            return resultSave;
         }
 
 

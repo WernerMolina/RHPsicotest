@@ -32,12 +32,12 @@
 </div>
 
 <script>
-    let factorsData = @Html.Raw(factorsJson);
-    let percentilesData = @Html.Raw(percentileJson);
+    let factorsDataPPGIPG = @Html.Raw(factorsJson);
+    let percentilesDataPPGIPG = @Html.Raw(percentileJson);
 
     let chartPPGIPG = echarts.init(document.getElementById('chartPPGIPG'));
 
-    let option = {
+    let optionPPGIPG = {
         title: {
             text: ''
         },
@@ -47,18 +47,26 @@
         },
         xAxis: {
             data: ['Asc', 'Res', 'Est', 'Soc', 'Cau', 'Ori', 'Com', 'Vit', 'Aut'],
-            //data: factorsData,
+            axisLabel: {
+                fontSize: 16,
+                fontWeight: "bold",
+            }
         },
-        yAxis: {},
+        yAxis: {
+            axisLabel: {
+                fontSize: 16,
+                fontWeight: "bold",
+            }
+        },
         series: [
             {
                 name: 'Percentil',
                 type: 'bar',
-                data: percentilesData
+                data: percentilesDataPPGIPG
             }
         ]
     };
 
-    chartPPGIPG.setOption(option);
+    chartPPGIPG.setOption(optionPPGIPG);
 </script>
 

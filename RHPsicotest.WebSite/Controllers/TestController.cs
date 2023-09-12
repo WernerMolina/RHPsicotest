@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RHPsicotest.WebSite.DTOs;
+using RHPsicotest.WebSite.Models;
 using RHPsicotest.WebSite.Repositories.Contracts;
 using RHPsicotest.WebSite.Tests.Questions;
 using System;
@@ -240,8 +241,20 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpGet]
         [Route("/Prueba/IPV")]
-        public IActionResult Test_IPV()
+        public async Task<IActionResult> Test_IPV()
         {
+            int userId = GetCandidateId();
+            int testId = await GetTestId("IPV");
+
+            bool isCompleted = await testRepository.HasCompleteTest(userId, testId);
+
+            if (isCompleted)
+            {
+                TempData["message"] = "Ya has completado la prueba IPV";
+
+                return RedirectToAction(nameof(AssignedTests));
+            }
+
             List<Questions_IPV> questions = testRepository.GetQuestions_Test_IPV();
 
             return View(questions);

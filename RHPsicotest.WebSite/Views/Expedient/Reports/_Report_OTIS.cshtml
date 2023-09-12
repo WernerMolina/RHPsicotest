@@ -41,12 +41,12 @@
 <script type="text/javascript">
     let pseudoOtis = document.querySelector(".tr-result-otis");
 
-    let IQ = @percentile;
+    let iq = @percentile;
     let widthOtis = "";
 
-    if (IQ >= 102) widthOtis = "85%";
-    if (IQ == 100) widthOtis = "51%";
-    if (IQ <= 98) widthOtis = "17%";
+    if (iq >= 102) widthOtis = "85%";
+    if (iq == 100) widthOtis = "51%";
+    if (iq <= 98) widthOtis = "17%";
 
     pseudoOtis.style.setProperty('--width-pseudo', widthOtis);
 </script>

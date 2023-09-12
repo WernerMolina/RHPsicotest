@@ -7,7 +7,7 @@
 
     string name = "Reporte-" + (expedient.Names + expedient.Lastnames).Replace(" ", "");
 
-    ViewData["Title"] = "Reporte de " + (expedient.Names + expedient.Lastnames);
+    ViewData["Title"] = "Reporte de " + (expedient.Names + " " + expedient.Lastnames);
 }
 
 <div class="mb-4">
@@ -45,7 +45,12 @@
             <partial name="/Views/Expedient/Reports/_Report_Dominos.cshtml" model="@resultDTO.Results" />
         }
         
-        @if (resultDTO.IdTest == 5)
+        @if (resultDTO.IdTest == 4)
+        {
+            <partial name="/Views/Expedient/Reports/_Report_IPV.cshtml" model="@resultDTO.Results" />
+        }
+        
+@*        @if (resultDTO.IdTest == 5)
         {
             <partial name="/Views/Expedient/Reports/_Report_16PF.cshtml" model="@resultDTO.Results" />
         }
@@ -53,12 +58,9 @@
         @if (resultDTO.IdTest == 6)
         {
             <partial name="/Views/Expedient/Reports/_Report_16PF.cshtml" model="@resultDTO.Results" />
-        }
+        }*@
         
-        @if (resultDTO.IdTest == 7)
-        {
-            <partial name="/Views/Expedient/Reports/_Report_IPV.cshtml" model="@resultDTO.Results" />
-        }
+
 
         <br />
         <br />

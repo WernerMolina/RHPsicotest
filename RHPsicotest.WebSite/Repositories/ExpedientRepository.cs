@@ -111,7 +111,7 @@ namespace RHPsicotest.WebSite.Repositories
 
             List<ResultDTO> resultDTOs = new List<ResultDTO>();
 
-            for (int i = 1; i < 5; i++)
+            for (int i = 1; i <= 7; i++)
             {
                 List<Result> results2 = results.Where(r => r.IdTest == i).ToList();
 

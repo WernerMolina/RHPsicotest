@@ -9,7 +9,12 @@
 
     foreach (TestDTO test in Model)
     {
-        hasCompletedTest = test.Status;
+        if (test.Status == false)
+        {
+            hasCompletedTest = false;
+            break;
+        }
+        else hasCompletedTest = true;
     }
 }
 

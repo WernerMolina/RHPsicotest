@@ -13,6 +13,9 @@
     byte i = 0;
     string[] factors =
     {
+        "DGA.- Disposición General para la Venta",
+        "R.- Receptividad",
+        "A.- Agresividad",
         "I.- Comprensión",
         "II.- Adaptabilidad",
         "III.- Control de sí mismo",
@@ -22,13 +25,10 @@
         "VII.- Seguridad",
         "VIII.- Actividad",
         "IX.- Sociabilidad",
-        "DGA.- Disposición General para la Venta",
-        "R.- Receptividad",
-        "A.- Agresividad"
     };
 
-    string factorsDescriptionJson = JsonConvert.SerializeObject(factors);
-    string percentileJson = JsonConvert.SerializeObject(decatypes);
+    string factorsDescriptionJson = JsonConvert.SerializeObject(Enumerable.Reverse(factors).ToArray());
+    string percentileJson = JsonConvert.SerializeObject(Enumerable.Reverse(decatypes).ToArray());
 }
 
 <h2 class="text-center fw-bold">IPV</h2>
@@ -46,12 +46,12 @@
 </div>
 
 <script>
-    let percentilesData = @Html.Raw(percentileJson);
-    let factorsData = @Html.Raw(factorsDescriptionJson);
+    let percentilesDataIPV = @Html.Raw(percentileJson);
+    let factorsDataIPV = @Html.Raw(factorsDescriptionJson);
 
     let chartIPV = echarts.init(document.getElementById('chartIPV'));
 
-    let option = {
+    let optionIPV = {
        grid: {
             show: true,
             width: "50%",
@@ -73,7 +73,7 @@
         },
         yAxis: {
             type: 'category',
-            data: factorsData,
+            data: factorsDataIPV,
             axisLabel: {
                 fontSize: 16,
                 fontWeight: "bold",
@@ -81,12 +81,12 @@
         },
         series: [
             {
-                data: percentilesData,
+                data: percentilesDataIPV,
                 type: 'line'
             }
         ]
     };
 
-    chartIPV.setOption(option);
+    chartIPV.setOption(optionIPV);
 </script>
 

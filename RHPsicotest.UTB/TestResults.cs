@@ -14,12 +14,12 @@ namespace RHPsicotest.UTB
     {
         public RHPsicotestContext context = new RHPsicotestContext();
 
-        public bool GenerateResults_Test_PPGIPG(char[][] responses, int currentIdUser)
+        public async Task<bool> GenerateResults_Test_PPGIPG(char[][] responses, int candidateId, int testId)
         {
             byte[] scoresByFactor = Results_PPGIPG.GetScoresByFactor(responses);
 
             // Traemos el expediente del candidato que esta realizando la prueba
-            Expedient expedient = context.Expedients.FirstOrDefault(e => e.IdCandidate == currentIdUser);
+            Expedient expedient = await context.Expedients.FirstOrDefaultAsync(e => e.IdCandidate == candidateId);
 
             // Guarda el genero, la edad y la formación académica del candidato
             (string, byte, string) infoCandidate = (expedient.Gender, expedient.Age, expedient.AcademicTraining);
@@ -30,58 +30,120 @@ namespace RHPsicotest.UTB
             // Guarda las descripciones de todos los factores
             string[] descriptions = Results_PPGIPG.GetDescriptionsByPercentile(percentiles);
 
-            bool result = AddResults_PPGIPG(expedient.IdExpedient, scoresByFactor, percentiles, descriptions);
+            bool result = await AddResults_PPGIPG(candidateId, testId, expedient.IdExpedient, scoresByFactor, percentiles, descriptions);
 
             return result;
         }
 
-        public bool GenerateResults_Test_Dominos(char?[][] responses, int currentIdUser)
+        public async Task<bool> GenerateResults_Test_Dominos(char?[][] responses, int candidateId, int testId)
         {
             byte score = Results_Dominos.GetScoreTotal(responses);
 
-            Expedient expedient = context.Expedients.FirstOrDefault(e => e.IdCandidate == currentIdUser);
+            Expedient expedient = await context.Expedients.FirstOrDefaultAsync(e => e.IdCandidate == candidateId);
 
             byte percentile = Results_Dominos.GetPercentileByScore(score, expedient.AcademicTraining);
 
             string description = Results_Dominos.GetDescriptionByPercentile(percentile);
 
-            return AddResults_Dominos(expedient.IdExpedient, score, percentile, description);
+            return await AddResults_Dominos(candidateId, testId, expedient.IdExpedient, score, percentile, description);
         }
 
-        private bool AddResults_PPGIPG(int expedientId, byte[] scoresByFactor, byte[] percentilesByFactor, string[] descriptions)
+        public async Task<bool> GenerateResults_Test_IPV(char[] responses, int candidateId, int testId)
         {
-            List<Result> results = new List<Result>();
-            List<Result> removes = context.Results.Where(r => r.IdExpedient == expedientId && r.IdTest == 1).ToList();
+            byte[] scoresByFactor = Results_IPV.GetScoresByFactor(responses);
 
-            if (removes != null)
-            {
-                context.Results.RemoveRange(removes);
-                context.SaveChanges();
-            }
+            byte[] decatypesByFactor = Results_IPV.GetDecatypesByFactor(scoresByFactor);
+
+            string[] descriptions = Results_IPV.GetDescriptionsByFactor(decatypesByFactor);
+
+            Expedient expedient = await context.Expedients.FirstOrDefaultAsync(e => e.IdCandidate == candidateId);
+
+            bool result = await AddResults_IPV(candidateId, testId, expedient.IdExpedient, scoresByFactor, decatypesByFactor, descriptions);
+
+            return result;
+        }
+
+
+        private async Task<bool> AddResults_PPGIPG(int candidateId, int testId, int expedientId, byte[] scoresByFactor, byte[] percentilesByFactor, string[] descriptions)
+        {
+            bool resultSave;
+
+            DeleteTestResult(expedientId, testId);
+
+            List<Result> results = new List<Result>();
 
             for (byte i = 0; i <= 8; i++)
             {
-                results.Add(Conversion.ConvertToResult(expedientId, 1, i + 1, scoresByFactor[i], percentilesByFactor[i], descriptions[i]));
+                results.Add(Conversion.ConvertToResult(expedientId, testId, i + 1, scoresByFactor[i], percentilesByFactor[i], descriptions[i]));
             }
 
-            context.Results.AddRange(results);
-            return context.SaveChanges() > 0;
+            await context.Results.AddRangeAsync(results);
+            resultSave = await context.SaveChangesAsync() > 0;
+
+            if (resultSave) ChangedTestStatus(candidateId, testId);
+
+            return resultSave;
         }
 
-        private bool AddResults_Dominos(int expedientId, byte score, byte percentile, string description)
+        private async Task<bool> AddResults_Dominos(int candidateId, int testId, int expedientId, byte score, byte percentile, string description)
         {
-            Result remove = context.Results.FirstOrDefault(r => r.IdExpedient == expedientId && r.IdTest == 3);
+            bool resultSave;
 
-            if (remove != null)
+            DeleteTestResult(expedientId, testId);
+
+            Result result = Conversion.ConvertToResult(expedientId, testId, 10, score, percentile, description);
+
+            await context.Results.AddAsync(result);
+            resultSave = await context.SaveChangesAsync() > 0;
+
+            if (resultSave) ChangedTestStatus(candidateId, testId);
+
+            return resultSave;
+        }
+
+        private async Task<bool> AddResults_IPV(int candidateId, int testId, int expedientId, byte[] scoresByFactor, byte[] decatypesByFactor, string[] descriptions)
+        {
+            bool resultSave;
+
+            DeleteTestResult(expedientId, testId);
+
+            byte factorId = 31;
+            List<Result> results = new List<Result>();
+
+            for (byte i = 0; i <= 11; i++)
             {
-                context.Results.Remove(remove);
-                context.SaveChanges();
+                results.Add(Conversion.ConvertToResult(expedientId, testId, factorId++, scoresByFactor[i], decatypesByFactor[i], descriptions[i]));
             }
 
-            Result result = Conversion.ConvertToResult(expedientId, 3, 10, score, percentile, description);
+            await context.Results.AddRangeAsync(results);
+            resultSave = await context.SaveChangesAsync() > 0;
 
-            context.Results.AddAsync(result);
-            return context.SaveChanges() > 0;
+            if (resultSave) ChangedTestStatus(candidateId, testId);
+
+            return resultSave;
+        }
+
+
+
+        private void DeleteTestResult(int expedientId, int testId)
+        {
+            List<Result> results = context.Results.AsNoTracking().Where(r => r.IdExpedient == expedientId && r.IdTest == testId).ToList();
+
+            if (results.Count > 0)
+            {
+                context.Results.RemoveRange(results);
+                context.SaveChanges();
+            }
+        }
+
+        private void ChangedTestStatus(int candidateId, int testId)
+        {
+            Test_Candidate testCandidate = context.Test_Candidates.AsNoTracking().FirstOrDefault(t => t.IdTest == testId && t.IdCandidate == candidateId);
+
+            testCandidate.Status = true;
+
+            context.Test_Candidates.Update(testCandidate);
+            context.SaveChanges();
         }
 
     }

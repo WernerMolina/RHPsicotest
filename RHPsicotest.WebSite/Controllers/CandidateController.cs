@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RHPsicotest.WebSite.DTOs;
+using RHPsicotest.WebSite.Repositories;
 using RHPsicotest.WebSite.Repositories.Contracts;
 using RHPsicotest.WebSite.Utilities;
 using RHPsicotest.WebSite.ViewModels;
@@ -187,5 +188,27 @@ namespace RHPsicotest.WebSite.Controllers
                 return View(candidateResendMailVM);
             }
         }
+
+        [HttpPost]
+        [Route("/Candidato/Eliminar")]
+        public async Task<IActionResult> Delete(int candidateId)
+        {
+            try
+            {
+                bool result = await candidateRepository.DeleteCandidate(candidateId);
+
+                if (result)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+
+                return BadRequest();
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
+
     }
 }

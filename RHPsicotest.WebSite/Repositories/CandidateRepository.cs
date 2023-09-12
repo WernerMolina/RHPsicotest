@@ -82,6 +82,21 @@ namespace RHPsicotest.WebSite.Repositories
             return await context.Positions.ToListAsync();
         }
 
+        public async Task<bool> DeleteCandidate(int candidateId)
+        {
+            bool result = false;
+
+            Candidate candidate = await context.Candidates.FirstOrDefaultAsync(u => u.IdCandidate == candidateId);
+
+            if (candidate != null)
+            {
+                context.Candidates.Remove(candidate);
+                result = await context.SaveChangesAsync() > 0;
+            }
+
+            return result;
+        }
+
         public async Task<bool> DeleteResultsToCandidate(CandidateResendMailVM candidateResendMailVM)
         {
             Expedient expedient = await context.Expedients.FirstOrDefaultAsync(e => e.IdCandidate == candidateResendMailVM.IdCandidate);

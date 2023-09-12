@@ -1,4 +1,11 @@
+﻿
 ﻿@{
-    ViewData["Title"] = "Currirculum Vitae";
+    Layout = "~/Views/Shared/_LayoutCurriculum.cshtml";
+
+    ViewData["Title"] = "Hoja de vida";
+
+    var filePDF = ViewData["PDF"];
 }
 
+
+<embed style="position:absolute; left: 0; top: 0; width:100%; height:100%" src="data:application/pdf;base64, @System.Convert.ToBase64String((Byte[])filePDF)" type="application/pdf">

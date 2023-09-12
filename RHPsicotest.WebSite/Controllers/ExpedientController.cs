@@ -217,14 +217,16 @@ namespace RHPsicotest.WebSite.Controllers
         }
 
         [HttpGet]
-        [Route("/CurriculumVitae")]
+        [Route("/Curriculum-Vitae")]
         [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, 
             Policy = "WatchCurriculums-Expedient-Policy")]
         public async Task<IActionResult> ShowCurriculum(int id)
         {
             byte[] fileBytes = await expedientRepository.GetPDFInBytes(id);
 
-            return File(fileBytes, "application/pdf");
+            ViewData["PDF"] = fileBytes;
+
+            return View();
         }
 
         [HttpGet]

@@ -21,6 +21,8 @@ namespace RHPsicotest.WebSite.Repositories.Contracts
 
         public Task<Role> GetRoleName();
 
+        public Task<bool> DeleteCandidate(int candidateId);
+
         public Task<bool> CandidateExists(string email, int id = 0);
 
         public Task<List<string>> GetTestNames(int positionId);

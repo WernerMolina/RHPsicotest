@@ -3,6 +3,8 @@
 @{
     ViewData["Title"] = "Expedientes";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+
+    byte i = 1;
 }
 
 <h1 class="fw-bold mb-4">Lista de Expedientes</h1>
@@ -10,6 +12,9 @@
 <table class="table table-striped align-middle" id="dataTable">
     <thead class="table-dark">
         <tr class="text-center">
+            <th>
+                Nº
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.DUI)
             </th>
@@ -32,6 +37,9 @@
         @foreach (ExpedientDTO expedient in Model)
         {
             <tr>
+                <td>
+                    @i
+                </td>
                 <td>
                     @Html.DisplayFor(modelItem => expedient.DUI)
                 </td>
@@ -63,6 +71,8 @@
                     }
                 </td>
             </tr>
+
+            i++;
         }
     </tbody>
 </table>

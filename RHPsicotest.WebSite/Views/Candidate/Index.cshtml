@@ -3,6 +3,8 @@
 @{
     ViewData["Title"] = "Candidatos";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+
+    byte i = 1;
 }
 
 <h1 class="fw-bold">Lista de Contraseñas</h1>
@@ -17,6 +19,9 @@
 <table class="table table-striped align-middle" id="dataTable">
     <thead class="table-dark">
         <tr class="text-center">
+            <th>
+                Nº
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Password)
             </th>
@@ -36,6 +41,9 @@
         @foreach (CandidateDTO candidate in Model)
         {
             <tr>
+                <td>
+                    @i
+                </td>
                 <td>
                     @Html.DisplayFor(modelItem => candidate.Password)
                 </td>
@@ -58,6 +66,8 @@
                     </button>
                 </td>
             </tr>
+
+            i++;
         }
     </tbody>
 </table>

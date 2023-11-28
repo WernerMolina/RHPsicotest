@@ -69,7 +69,14 @@ namespace RHPsicotest.WebSite.Controllers
 
                         identity = Helper.CandidateAuthenticate(candidateLoginDTO);
 
-                        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
+                        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, 
+                                                      new ClaimsPrincipal(identity),
+                                                      new AuthenticationProperties
+                                                      {
+                                                          //AllowRefresh = true,
+                                                          //IsPersistent = true,
+                                                          //ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(1)
+                                                      });
 
                         if (candidateLoginDTO.HasExpediente)
                         {

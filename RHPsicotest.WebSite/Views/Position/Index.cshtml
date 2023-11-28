@@ -3,6 +3,8 @@
 @{
     ViewData["Title"] = "Puestos";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+
+    byte i = 1;
 }
 
 <h1 class="fw-bold">Lista de Puestos</h1>
@@ -17,6 +19,9 @@
 <table class="table table-striped align-middle" id="dataTable">
     <thead class="table-dark">
         <tr class="text-center">
+            <th>
+                Nº
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.PositionName)
             </th>
@@ -37,6 +42,9 @@
         {
             <tr>
                 <td>
+                    @i
+                </td>
+                <td>
                     @Html.DisplayFor(model => position.PositionName)
                 </td>
                 <td>
@@ -56,11 +64,13 @@
                     @if ((await AuthorizationService.AuthorizeAsync(User, "Delete-Position-Policy")).Succeeded)
                     {
                         <button class="btn btn-danger fw-bold" onclick="activeModalDelete(@position.IdPosition)">
-                        <i class="bi bi-trash3-fill"></i>
-                    </button>
+                            <i class="bi bi-trash3-fill"></i>
+                        </button>
                     }
                 </td>
             </tr>
+
+            i++;
         }
     </tbody>
 </table>

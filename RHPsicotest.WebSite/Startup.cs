@@ -39,6 +39,15 @@ namespace RHPsicotest.WebSite
             services.AddScoped<IExpedientRepository, ExpedientRepository>();
             services.AddScoped<ITestRepository, TestRepository>();
 
+            //services.AddAntiforgery(option =>
+            //{
+            //    option.Cookie.Name = "AntiforgeryCookieRHPsicotest";
+            //    option.FormFieldName = "AntiforgeryFieldName";
+            //    option.HeaderName = "AntiforgeryHeaderRHPsicotest";
+            //    option.Cookie.MaxAge = TimeSpan.FromHours(5);
+            //    option.Cookie.Expiration = TimeSpan.FromHours(5);
+            //});
+
             services.AddAuthentication(option =>
             {
                 option.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -46,10 +55,20 @@ namespace RHPsicotest.WebSite
                 option.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
             }).AddCookie(option =>
             {
+                option.Cookie.Name = "RHPsicotest";
+                option.Cookie.MaxAge = TimeSpan.FromDays(7);
+
                 option.LoginPath = "/Login";
                 option.AccessDeniedPath = new PathString("/AccesoDenegado");
                 option.ExpireTimeSpan = TimeSpan.FromDays(7);
-                option.SlidingExpiration = false;
+
+
+                //option.Cookie.Expiration = TimeSpan.FromHours(2);
+                //option.Cookie.IsEssential = true;
+                //option.Cookie.HttpOnly = false;
+                //option.Cookie.Path = "/Login";
+                //option.Cookie.SameSite = SameSiteMode.Lax;
+                //option.Cookie.SecurePolicy = CookieSecurePolicy.Always;                        
             });
 
             services.AddAuthorization(option =>
@@ -67,25 +86,25 @@ namespace RHPsicotest.WebSite
                 option.AddPolicy("Create-Role-Policy", pol => pol.RequireClaim("Permission", new[] { "Crear-Rol" }));
                 option.AddPolicy("Edit-Role-Policy", pol => pol.RequireClaim("Permission", new[] { "Editar-Rol" }));
                 option.AddPolicy("Delete-Role-Policy", pol => pol.RequireClaim("Permission", new[] { "Eliminar-Rol" }));
-                
+
                 //Politicas de Candidato
                 option.AddPolicy("List-Candidate-Policy", pol => pol.RequireClaim("Permission", new[] { "Lista-Candidatos" }));
                 option.AddPolicy("Create-Candidate-Policy", pol => pol.RequireClaim("Permission", new[] { "Crear-Candidato" }));
                 option.AddPolicy("Delete-Candidate-Policy", pol => pol.RequireClaim("Permission", new[] { "Eliminar-Candidato" }));
                 option.AddPolicy("Resend-Candidate-Policy", pol => pol.RequireClaim("Permission", new[] { "Reenviar-Correo" }));
-                
+
                 //Politicas de Expediente
                 option.AddPolicy("List-Expedient-Policy", pol => pol.RequireClaim("Permission", new[] { "Lista-Expedientes" }));
                 option.AddPolicy("Edit-Expedient-Policy", pol => pol.RequireClaim("Permission", new[] { "Editar-Expediente" }));
                 option.AddPolicy("WatchCurriculums-Expedient-Policy", pol => pol.RequireClaim("Permission", new[] { "Ver-Curriculums" }));
                 option.AddPolicy("WatchReports-Expedient-Policy", pol => pol.RequireClaim("Permission", new[] { "Ver-Reportes" }));
-                
+
                 //Politicas de Puesto
                 option.AddPolicy("List-Position-Policy", pol => pol.RequireClaim("Permission", new[] { "Lista-Puestos" }));
                 option.AddPolicy("Create-Position-Policy", pol => pol.RequireClaim("Permission", new[] { "Crear-Puesto" }));
                 option.AddPolicy("Edit-Position-Policy", pol => pol.RequireClaim("Permission", new[] { "Editar-Puesto" }));
                 option.AddPolicy("Delete-Position-Policy", pol => pol.RequireClaim("Permission", new[] { "Eliminar-Puesto" }));
-                
+
                 //Politicas para el candidato
                 option.AddPolicy("ConfirmPolicies-Expedient-Policy", pol => pol.RequireClaim("Permission", new[] { "Confirmar-Politicas" }));
                 option.AddPolicy("AssignedTests-Test-Policy", pol => pol.RequireClaim("Permission", new[] { "Pruebas-Asignadas" }));

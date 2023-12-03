@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.CodeAnalysis.Options;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,22 +12,28 @@ using RHPsicotest.WebSite.Data;
 using RHPsicotest.WebSite.Repositories;
 using RHPsicotest.WebSite.Repositories.Contracts;
 using System;
+using System.IO;
 
 namespace RHPsicotest.WebSite
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment environment)
         {
             Configuration = configuration;
+            Environment = environment;
         }
 
         public IConfiguration Configuration { get; }
+
+        public IWebHostEnvironment Environment { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            services.AddRazorPages().AddRazorRuntimeCompilation();
 
             services.AddDbContextPool<RHPsicotestDbContext>(option => option.UseSqlServer(Configuration.GetConnectionString("RHPsicotestConnection")));
 
@@ -48,28 +56,54 @@ namespace RHPsicotest.WebSite
             //    option.Cookie.Expiration = TimeSpan.FromHours(5);
             //});
 
-            services.AddAuthentication(option =>
-            {
-                option.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                option.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                option.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-            }).AddCookie(option =>
-            {
-                option.Cookie.Name = "RHPsicotest";
-                option.Cookie.MaxAge = TimeSpan.FromDays(7);
+            //services.AddAuthentication(option =>
+            //{
+            //    option.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            //    option.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            //    option.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            //}).AddCookie(option =>
+            //{
+            //    option.Cookie.Name = "RHPsicotest";
+            //    option.Cookie.MaxAge = TimeSpan.FromDays(7);
 
-                option.LoginPath = "/Login";
-                option.AccessDeniedPath = new PathString("/AccesoDenegado");
-                option.ExpireTimeSpan = TimeSpan.FromDays(7);
+            //    option.LoginPath = "/Login";
+            //    option.AccessDeniedPath = new PathString("/AccesoDenegado");
+            //    option.ExpireTimeSpan = TimeSpan.FromDays(7);
+            //});
+            
+            var keysFolder = Path.Combine(Environment.ContentRootPath, "Keys");
+
+            services.AddDataProtection()
+                    .PersistKeysToFileSystem(new DirectoryInfo(keysFolder))
+                    .SetApplicationName("MyWebsite")
+                    .SetDefaultKeyLifetime(TimeSpan.FromDays(90));
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                    .AddCookie(options =>
+                    {
+                        options.Cookie.Name = "RHPsicotest";
+                        options.Cookie.MaxAge = TimeSpan.FromDays(7);
+                        
+                        options.LoginPath = "/Login"; 
+                        options.AccessDeniedPath = new PathString("/AccesoDenegado");
+
+                        options.ExpireTimeSpan = TimeSpan.FromDays(7);
+
+                        options.SlidingExpiration = true; 
+                        options.Cookie.IsEssential = true;
+                    });
+
+            //services.AddDataProtection()
+            //        .PersistKeysToFileSystem(new DirectoryInfo("SOME WHERE IN STORAGE"))
+            //        //.ProtectKeysWithCertificate(new X509Certificate2());
+            //        .SetDefaultKeyLifetime(TimeSpan.FromDays(90));
 
 
-                //option.Cookie.Expiration = TimeSpan.FromHours(2);
-                //option.Cookie.IsEssential = true;
-                //option.Cookie.HttpOnly = false;
-                //option.Cookie.Path = "/Login";
-                //option.Cookie.SameSite = SameSiteMode.Lax;
-                //option.Cookie.SecurePolicy = CookieSecurePolicy.Always;                        
-            });
+            //var keysFolder = Path.Combine(_environment.ContentRootPath, "Keys");
+            //services.AddDataProtection()
+            //    .PersistKeysToFileSystem(new DirectoryInfo(keysFolder))
+            //    .SetApplicationName("MyWebsite")
+            //    .SetDefaultKeyLifetime(TimeSpan.FromDays(90));
 
             services.AddAuthorization(option =>
             {

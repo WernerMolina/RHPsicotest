@@ -3,28 +3,30 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="card">
-    <h5 class="card-header">Bienvenido/a</h5>
-    <div class="card-body">
-        <h5 class="card-title">Indicaciones</h5>
-        <div class="card-text">
-            <p class="mb-2">
-                Dando continuidad al proceso de selección, se le adjuntan las evaluaciones psicológicas que deberá completar, únicamente debe contestar de acuerdo a las indicaciones que se le muestran en cada prueba y contestar de manera sincera, completarlas en un ambiente libre de interrupciones y tener acceso a internet.
-            </p>
-            <p class="mb-2">
-                A continuación se le solicitan que complete los siguientes datos:
-            </p>
-            <p class="mb-2">
-                1. Datos personales.<br />
-                2. Datos de contacto y ubicación.
-            </p>
-            <p>
-                Al momento de completar la información, de click en el botón Guardar, posteriormente se le presentarán las instrucciones de la prueba.
-            </p>
+<div class="container-fluid d-flex justify-content-center">
+    <div class="card col-12">
+        <h5 class="card-header h4 fw-bold">Bienvenido/a</h5>
+        <div class="card-body">
+            <h5 class="card-title h4 fw-semibold">Indicaciones</h5>
+            <div class="card-text px-0 px-md-3">
+                <p class="fs-5 mb-2">
+                    Dando continuidad al proceso de selección, se le adjuntan las evaluaciones psicológicas que deberá completar, únicamente debe contestar de acuerdo a las indicaciones que se le muestran en cada prueba y contestar de manera sincera, completarlas en un ambiente libre de interrupciones y tener acceso a internet.
+                </p>
+                <p class="fs-5 mb-2">
+                    A continuación se le solicitan que complete los siguientes datos:
+                </p>
+                <p class="fs-5 mb-2">
+                    1. Datos personales.<br />
+                    2. Datos de contacto y ubicación.
+                </p>
+                <p class="fs-5">
+                    Al momento de completar la información, de clic en el botón Guardar, posteriormente se le presentarán las instrucciones de la prueba.
+                </p>
+            </div>
+            <form asp-action="ConfirmPolicies" method="post" class="d-flex justify-content-between px-0 px-md-3">
+                <label for="politicas" class="me-2"><input type="checkbox" id="politicas" style="transform: scale(1.5)" name="accept" value="true" />&nbsp;&nbsp; He leído y acepto la politica de privacidad.</label>
+                <input type="submit" class="btn btn-primary" value="Continuar" />
+            </form>
         </div>
-        <form asp-action="ConfirmPolicies" method="post" class="d-flex justify-content-between">
-            <label for="politicas"><input type="checkbox" id="politicas"  name="accept" value="true"/> He leído y acepto la politica de privacidad.</label>
-            <input type="submit" class="btn btn-primary" value="Continuar"/>
-        </form>
     </div>
 </div>

@@ -3,7 +3,6 @@
 @{
     ViewData["Title"] = "Expediente";
     Layout = "~/Views/Shared/_Layout.cshtml";
-
 }
 
 @if (ViewBag.Message is not null)
@@ -12,57 +11,31 @@
 }
 
 <div style="display:flex; justify-content:center;">
-    <h1>Expediente</h1>
+    <h1 class="fw-bold">Expediente</h1>
 </div>
-<hr />
-<form asp-action="Create" method="post" enctype="multipart/form-data">
-    <div class="row">
-        <div class="col-md-6">
-
+<hr class="col-12 my-1"/>
+<form asp-action="Create" method="post" enctype="multipart/form-data" class="mb-3">
+    <div class="row px-3">
+        <div class="row mb-3">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group mt-2">
-                <label asp-for="DUI" class="control-label"></label>
-                <input asp-for="DUI" class="form-control" />
-                <span asp-validation-for="DUI" class="text-danger"></span>
-            </div>
-            <div class="form-group mt-2">
-                <label asp-for="Names" class="control-label"></label>
+
+            <div class="col-12 col-md-6 form-group mt-2">
+                <label asp-for="Names" class="fs-5 fw-semibold px-2"></label>
                 <input asp-for="Names" class="form-control" />
                 <span asp-validation-for="Names" class="text-danger"></span>
             </div>
-            <div class="form-group mt-2">
-                <label asp-for="Lastnames" class="control-label"></label>
+            <div class="col-12 col-md-6 form-group mt-2">
+                <label asp-for="Lastnames" class="fs-5 fw-semibold px-2"></label>
                 <input asp-for="Lastnames" class="form-control" />
                 <span asp-validation-for="Lastnames" class="text-danger"></span>
             </div>
-            <div class="form-group mt-2">
-                <label asp-for="MovilePhoneNumber" class="control-label"></label>
-                <input asp-for="MovilePhoneNumber" class="form-control" />
-                <span asp-validation-for="MovilePhoneNumber" class="text-danger"></span>
+            <div class="col-12 col-md-6 form-group mt-2">
+                <label asp-for="DUI" class="fs-5 fw-semibold px-2"></label>
+                <input asp-for="DUI" class="form-control" />
+                <span asp-validation-for="DUI" class="text-danger"></span>
             </div>
-            <div class="form-group mt-2">
-                <label asp-for="LandlineNumber" class="control-label"></label>
-                <input asp-for="LandlineNumber" class="form-control" />
-                <span asp-validation-for="LandlineNumber" class="text-danger"></span>
-            </div>
-            <div class="form-group mt-2">
-                <label asp-for="DateOfBirth" class="control-label"></label>
-                <input asp-for="DateOfBirth" class="form-control" type="date" />
-                <span asp-validation-for="DateOfBirth" class="text-danger"></span>
-            </div>
-            <div class="my-2 form-group mt-2">
-                <label asp-for="Gender" class="control-label"></label>
-                <div class="form-check">
-                    <input asp-for="Gender" class="form-check-input" type="radio" value="Hombre">Hombre<br>
-                    <input asp-for="Gender" class="form-check-input" type="radio" value="Mujer">Mujer
-                </div>
-                    <span asp-validation-for="Gender" class="text-danger"></span>
-            </div>
-
-        </div>
-        <div class="col-md-6">
-            <div class="form-group mt-2">
-                <label asp-for="CivilStatus" class="control-label"></label>
+            <div class="col-12 col-md-6 form-group mt-2">
+                <label asp-for="CivilStatus" class="fs-5 fw-semibold px-2"></label>
                 <select asp-for="CivilStatus" class="form-select" id="single-select-field">
                     <option>Seleccionar Estado</option>
                     <option value="Soltero/a">Soltero/a</option>
@@ -72,8 +45,38 @@
                 </select>
                 <span asp-validation-for="CivilStatus" class="text-danger"></span>
             </div>
-            <div class="form-group mt-2">
-                <label asp-for="AcademicTraining" class="control-label"></label>
+            <div class="col-12 col-md-6 form-group mt-2">
+                <label asp-for="MovilePhoneNumber" class="fs-5 fw-semibold px-2">Teléfono Movil</label>
+                <input asp-for="MovilePhoneNumber" class="form-control" />
+                <span asp-validation-for="MovilePhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="col-12 col-md-6 form-group mt-2">
+                <label asp-for="LandlineNumber" class="fs-5 fw-semibold px-2">Teléfono Fijo</label>
+                <input asp-for="LandlineNumber" class="form-control" />
+                <span asp-validation-for="LandlineNumber" class="text-danger"></span>
+            </div>
+            <div class="col-12 col-md-6 form-group mt-2">
+                <label asp-for="DateOfBirth" class="fs-5 fw-semibold px-2"></label>
+                <input asp-for="DateOfBirth" class="form-control" type="date" />
+                <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+            </div>
+            <div class="my-2 col-12 col-md-6 form-group mt-2">
+                <label asp-for="Gender" class="fs-5 fw-semibold px-2"></label>
+                <div class="form-control d-flex gap-2 ps-4">
+                    <p class="d-flex align-items-center gap-2 w-25 m-0 p-0">
+                    <input style="transform: scale(1.5)" class="m-0 p-0" asp-for="Gender" class="form-check-input" type="radio" value="Mujer">
+                    <span class="fs-5 fw-semibold">Mujer</span></p>
+                    <p class="d-flex align-items-center gap-2 w-25 m-0 p-0">
+                    <input style="transform: scale(1.5)" class="m-0 p-0" asp-for="Gender" class="form-check-input" type="radio" value="Hombre">
+                    <span class="fs-5 fw-semibold">Hombre</span></p>
+                </div>
+                <span asp-validation-for="Gender" class="text-danger"></span>
+            </div>
+
+        </div>
+        <div class="row mb-4">
+            <div class="col-12 col-md-6 form-group mt-2">
+                <label asp-for="AcademicTraining" class="fs-5 fw-semibold px-2"></label>
                 <select asp-for="AcademicTraining" class="form-select" id="single-select-field">
                     <option>Seleccionar Formación</option>
                     @foreach (var formation in (List<string>)ViewBag.AcademicFormations)
@@ -83,47 +86,45 @@
                 </select>
                 <span asp-validation-for="AcademicTraining" class="text-danger"></span>
             </div>
-            <div class="form-group mt-2">
-                <label asp-for="Certificate" class="control-label"></label>
-                <input asp-for="Certificate" class="form-control" />
-                <span asp-validation-for="Certificate" class="text-danger"></span>
-            </div>
-            <div class="form-group mt-2">
-                <label asp-for="CurriculumVitae" class="control-label"></label>
+            <div class="col-12 col-md-6 form-group mt-2">
+                <label asp-for="CurriculumVitae" class="fs-5 fw-semibold px-2">Hoja de Vida (Curriculum)</label>
                 <input asp-for="CurriculumVitae" class="form-control" type="file" accept="application/pdf" />
                 <span asp-validation-for="CurriculumVitae" class="text-danger"></span>
             </div>
-            <div class="form-group mt-2">
-                <label asp-for="Country" class="control-label"></label>
+            <div class="col-12 form-group mt-2">
+                <label asp-for="Certificate" class="fs-5 fw-semibold px-2">Título (Básico, Técnico o Universitario)</label>
+                <input asp-for="Certificate" class="form-control" />
+                <span asp-validation-for="Certificate" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-4 form-group mt-2">
+                <label asp-for="Country" class="fs-5 fw-semibold px-2"></label>
                 <input asp-for="Country" class="form-control" />
                 <span asp-validation-for="Country" class="text-danger"></span>
             </div>
-            <div class="form-group mt-2">
-                <label asp-for="Department" class="control-label"></label>
+            <div class="col-12 col-md-4 form-group mt-2">
+                <label asp-for="Department" class="fs-5 fw-semibold px-2"></label>
                 <input asp-for="Department" class="form-control" />
                 <span asp-validation-for="Department" class="text-danger"></span>
             </div>
-            <div class="form-group mt-2">
-                <label asp-for="Municipality" class="control-label"></label>
+            <div class="col-12 col-md-4 form-group mt-2">
+                <label asp-for="Municipality" class="fs-5 fw-semibold px-2"></label>
                 <input asp-for="Municipality" class="form-control" />
                 <span asp-validation-for="Municipality" class="text-danger"></span>
             </div>
-            <div class="form-group mt-2">
-                <label asp-for="Direction" class="control-label"></label>
-                <input asp-for="Direction" class="form-control" />
+            <div class="col-12 form-group mt-2">
+                <label asp-for="Direction" class="fs-5 fw-semibold px-2"></label>
+                <textarea asp-for="Direction" class="form-control" rows="2"></textarea>
+                <!-- <input asp-for="Direction" class="form-control" /> -->
                 <span asp-validation-for="Direction" class="text-danger"></span>
             </div>
         </div>
-
-
-        <div class="form-group mt-4 text-center">
-            <input type="submit" value="Enviar" class="btn btn-primary col-3" />
+        <div class="col-12 mt-5 text-center">
+            <input type="submit" value="Enviar" class="btn btn-primary col-12 col-md-4" />
         </div>
     </div>
 </form>
-
-
-
 
 @section Scripts {
     @{

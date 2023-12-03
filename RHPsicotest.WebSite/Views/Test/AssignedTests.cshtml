@@ -18,88 +18,71 @@
     }
 }
 
-<h1 class="fw-bold mb-5">Pruebas Asignadas</h1>
+<h1 class="fw-bold mb-3">Pruebas Asignadas</h1>
 
-<div class="container mb-5">
-    <p class="mb-4 fs-5">A continuación, se muestra un listado de pruebas asignadas las cuales estarán disponibles por un corto período de tiempo.</p>
-    <p class="mb-4 fs-5">Le recordamos que antes de iniciar se asegure de tener una conexión de internet estable además de un ambiente sin interrupciones lo cual le ayudará a realizar sus evaluaciones sin complicaciones.</p>
-    <p class="mb-4 fs-5">Cada prueba contiene instrucciones específicas, léalas cuidadosamente y analice el ejemplo antes de comenzar.</p>
-    <p class="mb-4 fs-5">Buena Suerte!</p>
+<div class="container mb-3">
+    <p class="mb-3 fs-5">A continuación, se muestra un listado de pruebas asignadas las cuales estarán disponibles por un corto período de tiempo.</p>
+    <p class="mb-3 fs-5">Le recordamos que antes de iniciar se asegure de tener una conexión de internet estable además de un ambiente sin interrupciones lo cual le ayudará a realizar sus evaluaciones sin complicaciones.</p>
+    <p class="mb-3 fs-5">Cada prueba contiene instrucciones específicas, léalas cuidadosamente y analice el ejemplo antes de comenzar.</p>
+    <p class="mb-3 fs-5">Por favor, no cerrar la pestaña del navegador cuando este realizando una prueba, para no perder las preguntas contestadas.</p>
+    <p class="mb-3 fs-5">Buena Suerte!</p>
 </div>
 
 @if (hasCompletedTest)
 {
-    <div class="d-flex justify-content-center">
-        <div class="card">
-            <div class="card-header text-center h2 fw-bold">
-                EXCELENTE!!!
+    <div class="row d-flex justify-content-center mt-5 px-2">
+        <div class="card col-12 col-lg-9 p-0 mx-2 border-primary">
+            <div class="card-header text-center h3 fw-bold border-primary bg-primary">
+                <h4 class="m-0 fw-bold text-white">EXCELENTE!!!</h4>
             </div>
             <div class="card-body text-center">
-                <p class="card-text fs-4">
+                <p class="card-text fs-5 my-4">
                     Agradecemos el tiempo invertido para completar las evaluaciones psicólogicas.
                 </p>
-                <a asp-controller="Login" asp-action="Logout" class="btn btn-primary">Aceptar</a>
+                <a asp-controller="Login" asp-action="Logout" class="btn btn-primary col-3">Aceptar</a>
             </div>
         </div>
     </div>
 }
 else
-{   
-    <table class="table table-striped align-middle">
-    <thead class="table-dark">
-        <tr class="text-center">
-            <th>
-                Nº
-            </th>
-            <th>
-                Nombre
-            </th>
-            <th>
-                Tiempo Apróximado
-            </th>
-            <th>
-                Completado
-            </th>
-            <th>
-                Iniciar
-            </th>
-        </tr>
-    </thead>
-    <tbody class="text-center">
+{
+    <div class="row mx-2">
         @foreach (TestDTO test in Model)
         {
-            <tr>
-                <td>
-                    @i
-                </td>
-                <td>
-                    Prueba @test.NameTest
-                </td>
-                <td>
-                    @test.Time
-                </td>
-                @if (test.Status)
-                {
-                    <td>
-                        <span class="btn btn-success fw-bold p-1">Si</span>
-                    </td>
-
-                }
-                else
-                {
-                    <td>
-                        <span class="btn btn-danger fw-bold p-1">No</span>
-                    </td>
-                }
-                <td>
-                    <a asp-action="@test.Link" class="btn btn-success"><i class="bi bi-play-fill"></i></a>
-                </td>
-            </tr>
+            @if(test.Status)
+            {
+                <div class="card border-success col-12 col-lg-5 p-0 me-3 mb-3">
+                    <div class="card-header border-success bg-success">
+                        <h4 class="m-0 fw-bold text-white">Prueba @i</h4>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title fw-semibold">Prueba @test.NameTest</h5>
+                        <p class="card-text">Tiempo Apróx. @test.Time</p>
+                    </div>
+                    <div class="text-end py-1 px-4 mb-2">
+                        <p class="fs-4 text-success fw-bold m-0">Completada</p>
+                    </div>
+                </div>
+            }else
+            {
+                <div class="card border-primary col-12 col-lg-5 p-0 me-3 mb-3">
+                    <div class="card-header border-primary bg-primary">
+                        <h4 class="m-0 fw-bold text-white">Prueba @i</h4>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title fw-semibold">Prueba @test.NameTest</h5>
+                        <p class="card-text">Tiempo Apróx. @test.Time</p>
+                    </div>
+                    <div class="text-end py-1 px-4 mb-2">
+                        <a asp-action="@test.Link" class="btn btn-primary fs-6">Realizar</a>
+                    </div>
+                </div>
+            }
+            
 
             i++;
         }
-    </tbody>
-</table>
+    </div>
 }
 
 @if (ViewBag.Message != null)

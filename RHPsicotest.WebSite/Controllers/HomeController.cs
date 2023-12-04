@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using RHPsicotest.WebSite.ViewModels;
 using System.Diagnostics;
 
@@ -9,28 +8,21 @@ namespace RHPsicotest.WebSite.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
-
-        public ActionResult Index()
-        {
-            return View();
-        }
+        //public ActionResult Index()
+        //{
+        //    return View();
+        //}
 
         [HttpGet]
-        [Route("Dashboard")]
-        //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Super-Admin")]
-        //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Roles = "Candidato")]
+        [Route("/Dashboard")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "Dashboard-Policy")]
         public ActionResult Dashboard()
         {
             return View();
         }
 
-        public ActionResult Privacy()
+        [Route("/AccesoDenegado")]
+        public ActionResult AccessDenied()
         {
             return View();
         }

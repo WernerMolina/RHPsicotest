@@ -37,19 +37,6 @@ namespace RHPsicotest.WebSite.GenerateResults
             return scoreTotal;
         }
 
-        public static string GetDescriptionByPercentile(byte percentile)
-        {
-            string description = string.Empty;
-
-            if (percentile >= 77) description = "Superior: el coeficiente intelectual de la persona se sitúa en la categoría “superior”, por lo que el rendimiento del individuo se puede ver beneficiado al poseer el dominio particular de habilidades necesarias para abordar con éxito ocupaciones con demandas prácticas complejas.";
-            if (percentile >= 55) description = "Superior al término medio: la persona evaluada se encuentra en un rango “superior al término medio”. El candidato tiene desarrollada su habilidad de pensamiento lógico arriba del promedio, por lo que tiende a una buena ejecución de tareas abstractas que requieran observación, para extraer de ellas principios y poder aplicarlos.";
-            if (percentile == 50) description = "Término medio: la persona evaluada se encuentra en un rango de “término medio” en cuanto a su coeficiente intelectual se puede decir que posee una capacidad promedio dentro de la población. Sus habilidades de procesamiento lógico y razonamiento sistémico son muy significativas para darle solución a diferentes problemáticas.";
-            if (percentile >= 25) description = "Inferior al término medio: la persona evaluada se ubica en un rango “inferior al término medio”, sus habilidades para la solución de problemas prácticos se encuentran por debajo del promedio de la población. Esto en algunas situaciones puede presentar una dificultad para razonar de forma conceptual y sistemática.";
-            if (percentile >= 1) description = "Deficiente: su coeficiente intelectual se encuentra en el rango “deficiente”, por lo que su capacidad para conceptualizar y aplicar el razonamiento sistemático a nuevos problemas, esto puede afectar negativamente en el desempeño del evaluado ante situaciones que ameriten la resolución de problemas prácticos.";
-
-            return description;
-        }
-
         public static byte GetPercentileByScore(byte score, string academicTraining)
         {
             byte percentile = 0;
@@ -57,62 +44,72 @@ namespace RHPsicotest.WebSite.GenerateResults
             switch (academicTraining)
             {
                 case "Directivo":
-                    percentile = Percentile_Directivo(score);
+                    percentile = GetPercentile_Directivo(score);
                     break;
                 case "Ingeniero":
-                    percentile = Percentile_Ingeniero(score);
+                    percentile = GetPercentile_Ingeniero(score);
                     break;
                 case "Licenciado":
-                    percentile = Percentile_Licenciado(score);
+                    percentile = GetPercentile_Licenciado(score);
                     break;
-                case "Profesional":
-                    percentile = Percentile_ProfesionalPublicidad(score);
+                case "Profesional en Publicidad":
+                    percentile = GetPercentile_ProfesionalPublicidad(score);
                     break;
-                case "Técnico Medios Industriales":
-                    percentile = Percentile_Tecnico_Industrial(score);
+                case "Técnico Industrial":
+                    percentile = GetPercentile_Tecnico_Industrial(score);
                     break;
                 case "Técnico Comercial":
-                    percentile = Percentile_TecnicoComercial(score);
+                    percentile = GetPercentile_TecnicoComercial(score);
                     break;
-                case "Inspector o Delegado":
-                    percentile = Percentile_JefeVigilancia(score);
+                case "Jefe de Vigilancia":
+                    percentile = GetPercentile_JefeVigilancia(score);
                     break;
-                case "Agente de Venta":
-                    percentile = Percentile_AgenteComercial(score);
+                case "Agente Comercial":
+                    percentile = GetPercentile_AgenteComercial(score);
                     break;
                 case "Jefe Administrativo":
-                    percentile = Percentile_JefeAdministrativo(score);
+                    percentile = GetPercentile_JefeAdministrativo(score);
                     break;
-                case "Jefe Administrativo Oficial o Auxiliar":
-                    percentile = Percentile_Administrativo(score);
+                case "Administrativo":
+                    percentile = GetPercentile_Administrativo(score);
                     break;
                 case "Analista Programador":
-                    percentile = Percentile_ProgramadorAnalista(score);
+                    percentile = GetPercentile_ProgramadorAnalista(score);
                     break;
-                case "Técnico de Organización":
-                    percentile = Percentile_TecnicoEnMetodo(score);
+                case "Técnico en Método":
+                    percentile = GetPercentile_TecnicoEnMetodo(score);
                     break;
-                case "Monitor o Mando Medios":
-                    percentile = Percentile_Jefatura(score);
+                case "Jefatura":
+                    percentile = GetPercentile_Jefatura(score);
                     break;
                 case "Operario Mecánico":
-                    percentile = Percentile_OperarioMecanico(score);
+                    percentile = GetPercentile_OperarioMecanico(score);
                     break;
                 case "Secretaria":
-                    percentile = Percentile_Secretaria(score);
+                    percentile = GetPercentile_Secretaria(score);
                     break;
-                case "Administrativa":
-                    percentile = Percentile_AsistenteAdministrativa(score);
+                case "Asistente Administrativa":
+                    percentile = GetPercentile_AsistenteAdministrativa(score);
                     break;
                 default:
-                    percentile = 0;
                     break;
             }
 
             return percentile;
         }
 
-        private static byte Percentile_Directivo(byte score)
+        public static string GetDescriptionByPercentile(byte percentile)
+        {
+            if (percentile >= 77) return "Superior: el coeficiente intelectual de la persona se sitúa en la categoría “superior”, por lo que el rendimiento del individuo se puede ver beneficiado al poseer el dominio particular de habilidades necesarias para abordar con éxito ocupaciones con demandas prácticas complejas.";
+            if (percentile >= 55) return "Superior al término medio: la persona evaluada se encuentra en un rango “superior al término medio”. El candidato tiene desarrollada su habilidad de pensamiento lógico arriba del promedio, por lo que tiende a una buena ejecución de tareas abstractas que requieran observación, para extraer de ellas principios y poder aplicarlos.";
+            if (percentile == 50) return "Término medio: la persona evaluada se encuentra en un rango de “término medio” en cuanto a su coeficiente intelectual se puede decir que posee una capacidad promedio dentro de la población. Sus habilidades de procesamiento lógico y razonamiento sistémico son muy significativas para darle solución a diferentes problemáticas.";
+            if (percentile >= 25) return "Inferior al término medio: la persona evaluada se ubica en un rango “inferior al término medio”, sus habilidades para la solución de problemas prácticos se encuentran por debajo del promedio de la población. Esto en algunas situaciones puede presentar una dificultad para razonar de forma conceptual y sistemática.";
+            if (percentile >= 1) return "Deficiente: su coeficiente intelectual se encuentra en el rango “deficiente”, por lo que su capacidad para conceptualizar y aplicar el razonamiento sistemático a nuevos problemas, esto puede afectar negativamente en el desempeño del evaluado ante situaciones que ameriten la resolución de problemas prácticos.";
+
+            return string.Empty;
+        }
+
+        private static byte GetPercentile_Directivo(byte score)
         {
             if (score >= 42) return 99;
             if (score == 41) return 97;
@@ -137,12 +134,12 @@ namespace RHPsicotest.WebSite.GenerateResults
             if (score >= 17) return 10;
             if (score == 16) return 5;
             if (score >= 11) return 4;
-            if (score <= 10) return 1;
+            if (score >= 0) return 1;
 
             return 0;
         }
 
-        private static byte Percentile_Ingeniero(byte score)
+        private static byte GetPercentile_Ingeniero(byte score)
         {
             if (score == 44) return 99;
             if (score == 43) return 97;
@@ -165,12 +162,12 @@ namespace RHPsicotest.WebSite.GenerateResults
             if (score >= 25) return 10;
             if (score == 24) return 5;
             if (score >= 20) return 4;
-            if (score <= 19) return 1;
+            if (score >= 0) return 1;
 
             return 0;
         }
 
-        private static byte Percentile_Licenciado(byte score)
+        private static byte GetPercentile_Licenciado(byte score)
         {
             if (score >= 43) return 99;
             if (score == 42) return 97;
@@ -195,12 +192,12 @@ namespace RHPsicotest.WebSite.GenerateResults
             if (score >= 19) return 10;
             if (score == 18) return 5;
             if (score >= 14) return 4;
-            if (score <= 13) return 1;
+            if (score >= 0) return 1;
 
             return 0;
         }
 
-        private static byte Percentile_ProfesionalPublicidad(byte score)
+        private static byte GetPercentile_ProfesionalPublicidad(byte score)
         {
             if (score >= 43) return 99;
             if (score == 41) return 97;
@@ -226,12 +223,12 @@ namespace RHPsicotest.WebSite.GenerateResults
             if (score >= 19) return 10;
             if (score == 18) return 5;
             if (score >= 9) return 4;
-            if (score <= 8) return 1;
+            if (score >= 0) return 1;
 
             return 0;
         }
 
-        private static byte Percentile_Tecnico_Industrial(byte score)
+        private static byte GetPercentile_Tecnico_Industrial(byte score)
         {
             if (score >= 43) return 99;
             if (score == 40) return 97;
@@ -254,12 +251,12 @@ namespace RHPsicotest.WebSite.GenerateResults
             if (score >= 20) return 10;
             if (score == 19) return 5;
             if (score >= 16) return 4;
-            if (score <= 15) return 1;
+            if (score >= 0) return 1;
 
             return 0;
         }
 
-        private static byte Percentile_TecnicoComercial(byte score)
+        private static byte GetPercentile_TecnicoComercial(byte score)
         {
             if (score >= 43) return 99;
             if (score == 41) return 97;
@@ -285,13 +282,12 @@ namespace RHPsicotest.WebSite.GenerateResults
             if (score >= 17) return 10;
             if (score == 16) return 5;
             if (score >= 12) return 4;
-            if (score <= 11) return 1;
+            if (score >= 0) return 1;
 
             return 0;
         }
 
-        // Error 0-16
-        private static byte Percentile_JefeVigilancia(byte score)
+        private static byte GetPercentile_JefeVigilancia(byte score)
         {
             if (score >= 40) return 99;
             if (score >= 38) return 97;
@@ -318,12 +314,12 @@ namespace RHPsicotest.WebSite.GenerateResults
             if (score >= 14) return 10;
             if (score == 13) return 5;
             if (score == 12) return 4;
-            if (score <= 11) return 1;
+            if (score >= 0) return 1;
 
             return 0;
         }
 
-        private static byte Percentile_AgenteComercial(byte score)
+        private static byte GetPercentile_AgenteComercial(byte score)
         {
             if (score >= 38) return 99;
             if (score >= 36) return 97;
@@ -348,12 +344,12 @@ namespace RHPsicotest.WebSite.GenerateResults
             if (score >= 11) return 10;
             if (score >= 9) return 5;
             if (score >= 3) return 4;
-            if (score <= 2) return 1;
+            if (score >= 0) return 1;
 
             return 0;
         }
 
-        private static byte Percentile_JefeAdministrativo(byte score)
+        private static byte GetPercentile_JefeAdministrativo(byte score)
         {
             if (score >= 41) return 99;
             if (score >= 39) return 97;
@@ -380,12 +376,12 @@ namespace RHPsicotest.WebSite.GenerateResults
             if (score >= 16) return 10;
             if (score == 15) return 5;
             if (score >= 11) return 4;
-            if (score <= 10) return 1;
+            if (score >= 0) return 1;
 
             return 0;
         }
 
-        private static byte Percentile_Administrativo(byte score)
+        private static byte GetPercentile_Administrativo(byte score)
         {
             if (score >= 41) return 99;
             if (score >= 39) return 97;
@@ -411,12 +407,12 @@ namespace RHPsicotest.WebSite.GenerateResults
             if (score >= 14) return 10;
             if (score == 13) return 5;
             if (score >= 8) return 4;
-            if (score <= 7) return 1;
+            if (score >= 0) return 1;
 
             return 0;
         }
 
-        private static byte Percentile_ProgramadorAnalista(byte score)
+        private static byte GetPercentile_ProgramadorAnalista(byte score)
         {
             if (score >= 40) return 99;
             if (score >= 38) return 97;
@@ -440,12 +436,12 @@ namespace RHPsicotest.WebSite.GenerateResults
             if (score >= 16) return 10;
             if (score == 15) return 5;
             if (score >= 12) return 4;
-            if (score <= 11) return 1;
+            if (score >= 0) return 1;
 
             return 0;
         }
 
-        private static byte Percentile_TecnicoEnMetodo(byte score)
+        private static byte GetPercentile_TecnicoEnMetodo(byte score)
         {
             if (score >= 38) return 99;
             if (score >= 35) return 97;
@@ -469,12 +465,12 @@ namespace RHPsicotest.WebSite.GenerateResults
             if (score >= 15) return 10;
             if (score == 14) return 5;
             if (score >= 6) return 4;
-            if (score <= 5) return 1;
+            if (score >= 0) return 1;
 
             return 0;
         }
 
-        private static byte Percentile_Jefatura(byte score)
+        private static byte GetPercentile_Jefatura(byte score)
         {
             if (score >= 37) return 99;
             if (score >= 35) return 97;
@@ -499,12 +495,12 @@ namespace RHPsicotest.WebSite.GenerateResults
             if (score >= 14) return 10;
             if (score == 13) return 5;
             if (score >= 6) return 4;
-            if (score <= 5) return 1;
+            if (score >= 0) return 1;
 
             return 0;
         }
 
-        private static byte Percentile_OperarioMecanico(byte score)
+        private static byte GetPercentile_OperarioMecanico(byte score)
         {
             if (score >= 37) return 99;
             if (score >= 35) return 97;
@@ -531,12 +527,12 @@ namespace RHPsicotest.WebSite.GenerateResults
             if (score >= 12) return 10;
             if (score == 11) return 5;
             if (score >= 7) return 4;
-            if (score <= 6) return 1;
+            if (score >= 0) return 1;
 
             return 0;
         }
 
-        private static byte Percentile_Secretaria(byte score)
+        private static byte GetPercentile_Secretaria(byte score)
         {
             if (score >= 39) return 99;
             if (score >= 36) return 97;
@@ -560,12 +556,12 @@ namespace RHPsicotest.WebSite.GenerateResults
             if (score >= 13) return 10;
             if (score == 12) return 5;
             if (score >= 8) return 4;
-            if (score <= 7) return 1;
+            if (score >= 0) return 1;
 
             return 0;
         }
 
-        private static byte Percentile_AsistenteAdministrativa(byte score)
+        private static byte GetPercentile_AsistenteAdministrativa(byte score)
         {
             if (score >= 37) return 99;
             if (score >= 35) return 97;
@@ -592,7 +588,7 @@ namespace RHPsicotest.WebSite.GenerateResults
             if (score >= 10) return 10;
             if (score == 9) return 5;
             if (score >= 3) return 4;
-            if (score <= 2) return 1;
+            if (score >= 0) return 1;
 
             return 0;
         }

@@ -6,7 +6,6 @@ using RHPsicotest.WebSite.Models;
 using RHPsicotest.WebSite.Repositories.Contracts;
 using RHPsicotest.WebSite.Utilities;
 using RHPsicotest.WebSite.ViewModels;
-using RHPsicotest.WebSite.ViewModels.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,53 +22,41 @@ namespace RHPsicotest.WebSite.Repositories
             this.context = context;
         }
 
-        public async Task<bool> AddPosition(PositionVM positionVM, List<int> testsId)
+        public async Task<bool> AddPosition(PositionVM positionVM)
         {
-            bool result = false;
+            bool result;
 
-            bool positionExists = await PositionExists(positionVM.PositionName);
+            Position position = Conversion.ConvertToPosition(positionVM);
 
-            if (!positionExists)
-            {
-                Position position = Conversion.ConvertToPosition(positionVM);
+            await context.Positions.AddAsync(position);
+            result = await context.SaveChangesAsync() > 0;
 
-                var entity = await context.Positions.AddAsync(position);
-                result = await context.SaveChangesAsync() > 0;
-
-                AssignTests(Convert.ToInt32(entity.Entity.IdPosition), testsId);
-            }
+            if (result) AddTestsToPosition(position.IdPosition, positionVM.TestsId);
 
             return result;
         }
 
-        public async Task<bool> UpdatePosition(PositionUpdateVM positionUpdateVM, List<int> testsId)
+        public async Task<bool> UpdatePosition(PositionUpdateVM positionUpdateVM)
         {
-            bool result = false;
+            bool result;
 
-            Position position = await context.Positions.AsNoTracking().FirstOrDefaultAsync(u => u.PositionName == positionUpdateVM.PositionName);
+            Position position = await context.Positions.AsNoTracking().FirstOrDefaultAsync(u => u.IdPosition == positionUpdateVM.IdPosition);
 
-            if (position == null || position.IdPosition == positionUpdateVM.IdPosition)
-            {
-                if (position == null)
-                {
-                    position = await context.Positions.AsNoTracking().FirstOrDefaultAsync(u => u.IdPosition == positionUpdateVM.IdPosition);
-                }
+            position = Conversion.ConvertToPosition(position, positionUpdateVM);
 
-                position = Conversion.ConvertToPosition(position, positionUpdateVM);
+            context.Positions.Update(position);
+            result = await context.SaveChangesAsync() > 0;
 
-                var entity = context.Positions.Update(position);
-                result = await context.SaveChangesAsync() > 0;
-
-                AssignTests(Convert.ToInt32(entity.Entity.IdPosition), testsId, true);
-            }
+            if (result) AddTestsToPosition(position.IdPosition, positionUpdateVM.TestsId, true);
 
             return result;
         }
 
-        public async Task<bool> DeletePosition(int id)
+        public async Task<bool> DeletePosition(int postitionId)
         {
             var result = false;
-            Position position = await context.Positions.FirstOrDefaultAsync(p => p.IdPosition == id);
+
+            Position position = await context.Positions.FirstOrDefaultAsync(p => p.IdPosition == postitionId);
 
             if (position != null)
             {
@@ -82,7 +69,7 @@ namespace RHPsicotest.WebSite.Repositories
 
         public async Task<List<PositionDTO>> GetAllPositions()
         {
-            List<Position> positions = await context.Positions.Include(p => p.Tests).ToListAsync();
+            List<Position> positions = await context.Positions.ToListAsync();
 
             List<PositionDTO> positionDTOs = new List<PositionDTO>();
 
@@ -99,69 +86,30 @@ namespace RHPsicotest.WebSite.Repositories
 
         public async Task<PositionUpdateVM> GetPositionUpdate(int id)
         {
-            Position position = await context.Positions.FirstOrDefaultAsync(s => s.IdPosition == id);
+            Position position = await context.Positions.Include(p => p.Tests).FirstOrDefaultAsync(s => s.IdPosition == id);
 
-            PositionUpdateVM positionUpdateVM = Conversion.ConvertToPositionUpdateVM(position);
+            List<int> testsId = new List<int>();
+
+            if (position != null)
+            {
+                foreach (Test_Position positionId in position.Tests)
+                {
+                    testsId.Add(positionId.IdTest);
+                }
+            }
+
+            PositionUpdateVM positionUpdateVM = Conversion.ConvertToPositionUpdateVM(position, testsId);
 
             return positionUpdateVM;
         }
-        
-        public async Task<MultiSelectList> GetAllTests()
-        {
-            List<Test> tests = await context.Tests.ToListAsync();
 
-            return new MultiSelectList(tests, "IdTest", "NameTest");
+        public async Task<List<Test>> GetAllTests()
+        {
+            return await context.Tests.ToListAsync();
         }
 
-
-
-        private async Task<bool> PositionExists(string positionName)
+        private void AddTestsToPosition(int positionId, List<int> testsId, bool delete = false)
         {
-            return await context.Positions.AnyAsync(s => s.PositionName == positionName);
-        }
-
-        public async Task<(PositionUpdateVM, MultiSelectList)> GetPositionAndTestsSelected(int positionId)
-        {
-            Position position = await context.Positions.Include(p => p.Tests).FirstOrDefaultAsync(p => p.IdPosition == positionId);
-
-            PositionUpdateVM positionUpdateVM = Conversion.ConvertToPositionUpdateVM(position);
-
-            MultiSelectList testsList = await GetTestsSelected(position);
-
-            return (positionUpdateVM, testsList);
-        }
-
-        public async Task<MultiSelectList> GetTestsSelected(List<int> testsId)
-        {
-            List<int> selectedTests = new List<int>();
-            List<Test> tests = await context.Tests.ToListAsync();
-
-            foreach (int test in testsId)
-            {
-                selectedTests.Add(test);
-            }
-
-            return new MultiSelectList(tests, "IdTest", "NameTest", selectedTests);
-        }
-
-
-        // ----------------------------------
-        private async Task<MultiSelectList> GetTestsSelected(Position position)
-        {
-            List<int> selectedTests = new List<int>();
-            List<Test> tests = await context.Tests.ToListAsync();
-
-            foreach (var test in position.Tests)
-            {
-                selectedTests.Add(test.IdTest);
-            }
-
-            return new MultiSelectList(tests, "IdTest", "NameTest", selectedTests);
-        }
-
-        private void AssignTests(int positionId, List<int> testsId, bool delete = false)
-        {
-            // Aquí se eliminan las pruebas actuales del usuario
             if (delete)
             {
                 List<Test_Position> testPositions = context.Test_Positions.Where(tp => tp.IdPosition == positionId).ToList();
@@ -173,17 +121,19 @@ namespace RHPsicotest.WebSite.Repositories
                 }
             }
 
-            // Aquí se guardan las nuevas pruebas asignadas
-            foreach (int id in testsId)
+            if (testsId != null)
             {
-                context.Test_Positions.Add(new Test_Position
+                foreach (int id in testsId)
                 {
-                    IdTest = id,
-                    IdPosition = positionId
-                });
+                    context.Test_Positions.Add(new Test_Position
+                    {
+                        IdTest = id,
+                        IdPosition = positionId
+                    });
+                }
+                
+                context.SaveChanges();
             }
-
-            context.SaveChanges();
         }
     }
 }

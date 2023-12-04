@@ -9,9 +9,9 @@ namespace RHPsicotest.WebSite.Repositories.Contracts
 {
     public interface IPositionRepository
     {
-        public Task<bool> AddPosition(PositionVM positionVM, List<int> testsId);
+        public Task<bool> AddPosition(PositionVM positionVM);
 
-        public Task<bool> UpdatePosition(PositionUpdateVM positionUpdateVM, List<int> testsId);
+        public Task<bool> UpdatePosition(PositionUpdateVM positionUpdateVM);
 
         public Task<bool> DeletePosition(int id);
 
@@ -19,10 +19,6 @@ namespace RHPsicotest.WebSite.Repositories.Contracts
 
         public Task<PositionUpdateVM> GetPositionUpdate(int positionId);
 
-        public Task<MultiSelectList> GetAllTests();
-
-        public Task<(PositionUpdateVM, MultiSelectList)> GetPositionAndTestsSelected(int positionId);
-
-        public Task<MultiSelectList> GetTestsSelected(List<int> testsId);
+        public Task<List<Test>> GetAllTests();
     }
 }

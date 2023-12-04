@@ -5,19 +5,20 @@ namespace RHPsicotest.WebSite.ViewModels
     public class CandidateVM
     {
         [Display(Name = "Rol")]
-        [Required(ErrorMessage = "El Rol es requerido")]
+        [Required(ErrorMessage = "Requerido")]
         public int IdRole { get; set; }
 
         [Display(Name = "Puesto")]
-        [Required(ErrorMessage = "El Puesto es requerido")]
+        [Required(ErrorMessage = "Requerido")]
         public int IdPosition { get; set; }
 
         [Display(Name = "Correo")]
-        [Required(ErrorMessage = "El Correo es requerido")]
+        [Required(ErrorMessage = "Requerido")]
         public string Email { get; set; }
 
-        [Display(Name = "Cotraseña")]
-        [Required(ErrorMessage = "La Contraseña es requerida")]
+        [StringLength(20, ErrorMessage = "El máximo de carácteres es 20")]
+        [Display(Name = "Contraseña")]
+        [Required(ErrorMessage = "Requerido")]
         public string Password { get; set; }
     }
 }

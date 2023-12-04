@@ -1,0 +1,259 @@
+@model IEnumerable<Questions_IPV>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Prueba IPV";
+
+    byte i = 0;
+}
+
+
+<div class="" id="example">
+    <div class="card border-0 px-0 px-md-3">
+        <div class="">
+            <h5 class="card-title h2 fw-bold">Instrucciones Generales</h5>
+            <div class="card-text fs-5 px-0 px-md-3">
+                <p class="mb-3">
+                    En la presente prueba encontrara cierto número de situaciones y de preguntas seguidas de varias respuestas posibles.
+                </p>
+                <p class="mb-3">
+                    Se le pide que escoja una alternativa y una sola para cada pregunta, la que de manera espontánea le parezca preferible.
+                </p>
+                <p class="mb-3">
+                    En algunas situaciones estará usted personalmente implicado.
+                </p>
+                <p class="mb-3">
+                    Observe y resuelva detenidamente los siguientes ejemplos de la manera en la que deberá resolver la prueba.
+                </p>
+            </div>
+
+            <div class="m-0 m-md-5 px-0 px-md-3">
+                <div class="card col-12 col-lg-9 my-3">
+                    <h3 class="text-option card-header fw-semibold px-3 py-3">Ejemplo 1. Si usted pudiera elegir el tipo de vivienda de manera completamente libre, ¿Qué preferiría?</h3>
+
+                    <div class="d-flex flex-column gap-3 px-3 my-2">
+                        
+                        <div class="d-flex align-items-center" style="height:75px;">
+                            <div class="d-flex align-items-center col-9 border rounded px-2 h-100 me-3" >
+                                <p class="text-option d-flex align-items-center m-0">
+                                    A) Una casa en el campo con un gran jardín.
+                                </p>
+                            </div>
+
+                            <div class="d-flex col-2 col-lg-2" id="optionExample1">
+                                <div class="w-100 d-flex justify-content-center align-items-center border rounded me-0 me-sm-2" style="height:75px;">
+                                    <input class="" type="radio" id="" name="respon[100][0]" value="A"
+                                            style="width:25px; height: 25px" />
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="d-flex flex-column gap-3 px-3 my-2">
+                        
+                        <div class="d-flex align-items-center" style="height:75px;">
+                            <div class="d-flex align-items-center col-9 border rounded px-2 h-100 me-3" >
+                                <p class="text-option d-flex align-items-center m-0">
+                                    B) Un lujoso apartamento en una gran ciudad.
+                                </p>
+                            </div>
+
+                            <div class="d-flex col-2 col-lg-2" id="optionExample1">
+                                <div class="w-100 d-flex justify-content-center align-items-center border rounded me-0 me-sm-2" style="height:75px;">
+                                    <input class="" type="radio" id="" name="respon[100][0]" value="A"
+                                            style="width:25px; height: 25px" />
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="d-flex flex-column gap-3 px-3 my-2">
+                        
+                        <div class="d-flex align-items-center" style="height:75px;">
+                            <div class="d-flex align-items-center col-9 border rounded px-2 h-100 me-3" >
+                                <p class="text-option d-flex align-items-center m-0">
+                                    C) Una casa situada en una calle tranquila de una pequeña ciudad.
+                                </p>
+                            </div>
+
+                            <div class="d-flex col-2 col-lg-2" id="optionExample1">
+                                <div class="w-100 d-flex justify-content-center align-items-center border rounded me-0 me-sm-2" style="height:75px;">
+                                    <input class="" type="radio" id="" name="respon[100][0]" value="A"
+                                            style="width:25px; height: 25px" />
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>               
+            </div>
+
+            <div class="card-text fs-5 px-0 px-md-3">
+                <p class="mb-3">
+                    En otras situaciones se refieren a personas ajenas:
+                </p>
+            </div>
+
+            <div class="m-0 m-md-5 px-0 px-md-3">
+                <div class="card col-12 col-lg-9 my-3">
+                    <h3 class="text-option card-header fw-semibold px-3 py-3">Ejemplo 2. J… está comprando un gran almacén cuando advierte que alguien esconde discretamente un disco bajo su chaqueta. ¿Qué hará J…?</h3>
+
+                    <div class="d-flex flex-column gap-3 px-3 my-2">
+                        
+                        <div class="d-flex align-items-center" style="height:75px;">
+                            <div class="d-flex align-items-center col-9 border rounded px-2 h-100 me-3" >
+                                <p class="text-option d-flex align-items-center m-0">
+                                    A) Dar cuenta del hecho al primer vendedor que encuentre.
+                                </p>
+                            </div>
+
+                            <div class="d-flex col-2 col-lg-2" id="optionExample1">
+                                <div class="w-100 d-flex justify-content-center align-items-center border rounded me-0 me-sm-2" style="height:75px;">
+                                    <input class="" type="radio" id="" name="respon[101][0]" value="A"
+                                            style="width:25px; height: 25px" />
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="d-flex flex-column gap-3 px-3 my-2">
+                        
+                        <div class="d-flex align-items-center" style="height:75px;">
+                            <div class="d-flex align-items-center col-9 border rounded px-2 h-100 me-3" >
+                                <p class="text-option d-flex align-items-center m-0">
+                                    B) No hacer nada porque piensa que no es cosa suya.
+                                </p>
+                            </div>
+
+                            <div class="d-flex col-2 col-lg-2" id="optionExample1">
+                                <div class="w-100 d-flex justify-content-center align-items-center border rounded me-0 me-sm-2" style="height:75px;">
+                                    <input class="" type="radio" id="" name="respon[101][0]" value="A"
+                                            style="width:25px; height: 25px" />
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="d-flex flex-column gap-3 px-3 my-2">
+                        
+                        <div class="d-flex align-items-center" style="height:75px;">
+                            <div class="d-flex align-items-center col-9 border rounded px-2 h-100 me-3" >
+                                <p class="text-option d-flex align-items-center m-0">
+                                    C) Indicar al infractor con el gesto o de palabra que ha visto lo que ha hecho.
+                                </p>
+                            </div>
+
+                            <div class="d-flex col-2 col-lg-2" id="optionExample1">
+                                <div class="w-100 d-flex justify-content-center align-items-center border rounded me-0 me-sm-2" style="height:75px;">
+                                    <input class="" type="radio" id="" name="respon[101][0]" value="A"
+                                            style="width:25px; height: 25px" />
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>               
+            </div>
+            
+            <div class="card-text fs-5 px-0 px-md-3">
+                <p class="mb-3">
+                    En este caso, usted debe contestar lo que, según su propia opinión, es más probable que haga J…
+                </p>
+                <p class="mb-3">
+                    En el siguiente test, no hay respuestas buenas ni malas; cada uno piensa y actúa como cree conveniente en función de su carácter y de sus intereses.
+                </p>
+                <p class="mb-3">
+                    Para dar sus respuestas deben ir seleccionando la letra, que coincida con la alternativa que usted elija, en caso que desee anular la respuesta, solo debe seleccionar otra opción.
+                </p>
+                <p class="mb-3">
+                    Responda lo más espontánea y sinceramente posible con la contestación que se le ocurra inmediatamente al leer las alternativas que se proponen. 
+                    Conteste rápidamente, sin reflexionar demasiado y en algunos casos que ninguna de las contestaciones propuestas le convenza del todo; 
+                    esfuércese entonces en elegir la que crea mejor entre las alternativas que se ofrecen.
+                </p>
+            </div>
+            <div class="text-end mt-5">
+                <button class="btn btn-primary fs-5" onclick="startTest()">Iniciar Prueba</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="d-none" id="test">
+    <h1 class="mb-3 fw-bold">Prueba IPV</h1>
+    <form asp-action="Test_IPV" method="post">
+        @foreach (Questions_IPV question in Model)
+        {
+            <div class="mt-4 px-0 px-md-3">
+                <div class="card col-12 col-lg-9 my-3">
+                    <h3 class="text-option card-header fw-semibold px-3 py-3">Pregunta @question.QuestionNumber. @question.Question</h3>
+
+                    <div class="d-flex flex-column gap-3 px-3 my-2">
+                        
+                        <div class="d-flex align-items-center" style="height:75px;">
+                            <div class="d-flex align-items-center col-9 border rounded px-2 h-100 me-3" >
+                                <p class="text-option d-flex align-items-center m-0">
+                                    A) @question.OptionA
+                                </p>
+                            </div>
+
+                            <div class="d-flex col-2 col-lg-2" id="optionExample1">
+                                <div class="w-100 d-flex justify-content-center align-items-center border rounded me-0 me-sm-2" style="height:75px;">
+                                    <input class="" type="radio" id="" name="responses[@i]" value="A"
+                                            style="width:25px; height: 25px" required  />
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="d-flex flex-column gap-3 px-3 my-2">
+                        
+                        <div class="d-flex align-items-center" style="height:75px;">
+                            <div class="d-flex align-items-center col-9 border rounded px-2 h-100 me-3" >
+                                <p class="text-option d-flex align-items-center m-0">
+                                    B) @question.OptionB
+                                </p>
+                            </div>
+
+                            <div class="d-flex col-2 col-lg-2" id="optionExample1">
+                                <div class="w-100 d-flex justify-content-center align-items-center border rounded me-0 me-sm-2" style="height:75px;">
+                                    <input class="" type="radio" id="" name="responses[@i]" value="B"
+                                            style="width:25px; height: 25px" />
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    @if (question.OptionC != "")
+                    {
+                        <div class="d-flex flex-column gap-3 px-3 my-2">
+                            
+                            <div class="d-flex align-items-center" style="height:75px;">
+                                <div class="d-flex align-items-center col-9 border rounded px-2 h-100 me-3" >
+                                    <p class="text-option d-flex align-items-center m-0">
+                                        C) @question.OptionC
+                                    </p>
+                                </div>
+
+                                <div class="d-flex col-2 col-lg-2" id="optionExample1">
+                                    <div class="w-100 d-flex justify-content-center align-items-center border rounded me-0 me-sm-2" style="height:75px;">
+                                        <input class="" type="radio" id="" name="responses[@i]" value="C"
+                                                style="width:25px; height: 25px" />
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    }
+                </div>               
+            </div>
+
+            i++;
+        }
+
+        <div class="text-end my-3 mt-5">
+            <input type="submit" class="btn btn-primary fs-5" value="Finalizar Prueba" />
+        </div>
+    </form>
+
+</div>
+

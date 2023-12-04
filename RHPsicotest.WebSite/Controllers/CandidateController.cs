@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RHPsicotest.WebSite.DTOs;
+using RHPsicotest.WebSite.Repositories;
 using RHPsicotest.WebSite.Repositories.Contracts;
 using RHPsicotest.WebSite.Utilities;
 using RHPsicotest.WebSite.ViewModels;
-using RHPsicotest.WebSite.ViewModels.Candidate;
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
@@ -23,17 +25,17 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpGet]
         [Route("/Candidatos")]
-        //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "List-Users-Policy")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, 
+            Policy = "List-Candidate-Policy")]
         public async Task<IActionResult> Index()
         {
-            IEnumerable<CandidateDTO> candidates = await candidateRepository.GetAllCandidates();
+            List<CandidateDTO> candidates = await candidateRepository.GetAllCandidates();
 
             return View(candidates);
         }
         
         [HttpGet]
         [Route("/Tests")]
-        //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "List-Users-Policy")]
         public async Task<IActionResult> GetTestNames(int positionId)
         {
             List<string> tests = await candidateRepository.GetTestNames(positionId);
@@ -43,7 +45,8 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpGet]
         [Route("/Candidato/Crear")]
-        //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "Create-User-Policy")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme,
+            Policy = "Create-Candidate-Policy")]
         public async Task<IActionResult> Create()
         {
             ViewBag.Role = await candidateRepository.GetRoleName();
@@ -54,17 +57,32 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpPost]
         [Route("/Candidato/Crear")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme,
+            Policy = "Create-Candidate-Policy")]
         public async Task<IActionResult> Create(CandidateVM candidateVM)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    CandidateSendVM candidateSendVM = await candidateRepository.AddCandidate(candidateVM);
+                    bool candidateExists = await candidateRepository.CandidateExists(candidateVM.Email.Trim().ToUpper());
 
-                    if (candidateSendVM != null)
+                    if (candidateExists)
                     {
-                        return RedirectToAction("SendMail", "Candidate", candidateSendVM);
+                        ViewBag.Message = "El correo del candidato ya esta registrado";
+                    }
+                    else
+                    {
+                        CandidateSendVM candidateSendVM = await candidateRepository.AddCandidate(candidateVM);
+
+                        if (candidateSendVM != null)
+                        {
+                            return RedirectToAction(nameof(SendMail), candidateSendVM);
+                        }
+                        else
+                        {
+                            ViewBag.Message = "No se pudo guardar el candidato, intentelo otra vez";
+                        }
                     }
                 }
 
@@ -75,13 +93,18 @@ namespace RHPsicotest.WebSite.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                ViewBag.Message = ex.Message;;
+                ViewBag.Role = await candidateRepository.GetRoleName();
+                ViewBag.Positions = await candidateRepository.GetAllPositions();
+
+                return View(candidateVM);
             }
         }
 
         [HttpGet]
         [Route("/EnviarCorreo")]
-        //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "List-Users-Policy")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme,
+            Policy = "Create-Candidate-Policy")]
         public IActionResult SendMail(CandidateSendVM candidate, string nothing = null)
         {
             return View(candidate);
@@ -89,29 +112,33 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpPost]
         [Route("/EnviarCorreo")]
-        //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "List-Users-Policy")]
-        public IActionResult SendMail(CandidateSendVM candidate)
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme,
+            Policy = "Create-Candidate-Policy")]
+        public IActionResult SendMail(CandidateSendVM candidateSendVM)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    SendEmail.Send(candidate.Email, candidate.Password);
+                    SendEmail.Send(candidateSendVM.Email, candidateSendVM.Password);
 
-                    return RedirectToAction("Index", "Candidate");
+                    return RedirectToAction(nameof(Index));
                 }
 
-                return View(candidate);
+                return View(candidateSendVM);
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                ViewBag.Message = ex.Message;
+
+                return View(candidateSendVM);
             }
         }
 
         [HttpGet]
         [Route("/ReenviarCorreo")]
-        //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "List-Users-Policy")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, 
+            Policy = "Resend-Candidate-Policy")]
         public async Task<IActionResult> ResendMail(int id, string nothing = null)
         {
             CandidateResendMailVM candidate = await candidateRepository.GetCandidateResendMailVM(id);
@@ -121,26 +148,67 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpPost]
         [Route("/ReenviarCorreo")]
-        //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "List-Users-Policy")]
-        public async Task<IActionResult> ResendMail(CandidateResendMailVM candidate, List<int> testsId)
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme,
+            Policy = "Resend-Candidate-Policy")]
+        public async Task<IActionResult> ResendMail(CandidateResendMailVM candidateResendMailVM)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    bool result = await candidateRepository.DeleteResults(candidate.IdCandidate, testsId);
+                    if (candidateResendMailVM.TestsId != null)
+                    {
+                        bool result = await candidateRepository.DeleteResultsToCandidate(candidateResendMailVM);
 
-                    SendEmail.Send(candidate.Email, candidate.Password);
+                        if (result)
+                        {
+                            SendEmail.Send(candidateResendMailVM.Email, candidateResendMailVM.Password);
 
-                    return RedirectToAction("Index", "Candidate");
+                            return RedirectToAction(nameof(Index));
+                        }
+                        else
+                        {
+                            ViewBag.Message = "No se pudo realizar el reenvio, intentelo otra vez";
+                        }
+                    }
+                    else
+                    {
+                        SendEmail.Send(candidateResendMailVM.Email, candidateResendMailVM.Password);
+
+                        return RedirectToAction(nameof(Index));
+                    }
                 }
 
-                return View(candidate);
+                return View(candidateResendMailVM);
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                ViewBag.Message = ex.Message;
+
+                return View(candidateResendMailVM);
             }
         }
+
+        [HttpPost]
+        [Route("/Candidato/Eliminar")]
+        public async Task<IActionResult> Delete(int candidateId)
+        {
+            try
+            {
+                bool result = await candidateRepository.DeleteCandidate(candidateId);
+
+                if (result)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+
+                return BadRequest();
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
+
     }
 }

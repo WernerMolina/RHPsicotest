@@ -55,7 +55,7 @@ namespace RHPsicotest.WebSite.Repositories
 
         public async Task<List<ExpedientDTO>> GetAllExpedients()
         {
-            List<Expedient> expedients = await context.Expedients.ToListAsync();
+            List<Expedient> expedients = await context.Expedients.OrderByDescending(e => e.IdExpedient).ToListAsync();
 
             List<ExpedientDTO> expedientDTOs = new List<ExpedientDTO>();
 
@@ -96,42 +96,26 @@ namespace RHPsicotest.WebSite.Repositories
             return expedient.CurriculumVitae;
         }
         
+        public async Task<bool> HasExpedient(int candidateId)
+        {
+            Candidate candidate = await context.Candidates.Include(t => t.Expedient).FirstOrDefaultAsync(e => e.IdCandidate == candidateId);
+
+            if (candidate.Expedient != null) return true;
+
+            return false;
+        }
+        
         public async Task<List<ResultDTO>> GetResults(int expedientId)
         {
             List<Result> results = await context.Results.Where(e => e.IdExpedient == expedientId).ToListAsync();
 
             List<ResultDTO> resultDTOs = new List<ResultDTO>();
 
-            bool isPPGIPG = true;
-
-            foreach (Result result in results)
+            for (int i = 1; i <= 7; i++)
             {
-                if(result.IdTest == 1 && isPPGIPG)
-                {
-                    List<Result> resultsPPGIPG = new List<Result>();
+                List<Result> results2 = results.Where(r => r.IdTest == i).ToList();
 
-                    foreach (Result result2 in results)
-                    {
-                        if (result2.IdFactor <= 9)
-                        {
-                            resultsPPGIPG.Add(result2);
-                        }
-                    }
-                    
-                    resultDTOs.Add(Conversion.ConvertToResultDTO(result.IdTest, resultsPPGIPG));
-
-                    isPPGIPG = false;
-                }
-                
-                if (result.IdTest > 1)
-                {
-                    List<Result> results1 = new List<Result>
-                    {
-                        result
-                    };
-
-                    resultDTOs.Add(Conversion.ConvertToResultDTO(result.IdTest, results1));
-                }
+                if (results2.Count != 0) resultDTOs.Add(Conversion.ConvertToResultDTO(i, results2));
             }
 
             return resultDTOs;

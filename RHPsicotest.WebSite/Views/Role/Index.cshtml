@@ -3,26 +3,25 @@
 @{
     ViewData["Title"] = "Roles";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
-
 }
 
-<h1 class="fw-bold">Lista de Roles</h1>
+<h1 class="fw-bold">Roles</h1>
 
-@if (!(await AuthorizationService.AuthorizeAsync(User, "Create-Role-Policy")).Succeeded)
+@if ((await AuthorizationService.AuthorizeAsync(User, "Create-Role-Policy")).Succeeded)
 {
-    <p class="mt-4">
+    <p class="my-4">
         <a asp-action="Create" class="btn btn-success fw-bold fs-5">Crear Rol</a>
     </p>
 }
 
-<table class="table table-striped align-middle">
+<table class="table table-striped align-middle" id="dataTable">
     <thead class="table-dark">
         <tr class="text-center">
             <th>
-                @Html.DisplayNameFor(model => model.RoleName)
+                Nombre del Rol
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Permissions)
+                Permisos
             </th>
             <th>Acciones</th>
         </tr>
@@ -30,22 +29,24 @@
     <tbody class="text-center">
         @foreach (Role role in Model)
         {
+            if (role.IdRole == 1 || role.IdRole == 2) continue;
+
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => role.RoleName)
                 </td>
                 <td>
-                    @foreach (var permission in role.Permissions)
+                    @foreach (Permission_Role permission in role.Permissions)
                     {
                         <p>@permission.Permission.PermissionName</p>
                     }
                 </td>
                 <td>
-                    @if (!(await AuthorizationService.AuthorizeAsync(User, "Edit-Role-Policy")).Succeeded)
+                    @if ((await AuthorizationService.AuthorizeAsync(User, "Edit-Role-Policy")).Succeeded)
                     {
-                        <a asp-action="Edit" asp-route-id="@role.IdRole" class="btn bg-warning fw-bold"><i class="bi bi-pencil-fill"></i></a> <span class="fw-bold">|</span>
+                        <a asp-action="Edit" asp-route-roleId="@role.IdRole" class="btn bg-warning fw-bold"><i class="bi bi-pencil-fill"></i></a>
                     }
-                    @if (!(await AuthorizationService.AuthorizeAsync(User, "Delete-Role-Policy")).Succeeded)
+                    @if ((await AuthorizationService.AuthorizeAsync(User, "Delete-Role-Policy")).Succeeded)
                     {
                         <button class="btn btn-danger fw-bold" onclick="activeModalDelete(@role.IdRole)">
                             <i class="bi bi-trash3-fill"></i>
@@ -57,20 +58,14 @@
     </tbody>
 </table>
 
-
-@Html.Partial("_ModalDelete")
-
+<partial name="/Views/Shared/_ModalDelete.cshtml"/>
 
 @section Scripts {
-
     <script>
-
         var objectId = 0;
-
+        
         function activeModalDelete(id) {
-
-            let modalDelete = document.querySelector("#modal");
-
+            let modalDelete = document.querySelector("#modalDelete");
             modalDelete.classList.remove("d-none");
             modalDelete.classList.add("d-flex");
 
@@ -78,24 +73,16 @@
         }
 
         function deleteRecord() {
-            if (objectId > 0) {
-                $.ajax({
-                    type: "POST",
-                    url: "@Url.ActionLink("Delete", "Role")",
-                    data: { roleId: 0 },
-                    success: function (data) {
-                        window.location = "@Url.ActionLink("Index", "Role")";
-                    },
-                }).fail(function (jqXHR, textStatus, errorThrown) {
-                    let message = document.querySelector("#messageDelete");
+            $.ajax({
+                type: "POST",
+                url: "@Url.ActionLink("Delete", "Role")",
+                data: { roleId: objectId },
+                success: function (data) {
+                    window.location = "@Url.ActionLink("Index", "Role")";
+                },
+            }).fail(function (jqXHR, textStatus, errorThrown) {
 
-                    message.innerHTML = "No se pudo eliminar este rol, intentelo después";
-                });
-            } else {
-                let message = document.querySelector("#messageDelete");
-
-                message.innerHTML = "No es posible eliminar este registro";
-            }
+            });
         }
     </script>
 }

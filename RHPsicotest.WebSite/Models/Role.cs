@@ -12,6 +12,8 @@ namespace RHPsicotest.WebSite.Models
 
         public string RoleName { get; set; }
 
+        public string RoleNameNormalized { get; set; }
+
         [InverseProperty(nameof(Role_User.Role))]
         public virtual IEnumerable<Role_User> Users { get; set; }
 

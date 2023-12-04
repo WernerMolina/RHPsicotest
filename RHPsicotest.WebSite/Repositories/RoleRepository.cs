@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using RHPsicotest.WebSite.Data;
 using RHPsicotest.WebSite.Models;
 using RHPsicotest.WebSite.Repositories.Contracts;
 using RHPsicotest.WebSite.Utilities;
-using RHPsicotest.WebSite.ViewModels.Role;
+using RHPsicotest.WebSite.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -21,45 +20,30 @@ namespace RHPsicotest.WebSite.Repositories
         }
 
 
-        public async Task<bool> AddRole(RoleVM roleVM, List<int> permisssions)
+        public async Task<bool> AddRole(RoleVM roleVM)
         {
-            bool result = false;
-            
-            bool roleExists = await RoleExists(roleVM.RoleName);
+            bool result;
 
-            if (!roleExists)
-            {
-                Role role = Conversion.ConvertToRole(roleVM);
+            Role role = Conversion.ConvertToRole(roleVM);
 
-                await context.Roles.AddAsync(role);
-                result = await context.SaveChangesAsync() > 0;
+            await context.Roles.AddAsync(role);
+            result = await context.SaveChangesAsync() > 0;
 
-                if (result) PermissionsAsing(role.IdRole, permisssions);
-            }
+            if (result) AddPermissionsToRole(role.IdRole, roleVM.PermissionsId);
 
             return result;
         }
 
-        public async Task<bool> UpdateRole(RoleUpdateVM roleUpdateVM, List<int> permissions)
+        public async Task<bool> UpdateRole(RoleUpdateVM roleUpdateVM)
         {
-            bool result = false;
+            bool result;
 
-            Role role = await context.Roles.AsNoTracking().FirstOrDefaultAsync(r => r.RoleName == roleUpdateVM.RoleName);
+            Role role = Conversion.ConvertToRole(roleUpdateVM);
 
-            if (role == null || role.IdRole == roleUpdateVM.IdRole)
-            {
-                if (role == null)
-                {
-                    role = await context.Roles.AsNoTracking().FirstOrDefaultAsync(r => r.IdRole == roleUpdateVM.IdRole);
-                }
+            context.Roles.Update(role);
+            result = await context.SaveChangesAsync() > 0;
 
-                role = Conversion.ConvertToRole(roleUpdateVM);
-
-                context.Roles.Update(role);
-                result = await context.SaveChangesAsync() > 0;
-
-                if (result) PermissionsAsing(role.IdRole, permissions, true);
-            }
+            if (result) AddPermissionsToRole(role.IdRole, roleUpdateVM.PermissionsId, true);
 
             return result;
         }
@@ -84,43 +68,31 @@ namespace RHPsicotest.WebSite.Repositories
             return await context.Roles.Include("Permissions.Permission").ToListAsync();
         }
 
-        public async Task<RoleUpdateVM> GetRoleUpdate(int id)
+        public async Task<RoleUpdateVM> GetRoleUpdate(int roleId)
         {
-            Role role = await context.Roles.FirstOrDefaultAsync(r => r.IdRole == id);
+            Role role = await context.Roles.Include(r => r.Permissions).FirstOrDefaultAsync(r => r.IdRole == roleId);
 
-            RoleUpdateVM roleUpdateVM = Conversion.ConvertToRoleUpdateVM(role);
+            List<int> permissions = new List<int>();
+
+            if (role != null)
+            {
+                foreach (Permission_Role permissionId in role.Permissions)
+                {
+                    permissions.Add(permissionId.IdPermission);
+                }
+            }
+
+            RoleUpdateVM roleUpdateVM = Conversion.ConvertToRoleUpdateVM(role, permissions);
 
             return roleUpdateVM;
         }
 
-
-        public async Task<MultiSelectList> GetAllPermissions()
+        public async Task<List<Permission>> GetAllPermissions()
         {
-            List<Permission> permissions = await context.Permissions.ToListAsync();
-
-            return new MultiSelectList(permissions, "IdPermission", "PermissionName");
+            return await context.Permissions.ToListAsync(); ;
         }
 
-
-        public async Task<MultiSelectList> GetPermissionsSelected(int roleId)
-        {
-            Role role = await context.Roles.Include(r => r.Permissions).FirstOrDefaultAsync(u => u.IdRole == roleId);
-
-            List<Permission> permissions = await context.Permissions.ToListAsync();
-            
-            List<int> selectedPermissions = new List<int>();
-
-            foreach (var permission in role.Permissions)
-            {
-                selectedPermissions.Add(permission.IdPermission);
-            }
-
-            return new MultiSelectList(permissions, "IdPermission", "PermissionName", selectedPermissions);
-        }
-
-
-        //-------------------------------
-        private void PermissionsAsing(int roleId, List<int> permissions, bool delete = false)
+        private void AddPermissionsToRole(int roleId, List<int> permissionsId, bool delete = false)
         {
             if (delete)
             {
@@ -130,28 +102,36 @@ namespace RHPsicotest.WebSite.Repositories
                 context.SaveChanges();
             }
 
-            foreach (int id in permissions)
+            if (permissionsId != null)
             {
-                context.Permission_Roles.Add(new Permission_Role
+                foreach (int id in permissionsId)
                 {
-                    IdRole = roleId,
-                    IdPermission = id
-                });
-            }
+                    context.Permission_Roles.Add(new Permission_Role
+                    {
+                        IdRole = roleId,
+                        IdPermission = id
+                    });
+                }
 
-            context.SaveChanges();
+                context.SaveChanges();
+            }
         }
 
         public async Task<bool> RoleExists(string roleName, int id = 0)
         {
             if (id > 0)
             {
-                Role role = await context.Roles.AsNoTracking().FirstOrDefaultAsync(r => r.IdRole == id);
+                Role role = await context.Roles.AsNoTracking().FirstOrDefaultAsync(r => r.RoleNameNormalized == roleName);
 
-                return !(role.IdRole == id && role.RoleName == roleName);
+                if (role != null)
+                {
+                    return !(role.IdRole == id && role.RoleNameNormalized == roleName);
+                }
+
+                return false;
             }
 
-            return await context.Roles.AnyAsync(r => r.RoleName == roleName); ;
+            return await context.Roles.AnyAsync(r => r.RoleNameNormalized == roleName); ;
         }
 
 

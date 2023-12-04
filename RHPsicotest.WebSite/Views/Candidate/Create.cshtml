@@ -1,16 +1,21 @@
 ﻿@model CandidateVM
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Crear Candidato";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 
     Role role = (Role)ViewBag.Role;
     List<Position> positions = (List<Position>)ViewBag.Positions;
 }
 
+@if (ViewBag.Message is not null)
+{
+    <partial name="/Views/Shared/_ModalMessage.cshtml" model="(String)ViewBag.Message" />
+}
+
 <div class="row d-flex justify-content-center mt-5">
     <div class="col-12 col-sm-10 col-md-8 col-xl-5">
-        <h1 class="text-center fw-bold">Crear Usuario</h1>
+        <h1 class="text-center fw-bold">Crear Contraseña</h1>
 
         <form asp-action="Create" class="p-3">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -24,7 +29,7 @@
             <div class="form-group mb-4">
                 <label asp-for="IdPosition" class="control-label mb-1 fw-bold fs-5">Puestos</label>
                 <select class="form-control" asp-for="IdPosition" id="selectPosition">
-                    <option value="0">Seleccionar Puesto</option>
+                    <option>Seleccionar Puesto</option>
                     @foreach (Position position in positions)
                     {
                         <option value="@position.IdPosition">@position.PositionName</option>
@@ -92,7 +97,7 @@
                         }
                     },
                 }).fail(function (jqXHR, textStatus, errorThrown) {
-                    alert("Fallo");
+
                 });
             }else{
                 $("#listTests").addClass("d-none");

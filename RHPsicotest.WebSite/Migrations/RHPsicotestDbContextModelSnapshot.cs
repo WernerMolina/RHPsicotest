@@ -29,6 +29,9 @@ namespace RHPsicotest.WebSite.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("EmailNormalized")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("IdPosition")
                         .HasColumnType("int");
 
@@ -48,17 +51,6 @@ namespace RHPsicotest.WebSite.Migrations
                     b.HasIndex("IdRole");
 
                     b.ToTable("Candidate");
-
-                    b.HasData(
-                        new
-                        {
-                            IdCandidate = 1,
-                            Email = "ml22002@esfe.agape.edu.sv",
-                            IdPosition = 1,
-                            IdRole = 3,
-                            Password = "TW15",
-                            RegistrationDate = "13/05/2023 06:05 PM"
-                        });
                 });
 
             modelBuilder.Entity("RHPsicotest.WebSite.Models.Expedient", b =>
@@ -140,9 +132,6 @@ namespace RHPsicotest.WebSite.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<string>("DescriptionFactor")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("FactorName")
                         .HasColumnType("nvarchar(max)");
 
@@ -154,62 +143,212 @@ namespace RHPsicotest.WebSite.Migrations
                         new
                         {
                             IdFactor = 1,
-                            DescriptionFactor = "Ascendencia: Rasgo que se refiere a la dominancia e iniciativa en situaciones de grupo.",
-                            FactorName = "Asc."
+                            FactorName = "Ascendencia"
                         },
                         new
                         {
                             IdFactor = 2,
-                            DescriptionFactor = "Responsabilidad: Rasgo que alude a la constancia y perseverancia en las tareas propuestas.",
-                            FactorName = "Resp."
+                            FactorName = "Responsabilidad"
                         },
                         new
                         {
                             IdFactor = 3,
-                            DescriptionFactor = "Estabilidad Emocional: Rasgo que refleja la ausencia de hipersensibilidad, ansiedad y tensión nerviosa.",
-                            FactorName = "Estab."
+                            FactorName = "Estabilidad Emocional"
                         },
                         new
                         {
                             IdFactor = 4,
-                            DescriptionFactor = "Sociabilidad: Rasgo que facilita el trato con los demás.",
-                            FactorName = "Soc."
+                            FactorName = "Sociabilidad"
                         },
                         new
                         {
                             IdFactor = 5,
-                            DescriptionFactor = "Cautela: Es el tipo de conducta caracterizada por prever las situaciones o efectos de una decisión antes de actuar.",
-                            FactorName = "Caut."
+                            FactorName = "Cautela"
                         },
                         new
                         {
                             IdFactor = 6,
-                            DescriptionFactor = "Originalidad: Rango de conducta que se manifiesta por la búsqueda de autenticidad en todo lo que hace.",
-                            FactorName = "Orig."
+                            FactorName = "Originalidad"
                         },
                         new
                         {
                             IdFactor = 7,
-                            DescriptionFactor = "Comprensión: Grado en el cual somos capaces de interpretar o asimilar acontecimientos y hechos particulares o de la vida diaria.",
-                            FactorName = "Comp."
+                            FactorName = "Comprensión"
                         },
                         new
                         {
                             IdFactor = 8,
-                            DescriptionFactor = "Vitalidad: Se dice de la energía psíquica o física que se agrega a cada actividad que se emprende.",
-                            FactorName = "Vital."
+                            FactorName = "Vitalidad"
                         },
                         new
                         {
                             IdFactor = 9,
-                            DescriptionFactor = "Autoestima: Es la valoración positiva o negativa que uno hace de sí mismo.",
-                            FactorName = "Autoest."
+                            FactorName = "Autoestima"
                         },
                         new
                         {
                             IdFactor = 10,
-                            DescriptionFactor = "",
                             FactorName = "Inteligencia"
+                        },
+                        new
+                        {
+                            IdFactor = 11,
+                            FactorName = "A"
+                        },
+                        new
+                        {
+                            IdFactor = 12,
+                            FactorName = "B"
+                        },
+                        new
+                        {
+                            IdFactor = 13,
+                            FactorName = "C"
+                        },
+                        new
+                        {
+                            IdFactor = 14,
+                            FactorName = "E"
+                        },
+                        new
+                        {
+                            IdFactor = 15,
+                            FactorName = "F"
+                        },
+                        new
+                        {
+                            IdFactor = 16,
+                            FactorName = "G"
+                        },
+                        new
+                        {
+                            IdFactor = 17,
+                            FactorName = "H"
+                        },
+                        new
+                        {
+                            IdFactor = 18,
+                            FactorName = "I"
+                        },
+                        new
+                        {
+                            IdFactor = 19,
+                            FactorName = "L"
+                        },
+                        new
+                        {
+                            IdFactor = 20,
+                            FactorName = "M"
+                        },
+                        new
+                        {
+                            IdFactor = 21,
+                            FactorName = "N"
+                        },
+                        new
+                        {
+                            IdFactor = 22,
+                            FactorName = "O"
+                        },
+                        new
+                        {
+                            IdFactor = 23,
+                            FactorName = "Q1"
+                        },
+                        new
+                        {
+                            IdFactor = 24,
+                            FactorName = "Q2"
+                        },
+                        new
+                        {
+                            IdFactor = 25,
+                            FactorName = "Q3"
+                        },
+                        new
+                        {
+                            IdFactor = 26,
+                            FactorName = "Q4"
+                        },
+                        new
+                        {
+                            IdFactor = 27,
+                            FactorName = "QI"
+                        },
+                        new
+                        {
+                            IdFactor = 28,
+                            FactorName = "QII"
+                        },
+                        new
+                        {
+                            IdFactor = 29,
+                            FactorName = "QIII"
+                        },
+                        new
+                        {
+                            IdFactor = 30,
+                            FactorName = "QIV"
+                        },
+                        new
+                        {
+                            IdFactor = 31,
+                            FactorName = "Disposición General para la Venta"
+                        },
+                        new
+                        {
+                            IdFactor = 32,
+                            FactorName = "Receptividad"
+                        },
+                        new
+                        {
+                            IdFactor = 33,
+                            FactorName = "Agresividad"
+                        },
+                        new
+                        {
+                            IdFactor = 34,
+                            FactorName = "I- Compresión"
+                        },
+                        new
+                        {
+                            IdFactor = 35,
+                            FactorName = "II- Adaptabilidad"
+                        },
+                        new
+                        {
+                            IdFactor = 36,
+                            FactorName = "III- Control de sí mismo"
+                        },
+                        new
+                        {
+                            IdFactor = 37,
+                            FactorName = "IV- Tolerancia a la frustración"
+                        },
+                        new
+                        {
+                            IdFactor = 38,
+                            FactorName = "V- Combatividad"
+                        },
+                        new
+                        {
+                            IdFactor = 39,
+                            FactorName = "VI- Dominio"
+                        },
+                        new
+                        {
+                            IdFactor = 40,
+                            FactorName = "VII- Seguridad"
+                        },
+                        new
+                        {
+                            IdFactor = 41,
+                            FactorName = "VIII- Actividad"
+                        },
+                        new
+                        {
+                            IdFactor = 42,
+                            FactorName = "IX- Sociabilidad"
                         });
                 });
 
@@ -220,7 +359,13 @@ namespace RHPsicotest.WebSite.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
+                    b.Property<string>("Assigned")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("PermissionName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PermissionNamePolicy")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("IdPermission");
@@ -231,22 +376,163 @@ namespace RHPsicotest.WebSite.Migrations
                         new
                         {
                             IdPermission = 1,
-                            PermissionName = "Lista-Usuarios"
+                            Assigned = "Administradores",
+                            PermissionName = "Ver Lista de Usuarios",
+                            PermissionNamePolicy = "Lista-Usuarios"
                         },
                         new
                         {
                             IdPermission = 2,
-                            PermissionName = "Crear-Usuario"
+                            Assigned = "Administradores",
+                            PermissionName = "Crear Usuarios",
+                            PermissionNamePolicy = "Crear-Usuario"
                         },
                         new
                         {
                             IdPermission = 3,
-                            PermissionName = "Editar-Usuario"
+                            Assigned = "Administradores",
+                            PermissionName = "Editar Usuarios",
+                            PermissionNamePolicy = "Editar-Usuario"
                         },
                         new
                         {
                             IdPermission = 4,
-                            PermissionName = "Eliminar-Usuario"
+                            Assigned = "Administradores",
+                            PermissionName = "Eliminar Usuarios",
+                            PermissionNamePolicy = "Eliminar-Usuario"
+                        },
+                        new
+                        {
+                            IdPermission = 5,
+                            Assigned = "Administradores",
+                            PermissionName = "Ver Lista de Roles",
+                            PermissionNamePolicy = "Lista-Roles"
+                        },
+                        new
+                        {
+                            IdPermission = 6,
+                            Assigned = "Administradores",
+                            PermissionName = "Crear Roles",
+                            PermissionNamePolicy = "Crear-Rol"
+                        },
+                        new
+                        {
+                            IdPermission = 7,
+                            Assigned = "Administradores",
+                            PermissionName = "Editar Roles",
+                            PermissionNamePolicy = "Editar-Rol"
+                        },
+                        new
+                        {
+                            IdPermission = 8,
+                            Assigned = "Administradores",
+                            PermissionName = "Eliminar Roles",
+                            PermissionNamePolicy = "Eliminar-Rol"
+                        },
+                        new
+                        {
+                            IdPermission = 9,
+                            Assigned = "Administradores",
+                            PermissionName = "Ver Lista de Candidatos",
+                            PermissionNamePolicy = "Lista-Candidatos"
+                        },
+                        new
+                        {
+                            IdPermission = 10,
+                            Assigned = "Administradores",
+                            PermissionName = "Crear Candidatos",
+                            PermissionNamePolicy = "Crear-Candidato"
+                        },
+                        new
+                        {
+                            IdPermission = 11,
+                            Assigned = "Administradores",
+                            PermissionName = "Eliminar Candidatos",
+                            PermissionNamePolicy = "Eliminar-Candidato"
+                        },
+                        new
+                        {
+                            IdPermission = 12,
+                            Assigned = "Administradores",
+                            PermissionName = "Reenviar Correos",
+                            PermissionNamePolicy = "Reenviar-Correo"
+                        },
+                        new
+                        {
+                            IdPermission = 13,
+                            Assigned = "Administradores",
+                            PermissionName = "Ver Lista de Expedientes",
+                            PermissionNamePolicy = "Lista-Expedientes"
+                        },
+                        new
+                        {
+                            IdPermission = 14,
+                            Assigned = "Administradores",
+                            PermissionName = "Editar Expedientes",
+                            PermissionNamePolicy = "Editar-Expediente"
+                        },
+                        new
+                        {
+                            IdPermission = 15,
+                            Assigned = "Administradores",
+                            PermissionName = "Ver Curriculums",
+                            PermissionNamePolicy = "Ver-Curriculums"
+                        },
+                        new
+                        {
+                            IdPermission = 16,
+                            Assigned = "Administradores",
+                            PermissionName = "Ver Reportes",
+                            PermissionNamePolicy = "Ver-Reportes"
+                        },
+                        new
+                        {
+                            IdPermission = 17,
+                            Assigned = "Administradores",
+                            PermissionName = "Ver Lista de Puestos",
+                            PermissionNamePolicy = "Lista-Puestos"
+                        },
+                        new
+                        {
+                            IdPermission = 18,
+                            Assigned = "Administradores",
+                            PermissionName = "Crear Puestos",
+                            PermissionNamePolicy = "Crear-Puesto"
+                        },
+                        new
+                        {
+                            IdPermission = 19,
+                            Assigned = "Administradores",
+                            PermissionName = "Editar Puestos",
+                            PermissionNamePolicy = "Editar-Puesto"
+                        },
+                        new
+                        {
+                            IdPermission = 20,
+                            Assigned = "Administradores",
+                            PermissionName = "Eliminar Puestos",
+                            PermissionNamePolicy = "Eliminar-Puesto"
+                        },
+                        new
+                        {
+                            IdPermission = 21,
+                            Assigned = "Candidatos",
+                            PermissionName = "Crear Expediente",
+                            PermissionNamePolicy = "Crear-Expediente"
+                        },
+                        new
+                        {
+                            IdPermission = 22,
+                            Assigned = "Candidatos",
+                            PermissionName = "Confirmar Políticas",
+                            PermissionNamePolicy = "Confirmar-Politicas"
+                        },
+                        new
+                        {
+                            IdPermission = 23,
+                            Assigned = "Candidatos",
+                            PermissionName = "Pruebas Asignadas",
+                            PermissionNamePolicy = "Pruebas-Asignadas"
                         });
                 });
 
@@ -284,6 +570,101 @@ namespace RHPsicotest.WebSite.Migrations
                         {
                             IdPermission = 4,
                             IdRole = 1
+                        },
+                        new
+                        {
+                            IdPermission = 5,
+                            IdRole = 1
+                        },
+                        new
+                        {
+                            IdPermission = 6,
+                            IdRole = 1
+                        },
+                        new
+                        {
+                            IdPermission = 7,
+                            IdRole = 1
+                        },
+                        new
+                        {
+                            IdPermission = 8,
+                            IdRole = 1
+                        },
+                        new
+                        {
+                            IdPermission = 9,
+                            IdRole = 1
+                        },
+                        new
+                        {
+                            IdPermission = 10,
+                            IdRole = 1
+                        },
+                        new
+                        {
+                            IdPermission = 11,
+                            IdRole = 1
+                        },
+                        new
+                        {
+                            IdPermission = 12,
+                            IdRole = 1
+                        },
+                        new
+                        {
+                            IdPermission = 13,
+                            IdRole = 1
+                        },
+                        new
+                        {
+                            IdPermission = 14,
+                            IdRole = 1
+                        },
+                        new
+                        {
+                            IdPermission = 15,
+                            IdRole = 1
+                        },
+                        new
+                        {
+                            IdPermission = 16,
+                            IdRole = 1
+                        },
+                        new
+                        {
+                            IdPermission = 17,
+                            IdRole = 1
+                        },
+                        new
+                        {
+                            IdPermission = 18,
+                            IdRole = 1
+                        },
+                        new
+                        {
+                            IdPermission = 19,
+                            IdRole = 1
+                        },
+                        new
+                        {
+                            IdPermission = 20,
+                            IdRole = 1
+                        },
+                        new
+                        {
+                            IdPermission = 21,
+                            IdRole = 2
+                        },
+                        new
+                        {
+                            IdPermission = 22,
+                            IdRole = 2
+                        },
+                        new
+                        {
+                            IdPermission = 23,
+                            IdRole = 2
                         });
                 });
 
@@ -309,24 +690,6 @@ namespace RHPsicotest.WebSite.Migrations
                     b.HasKey("IdPosition");
 
                     b.ToTable("Position");
-
-                    b.HasData(
-                        new
-                        {
-                            IdPosition = 1,
-                            CreationDate = "13/05/2023 06:05 PM",
-                            Department = "Tecnología de la Información",
-                            PositionHigher = "Encargado de IT",
-                            PositionName = "Desarrollador IT"
-                        },
-                        new
-                        {
-                            IdPosition = 2,
-                            CreationDate = "13/05/2023 06:05 PM",
-                            Department = "Ventas",
-                            PositionHigher = "Gerente Comercial",
-                            PositionName = "Asesor de Venta"
-                        });
                 });
 
             modelBuilder.Entity("RHPsicotest.WebSite.Models.Result", b =>
@@ -368,6 +731,9 @@ namespace RHPsicotest.WebSite.Migrations
                     b.Property<string>("RoleName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("RoleNameNormalized")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("IdRole");
 
                     b.ToTable("Role");
@@ -376,17 +742,14 @@ namespace RHPsicotest.WebSite.Migrations
                         new
                         {
                             IdRole = 1,
-                            RoleName = "Super-Admin"
+                            RoleName = "Super-Admin",
+                            RoleNameNormalized = "SUPER-ADMIN"
                         },
                         new
                         {
                             IdRole = 2,
-                            RoleName = "Administrador"
-                        },
-                        new
-                        {
-                            IdRole = 3,
-                            RoleName = "Candidato"
+                            RoleName = "Candidato",
+                            RoleNameNormalized = "CANDIDATO"
                         });
                 });
 
@@ -409,6 +772,16 @@ namespace RHPsicotest.WebSite.Migrations
                         {
                             IdRole = 1,
                             IdUser = 1
+                        },
+                        new
+                        {
+                            IdRole = 1,
+                            IdUser = 2
+                        },
+                        new
+                        {
+                            IdRole = 1,
+                            IdUser = 3
                         });
                 });
 
@@ -452,20 +825,13 @@ namespace RHPsicotest.WebSite.Migrations
                             IdTest = 3,
                             Link = "Test_Dominos",
                             NameTest = "Dominos",
-                            Time = "45 min."
+                            Time = "60 min."
                         },
                         new
                         {
                             IdTest = 4,
-                            Link = "Test_BFQ",
-                            NameTest = "BFQ",
-                            Time = "45 min."
-                        },
-                        new
-                        {
-                            IdTest = 5,
-                            Link = "Test_16PF",
-                            NameTest = "16PF",
+                            Link = "Test_IPV",
+                            NameTest = "IPV",
                             Time = "45 min."
                         });
                 });
@@ -513,6 +879,9 @@ namespace RHPsicotest.WebSite.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("EmailNormalized")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -531,9 +900,28 @@ namespace RHPsicotest.WebSite.Migrations
                         {
                             IdUser = 1,
                             Email = "Wm25@gmail.com",
+                            EmailNormalized = "WM25@GMAIL.COM",
                             Name = "Werner Molina",
                             Password = "827ccb0eea8a706c4c34a16891f84e7b",
-                            RegistrationDate = "13/05/2023 06:05 PM"
+                            RegistrationDate = "06/09/2023 12:23 PM"
+                        },
+                        new
+                        {
+                            IdUser = 2,
+                            Email = "rosy.vasquez@consulightpf.net",
+                            EmailNormalized = "ROSY.VASQUEZ@CONSULIGHTPF.NET",
+                            Name = "Rosy Hernández",
+                            Password = "827ccb0eea8a706c4c34a16891f84e7b",
+                            RegistrationDate = "06/09/2023 12:23 PM"
+                        },
+                        new
+                        {
+                            IdUser = 3,
+                            Email = "roberto.ramirez@consulightpf.net",
+                            EmailNormalized = "ROBERTO.RAMIREZ@CONSULIGHTPF.NET",
+                            Name = "Roberto",
+                            Password = "827ccb0eea8a706c4c34a16891f84e7b",
+                            RegistrationDate = "06/09/2023 12:23 PM"
                         });
                 });
 

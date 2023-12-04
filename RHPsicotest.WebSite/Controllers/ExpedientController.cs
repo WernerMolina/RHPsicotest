@@ -1,15 +1,13 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using RHPsicotest.WebSite.DTOs;
-using RHPsicotest.WebSite.Models;
 using RHPsicotest.WebSite.Repositories.Contracts;
 using RHPsicotest.WebSite.Utilities;
 using RHPsicotest.WebSite.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -20,8 +18,6 @@ namespace RHPsicotest.WebSite.Controllers
 
         List<string> academicFormations = new List<string>
         {
-            
-            "Agente Comercial",
             "Bachiller",
             "Directivo",
             "Ingeniero",
@@ -30,12 +26,13 @@ namespace RHPsicotest.WebSite.Controllers
             "Técnico Industrial",
             "Técnico Comercial",
             "Jefe de Vigilancia",
+            "Agente Comercial",
             "Jefe Administrativo",
             "Administrativo",
             "Analista Programador",
             "Técnico en Método",
-            "Operario Mecánico",
             "Jefatura",
+            "Operario Mecánico",
             "Secretaria",
             "Asistente Administrativa",
             "Vendedor",
@@ -43,7 +40,7 @@ namespace RHPsicotest.WebSite.Controllers
             "Operario no Cualificado",
             "Profesinal de Oficio",
             "Subalternos",
-            "Supervisora de Ventas",
+            "Supervisora de Ventas"
         };
 
         private readonly IExpedientRepository expedientRepository;
@@ -54,18 +51,9 @@ namespace RHPsicotest.WebSite.Controllers
         }
 
         [HttpGet]
-        [Route("/PDF")]
-        public async Task<IActionResult> ShowPDF(int id)
-        {
-            List<ResultDTO> results = await expedientRepository.GetResults(id);
-
-            ViewBag.Expedient = await expedientRepository.GetExpedient(id);
-
-            return View(results);
-        }
-
-        [HttpGet]
         [Route("/Expedientes")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme,
+            Policy = "List-Expedient-Policy")]
         public async Task<IActionResult> Index()
         {
             List<ExpedientDTO> expedients = await expedientRepository.GetAllExpedients();
@@ -76,6 +64,8 @@ namespace RHPsicotest.WebSite.Controllers
         [HttpGet]
         [AllowAnonymous]
         [Route("/ConfirmarPoliticas")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme,
+            Policy = "ConfirmPolicies-Expedient-Policy")]
         public IActionResult ConfirmPolicies()
         {
             return View();
@@ -84,6 +74,8 @@ namespace RHPsicotest.WebSite.Controllers
         [HttpPost]
         [AllowAnonymous]
         [Route("/ConfirmarPoliticas")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme,
+            Policy = "ConfirmPolicies-Expedient-Policy")]
         public IActionResult ConfirmPolicies(bool accept)
         {
             if (accept)
@@ -93,59 +85,88 @@ namespace RHPsicotest.WebSite.Controllers
         }
 
         [HttpGet]
-        [Route("/Crear/Expediente")]
-        //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "Create-User-Policy")]
-        public IActionResult Create()
+        [Route("/Expediente/Crear")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, 
+            Policy = "Create-Expedient-Policy")]
+        public async Task<IActionResult> Create()
         {
+            int candidateId = Convert.ToInt32(((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value);
+
+            bool hasExpedient = await expedientRepository.HasExpedient(candidateId);
+
+            if (hasExpedient) return RedirectToAction("AssignedTests", "Test");
+
             ViewBag.AcademicFormations = academicFormations;
 
             return View();
         }
 
         [HttpPost]
-        [Route("/Crear/Expediente")]
+        [Route("/Expediente/Crear")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme,
+            Policy = "Create-Expedient-Policy")]
         public async Task<IActionResult> Create(ExpedientVM expedientVM)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    bool isFileTypePDF = Helper.IsFileTypePDF(expedientVM.CurriculumVitae);
+                    byte isAgeCorrect = Helper.CalculateAge(expedientVM.DateOfBirth);
 
-                    if (isFileTypePDF)
+                    if (isAgeCorrect >= 15)
                     {
-                        string candidateId = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value;
-                        string email = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Email).Value;
-                        string position = ((ClaimsIdentity)User.Identity).FindFirst("Position").Value;
+                        bool isFileTypePDF = Helper.IsFileTypePDF(expedientVM.CurriculumVitae);
 
-                        // Id, Correo, Puesto
-                        (string, string, string) currentCandidate = (candidateId, email, position);
-
-                        bool result = await expedientRepository.AddExpedient(expedientVM, currentCandidate);
-
-                        if (result)
+                        if (isFileTypePDF)
                         {
-                            return RedirectToAction("AssignedTests", "Test");
+                            string candidateId = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value;
+                            string email = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Email).Value;
+                            string position = ((ClaimsIdentity)User.Identity).FindFirst("Position").Value;
+
+                            // Id, Correo, Puesto
+                            (string, string, string) currentCandidate = (candidateId, email, position);
+
+                            bool result = await expedientRepository.AddExpedient(expedientVM, currentCandidate);
+
+                            if (result)
+                            {
+                                return RedirectToAction("AssignedTests", "Test");
+                            }
+                            else
+                            {
+                                ViewBag.Message = "No se pudo guardar su información, por favor, intentelo otra vez";
+                            }
                         }
+
+                        ViewBag.Message = "El archivo del curriculum tiene que ser de tipo PDF";
                     }
+
+                    ViewBag.Message = "Su edad no esta permitida";
                 }
 
                 ViewBag.AcademicFormations = academicFormations;
 
                 return View(expedientVM);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                ViewBag.Message = "Ocurrio un problema en el sistema, intentelo otra vez, si el problema persiste, contactese con la encargada";
+
+                ViewBag.AcademicFormations = academicFormations;
+
+                return View(expedientVM);
             }
         }
 
         [HttpGet]
         [Route("/Expediente/Editar")]
-        //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "Create-User-Policy")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, 
+            Policy = "Edit-Expedient-Policy")]
         public async Task<IActionResult> Edit(int id)
         {
             ExpedientUpdateVM expedient = await expedientRepository.GetExpedientUpdateVM(id);
+
+            if (expedient == null) return RedirectToAction(nameof(Index));
 
             ViewBag.AcademicFormations = academicFormations;
 
@@ -154,17 +175,30 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpPost]
         [Route("/Expediente/Editar")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme,
+            Policy = "Edit-Expedient-Policy")]
         public async Task<IActionResult> Edit(ExpedientUpdateVM expedientUpdateVM)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    bool result = await expedientRepository.UpdateExpedient(expedientUpdateVM);
-
-                    if (result)
+                    if (expedientUpdateVM.Age < 15)
                     {
-                        return RedirectToAction("Index", "Expedient");
+                        ViewBag.Message = "La edad establecida no esta permitida";
+                    }
+                    else
+                    {
+                        bool result = await expedientRepository.UpdateExpedient(expedientUpdateVM);
+
+                        if (result)
+                        {
+                            return RedirectToAction(nameof(Index));
+                        }
+                        else
+                        {
+                            ViewBag.Message = "No se pudo actualizar el expediente, por favor, intentelo otra vez";
+                        }
                     }
                 }
 
@@ -174,50 +208,38 @@ namespace RHPsicotest.WebSite.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                ViewBag.Message = ex.Message;
+
+                ViewBag.AcademicFormations = academicFormations;
+
+                return View(expedientUpdateVM);
             }
         }
 
         [HttpGet]
-        [Route("/CurriculumVitae")]
-        //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "Create-User-Policy")]
+        [Route("/Curriculum-Vitae")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, 
+            Policy = "WatchCurriculums-Expedient-Policy")]
         public async Task<IActionResult> ShowCurriculum(int id)
         {
             byte[] fileBytes = await expedientRepository.GetPDFInBytes(id);
 
             ViewData["PDF"] = fileBytes;
 
-            return File(fileBytes, "application/pdf");
+            return View();
         }
 
         [HttpGet]
-        [Route("/Resultados")]
-        //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, Policy = "Create-User-Policy")]
-        public async Task<IActionResult> ShowResultsPDF(int id)
+        [Route("/Reporte")]
+        //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme,
+            //Policy = "WatchReports-Expedient-Policy")]
+        public async Task<IActionResult> ReportPDF(int id)
         {
-            try
-            {
-                string url = $"http://localhost:8080/jasperserver/rest_v2/reports/reports/TESTTER.pdf?j_username=jasperadmin&j_password=jasperadmin&inline=true&Identificador={id}";
+            List<ResultDTO> results = await expedientRepository.GetResults(id);
 
-                using (HttpClient client = new HttpClient())
-                {
-                    HttpResponseMessage response = await client.GetAsync(url);
+            ViewBag.Expedient = await expedientRepository.GetExpedient(id);
 
-                    if (response.IsSuccessStatusCode)
-                    {
-                        byte[] fileBytes = await response.Content.ReadAsByteArrayAsync();
-
-                        return File(fileBytes, "application/pdf");
-                    }
-
-                    return StatusCode(StatusCodes.Status500InternalServerError, response.RequestMessage);
-                }
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
-            }
+            return View(results);
         }
-
     }
 }

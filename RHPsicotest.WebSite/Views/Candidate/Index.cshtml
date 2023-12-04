@@ -1,24 +1,27 @@
 ﻿@model IEnumerable<CandidateDTO>
 
 @{
-    ViewData["Title"] = "Usuarios";
+    ViewData["Title"] = "Candidatos";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+
+    byte i = 1;
 }
 
-<h1 class="fw-bold">Lista de Contraseñas</h1>
+<h1 class="fw-bold">Contraseñas</h1>
 
-@*@if ((await AuthorizationService.AuthorizeAsync(User, "Create-User-Policy")).Succeeded)
+@if ((await AuthorizationService.AuthorizeAsync(User, "Create-Candidate-Policy")).Succeeded)
 {
-    <p class="mt-4">
-        <a asp-action="Create" class="btn btn-success fw-bold fs-5">Crear Usuario</a>
+    <p class="my-4">
+        <a asp-action="Create" class="btn btn-success fw-bold fs-5">Crear Contraseña</a>
     </p>
-}*@
-<p class="mt-4">
-    <a asp-action="Create" class="btn btn-success fw-bold fs-5">Crear Contraseña</a>
-</p>
-<table class="table table-striped align-middle">
+}
+
+<table class="table table-striped align-middle" id="dataTable">
     <thead class="table-dark">
         <tr class="text-center">
+            <th>
+                Nº
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Password)
             </th>
@@ -31,13 +34,16 @@
             <th>
                 @Html.DisplayNameFor(model => model.Position)
             </th>
-            <th>Reenviar</th>
+            <th>Acciones</th>
         </tr>
     </thead>
     <tbody class="text-center">
         @foreach (CandidateDTO candidate in Model)
         {
             <tr>
+                <td>
+                    @i
+                </td>
                 <td>
                     @Html.DisplayFor(modelItem => candidate.Password)
                 </td>
@@ -51,10 +57,46 @@
                     @Html.DisplayFor(modelItem => candidate.Position)
                 </td>
                 <td>
-                    <a asp-action="ResendMail" asp-route-id="@candidate.IdCandidate" class="text-primary fs-4"><i class="bi bi-envelope"></i></a>
+                    @if ((await AuthorizationService.AuthorizeAsync(User, "Resend-Candidate-Policy")).Succeeded)
+                    {
+                        <a asp-action="ResendMail" asp-route-id="@candidate.IdCandidate" class="btn btn-primary"><i class="bi bi-envelope-fill"></i></a>
+                    }
+                    <button class="btn btn-danger fw-bold" onclick="activeModalDelete(@candidate.IdCandidate)">
+                        <i class="bi bi-trash3-fill"></i>
+                    </button>
                 </td>
             </tr>
+
+            i++;
         }
     </tbody>
 </table>
 
+<partial name="/Views/Shared/_ModalDelete.cshtml" />
+
+@section Scripts {
+    <script>
+        var objectId = 0;
+
+        function activeModalDelete(id) {
+            let modalDelete = document.querySelector("#modalDelete");
+            modalDelete.classList.remove("d-none");
+            modalDelete.classList.add("d-flex");
+
+            objectId = id;
+        }
+
+        function deleteRecord() {
+            $.ajax({
+                type: "POST",
+                url: "@Url.ActionLink("Delete", "Candidate")",
+                data: { candidateId: objectId },
+                success: function (data) {
+                    window.location = "@Url.ActionLink("Index", "Candidate")";
+                },
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+
+            });
+        }
+    </script>
+}

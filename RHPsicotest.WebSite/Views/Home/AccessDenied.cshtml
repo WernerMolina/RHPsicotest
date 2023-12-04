@@ -1,0 +1,57 @@
+﻿
+@{
+    Layout = null;
+
+}
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>RHPsicotest - Acceso Denegado</title>
+
+    <!-- Favicons -->
+    <link href="~/img/favicon.png" rel="icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+    <!-- Bootstrap CSS-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+
+    <!-- Template Main CSS File -->
+    <link href="~/css/main.css" rel="stylesheet" />
+</head>
+
+<body>
+
+    <main>
+        <div class="container">
+
+            <section class="section error-404 min-vh-100 d-flex flex-column align-items-center justify-content-center">
+                <h1 class="mb-4">404</h1>
+                <h2>Acceso Denegado. No tiene permitido entrar en esa página.</h2>
+
+                @if (User.IsInRole("Candidato"))
+                {
+                    <a asp-controller="Test" asp-action="AssignedTests" class="btn btn-prymary">Volver</a>
+                }
+                else if ((await AuthorizationService.AuthorizeAsync(User, "Dashboard-Policy")).Succeeded)
+                {
+                    <a asp-controller="Home" asp-action="Dashboard" class="btn btn-prymary">Volver</a>
+                }
+                else
+                {
+                    <a asp-controller="Login" asp-action="Login" class="btn btn-prymary">Volver</a>
+                }
+            </section>
+
+        </div>
+    </main>
+</body>
+
+</html>

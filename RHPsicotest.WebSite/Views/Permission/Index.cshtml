@@ -1,26 +1,28 @@
 ﻿@model IEnumerable<Permission>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Permisos";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h1 class="fw-bold">Lista de Permisos</h1>
+<h1 class="fw-bold mb-4">Lista de Permisos</h1>
 
-<table class="table table-striped align-middle">
+<table class="table table-striped align-middle" id="dataTable">
     <thead class="table-dark">
         <tr class="text-center">
             <th>
-                @Html.DisplayNameFor(model => model.PermissionName)
+                Nombre del Permiso
             </th>
         </tr>
     </thead>
     <tbody class="text-center">
-        @foreach (var item in Model)
+        @foreach (Permission permission in Model)
         {
+            if (permission.Assigned == "Candidatos") continue;
+
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.PermissionName)
+                    @Html.DisplayFor(modelItem => permission.PermissionName)
                 </td>
             </tr>
         }

@@ -7,7 +7,7 @@ namespace RHPsicotest.WebSite.Tests.Questions
         public byte QuestionNumber { get; set; }
         public string Question { get; set; }
         
-        public static List<Questions_BFQ> Questions()
+        public static List<Questions_BFQ> GetQuestions()
         {
             return new List<Questions_BFQ>
             {
@@ -56,6 +56,7 @@ namespace RHPsicotest.WebSite.Tests.Questions
                     QuestionNumber = 9,
                     Question = "No suelo sentirme tenso."
                 },
+                // 10 y 11 se parecen
                 new Questions_BFQ
                 {
                     QuestionNumber = 10,

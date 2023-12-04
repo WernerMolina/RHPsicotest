@@ -1,42 +1,42 @@
-﻿@model IEnumerable<UserDTO>
+﻿@model IEnumerable<User>
 
 @{
     ViewData["Title"] = "Usuarios";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h1 class="fw-bold">Lista de Usuarios</h1>
+<h1 class="fw-bold">Usuarios</h1>
 
-@*@if (!(await AuthorizationService.AuthorizeAsync(User, "Create-User-Policy")).Succeeded)
+@if ((await AuthorizationService.AuthorizeAsync(User, "Create-User-Policy")).Succeeded)
 {
-    <p class="mt-4">
+    <p class="my-4">
         <a asp-action="Create" class="btn btn-success fw-bold fs-5">Crear Usuario</a>
     </p>
-}*@
-<p class="mt-4">
-    <a asp-action="Create" class="btn btn-success fw-bold fs-5">Crear Usuario</a>
-</p>
-<table class="table table-striped align-middle">
+}
+
+<table class="table table-striped align-middle" id="dataTable">
     <thead class="table-dark">
         <tr class="text-center">
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                Nombre
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Email)
+                Correo
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.RegistrationDate)
+                Fecha de Registro
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Roles)
+                Roles
             </th>
             <th>Acciones</th>
         </tr>
     </thead>
     <tbody class="text-center">
-        @foreach (UserDTO user in Model)
+        @foreach (User user in Model)
         {
+            if (!User.IsInRole("Super-Admin") && user.IdUser == 1) continue;
+
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => user.Name)
@@ -48,36 +48,53 @@
                     @Html.DisplayFor(modelItem => user.RegistrationDate)
                 </td>
                 <td>
-                    @foreach (string role in user.Roles)
+                    @foreach (Role_User role in user.Roles)
                     {
-                        <p>@role</p>
+                        <p>@role.Role.RoleName</p>
                     }
                 </td>
                 <td>
-                    @*@if (!(await AuthorizationService.AuthorizeAsync(User, "Edit-User-Policy")).Succeeded)
+                    @if ((await AuthorizationService.AuthorizeAsync(User, "Edit-User-Policy")).Succeeded)
                     {
-                        <a asp-action="Edit" asp-route-id="@user.IdUser" class="btn bg-warning fw-bold"><i class="bi bi-pencil-fill"></i></a> <span class="fw-bold">|</span>
+                        <a asp-action="Edit" asp-route-id="@user.IdUser" class="btn bg-warning fw-bold"><i class="bi bi-pencil-fill"></i></a>
                     }
-                    @if (!(await AuthorizationService.AuthorizeAsync(User, "Delete-User-Policy")).Succeeded)
+                    @if ((await AuthorizationService.AuthorizeAsync(User, "Delete-User-Policy")).Succeeded)
                     {
-                        <form asp-action="Delete" method="post" class="d-inline">
-                            <input type="hidden" name="id" value="@user.IdUser" />
-                            <button class="btn btn-danger fw-bold">
-                                <i class="bi bi-trash3-fill"></i>
-                            </button>
-                        </form>
-                    }*@
-                    <a asp-action="Edit" asp-route-id="@user.IdUser" class="btn bg-warning fw-bold"><i class="bi bi-pencil-fill"></i></a> <span class="fw-bold">|</span>
-
-                    <form asp-action="Delete" method="post" class="d-inline">
-                        <input type="hidden" name="id" value="@user.IdUser" />
-                        <button class="btn btn-danger fw-bold">
-                            <i class="bi bi-trash3-fill"></i>
-                        </button>
-                    </form>
+                        <button class="btn btn-danger fw-bold" onclick="activeModalDelete(@user.IdUser)">
+                        <i class="bi bi-trash3-fill"></i>
+                    </button>
+                    }
                 </td>
             </tr>
         }
     </tbody>
 </table>
 
+<partial name="/Views/Shared/_ModalDelete.cshtml" />
+
+@section Scripts {
+    <script>
+        var objectId = 0;
+
+        function activeModalDelete(id) {
+            let modalDelete = document.querySelector("#modalDelete");
+            modalDelete.classList.remove("d-none");
+            modalDelete.classList.add("d-flex");
+
+            objectId = id;
+        }
+
+        function deleteRecord() {
+            $.ajax({
+                type: "POST",
+                url: "@Url.ActionLink("Delete", "User")",
+                data: { userId: objectId },
+                success: function (data) {
+                    window.location = "@Url.ActionLink("Index", "User")";
+                },
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                    
+            });
+        }
+    </script>
+}

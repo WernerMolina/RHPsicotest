@@ -1,10 +1,8 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc.ViewEngines;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,26 +10,30 @@ using Microsoft.Extensions.Hosting;
 using RHPsicotest.WebSite.Data;
 using RHPsicotest.WebSite.Repositories;
 using RHPsicotest.WebSite.Repositories.Contracts;
+using RHPsicotest.WebSite.Utilities;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.IO;
 
 namespace RHPsicotest.WebSite
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment environment)
         {
             Configuration = configuration;
+            Environment = environment;
         }
 
         public IConfiguration Configuration { get; }
+
+        public IWebHostEnvironment Environment { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            services.AddRazorPages().AddRazorRuntimeCompilation();
 
             services.AddDbContextPool<RHPsicotestDbContext>(option => option.UseSqlServer(Configuration.GetConnectionString("RHPsicotestConnection")));
 
@@ -44,44 +46,67 @@ namespace RHPsicotest.WebSite
             services.AddScoped<ICandidateRepository, CandidateRepository>();
             services.AddScoped<IExpedientRepository, ExpedientRepository>();
             services.AddScoped<ITestRepository, TestRepository>();
-            services.AddSingleton<ICompositeViewEngine, CompositeViewEngine>();
-            services.AddSingleton<ITempDataProvider, CookieTempDataProvider>();
 
-            //services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-            //.AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, option =>
-            //{
-            //    option.AccessDeniedPath = "/Home/Index";
-            //    option.LoginPath = "/User/Login";
-            //});
+            var keysFolder = Path.Combine(Environment.ContentRootPath, "Keys");
 
-            //services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(option =>
-            //{
-            //    option.LoginPath = new PathString("/Home/Index");
-            //});
+            services.AddDataProtection()
+                    .PersistKeysToFileSystem(new DirectoryInfo(keysFolder))
+                    .SetApplicationName("MyWebsite")
+                    .SetDefaultKeyLifetime(TimeSpan.FromDays(90));
 
-            services.AddAuthentication(option =>
-            {
-                option.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                option.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                option.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-            }).AddCookie(option =>
-            {
-                option.LoginPath = "/Login";
-            });
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                    .AddCookie(options =>
+                    {
+                        options.Cookie.Name = "RHPsicotest";
+                        options.Cookie.MaxAge = TimeSpan.FromDays(7);
+
+                        options.LoginPath = "/Login";
+                        options.AccessDeniedPath = new PathString("/AccesoDenegado");
+
+                        options.ExpireTimeSpan = TimeSpan.FromDays(7);
+
+                        options.SlidingExpiration = true;
+                        options.Cookie.IsEssential = true;
+                    });
 
             services.AddAuthorization(option =>
             {
+                option.AddPolicy("Dashboard-Policy", pol => pol.RequireClaim("Permission", new[] { "Dashboard" }));
+
                 // Politicas de Usuario
-                option.AddPolicy("List-Users-Policy", pol => pol.RequireClaim("Permission", new[] {"Lista-Usuarios"}));
+                option.AddPolicy("List-User-Policy", pol => pol.RequireClaim("Permission", new[] { "Lista-Usuarios" }));
                 option.AddPolicy("Create-User-Policy", pol => pol.RequireClaim("Permission", new[] { "Crear-Usuario" }));
                 option.AddPolicy("Edit-User-Policy", pol => pol.RequireClaim("Permission", new[] { "Editar-Usuario" }));
                 option.AddPolicy("Delete-User-Policy", pol => pol.RequireClaim("Permission", new[] { "Eliminar-Usuario" }));
-                
+
                 //Politicas de Rol
-                option.AddPolicy("List-Roles-Policy", pol => pol.RequireClaim("Permission", new[] { "Lista-Roles" }));
+                option.AddPolicy("List-Role-Policy", pol => pol.RequireClaim("Permission", new[] { "Lista-Roles" }));
                 option.AddPolicy("Create-Role-Policy", pol => pol.RequireClaim("Permission", new[] { "Crear-Rol" }));
                 option.AddPolicy("Edit-Role-Policy", pol => pol.RequireClaim("Permission", new[] { "Editar-Rol" }));
                 option.AddPolicy("Delete-Role-Policy", pol => pol.RequireClaim("Permission", new[] { "Eliminar-Rol" }));
+
+                //Politicas de Candidato
+                option.AddPolicy("List-Candidate-Policy", pol => pol.RequireClaim("Permission", new[] { "Lista-Candidatos" }));
+                option.AddPolicy("Create-Candidate-Policy", pol => pol.RequireClaim("Permission", new[] { "Crear-Candidato" }));
+                option.AddPolicy("Delete-Candidate-Policy", pol => pol.RequireClaim("Permission", new[] { "Eliminar-Candidato" }));
+                option.AddPolicy("Resend-Candidate-Policy", pol => pol.RequireClaim("Permission", new[] { "Reenviar-Correo" }));
+
+                //Politicas de Expediente
+                option.AddPolicy("List-Expedient-Policy", pol => pol.RequireClaim("Permission", new[] { "Lista-Expedientes" }));
+                option.AddPolicy("Edit-Expedient-Policy", pol => pol.RequireClaim("Permission", new[] { "Editar-Expediente" }));
+                option.AddPolicy("WatchCurriculums-Expedient-Policy", pol => pol.RequireClaim("Permission", new[] { "Ver-Curriculums" }));
+                option.AddPolicy("WatchReports-Expedient-Policy", pol => pol.RequireClaim("Permission", new[] { "Ver-Reportes" }));
+
+                //Politicas de Puesto
+                option.AddPolicy("List-Position-Policy", pol => pol.RequireClaim("Permission", new[] { "Lista-Puestos" }));
+                option.AddPolicy("Create-Position-Policy", pol => pol.RequireClaim("Permission", new[] { "Crear-Puesto" }));
+                option.AddPolicy("Edit-Position-Policy", pol => pol.RequireClaim("Permission", new[] { "Editar-Puesto" }));
+                option.AddPolicy("Delete-Position-Policy", pol => pol.RequireClaim("Permission", new[] { "Eliminar-Puesto" }));
+
+                //Politicas para el candidato
+                option.AddPolicy("ConfirmPolicies-Expedient-Policy", pol => pol.RequireClaim("Permission", new[] { "Confirmar-Politicas" }));
+                option.AddPolicy("AssignedTests-Test-Policy", pol => pol.RequireClaim("Permission", new[] { "Pruebas-Asignadas" }));
+                option.AddPolicy("Create-Expedient-Policy", pol => pol.RequireClaim("Permission", new[] { "Crear-Expediente" }));
 
             });
         }
@@ -101,17 +126,17 @@ namespace RHPsicotest.WebSite
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            
+
             app.UseRouting();
 
-            app.UseAuthorization();
             app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Login}/{action=Login}/{id?}");
             });
         }
     }

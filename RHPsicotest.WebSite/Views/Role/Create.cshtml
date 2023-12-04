@@ -1,15 +1,15 @@
 ﻿@model RoleVM
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Crear Rol";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 
-    MultiSelectList permissions = (MultiSelectList)ViewBag.Permissions;
+    List<Permission> permissions = (List<Permission>)ViewBag.Permissions;
 }
 
-@if(ViewBag.Error is not null)
+@if (ViewBag.Message is not null)
 {
-    @Html.Partial("_ModalError", (String)ViewBag.Error)
+    <partial name="/Views/Shared/_ModalMessage.cshtml" model="(String)ViewBag.Message"/>
 }
 
 <div class="row d-flex justify-content-center mt-5">
@@ -19,13 +19,17 @@
         <form asp-action="Create" class="p-3">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-            <div class="form-group my-2">
-                <label class="control-label fw-bold fs-5">Seleccionar Permisos</label>
-                <div>
-                    @Html.DropDownList("permissionsId", permissions, new { Class = "form-select", Id = "multiple-select-clear-field", Multiple = "multiple", required = "Seleccionar Permisos"})
-                </div>
-            </div>
+            <div class="mb-3">
+                <label class="form-label h5 fw-bold">Seleccionar Permisos:</label>
+                <select asp-for="PermissionsId" class="form-select" id="multiple-select-clear-field" multiple>
+                    @foreach (Permission permission in permissions)
+                    {
+                        if (permission.Assigned == "Candidatos") continue;
 
+                        <option value="@permission.IdPermission">@permission.PermissionName</option>
+                    }
+                </select>
+            </div>
             <div class="form-group my-3">
                 <label asp-for="RoleName" class="control-label fw-bold fs-5"></label>
                 <input asp-for="RoleName" class="form-control" />
@@ -36,10 +40,6 @@
             </div>
         </form>
     </div>
-</div>
-
-<div class="text-end">
-    <a asp-action="Index" class="btn btn-dark me-5">Volver a la Lista</a>
 </div>
 
 @section Scripts {

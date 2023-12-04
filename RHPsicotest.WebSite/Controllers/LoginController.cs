@@ -1,15 +1,13 @@
-﻿using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using RHPsicotest.WebSite.DTOs;
+using RHPsicotest.WebSite.Repositories.Contracts;
 using RHPsicotest.WebSite.Utilities;
 using RHPsicotest.WebSite.ViewModels;
+using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using RHPsicotest.WebSite.Repositories.Contracts;
-using RHPsicotest.WebSite.Models;
-using System.Collections.Generic;
-using System;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace RHPsicotest.WebSite.Controllers
 {
@@ -23,12 +21,17 @@ namespace RHPsicotest.WebSite.Controllers
         }
 
         [HttpGet]
-        [Route("/Login")]
+        //[Route("/Login")]
         public IActionResult Login()
         {
             if (User.Identity.IsAuthenticated)
             {
-                return RedirectToAction("Index", "Home");
+                if (User.IsInRole("Candidato"))
+                {
+                    return RedirectToAction("Create", "Expedient");
+                }
+
+                return RedirectToAction("Dashboard", "Home");
             }
 
             return View();
@@ -46,29 +49,36 @@ namespace RHPsicotest.WebSite.Controllers
 
                     if (userLogin.IsCandidate)
                     {
-                        bool emailExists = await loginRepository.EmailExists(userLogin.Email, true);
+                        bool emailCandidateExists = await loginRepository.EmailExists(userLogin.Email, true);
 
-                        if (!emailExists)
+                        if (!emailCandidateExists)
                         {
                             ViewBag.Error = "El correo no esta registrado";
 
                             return View(userLogin);
                         }
 
-                        (Candidate, List<string>) candidate = await loginRepository.GetCandidateLogin(userLogin);
+                        CandidateLoginDTO candidateLoginDTO = await loginRepository.GetCandidateLogin(userLogin);
 
-                        if (candidate.Item1 == null)
+                        if (candidateLoginDTO == null)
                         {
                             ViewBag.Error = "La contraseña es incorrecta";
 
                             return View(userLogin);
                         }
 
-                        identity = Helper.CandidateAuthenticate(candidate.Item1, candidate.Item2);
+                        identity = Helper.CandidateAuthenticate(candidateLoginDTO);
 
-                        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
+                        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, 
+                                                      new ClaimsPrincipal(identity),
+                                                      new AuthenticationProperties
+                                                      {
+                                                          //AllowRefresh = true,
+                                                          //IsPersistent = true,
+                                                          //ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(1)
+                                                      });
 
-                        if(candidate.Item1.Expedient != null)
+                        if (candidateLoginDTO.HasExpediente)
                         {
                             return RedirectToAction("AssignedTests", "Test");
                         }
@@ -79,6 +89,15 @@ namespace RHPsicotest.WebSite.Controllers
                     }
                     else
                     {
+                        bool emailCandidateExists = await loginRepository.EmailExists(userLogin.Email, true);
+
+                        if (emailCandidateExists)
+                        {
+                            ViewBag.Error = "Por favor, haga clic en el checkbox de arriba, que indica que es un candidato";
+
+                            return View(userLogin);
+                        }
+
                         bool emailExists = await loginRepository.EmailExists(userLogin.Email, false);
 
                         if (!emailExists)
@@ -88,16 +107,16 @@ namespace RHPsicotest.WebSite.Controllers
                             return View(userLogin);
                         }
 
-                        (User, List<string>) user = await loginRepository.GetUserLogin(userLogin);
+                        UserLoginDTO userLoginDTO = await loginRepository.GetUserLogin(userLogin);
 
-                        if (user.Item1 == null)
+                        if (userLoginDTO == null)
                         {
                             ViewBag.Error = "La contraseña es incorrecta";
 
                             return View(userLogin);
                         }
 
-                        identity = Helper.Authenticate(user.Item1, user.Item2);
+                        identity = Helper.UserAuthenticate(userLoginDTO);
 
                         await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
 
@@ -109,7 +128,9 @@ namespace RHPsicotest.WebSite.Controllers
             }
             catch (Exception ex)
             {
-                throw;
+                ViewBag.Error = ex.Message;
+
+                return View(userLogin);
             }
         }
 
@@ -117,7 +138,7 @@ namespace RHPsicotest.WebSite.Controllers
         {
             await HttpContext.SignOutAsync();
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login", "Login");
         }
 
     }

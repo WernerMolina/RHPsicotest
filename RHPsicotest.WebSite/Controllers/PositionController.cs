@@ -1,15 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using RHPsicotest.WebSite.Models;
+using RHPsicotest.WebSite.DTOs;
 using RHPsicotest.WebSite.Repositories.Contracts;
+using RHPsicotest.WebSite.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using System;
-using RHPsicotest.WebSite.ViewModels;
-using RHPsicotest.WebSite.DTOs;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using RHPsicotest.WebSite.Repositories;
-using RHPsicotest.WebSite.ViewModels.User;
 
 namespace RHPsicotest.WebSite.Controllers
 {
@@ -22,7 +19,10 @@ namespace RHPsicotest.WebSite.Controllers
             this.positionRepository = positionRepository;
         }
 
+        [HttpGet]
         [Route("/Puestos")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme,
+            Policy = "List-Position-Policy")]
         public async Task<IActionResult> Index()
         {
             List<PositionDTO> positions = await positionRepository.GetAllPositions();
@@ -32,6 +32,8 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpGet]
         [Route("/Puesto/Crear")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme,
+            Policy = "Create-Position-Policy")]
         public async Task<IActionResult> Create()
         {
             ViewBag.Tests = await positionRepository.GetAllTests();
@@ -41,17 +43,23 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpPost]
         [Route("/Puesto/Crear")]
-        public async Task<IActionResult> Create(PositionVM positionVM, List<int> testsId)
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme,
+            Policy = "Create-Position-Policy")]
+        public async Task<IActionResult> Create(PositionVM positionVM)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    bool result = await positionRepository.AddPosition(positionVM, testsId);
+                    bool result = await positionRepository.AddPosition(positionVM);
 
                     if (result)
                     {
-                        return RedirectToAction("Index", "Position");
+                        return RedirectToAction(nameof(Index));
+                    }
+                    else
+                    {
+                        ViewBag.Message = "No se pudo guardar el puesto, intentelo después";
                     }
                 }
 
@@ -61,65 +69,85 @@ namespace RHPsicotest.WebSite.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                ViewBag.Message = ex.Message;
+
+                ViewBag.Tests = await positionRepository.GetAllTests();
+
+                return View(positionVM);
             }
         }
 
         [HttpGet]
         [Route("/Puesto/Editar")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme,
+            Policy = "Edit-Position-Policy")]
         public async Task<IActionResult> Edit(int id)
         {
-            (PositionUpdateVM, MultiSelectList) position = await positionRepository.GetPositionAndTestsSelected(id);
+            PositionUpdateVM position = await positionRepository.GetPositionUpdate(id);
 
-            ViewBag.Tests = position.Item2;
+            if (position == null) return RedirectToAction(nameof(Index));
 
-            return View(position.Item1);
+            ViewBag.Tests = await positionRepository.GetAllTests();
+
+            return View(position);
         }
 
         [HttpPost]
         [Route("/Puesto/Editar")]
-        public async Task<IActionResult> Edit(PositionUpdateVM position, List<int> testsId)
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme,
+            Policy = "Edit-Position-Policy")]
+        public async Task<IActionResult> Edit(PositionUpdateVM positionUpdateVM)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    bool result = await positionRepository.UpdatePosition(position, testsId);
+                    bool result = await positionRepository.UpdatePosition(positionUpdateVM);
 
                     if (result)
                     {
-                        return RedirectToAction("Index", "Position");
+                        return RedirectToAction(nameof(Index));
+                    }
+                    else
+                    {
+                        ViewBag.Message = "No se pudo guardar el puesto, intentelo después";
                     }
                 }
 
-                ViewBag.Tests = await positionRepository.GetTestsSelected(testsId);
+                ViewBag.Tests = await positionRepository.GetAllTests();
 
-                return View(position);
+                return View(positionUpdateVM);
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                ViewBag.Message = ex.Message;
+
+                ViewBag.Tests = await positionRepository.GetAllTests();
+
+                return View(positionUpdateVM);
             }
         }
 
         [HttpPost]
         [Route("/Puesto/Eliminar")]
-        public async Task<IActionResult> Delete(int id)
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme,
+            Policy = "Delete-Position-Policy")]
+        public async Task<IActionResult> Delete(int positionId)
         {
             try
             {
-                bool result = await positionRepository.DeletePosition(id);
+                bool result = await positionRepository.DeletePosition(positionId);
 
                 if (result)
                 {
-                    return RedirectToAction("Index", "Position");
+                    return RedirectToAction(nameof(Index));
                 }
 
-                return RedirectToAction("Index", "Position");
+                return BadRequest();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                return BadRequest();
             }
         }
 

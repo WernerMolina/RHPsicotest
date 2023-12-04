@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RHPsicotest.WebSite.DTOs;
 using RHPsicotest.WebSite.Models;
@@ -19,86 +20,146 @@ namespace RHPsicotest.WebSite.Controllers
         {
             this.testRepository = testRepository;
         }
-        
+
         [HttpGet]
         [Route("/PruebasAsignadas")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme,
+            Policy = "AssignedTests-Test-Policy")]
         public async Task<IActionResult> AssignedTests()
         {
-            int candidateId = Convert.ToInt16(((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value);
+            int userId = GetCandidateId();
 
-            List<TestDTO> tests = await testRepository.GetAssignedTests(candidateId);
+            if (userId > 0)
+            {
+                List<TestDTO> assignedTests = await testRepository.GetAssignedTests(userId);
 
-            return View(tests);
+                ViewBag.Message = TempData["message"];
+
+                return View(assignedTests);
+            }
+
+            return RedirectToAction("Login", "Login");
         }
 
         [HttpGet]
         [Route("/Prueba/PPG-IPG")]
-        public IActionResult Test_PPGIPG()
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme,
+            Roles = "Candidato")]
+        public async Task<IActionResult> Test_PPGIPG()
         {
-            List<Questions_PPGIPG> test = testRepository.GetTest_PPGIPG();
+            int userId = GetCandidateId();
+            int testId = await GetTestId("PPG-IPG");
+
+            bool isCompleted = await testRepository.HasCompleteTest(userId, testId);
+
+            if (isCompleted)
+            {
+                TempData["message"] = "Ya has completado la prueba PPG-IPG";
+
+                return RedirectToAction(nameof(AssignedTests));
+            }
+
+            List<Questions_PPGIPG> test = testRepository.GetQuestions_Test_PPGIPG();
 
             return View(test);
         }
-        
+
         [HttpPost]
         [Route("/Prueba/PPG-IPG")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme,
+            Roles = "Candidato")]
         public async Task<IActionResult> Test_PPGIPG(char[][] responses)
         {
-            int currentIdUser = Convert.ToInt32(((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value);
+            int userId = GetCandidateId();
+            int testId = await GetTestId("PPG-IPG");
 
-            bool result = await testRepository.Test_PPGIPG(responses, currentIdUser);
+            bool result = await testRepository.GenerateResults_Test_PPGIPG(responses, userId, testId);
 
             if (result)
             {
                 return RedirectToAction(nameof(AssignedTests));
             }
 
-            List<Questions_PPGIPG> test = testRepository.GetTest_PPGIPG();
+            List<Questions_PPGIPG> test = testRepository.GetQuestions_Test_PPGIPG();
 
             return View(test);
         }
-        
+
         [HttpGet]
         [Route("/Prueba/OTIS")]
-        public IActionResult Test_OTIS()
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme,
+            Roles = "Candidato")]
+        public async Task<IActionResult> Test_OTIS()
         {
-            List<Questions_OTIS> test = testRepository.GetTest_OTIS();
+            int userId = GetCandidateId();
+            int testId = await GetTestId("OTIS");
+
+            bool isCompleted = await testRepository.HasCompleteTest(userId, testId);
+
+            if (isCompleted)
+            {
+                TempData["message"] = "Ya has completado la prueba OTIS";
+
+                return RedirectToAction(nameof(AssignedTests));
+            }
+
+            List<Questions_OTIS> test = testRepository.GetQuestions_Test_OTIS();
 
             return View(test);
         }
-        
+
         [HttpPost]
         [Route("/Prueba/OTIS")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme,
+            Roles = "Candidato")]
         public async Task<IActionResult> Test_OTIS(char[] responses)
         {
-            int currentIdUser = Convert.ToInt32(((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value);
+            int userId = GetCandidateId();
+            int testId = await GetTestId("OTIS");
 
-            bool result = await testRepository.Test_OTIS(responses, currentIdUser);
+            bool result = await testRepository.GenerateResults_Test_OTIS(responses, userId, testId);
 
             if (result)
             {
                 return RedirectToAction(nameof(AssignedTests));
             }
 
-            List<Questions_OTIS> test = testRepository.GetTest_OTIS();
+            List<Questions_OTIS> test = testRepository.GetQuestions_Test_OTIS();
 
             return View(test);
         }
 
         [HttpGet]
         [Route("/Prueba/Dominos")]
-        public IActionResult Test_Dominos()
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme,
+            Roles = "Candidato")]
+        public async Task<IActionResult> Test_Dominos()
         {
+            int userId = GetCandidateId();
+            int testId = await GetTestId("Dominos");
+
+            bool isCompleted = await testRepository.HasCompleteTest(userId, testId);
+
+            if (isCompleted)
+            {
+                TempData["message"] = "Ya has completado la prueba Dominos";
+
+                return RedirectToAction(nameof(AssignedTests));
+            }
+
             return View();
         }
 
         [HttpPost]
         [Route("/Prueba/Dominos")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme,
+            Roles = "Candidato")]
         public async Task<IActionResult> Test_Dominos(char?[][] responses)
         {
-            int currentIdUser = Convert.ToInt32(((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value);
+            int userId = GetCandidateId();
+            int testId = await GetTestId("Dominos");
 
-            bool result = await testRepository.Test_Dominos(responses, currentIdUser);
+            bool result = await testRepository.GenerateResults_Test_Dominos(responses, userId, testId);
 
             if (result)
             {
@@ -112,7 +173,7 @@ namespace RHPsicotest.WebSite.Controllers
         [Route("/Prueba/BFQ")]
         public IActionResult Test_BFQ()
         {
-            List<Questions_BFQ> test = testRepository.GetTest_BFQ();
+            List<Questions_BFQ> test = testRepository.GetQuestions_Test_BFQ();
 
             return View(test);
         }
@@ -121,31 +182,110 @@ namespace RHPsicotest.WebSite.Controllers
         [Route("/Prueba/BFQ")]
         public IActionResult Test_BFQ(char[][] responses)
         {
-            int currentIdUser = Convert.ToInt32(((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value);
+            int userId = GetCandidateId();
 
             return View();
         }
-        
+
         [HttpGet]
-        [Route("/Prueba/16PF")]
-        public IActionResult Test_16PF()
+        [Route("/Prueba/16PF-A")]
+        public IActionResult Test_16PF_A()
         {
-            (List<Questions_16PF>, List<Questions_16PF>) questions = testRepository.GetTest_16PF();
+            List<Questions_16PF> questions = testRepository.GetQuestions_Test_16PF_A();
 
-            ViewBag.Questions_WayA = questions.Item1;
-            ViewBag.Questions_WayB = questions.Item2;
-
-            return View();
+            return View(questions);
         }
 
         [HttpPost]
-        [Route("/Prueba/16PF")]
-        public IActionResult Test_16PF(char[] responsesA, char[] responsesB)
+        [Route("/Prueba/16PF-A")]
+        public async Task<IActionResult> Test_16PF_A(char[] responses)
         {
-            int currentIdUser = Convert.ToInt32(((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value);
+            int userId = GetCandidateId();
+            int testId = await GetTestId("16PF-A");
+
+            bool result = await testRepository.GenerateResults_Test_16PF(responses, userId, testId, true);
+
+            if (result)
+            {
+                return RedirectToAction(nameof(AssignedTests));
+            }
 
             return View();
         }
 
+        [HttpGet]
+        [Route("/Prueba/16PF-B")]
+        public IActionResult Test_16PF_B()
+        {
+            List<Questions_16PF> questions = testRepository.GetQuestions_Test_16PF_B();
+
+            return View(questions);
+        }
+
+        [HttpPost]
+        [Route("/Prueba/16PF-B")]
+        public async Task<IActionResult> Test_16PF_B(char[] responses)
+        {
+            int userId = GetCandidateId();
+            int testId = await GetTestId("16PF-B");
+
+            bool result = await testRepository.GenerateResults_Test_16PF(responses, userId, testId, false);
+
+            if (result)
+            {
+                return RedirectToAction(nameof(AssignedTests));
+            }
+
+            return View();
+        }
+
+        [HttpGet]
+        [Route("/Prueba/IPV")]
+        public async Task<IActionResult> Test_IPV()
+        {
+            int userId = GetCandidateId();
+            int testId = await GetTestId("IPV");
+
+            bool isCompleted = await testRepository.HasCompleteTest(userId, testId);
+
+            if (isCompleted)
+            {
+                TempData["message"] = "Ya has completado la prueba IPV";
+
+                return RedirectToAction(nameof(AssignedTests));
+            }
+
+            List<Questions_IPV> questions = testRepository.GetQuestions_Test_IPV();
+
+            return View(questions);
+        }
+
+        [HttpPost]
+        [Route("/Prueba/IPV")]
+        public async Task<IActionResult> Test_IPV(char[] responses)
+        {
+            int userId = GetCandidateId();
+            int testId = await GetTestId("IPV");
+
+            bool result = await testRepository.GenerateResults_Test_IPV(responses, userId, testId);
+
+            if (result)
+            {
+                return RedirectToAction(nameof(AssignedTests));
+            }
+
+            return View();
+        }
+
+
+        private int GetCandidateId()
+        {
+            return Convert.ToInt32(((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value);
+        }
+
+        private async Task<int> GetTestId(string testName)
+        {
+            return await testRepository.GetTestId(testName);
+        }
     }
 }

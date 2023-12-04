@@ -12,7 +12,7 @@ namespace RHPsicotest.WebSite.Tests.Questions
         public string OptionD { get; set; }
         public string OptionE { get; set; }
 
-        public static List<Questions_OTIS> Questions()
+        public static List<Questions_OTIS> GetQuestions()
         {
             return new List<Questions_OTIS>
             {
@@ -130,7 +130,7 @@ namespace RHPsicotest.WebSite.Tests.Questions
                 {
                     QuestionNumber = 12,
                     Question = "Cuando sabemos que un acontecimiento va a pasar sin ninguna clase de dudas, decimos que es...",
-                    OptionA = "Probale",
+                    OptionA = "Probable",
                     OptionB = "Seguro",
                     OptionC = "Dudoso",
                     OptionD = "Posible",
@@ -154,7 +154,7 @@ namespace RHPsicotest.WebSite.Tests.Questions
                     OptionB = "Humildad",
                     OptionC = "Pobreza",
                     OptionD = "Variedad",
-                    OptionE = "Altanía"
+                    OptionE = "Altanería"
                 },
                 new Questions_OTIS
                 {
@@ -234,7 +234,7 @@ namespace RHPsicotest.WebSite.Tests.Questions
                     OptionB = "El Senado",
                     OptionC = "La Republica",
                     OptionD = "Un monárquico",
-                    OptionE = "Un repubricano"
+                    OptionE = "Un republicano"
                 },
                 new Questions_OTIS
                 {
@@ -334,7 +334,7 @@ namespace RHPsicotest.WebSite.Tests.Questions
                     OptionB = "Los caballos se desbocan fácilmente",
                     OptionC = "Los autos nos hacen ganar tiempo",
                     OptionD = "Los autos son más económicos que los caballos",
-                    OptionE = "Las reparaciones de los autos sonmás baratas que la de los caballos"
+                    OptionE = "Las reparaciones de los autos son más baratas que la de los caballos"
                 },
                 new Questions_OTIS
                 {
@@ -471,7 +471,7 @@ namespace RHPsicotest.WebSite.Tests.Questions
                     QuestionNumber = 46,
                     Question = "Hay un refrán que dice un grano no hace granero, pero ayuda al compañero, y esto significa",
                     OptionA = "Resuélvete a hacer lo que debes y haz sin falta lo que hayas",
-                    OptionB = "Hay que ganarse la vida a fueza de amor",
+                    OptionB = "Hay que ganarse la vida a fuerza de amor",
                     OptionC = "No se deben menospreciar las cosas pequeñas",
                     OptionD = "En casa pobre no es necesario granero",
                     OptionE = "Las personas deben ayudarse unas a otras"
@@ -481,7 +481,7 @@ namespace RHPsicotest.WebSite.Tests.Questions
                     QuestionNumber = 47,
                     Question = "Si Juan es mayor que José, y José tiene la misma edad que Carlos, entonces",
                     OptionA = "Carlos es mayor que Juan",
-                    OptionB = "Juan y Carlos tienen la misam edad",
+                    OptionB = "Juan y Carlos tienen la misma edad",
                     OptionC = "Carlos es más joven que Juan",
                     OptionD = "Juan es menor que Carlos",
                     OptionE = "José es el menor de los tres"
@@ -659,10 +659,10 @@ namespace RHPsicotest.WebSite.Tests.Questions
                 new Questions_OTIS
                 {
                     QuestionNumber = 65,
-                    Question = "¿Cuál de estas palabras significa lo contrario de COMUN?",
+                    Question = "¿Cuál de estas palabras significa lo contrario de COMÚN?",
                     OptionA = "Trivial",
                     OptionB = "Vivo",
-                    OptionC = "Díficil",
+                    OptionC = "Difícil",
                     OptionD = "Raro",
                     OptionE = "Interesante"
                 },

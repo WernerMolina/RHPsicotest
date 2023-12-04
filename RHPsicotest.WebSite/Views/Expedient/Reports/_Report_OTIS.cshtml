@@ -9,44 +9,46 @@
     int percentile = result.Percentile;
 }
 
-<h2 class="text-center fw-bold">OTIS</h2>
+<h2 class="h1 text-center fw-bold">OTIS</h2>
 
-<div class="mt-4">
+<div class="m-4">
     <table class="table-otis table-bordered">
-        <tbody>
-            <tr class="tr-result-otis">
-                <td></td>
-                <td></td>
+        <tbody class="border border-3 border-dark">
+            <tr class="tr-result-otis border border-3 border-dark">
+                <td class="border border-3 border-dark"></td>
+                <td class="border border-3 border-dark"></td>
             </tr>
-            <tr class="text-center fs-5">
-                <td class="t-head">Rango Bajo</td>
-                <td class="t-head">Rango Intermedio</td>
-                <td class="t-head">Rango Alto</td>
+            <tr class="text-center fs-5 border border-3 border-dark">
+                <td class="t-head border border-3 border-dark">Rango Bajo</td>
+                <td class="t-head border border-3 border-dark">Rango Intermedio</td>
+                <td class="t-head border border-3 border-dark">Rango Alto</td>
             </tr>
         </tbody>
     </table>
 </div>
 
-<div class="my-4">
-    <p class="my-2 fs-4 fw-bold">Puntaje Total: <span class="fs-4">@result.Score</span></p>
-    <p class="my-2 fs-4 fw-bold">Percentil: <span class="fs-4">@result.Percentile</span></p>
-</div>
+<div class="px-5 ">
+    <div class="mb-3">
+        <h4 class="fs-3 fw-bold ">Interpretación</h4>
+        <p class="col-10 ms-4 fs-5 fw-bold text-secondary">@result.Description</p>
 
-<div class="">
-    <h2 class="mb-4 fw-bold">Interpretación</h2>
-    <p class="my-4 fs-5 fw-bold">@result.Description</p>
+        <div class="d-flex gap-4 ms-4 fs-5 fw-bold text-primary">
+            <p class="p-0 m-0">Puntuación: @result.Score</p>
+            <p class="p-0 m-0">CI: @result.Percentile</p>
+        </div>
+    </div>
 </div>
 
 
 <script type="text/javascript">
     let pseudoOtis = document.querySelector(".tr-result-otis");
 
-    let IQ = @percentile;
+    let iq = @percentile;
     let widthOtis = "";
 
-    if (IQ >= 102) widthOtis = "85%";
-    if (IQ == 100) widthOtis = "51%";
-    if (IQ <= 98) widthOtis = "17%";
+    if (iq >= 102) widthOtis = "85%";
+    if (iq == 100) widthOtis = "51%";
+    if (iq <= 98) widthOtis = "17%";
 
     pseudoOtis.style.setProperty('--width-pseudo', widthOtis);
 </script>

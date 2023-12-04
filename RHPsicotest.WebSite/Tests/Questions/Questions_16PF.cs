@@ -10,7 +10,7 @@ namespace RHPsicotest.WebSite.Tests.Questions
         public string OptionB { get; set; }
         public string OptionC { get; set; }
 
-        public static List<Questions_16PF> Questions_WayA()
+        public static List<Questions_16PF> GetQuestions_WayA()
         {
             return new List<Questions_16PF>
             {
@@ -132,7 +132,7 @@ namespace RHPsicotest.WebSite.Tests.Questions
                     Question = "Cuando me critican duramente por algo que no he hecho:",
                     OptionA = "No me siento culpable",
                     OptionB = "Término medio",
-                    OptionC = "Todavía me siento un poco culplable"
+                    OptionC = "Todavía me siento un poco culpable"
                 },
                 new Questions_16PF
                 {
@@ -219,7 +219,7 @@ namespace RHPsicotest.WebSite.Tests.Questions
                     QuestionNumber = 26,
                     Question = "Me gustaría salir a divertirme o ir a un espectáculo:",
                     OptionA = "Más de una vez por semana (más de lo corriente)",
-                    OptionB = "Alrededir de una vez por semana (lo corriente)",
+                    OptionB = "Alrededor de una vez por semana (lo corriente)",
                     OptionC = "Menos de una vez por semana (menos de lo corriente)"
                 },
                 new Questions_16PF
@@ -300,13 +300,13 @@ namespace RHPsicotest.WebSite.Tests.Questions
                     Question = "En mi adolescencia pertenecía a equipos deportivos:",
                     OptionA = "Algunas veces",
                     OptionB = "A menudo",
-                    OptionC = "La mayoria de las veces"
+                    OptionC = "La mayoría de las veces"
                 },
                 new Questions_16PF
                 {
                     QuestionNumber = 37,
                     Question = "Cuando hablo con alguien, me gusta:",
-                    OptionA = "Decir las cosas tal como se me ocurrren",
+                    OptionA = "Decir las cosas tal como se me ocurren",
                     OptionB = "Término medio",
                     OptionC = "Organizar antes mis ideas"
                 },
@@ -410,7 +410,7 @@ namespace RHPsicotest.WebSite.Tests.Questions
                 {
                     QuestionNumber = 50,
                     Question = "Para los padres es más importante:",
-                    OptionA = "Ayudar a sus hijos a desarrollarse afectivamete",
+                    OptionA = "Ayudar a sus hijos a desarrollarse afectivamente",
                     OptionB = "Término medio",
                     OptionC = "Enseñarles a controlar sus emociones"
                 },
@@ -580,7 +580,7 @@ namespace RHPsicotest.WebSite.Tests.Questions
                     Question = "Si mis conocidos me tratan mal o muestran que yo les disgusto:",
                     OptionA = "No me importa nada",
                     OptionB = "Término medio",
-                    OptionC = "Me siento deseperado"
+                    OptionC = "Me siento desesperado"
                 },
                 new Questions_16PF
                 {
@@ -603,7 +603,7 @@ namespace RHPsicotest.WebSite.Tests.Questions
                     QuestionNumber = 74,
                     Question = "Para estar informado, prefiero:",
                     OptionA = "Discutir los acontecimientos con la gente",
-                    OptionB = "Térmno medio",
+                    OptionB = "Término medio",
                     OptionC = "Apoyarme en las informaciones periodísticas de actualidad"
                 },
                 new Questions_16PF
@@ -850,7 +850,7 @@ namespace RHPsicotest.WebSite.Tests.Questions
                 {
                     QuestionNumber = 105,
                     Question = "Sería más interesante ser:",
-                    OptionA = "Orientador voacional para ayudar a los jóvenes en la búsqueda de su profesión",
+                    OptionA = "Orientador vocacional para ayudar a los jóvenes en la búsqueda de su profesión",
                     OptionB = "No estoy seguro",
                     OptionC = "Directivo de una empresa industrial"
                 },
@@ -1243,7 +1243,7 @@ namespace RHPsicotest.WebSite.Tests.Questions
                     QuestionNumber = 154,
                     Question = "¿Cuál de las siguientes palabras es diferente de las otras dos?",
                     OptionA = "Ancho",
-                    OptionB = "Zipzag",
+                    OptionB = "Zigzag",
                     OptionC = "Recto"
                 },
                 new Questions_16PF
@@ -1468,7 +1468,7 @@ namespace RHPsicotest.WebSite.Tests.Questions
                     Question = "Hablar con personas corrientes, convencionales y rutinarias:",
                     OptionA = "Es a menudo muy interesante e instructivo",
                     OptionB = "Término medio",
-                    OptionC = "Me fastidia porque no hay produndidad o se trata de chismes y cosas sin importancia"
+                    OptionC = "Me fastidia porque no hay profundidad o se trata de chismes y cosas sin importancia"
                 },
                 new Questions_16PF
                 {
@@ -1512,7 +1512,7 @@ namespace RHPsicotest.WebSite.Tests.Questions
                 }
             };
         }
-        public static List<Questions_16PF> Questions_WayB()
+        public static List<Questions_16PF> GetQuestions_WayB()
         {
             return new List<Questions_16PF>
             {
@@ -1866,7 +1866,7 @@ namespace RHPsicotest.WebSite.Tests.Questions
                     Question = "Cuando estoy con los amigos y hay una conversación animada:",
                     OptionA = "Prefiero a veces ser un oyente callado y precavido",
                     OptionB = "Término medio",
-                    OptionC = "Hago más sugrencias y observaciones que la mayoría"
+                    OptionC = "Hago más sugerencias y observaciones que la mayoría"
                 },
                 new Questions_16PF
                 {
@@ -1943,7 +1943,7 @@ namespace RHPsicotest.WebSite.Tests.Questions
                 new Questions_16PF
                 {
                     QuestionNumber = 54,
-                    Question = "He tenido algún accidente o percance porque estaba distraido en mis pensamientos:",
+                    Question = "He tenido algún accidente o percance porque estaba distraído en mis pensamientos:",
                     OptionA = "Casi nunca",
                     OptionB = "Término medio",
                     OptionC = "Varias veces"
@@ -2105,7 +2105,7 @@ namespace RHPsicotest.WebSite.Tests.Questions
                     QuestionNumber = 74,
                     Question = "Al planear una excursión con otros:",
                     OptionA = "Me complace siempre mucho comprometerme en firme",
-                    OptionB = "Térmno medio",
+                    OptionB = "Término medio",
                     OptionC = "Me gusta reservarme el derecho de cancelar mi asistencia"
                 },
                 new Questions_16PF
@@ -2240,7 +2240,7 @@ namespace RHPsicotest.WebSite.Tests.Questions
                 {
                     QuestionNumber = 91,
                     Question = "Me gustaría más ver:",
-                    OptionA = "Una ingeniosa pieza teatra, comedia, o película sobre la sociedad del futuro",
+                    OptionA = "Una ingeniosa pieza teatral, comedia, o película sobre la sociedad del futuro",
                     OptionB = "Término medio",
                     OptionC = "Una buena película sobre las duras jornadas de los exploradores"
                 },
@@ -2432,7 +2432,7 @@ namespace RHPsicotest.WebSite.Tests.Questions
                 {
                     QuestionNumber = 115,
                     Question = "Me agradaría más ser:",
-                    OptionA = "Genrente de una oficina comercial",
+                    OptionA = "Gerente de una oficina comercial",
                     OptionB = "No estoy seguro",
                     OptionC = "Arquitecto"
                 },
@@ -2608,7 +2608,7 @@ namespace RHPsicotest.WebSite.Tests.Questions
                 {
                     QuestionNumber = 137,
                     Question = "Me encuentro dispuesto a enfrentarme con las exigencias de la vida:",
-                    OptionA = "Siemrpe",
+                    OptionA = "Siempre",
                     OptionB = "Algunas veces",
                     OptionC = "Casi nunca"
                 },
@@ -2760,7 +2760,7 @@ namespace RHPsicotest.WebSite.Tests.Questions
                 {
                     QuestionNumber = 156,
                     Question = "En un juicio, el fiscal esta principalmente interesado en:",
-                    OptionA = "Llegar a convercer, sin miramientos personales",
+                    OptionA = "Llegar a convencer, sin miramientos personales",
                     OptionB = "No estoy seguro",
                     OptionC = "Proteger al inocente"
                 },
@@ -2792,7 +2792,7 @@ namespace RHPsicotest.WebSite.Tests.Questions
                 {
                     QuestionNumber = 160,
                     Question = "Comenzar conversaciones con extraños:",
-                    OptionA = "Me resulta bastante díficil",
+                    OptionA = "Me resulta bastante difícil",
                     OptionB = "Término medio",
                     OptionC = "Nunca me produce la menor preocupación"
                 },

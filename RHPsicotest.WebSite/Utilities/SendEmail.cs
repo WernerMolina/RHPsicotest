@@ -1,19 +1,15 @@
-﻿using System.Net.Mail;
+﻿using Microsoft.Extensions.Configuration;
 using System.Net;
-using Microsoft.Extensions.Configuration;
-using Microsoft.AspNetCore.Components;
-using RHPsicotest.WebSite.Models;
+using System.Net.Mail;
 
 namespace RHPsicotest.WebSite.Utilities
 {
     public class SendEmail
     {
-        //private static IConfiguration Configuration;
-
         private static string Email { get; set; }
 
         private static string Password { get; set; }
-        
+
         private static IConfiguration Configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
 
         public static void Send(string email, string password)
@@ -23,7 +19,7 @@ namespace RHPsicotest.WebSite.Utilities
 
             string htmlJson = Configuration.GetValue<string>("E-Mail:EmailHtml");
 
-            string html = string.Format(htmlJson, password);
+            string html = string.Format(htmlJson, password, email, password);
 
             MailMessage message = PrepareteMessage(email, html);
 
@@ -47,7 +43,7 @@ namespace RHPsicotest.WebSite.Utilities
         {
             SmtpClient smtpClient = new SmtpClient();
 
-            smtpClient.Host = "smtp.gmail.com";
+            smtpClient.Host = "smtp.titan.email";
             smtpClient.Port = 587;
             smtpClient.EnableSsl = true;
             smtpClient.Timeout = 50000;

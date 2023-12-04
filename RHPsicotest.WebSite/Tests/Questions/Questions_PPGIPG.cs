@@ -10,7 +10,7 @@ namespace RHPsicotest.WebSite.Tests.Questions
         public string OptionC { get; set; }
         public string OptionD { get; set; }
 
-        public static List<Questions_PPGIPG> Questions()
+        public static List<Questions_PPGIPG> GetQuestions()
         {
             return new List<Questions_PPGIPG>
             {
@@ -19,7 +19,7 @@ namespace RHPsicotest.WebSite.Tests.Questions
                     QuestionNumber = 1,
                     OptionA = "Tiene don de gentes en reuniones sociales.",
                     OptionB = "Le falta confianza en sí mismo.",
-                    OptionC = "Es minucioso en todo lo que hace",
+                    OptionC = "Es minucioso en todo lo que hace.",
                     OptionD = "Tiene cierta tendencia a dejarse llevar por sus sentimientos."
                 },
                 new Questions_PPGIPG
@@ -130,7 +130,7 @@ namespace RHPsicotest.WebSite.Tests.Questions
                 {
                     QuestionNumber = 15,
                     OptionA = "Es capaz de conseguir que los demás cambien de opinión.",
-                    OptionB = "Repite A",
+                    OptionB = "No le interesa unirse a actividades grupales.",
                     OptionC = "Es un individuo bastante nervioso.",
                     OptionD = "Es muy constante en cualquier tarea que ha emprendido."
                 },

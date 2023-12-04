@@ -4,7 +4,7 @@ namespace RHPsicotest.WebSite.Tests.Responses
 {
     public class Responses_OTIS
     {
-        public int QuestionNumber { get; set; }
+        public byte QuestionNumber { get; set; }
         public char Correct { get; set; }
 
         public static List<Responses_OTIS> GetResponses()

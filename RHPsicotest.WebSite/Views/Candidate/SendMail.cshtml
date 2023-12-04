@@ -5,6 +5,12 @@
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
+@if (ViewBag.Message is not null)
+{
+    <partial name="/Views/Shared/_ModalMessage.cshtml" model="(String)ViewBag.Message" />
+}
+<h1 class="fw-bold mb-4 text-center">Enviar Correo al Candidato</h1>
+
 <form asp-action="SendMail">
     <div class="row d-flex justify-content-center">
         <div class="col-6">
@@ -14,11 +20,11 @@
             </div>
             <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label h5">Para:</label>
-                <input asp-for="Email" class="form-control" type="text" value="@Model.Email" readonly>
+                <input asp-for="Email" class="form-control" type="text" readonly>
             </div>
             <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label h5">Contraseña:</label>
-                <input asp-for="Password" class="form-control" type="text" value="@Model.Password" readonly>
+                <input asp-for="Password" class="form-control" type="text" readonly>
             </div>
             <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label h5">Asunto:</label>
@@ -41,7 +47,7 @@ El sistema es sensible a mayúsculas y minúsculas, por lo que recomendamos tene
                 <label for="exampleFormControlTextarea1" class="form-label h5">Contacto:</label>
                 <textarea class="form-control" rows="3" readonly>Rosa Emilia Hernández Vásquez
 Rosy.vasquezq@consulightpf.net
-7009-7702</textarea>
+6821-8398</textarea>
             </div>
             <div class="text-center mb-3">
                 <input type="submit" class="btn btn-primary col-6" value="Enviar Correo">

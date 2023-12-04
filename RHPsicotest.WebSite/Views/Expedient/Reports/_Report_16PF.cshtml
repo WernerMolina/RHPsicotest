@@ -1,0 +1,89 @@
+﻿@model IEnumerable<Result>
+
+@{
+    Layout = null;
+
+    List<int> percentiles = new List<int>();
+
+    foreach (Result result in Model)
+    {
+        percentiles.Add(result.Percentile);
+    }
+
+    byte i = 0;
+    string[] factors = { "A", "B", "C", "E", "F", "G", "H", "I", "L", "M", "N", "O", "Q1", "Q2", "Q3", "Q4" };
+    string[] factorsDescription = 
+    { 
+        "SIZOTIMIA - AFECTOTIMIA", 
+        "INTELIGENCIA BAJA - ALTA", 
+        "POCA-MUCHA FUERZA DEL EGO", 
+        "SUMISION-DOMINANCIA", 
+        "DESURGENCIA-SURGENCIA", 
+        "POCA-MUCHA FUERZA DEL SUPEREGO", 
+        "TRECTIA-PARMIA", 
+        "HARRIA-PREMISA", 
+        "ALAXIA-PROTENSIÓN", 
+        "PRAXERNIA-AUTIA", 
+        "SENCILLEZ-ASTUCIA", 
+        "ADECUACIÓN IMPERTURBABLE-TENDENCIA A LA CULPABILIDAD", 
+        "CONSERVADURISMO-RADICALISMO", 
+        "ADHESIÓN AL GRUPO-AUTOSUFICIENCIA", 
+        "BAJA INTEGRACIÓN-MUCHO CONTROL DE SU IMAGEN", 
+        "POCAS EMOCIONES FUERTES-EMOCIONES FUERTES" // "POCA-MUCHA TENSIÓN ENERGETICA"
+    };
+
+    string factorsDescriptionJson = JsonConvert.SerializeObject(factorsDescription);
+    string percentileJson = JsonConvert.SerializeObject(percentiles);
+}
+
+<h2 class="text-center fw-bold">16PF</h2>
+
+<div class="">
+    <div id="chart16PF" style="width: 100%; height: 500px;"></div>
+</div>
+
+<div class="">
+    @foreach (Result result in Model)
+    {
+        <p class="mt-4 fs-5 fw-bold text-danger">Factor @factors[i]</p>
+        <p class="my-3 fs-5 fw-bold">@result.Description</p>
+
+        i++;
+    }
+</div>
+
+<script>
+    let percentilesData = @Html.Raw(percentileJson);
+    let factorsData = @Html.Raw(factorsDescriptionJson);
+
+    let chart16PF = echarts.init(document.getElementById('chart16PF'));
+
+    let option = {
+        //grid: {
+        //     backgroundColor: "#2f4f4f",
+        //    show: true,
+        //    width: "50%",
+        //},
+        legend: {
+            data: ['Decatipos']
+        },
+        xAxis: {
+            type: 'value',
+            max: 10,
+            position: 'top'
+        },
+        yAxis: {
+            type: 'category',
+            data: factorsData,
+        },
+        series: [
+            {
+                data: percentilesData,
+                type: 'line'
+            }
+        ]
+    };
+
+    chart16PF.setOption(option);
+</script>
+

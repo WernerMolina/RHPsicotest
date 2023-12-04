@@ -17,6 +17,8 @@ namespace RHPsicotest.WebSite.Models
 
         public string Email { get; set; }
 
+        public string EmailNormalized { get; set; }
+
         public string Password { get; set; }
 
         public string RegistrationDate { get; set; }

@@ -19,10 +19,7 @@ namespace RHPsicotest.WebSite.DTOs
         public string RegistrationDate { get; set; }
 
         [Display(Name = "Roles")]
-        public IEnumerable<string> Roles { get; set; }
+        public List<string> Roles { get; set; }
         
-        [Display(Name = "Permisos")]
-        public IEnumerable<string> Permissions { get; set; }
-
     }
 }

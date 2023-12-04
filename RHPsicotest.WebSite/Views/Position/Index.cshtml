@@ -3,16 +3,25 @@
 @{
     ViewData["Title"] = "Puestos";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+
+    byte i = 1;
 }
 
-<h1 class="fw-bold">Lista de Puestos</h1>
+<h1 class="fw-bold">Puestos</h1>
 
-<p class="mt-4">
-    <a asp-action="Create" class="btn btn-success fw-bold fs-5">Crear Puesto</a>
-</p>
-<table class="table table-striped align-middle">
+@if ((await AuthorizationService.AuthorizeAsync(User, "Create-Position-Policy")).Succeeded)
+{
+    <p class="my-4">
+        <a asp-action="Create" class="btn btn-success fw-bold fs-5">Crear Puesto</a>
+    </p>
+}
+
+<table class="table table-striped align-middle" id="dataTable">
     <thead class="table-dark">
         <tr class="text-center">
+            <th>
+                Nº
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.PositionName)
             </th>
@@ -33,29 +42,64 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => position.PositionName)
+                    @i
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => position.PositionHigher)
+                    @Html.DisplayFor(model => position.PositionName)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => position.Department)
+                    @Html.DisplayFor(model => position.PositionHigher)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => position.CreationDate)
+                    @Html.DisplayFor(model => position.Department)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@position.IdPosition" class="btn bg-warning fw-bold"><i class="bi bi-pencil-fill"></i></a> |
-                    <form asp-action="Delete" method="post" class="d-inline">
-                        <input type="hidden" name="id" value="@position.IdPosition"/>
-                        <button class="btn btn-danger fw-bold">
+                    @Html.DisplayFor(model => position.CreationDate)
+                </td>
+                <td>
+                    @if ((await AuthorizationService.AuthorizeAsync(User, "Edit-Position-Policy")).Succeeded)
+                    {
+                        <a asp-action="Edit" asp-route-id="@position.IdPosition" class="btn bg-warning fw-bold"><i class="bi bi-pencil-fill"></i></a>
+                    }
+                    @if ((await AuthorizationService.AuthorizeAsync(User, "Delete-Position-Policy")).Succeeded)
+                    {
+                        <button class="btn btn-danger fw-bold" onclick="activeModalDelete(@position.IdPosition)">
                             <i class="bi bi-trash3-fill"></i>
                         </button>
-                    </form>
+                    }
                 </td>
             </tr>
+
+            i++;
         }
     </tbody>
 </table>
 
+<partial name="/Views/Shared/_ModalDelete.cshtml" />
 
+@section Scripts {
+    <script>
+        var objectId = 0;
+
+        function activeModalDelete(id) {
+            let modalDelete = document.querySelector("#modalDelete");
+            modalDelete.classList.remove("d-none");
+            modalDelete.classList.add("d-flex");
+
+            objectId = id;
+        }
+
+        function deleteRecord() {
+            $.ajax({
+                type: "POST",
+                url: "@Url.ActionLink("Delete", "Position")",
+                data: { positionId: objectId },
+                success: function (data) {
+                    window.location = "@Url.ActionLink("Index", "Position")";
+                },
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+
+            });
+        }
+    </script>
+}

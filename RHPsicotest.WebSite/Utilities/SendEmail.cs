@@ -1,8 +1,6 @@
-﻿using System.Net.Mail;
+﻿using Microsoft.Extensions.Configuration;
 using System.Net;
-using Microsoft.Extensions.Configuration;
-using Microsoft.AspNetCore.Components;
-using RHPsicotest.WebSite.Models;
+using System.Net.Mail;
 
 namespace RHPsicotest.WebSite.Utilities
 {
@@ -11,7 +9,7 @@ namespace RHPsicotest.WebSite.Utilities
         private static string Email { get; set; }
 
         private static string Password { get; set; }
-        
+
         private static IConfiguration Configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
 
         public static void Send(string email, string password)

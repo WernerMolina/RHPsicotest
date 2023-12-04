@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.CodeAnalysis.Options;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,6 +10,7 @@ using Microsoft.Extensions.Hosting;
 using RHPsicotest.WebSite.Data;
 using RHPsicotest.WebSite.Repositories;
 using RHPsicotest.WebSite.Repositories.Contracts;
+using RHPsicotest.WebSite.Utilities;
 using System;
 using System.IO;
 
@@ -47,30 +47,6 @@ namespace RHPsicotest.WebSite
             services.AddScoped<IExpedientRepository, ExpedientRepository>();
             services.AddScoped<ITestRepository, TestRepository>();
 
-            //services.AddAntiforgery(option =>
-            //{
-            //    option.Cookie.Name = "AntiforgeryCookieRHPsicotest";
-            //    option.FormFieldName = "AntiforgeryFieldName";
-            //    option.HeaderName = "AntiforgeryHeaderRHPsicotest";
-            //    option.Cookie.MaxAge = TimeSpan.FromHours(5);
-            //    option.Cookie.Expiration = TimeSpan.FromHours(5);
-            //});
-
-            //services.AddAuthentication(option =>
-            //{
-            //    option.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-            //    option.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-            //    option.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-            //}).AddCookie(option =>
-            //{
-            //    option.Cookie.Name = "RHPsicotest";
-            //    option.Cookie.MaxAge = TimeSpan.FromDays(7);
-
-            //    option.LoginPath = "/Login";
-            //    option.AccessDeniedPath = new PathString("/AccesoDenegado");
-            //    option.ExpireTimeSpan = TimeSpan.FromDays(7);
-            //});
-            
             var keysFolder = Path.Combine(Environment.ContentRootPath, "Keys");
 
             services.AddDataProtection()
@@ -83,27 +59,15 @@ namespace RHPsicotest.WebSite
                     {
                         options.Cookie.Name = "RHPsicotest";
                         options.Cookie.MaxAge = TimeSpan.FromDays(7);
-                        
-                        options.LoginPath = "/Login"; 
+
+                        options.LoginPath = "/Login";
                         options.AccessDeniedPath = new PathString("/AccesoDenegado");
 
                         options.ExpireTimeSpan = TimeSpan.FromDays(7);
 
-                        options.SlidingExpiration = true; 
+                        options.SlidingExpiration = true;
                         options.Cookie.IsEssential = true;
                     });
-
-            //services.AddDataProtection()
-            //        .PersistKeysToFileSystem(new DirectoryInfo("SOME WHERE IN STORAGE"))
-            //        //.ProtectKeysWithCertificate(new X509Certificate2());
-            //        .SetDefaultKeyLifetime(TimeSpan.FromDays(90));
-
-
-            //var keysFolder = Path.Combine(_environment.ContentRootPath, "Keys");
-            //services.AddDataProtection()
-            //    .PersistKeysToFileSystem(new DirectoryInfo(keysFolder))
-            //    .SetApplicationName("MyWebsite")
-            //    .SetDefaultKeyLifetime(TimeSpan.FromDays(90));
 
             services.AddAuthorization(option =>
             {

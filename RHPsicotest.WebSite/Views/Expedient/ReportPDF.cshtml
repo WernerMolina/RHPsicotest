@@ -10,24 +10,26 @@
     ViewData["Title"] = "Reporte de " + (expedient.Names + " " + expedient.Lastnames);
 }
 
-<div class="mb-4">
+<div class="my-5 px-4">
     <div class="d-flex">
-        <h1 class="col-8 d-flex align-items-center">Resultados de las Pruebas Psicológicas</h1>
-        <a class="col-4" href="@String.Format($"https://selectpdf.com/export-to-pdf/?&engine=blink&min_load_time=2&pdf_name={name}")"
+        <h1 class="fw-bold col-8 d-flex align-items-center">Resultados de las Pruebas Psicológicas</h1>
+        <a class="col-4 text-center" href="@String.Format($"https://selectpdf.com/export-to-pdf/?&engine=blink&min_load_time=2&pdf_name={name}")"
            onclick="if(!this.urlAdded)href+='&url='+encodeURIComponent(location.href);this.urlAdded=1">
             <img class="col-10" src="~/img/LogoConsulight.png" />
-       </a>
+        </a>
     </div>
-    <div class="ps-4">
-        <p class="my-2 fs-5 fw-bold">Nombre: @expedient.Names @expedient.Lastnames</p>
-        <p class="my-2 fs-5 fw-bold">Edad: @expedient.Age años</p>
-        <p class="my-2 fs-5 fw-bold">Puesto: @expedient.Position</p>
-        <p class="my-2 fs-5 fw-bold">Formación Académica: @expedient.AcademicTraining</p>
-        <p class="my-2 fs-5 fw-bold">Fecha de Evaluación: @expedient.EvaluationDate</p>
+    <div class="ps-4 fs-4 text-secondary fw-bold">
+        <p class="my-2">Nombre: @expedient.Names @expedient.Lastnames</p>
+        <p class="my-2">Edad: @expedient.Age años</p>
+        <p class="my-2">Puesto: @expedient.Position</p>
+        <p class="my-2">Formación Académica: @expedient.AcademicTraining</p>
+        <p class="my-2">Fecha de Evaluación: @expedient.EvaluationDate</p>
     </div>
 </div>
 
-<div class="">
+<hr class="" />
+
+<div class="mt-4">
     @foreach (ResultDTO resultDTO in Model)
     {
         @if (resultDTO.IdTest == 1)
@@ -50,19 +52,6 @@
             <partial name="/Views/Expedient/Reports/_Report_IPV.cshtml" model="@resultDTO.Results" />
         }
         
-@*        @if (resultDTO.IdTest == 5)
-        {
-            <partial name="/Views/Expedient/Reports/_Report_16PF.cshtml" model="@resultDTO.Results" />
-        }
-        
-        @if (resultDTO.IdTest == 6)
-        {
-            <partial name="/Views/Expedient/Reports/_Report_16PF.cshtml" model="@resultDTO.Results" />
-        }*@
-        
-
-
-        <br />
-        <br />
+        <hr class="my-5" />
     }
 </div>

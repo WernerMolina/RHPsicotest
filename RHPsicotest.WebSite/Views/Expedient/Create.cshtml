@@ -36,7 +36,7 @@
             </div>
             <div class="col-12 col-md-6 form-group mt-2">
                 <label asp-for="CivilStatus" class="fs-5 fw-semibold px-2"></label>
-                <select asp-for="CivilStatus" class="form-select" id="single-select-field">
+                <select asp-for="CivilStatus" class="form-select">
                     <option>Seleccionar Estado</option>
                     <option value="Soltero/a">Soltero/a</option>
                     <option value="Casado/a">Casado/a</option>
@@ -78,7 +78,6 @@
             <div class="col-12 col-md-6 form-group mt-2">
                 <label asp-for="AcademicTraining" class="fs-5 fw-semibold px-2"></label>
                 <select asp-for="AcademicTraining" class="form-select" id="single-select-field">
-                    <option>Seleccionar Formación</option>
                     @foreach (var formation in (List<string>)ViewBag.AcademicFormations)
                     {
                         <option value="@formation">@formation</option>
@@ -116,7 +115,6 @@
             <div class="col-12 form-group mt-2">
                 <label asp-for="Direction" class="fs-5 fw-semibold px-2"></label>
                 <textarea asp-for="Direction" class="form-control" rows="2"></textarea>
-                <!-- <input asp-for="Direction" class="form-control" /> -->
                 <span asp-validation-for="Direction" class="text-danger"></span>
             </div>
         </div>

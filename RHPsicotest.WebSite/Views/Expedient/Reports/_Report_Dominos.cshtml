@@ -9,38 +9,39 @@
     int percentile = result.Percentile;
 }
 
-<h2 class="text-center fw-bold">Domino 48</h2>
+<h2 class="h1 text-center fw-bold">Domino 48</h2>
 
-<div class="mt-4">
-    <table class="table-domino table-bordered">
+<div class="m-4 ">
+    <table class="table-domino table-bordered border border-3 border-dark">
         <tbody>
             <tr class="tr-result-domino">
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td class="border border-3 border-dark"></td>
+                <td class="border border-3 border-dark"></td>
+                <td class="border border-3 border-dark"></td>
+                <td class="border border-3 border-dark"></td>
             </tr>
             <tr class="text-center fs-5">
-                <td class="t-head">Deficiente</td>
-                <td class="t-head">Inferior al Término Medio</td>
-                <td class="t-head">Término Medio</td>
-                <td class="t-head">Superior al Término Medio</td>
-                <td class="t-head">Superior</td>
+                <td class="t-head border border-3 border-dark">Deficiente</td>
+                <td class="t-head border border-3 border-dark">Inferior al Término Medio</td>
+                <td class="t-head border border-3 border-dark">Término Medio</td>
+                <td class="t-head border border-3 border-dark">Superior al Término Medio</td>
+                <td class="t-head border border-3 border-dark">Superior</td>
             </tr>
         </tbody>
     </table>
 </div>
 
-<div class="my-4">
-    <p class="my-2 fs-4 fw-bold">Puntaje Total: <span class="fs-4">@result.Score</span></p>
-    <p class="my-2 fs-4 fw-bold">Percentil: <span class="fs-4">@result.Percentile</span></p>
-</div>
+<div class="px-5 ">
+    <div class="mb-3">
+        <h4 class="fs-3 fw-bold ">Interpretación</h4>
+        <p class="col-10 ms-4 fs-5 fw-bold text-secondary">@result.Description</p>
 
-<div class="">
-    <h2 class="mb-4 fw-bold">Interpretación</h2>
-    <p class="my-4 fs-5 fw-bold">@result.Description</p>
+        <div class="d-flex gap-4 ms-4 fs-5 fw-bold text-primary">
+            <p class="p-0 m-0">Puntuación: @result.Score</p>
+            <p class="p-0 m-0">Centil: @result.Percentile</p>
+        </div>
+    </div>
 </div>
-
 
 <script type="text/javascript">
     let pseudoDomino = document.querySelector(".tr-result-domino");

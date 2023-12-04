@@ -13,35 +13,43 @@
     byte i = 0;
     string[] factors =
     {
-        "DGA.- Disposición General para la Venta",
-        "R.- Receptividad",
-        "A.- Agresividad",
-        "I.- Comprensión",
-        "II.- Adaptabilidad",
-        "III.- Control de sí mismo",
-        "IV.- Tolerancia a la frustración",
-        "V.- Combatividad",
-        "VI.- Dominio",
-        "VII.- Seguridad",
-        "VIII.- Actividad",
-        "IX.- Sociabilidad",
+        "DGV - Disposición General para la Venta",
+        "R - Receptividad",
+        "A - Agresividad",
+        "I - Comprensión",
+        "II - Adaptabilidad",
+        "III - Control de sí mismo",
+        "IV - Tolerancia a la frustración",
+        "V - Combatividad",
+        "VI - Dominio",
+        "VII - Seguridad",
+        "VIII - Actividad",
+        "IX - Sociabilidad",
     };
 
     string factorsDescriptionJson = JsonConvert.SerializeObject(Enumerable.Reverse(factors).ToArray());
     string percentileJson = JsonConvert.SerializeObject(Enumerable.Reverse(decatypes).ToArray());
 }
 
-<h2 class="text-center fw-bold">IPV</h2>
+<h2 class="h1 text-center fw-bold">IPV</h2>
 
 <div class="">
-    <div id="chartIPV" style="width: 100%; height: 500px"></div>
+    <div id="chartIPV" style="width: 100%; height: 700px"></div>
 </div>
 
-<div class="">
+<div class="px-5">
     @foreach (Result result in Model)
     {
-        <p class="mt-4 fs-5 fw-bold text-danger">Factor @factors[i++]</p>
-        <p class="my-3 fs-5 fw-bold">@result.Description</p>
+        <div class="mb-3">
+            <h4 class="fs-3 fw-bold ">Factor @factors[i++]</h4>
+
+            <p class="col-10 ms-4 fs-5 fw-bold text-secondary">@result.Description</p>
+
+            <div class="d-flex gap-4 ms-4 fs-5 fw-bold text-primary">
+                <p class="p-0 m-0">Puntuación: @result.Score</p>
+                <p class="p-0 m-0">Decatipo: @result.Percentile</p>
+            </div>
+        </div>
     }
 </div>
 
@@ -54,10 +62,23 @@
     let optionIPV = {
        grid: {
             show: true,
-            width: "50%",
+            width: "60%",
             left: "30%",
-            right: "10%"
+            tooltip: {
+                axisPointer: {
+                    lineStyle: {
+                        width: 20
+                    }
+                }
+            }
         },
+        tooltip: {
+            show: true,
+            trigger: "axis",
+            axisPointer: {
+                type: "shadow"
+            }
+        }, 
         legend: {
             data: ['Decatipos']
         },
@@ -67,22 +88,28 @@
             position: 'top',
             splitNumber: 10,
             axisLabel: {
-                fontSize: 16,
+                fontSize: 18,
                 fontWeight: "bold",
-            }
+                fontFamily: "Nunito"
+            }  
         },
         yAxis: {
             type: 'category',
             data: factorsDataIPV,
             axisLabel: {
-                fontSize: 16,
+                fontSize: 18,
                 fontWeight: "bold",
-            }
+                fontFamily: "Nunito"
+            },
         },
         series: [
             {
                 data: percentilesDataIPV,
-                type: 'line'
+                type: 'line',
+                lineStyle: {
+                    width: 5,
+                },
+                symbol: "none"
             }
         ]
     };

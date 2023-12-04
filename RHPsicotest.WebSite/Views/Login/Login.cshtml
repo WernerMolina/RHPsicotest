@@ -6,7 +6,7 @@
 }
 
 
-<div class="row d-flex justify-content-center">
+<div class="row d-flex justify-content-center mt-5">
     <form class="col-12 col-md-8 col-lg-5 px-3" asp-action="Login" asp-controller="Login" method="POST" enctype="multipart/form-data">
         
         <div class="col-12">
@@ -20,7 +20,7 @@
             <span asp-validation-for="Password"></span>
         </div>
         <div class="col-12 mt-3 px-2">
-            <label asp-for="IsCandidate" class="fs-5 fw-semibold"><input asp-for="IsCandidate" style="transform: scale(1.5)" type="checkbox" value="true" />&nbsp;&nbsp; Marcar sí es un candidato</label>
+            <label asp-for="IsCandidate" class="fs-5 fw-bold"><input asp-for="IsCandidate" style="transform: scale(1.5)" type="checkbox" value="true" />&nbsp;&nbsp; Marcar sí es un candidato</label>
         </div>
         <div class="col-12 my-2 text-center">
             @if (ViewBag.Error != null)
@@ -47,9 +47,11 @@
           var emailParam = url.searchParams.get("Email");
           var passParam = url.searchParams.get("Password");
 
-          if (emailParam.length != 0 && passParam.length != 0){
-              document.getElementById('email').value = emailParam;
-              document.getElementById('pass').value = passParam;
+          if (emailParam != null && passParam != null){
+              if (emailParam.length != 0 && passParam.length != 0){
+                document.getElementById('email').value = emailParam;
+                document.getElementById('pass').value = passParam;
+            }
           }
 
         };

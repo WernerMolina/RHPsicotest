@@ -5,20 +5,20 @@
         <li class="nav-item">
             <a class="nav-link" asp-controller="Home" asp-action="Dashboard">
                 <i class="bi bi-grid"></i>
-                <span>Dashboard</span>
+                <span class="fw-bold fs-6">Dashboard</span>
             </a>
         </li>
 
         <li class="nav-item">
             <a class="nav-link collapsed" data-bs-target="#component-role-permission" data-bs-toggle="collapse" href="#">
-                <i class="bi bi-menu-button-wide"></i><span>Roles y Permisos</span><i class="bi bi-chevron-down ms-auto"></i>
+                <i class="bi bi-menu-button-wide"></i><span class="fw-bold fs-6">Roles y Permisos</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
             <ul id="component-role-permission" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                 @if ((await AuthorizationService.AuthorizeAsync(User, "List-Role-Policy")).Succeeded)
                 {
                     <li>
                         <a asp-action="Index" asp-controller="Role">
-                            <i class="bi bi-circle"></i><span>Roles</span>
+                            <i class="bi bi-circle"></i><span class="fw-bold fs-6">Roles</span>
                         </a>
                     </li>
                 }
@@ -26,13 +26,13 @@
                 {
                     <li>
                         <a asp-action="Index" asp-controller="User">
-                            <i class="bi bi-circle"></i><span>Usuarios</span>
+                            <i class="bi bi-circle"></i><span class="fw-bold fs-6">Usuarios</span>
                         </a>
                     </li>
                 }
                 <li>
                     <a asp-action="Index" asp-controller="Permission">
-                        <i class="bi bi-circle"></i><span>Permisos</span>
+                        <i class="bi bi-circle"></i><span class="fw-bold fs-6">Permisos</span>
                     </a>
                 </li>
             </ul>
@@ -42,7 +42,7 @@
         {
             <li class="nav-item">
                 <a asp-action="Index" asp-controller="Position" class="nav-link">
-                    <i class="bi bi-grid"></i><span>Puestos</span>
+                    <i class="bi bi-grid"></i><span class="fw-bold fs-6">Puestos</span>
                 </a>
             </li>
         }
@@ -51,7 +51,7 @@
         {
             <li class="nav-item">
                 <a asp-action="Index" asp-controller="Candidate" class="nav-link">
-                    <i class="bi bi-grid"></i><span>Contraseñas</span>
+                    <i class="bi bi-grid"></i><span class="fw-bold fs-6">Contraseñas</span>
                 </a>
             </li>
         }
@@ -60,7 +60,7 @@
         {
             <li class="nav-item">
                 <a asp-action="Index" asp-controller="Expedient" class="nav-link">
-                    <i class="bi bi-grid"></i><span>Expedientes</span>
+                    <i class="bi bi-grid"></i><span class="fw-bold fs-6">Expedientes</span>
                 </a>
             </li>
         }

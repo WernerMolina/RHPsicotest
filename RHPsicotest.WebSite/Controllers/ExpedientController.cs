@@ -86,7 +86,7 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpGet]
         [Route("/Expediente/Crear")]
-        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, 
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme,
             Policy = "Create-Expedient-Policy")]
         public async Task<IActionResult> Create()
         {
@@ -160,7 +160,7 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpGet]
         [Route("/Expediente/Editar")]
-        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, 
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme,
             Policy = "Edit-Expedient-Policy")]
         public async Task<IActionResult> Edit(int id)
         {
@@ -218,7 +218,7 @@ namespace RHPsicotest.WebSite.Controllers
 
         [HttpGet]
         [Route("/Curriculum-Vitae")]
-        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme, 
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme,
             Policy = "WatchCurriculums-Expedient-Policy")]
         public async Task<IActionResult> ShowCurriculum(int id)
         {
@@ -232,7 +232,7 @@ namespace RHPsicotest.WebSite.Controllers
         [HttpGet]
         [Route("/Reporte")]
         //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme,
-            //Policy = "WatchReports-Expedient-Policy")]
+        //Policy = "WatchReports-Expedient-Policy")]
         public async Task<IActionResult> ReportPDF(int id)
         {
             List<ResultDTO> results = await expedientRepository.GetResults(id);

@@ -96,8 +96,8 @@ body {
     }
 }
 
-.logo img {
-    max-height: 40px;
+.logo-img {
+    max-height: 80px;
     margin-right: 6px;
 }
 

@@ -3,7 +3,8 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <link href="~/img/favicon.png" rel="icon">
+@*     <link href="~/img/favicon.png" rel="icon"> *@
+    <link href="~/img/consulight/favicon.ico" rel="icon"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
     <title>RHPsicotest - @ViewData["Title"]</title>
@@ -26,7 +27,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
 
     <!-- Template Main CSS File -->
-    <link href="~/css/main.css" rel="stylesheet">
+    <link href="~/css/main.css" rel="stylesheet" asp-append-version="true">
 </head>
 <body>
     @await Html.PartialAsync("_HeaderAdmin.cshtml")
@@ -52,8 +53,8 @@
     <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
 
      <!-- Files Main JS -->
-    <script src="~/js/main.js"></script>
-
+    <script src="~/js/main.js" asp-append-version="true"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 

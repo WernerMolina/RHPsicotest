@@ -42,21 +42,20 @@
 <script>
     let factorsDataPPGIPG = @Html.Raw(factorsJson);
     let percentilesDataPPGIPG = @Html.Raw(percentileJson);
+    let maxPPGIPG = Math.max(...percentilesDataPPGIPG);
 
-    let maxPPGIPG = percentilesDataPPGIPG.sort((a, b) => (a - b))[percentilesDataPPGIPG.length - 1];
-
-    if (maxPPGIPG >= 90){
-        maxPPGIPG = 110;
-    } else if (maxPPGIPG >= 70){
-        maxPPGIPG = 90;
-    } else if (maxPPGIPG >= 50){
-        maxPPGIPG = 70;
-    } else if (maxPPGIPG >= 30){
-        maxPPGIPG = 50;
-    } else if (maxPPGIPG >= 10){
-        maxPPGIPG = 30;
+    if (maxPPGIPG >= 81) {
+        maxPPGIPG = 100;
+    } else if (maxPPGIPG >= 61) {
+        maxPPGIPG = 80;
+    } else if (maxPPGIPG >= 41) {
+        maxPPGIPG = 60;
+    } else if (maxPPGIPG >= 30) {
+        maxPPGIPG = 40;
+    } else if (maxPPGIPG >= 10) {
+        maxPPGIPG = 20;
     }
-    
+
     let chartPPGIPG = echarts.init(document.getElementById('chartPPGIPG'));
 
     let optionPPGIPG = {
@@ -66,7 +65,7 @@
             axisPointer: {
                 type: "shadow"
             }
-        },        
+        },
         xAxis: {
             data: ['Asc', 'Res', 'Est', 'Soc', 'Cau', 'Ori', 'Com', 'Vit', 'Aut'],
             axisLabel: {
@@ -95,4 +94,5 @@
 
     chartPPGIPG.setOption(optionPPGIPG);
 </script>
+
 

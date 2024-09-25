@@ -10,7 +10,6 @@ using Microsoft.Extensions.Hosting;
 using RHPsicotest.WebSite.Data;
 using RHPsicotest.WebSite.Repositories;
 using RHPsicotest.WebSite.Repositories.Contracts;
-using RHPsicotest.WebSite.Utilities;
 using System;
 using System.IO;
 
@@ -35,17 +34,27 @@ namespace RHPsicotest.WebSite
 
             services.AddRazorPages().AddRazorRuntimeCompilation();
 
-            services.AddDbContextPool<RHPsicotestDbContext>(option => option.UseSqlServer(Configuration.GetConnectionString("RHPsicotestConnection")));
+            services.AddDbContextPool<RHPsicotestDbContext>(option =>
+            option.UseSqlServer(Configuration.GetConnectionString("RHPsicotestConnection")));
+
+            services.AddDbContextPool<RHPV1DbContext>(option =>
+            option.UseSqlServer(Configuration.GetConnectionString("RHPsicotestV1Connection")));
+
+            services.AddDbContextPool<RHPV2DbContext>(option =>
+            option.UseSqlServer(Configuration.GetConnectionString("RHPsicotestV2Connection")));
 
             services.AddScoped<DbContext, RHPsicotestDbContext>();
+            services.AddScoped<DbContext, RHPV1DbContext>();
+            services.AddScoped<DbContext, RHPV2DbContext>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ILoginRepository, LoginRepository>();
             services.AddScoped<IRoleRepository, RoleRepository>();
-            services.AddScoped<IPermissionRepository, PermissionRepository>();
+            services.AddScoped<IMergeRepository, MergeRepository>();
             services.AddScoped<IPositionRepository, PositionRepository>();
             services.AddScoped<ICandidateRepository, CandidateRepository>();
             services.AddScoped<IExpedientRepository, ExpedientRepository>();
             services.AddScoped<ITestRepository, TestRepository>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             var keysFolder = Path.Combine(Environment.ContentRootPath, "Keys");
 
@@ -112,7 +121,7 @@ namespace RHPsicotest.WebSite
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IHostApplicationLifetime applicationLifetime, IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {

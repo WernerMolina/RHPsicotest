@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using System.IO;
 
 namespace RHPsicotest.WebSite
 {
@@ -7,7 +8,14 @@ namespace RHPsicotest.WebSite
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            var host = CreateHostBuilder(args).Build();
+
+            if (!Directory.Exists(Path.GetFullPath("Z_CVs")))
+            {
+                Directory.CreateDirectory(Path.GetFullPath("Z_CVs"));
+            }
+
+            host.Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

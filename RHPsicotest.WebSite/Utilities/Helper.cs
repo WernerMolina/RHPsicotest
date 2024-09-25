@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using RHPsicotest.WebSite.DTOs;
-using RHPsicotest.WebSite.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;

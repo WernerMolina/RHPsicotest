@@ -197,7 +197,33 @@ namespace RHPsicotest.WebSite.Utilities
         }
 
         // Expediente
-        public static Expedient ConvertToExpedient(ExpedientVM expedientVM, (string, string, string) currentCandidate)
+        //public static Expedient ConvertToExpedient(ExpedientVM expedientVM, (string, string, string) currentCandidate)
+        //{
+        //    return new Expedient
+        //    {
+        //        IdCandidate = Convert.ToInt16(currentCandidate.Item1),
+        //        DUI = expedientVM.DUI.Trim(),
+        //        Names = expedientVM.Names.Trim(),
+        //        Lastnames = expedientVM.Lastnames.Trim(),
+        //        Email = currentCandidate.Item2.Trim(),
+        //        MovilePhoneNumber = expedientVM.MovilePhoneNumber.Trim(),
+        //        LandlineNumber = expedientVM.LandlineNumber.Trim(),
+        //        EvaluationDate = DateTime.Now.ToString("dd/MM/yyyy hh:mm tt", CultureInfo.CreateSpecificCulture("en-En")),
+        //        Age = Helper.CalculateAge(expedientVM.DateOfBirth),
+        //        Gender = expedientVM.Gender.Trim(),
+        //        CivilStatus = expedientVM.CivilStatus.Trim(),
+        //        Position = currentCandidate.Item3.Trim(),
+        //        AcademicTraining = expedientVM.AcademicTraining.Trim(),
+        //        Certificate = expedientVM.Certificate.Trim(),
+        //        CurriculumVitae = Helper.FilePDFConvertToArrayOfBytes(expedientVM.CurriculumVitae),
+        //        Country = expedientVM.Country.Trim(),
+        //        Department = expedientVM.Department.Trim(),
+        //        Municipality = expedientVM.Municipality.Trim(),
+        //        Direction = expedientVM.Direction.Trim()
+        //    };
+        //}
+
+        public static Expedient ConvertToExpedient(ExpedientVM expedientVM, (string, string, string) currentCandidate, string fileName)
         {
             return new Expedient
             {
@@ -215,13 +241,15 @@ namespace RHPsicotest.WebSite.Utilities
                 Position = currentCandidate.Item3.Trim(),
                 AcademicTraining = expedientVM.AcademicTraining.Trim(),
                 Certificate = expedientVM.Certificate.Trim(),
-                CurriculumVitae = Helper.FilePDFConvertToArrayOfBytes(expedientVM.CurriculumVitae),
+                CurriculumVitae = null,
+                FileName = fileName,
                 Country = expedientVM.Country.Trim(),
                 Department = expedientVM.Department.Trim(),
                 Municipality = expedientVM.Municipality.Trim(),
                 Direction = expedientVM.Direction.Trim()
             };
         }
+
 
         public static Expedient ConvertToExpedient(Expedient expedient, ExpedientUpdateVM expedientUpdateVM)
         {

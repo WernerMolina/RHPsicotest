@@ -1,26 +1,33 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RHPsicotest.WebSite.Models;
 using RHPsicotest.WebSite.Repositories.Contracts;
-using System.Collections.Generic;
+using System;
 using System.Threading.Tasks;
 
 namespace RHPsicotest.WebSite.Controllers
 {
     public class PermissionController : Controller
     {
-        private readonly IPermissionRepository permissionRepository;
+        private readonly IMergeRepository merge;
 
-        public PermissionController(IPermissionRepository permissionRepository)
+        public PermissionController(IMergeRepository merge)
         {
-            this.permissionRepository = permissionRepository;
+            this.merge = merge;
         }
 
-        [Route("/Permisos")]
-        public async Task<IActionResult> Index()
+        [Route("/mergedb/{isTrue:bool}")]
+        public async Task<IActionResult> Index(bool isTrue)
         {
-            IEnumerable<Permission> permissions = await permissionRepository.GetAllPermissions();
+            try
+            {
+                if (isTrue)
+                    await merge.GenerateMergeDb();
 
-            return View(permissions);
+                return Ok("Merge Success");
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
         }
     }
 }

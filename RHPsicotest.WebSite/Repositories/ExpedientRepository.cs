@@ -1,8 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using RHPsicotest.WebSite.Data;
 using RHPsicotest.WebSite.DTOs;
-using RHPsicotest.WebSite.GenerateResults;
 using RHPsicotest.WebSite.Models;
 using RHPsicotest.WebSite.Repositories.Contracts;
 using RHPsicotest.WebSite.Utilities;
@@ -10,30 +9,37 @@ using RHPsicotest.WebSite.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
-using System.Xml.Linq;
+
 
 namespace RHPsicotest.WebSite.Repositories
 {
     public class ExpedientRepository : IExpedientRepository
     {
         private readonly RHPsicotestDbContext context;
+        private readonly IHttpContextAccessor httpContextAccessor;
 
-        public ExpedientRepository(RHPsicotestDbContext context)
+        public ExpedientRepository(RHPsicotestDbContext context, IHttpContextAccessor httpContextAccessor)
         {
             this.context = context;
+            this.httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task<bool> AddExpedient(ExpedientVM expedientVM, (string, string, string) currentCandidate)
+        public async Task<bool> AddExpedient(ExpedientVM expedientVM)
         {
-            bool result;
+            if (Helper.CalculateAge(expedientVM.DateOfBirth) < 15)
+                throw new Exception("Tiene que ser mayor de 14 años");
 
-            Expedient expedient = Conversion.ConvertToExpedient(expedientVM, currentCandidate);
+            string userNameFull = $"{expedientVM.Names}{expedientVM.Lastnames}".Replace(" ", "");
+            string fileName = await FileServices.SaveCurriculum(expedientVM.CurriculumVitae, userNameFull);
+
+            (string, string, string) currentCandidate = GetClaims();
+
+            Expedient expedient = Conversion.ConvertToExpedient(expedientVM, currentCandidate, fileName);
 
             await context.Expedients.AddAsync(expedient);
-            result = await context.SaveChangesAsync() > 0;
-
-            return result;
+            return await context.SaveChangesAsync() > 0;
         }
 
         public async Task<bool> UpdateExpedient(ExpedientUpdateVM expedienUpdatetVM)
@@ -93,9 +99,9 @@ namespace RHPsicotest.WebSite.Repositories
         {
             Expedient expedient = await context.Expedients.FirstOrDefaultAsync(e => e.IdExpedient == id);
 
-            return expedient.CurriculumVitae;
+            return FileServices.GetCurriculum(expedient.FileName);
         }
-        
+
         public async Task<bool> HasExpedient(int candidateId)
         {
             Candidate candidate = await context.Candidates.Include(t => t.Expedient).FirstOrDefaultAsync(e => e.IdCandidate == candidateId);
@@ -104,7 +110,7 @@ namespace RHPsicotest.WebSite.Repositories
 
             return false;
         }
-        
+
         public async Task<List<ResultDTO>> GetResults(int expedientId)
         {
             List<Result> results = await context.Results.Where(e => e.IdExpedient == expedientId).ToListAsync();
@@ -121,5 +127,14 @@ namespace RHPsicotest.WebSite.Repositories
             return resultDTOs;
         }
 
+
+        private (string, string, string) GetClaims()
+        {
+            ClaimsPrincipal claimsPrincipal = httpContextAccessor.HttpContext.User;
+
+            return (claimsPrincipal.FindFirst(ClaimTypes.NameIdentifier).Value,
+                claimsPrincipal.FindFirst(ClaimTypes.Email).Value,
+                claimsPrincipal.FindFirst("Position").Value);
+        }
     }
 }

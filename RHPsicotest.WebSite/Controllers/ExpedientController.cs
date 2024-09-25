@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using RHPsicotest.WebSite.DTOs;
 using RHPsicotest.WebSite.Repositories.Contracts;
-using RHPsicotest.WebSite.Utilities;
 using RHPsicotest.WebSite.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -111,46 +110,25 @@ namespace RHPsicotest.WebSite.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    byte isAgeCorrect = Helper.CalculateAge(expedientVM.DateOfBirth);
+                    bool result = await expedientRepository.AddExpedient(expedientVM);
 
-                    if (isAgeCorrect >= 15)
+                    if (result)
                     {
-                        bool isFileTypePDF = Helper.IsFileTypePDF(expedientVM.CurriculumVitae);
-
-                        if (isFileTypePDF)
-                        {
-                            string candidateId = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value;
-                            string email = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Email).Value;
-                            string position = ((ClaimsIdentity)User.Identity).FindFirst("Position").Value;
-
-                            // Id, Correo, Puesto
-                            (string, string, string) currentCandidate = (candidateId, email, position);
-
-                            bool result = await expedientRepository.AddExpedient(expedientVM, currentCandidate);
-
-                            if (result)
-                            {
-                                return RedirectToAction("AssignedTests", "Test");
-                            }
-                            else
-                            {
-                                ViewBag.Message = "No se pudo guardar su información, por favor, intentelo otra vez";
-                            }
-                        }
-
-                        ViewBag.Message = "El archivo del curriculum tiene que ser de tipo PDF";
+                        return RedirectToAction("AssignedTests", "Test");
                     }
-
-                    ViewBag.Message = "Su edad no esta permitida";
+                    else
+                    {
+                        ViewBag.Message = "No se pudo guardar su información, por favor, intentelo otra vez";
+                    }
                 }
 
                 ViewBag.AcademicFormations = academicFormations;
 
                 return View(expedientVM);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                ViewBag.Message = "Ocurrio un problema en el sistema, intentelo otra vez, si el problema persiste, contactese con la encargada";
+                ViewBag.Message = e.Message;
 
                 ViewBag.AcademicFormations = academicFormations;
 

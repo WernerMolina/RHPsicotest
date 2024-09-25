@@ -12,7 +12,10 @@ namespace RHPsicotest.WebSite.Repositories.Contracts
 
         public Task<List<ExpedientDTO>> GetAllExpedients();
 
-        public Task<bool> AddExpedient(ExpedientVM expedientVM, (string, string, string) currentCandidate);
+        //public Task<bool> AddExpedient(ExpedientVM expedientVM, (string, string, string) currentCandidate);
+
+        public Task<bool> AddExpedient(ExpedientVM expedientVM);
+
 
         public Task<bool> UpdateExpedient(ExpedientUpdateVM expedientUpdateVM);
 

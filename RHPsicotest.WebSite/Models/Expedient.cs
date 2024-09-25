@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -26,7 +25,7 @@ namespace RHPsicotest.WebSite.Models
         public string LandlineNumber { get; set; }
 
         public string EvaluationDate { get; set; }
-        
+
         public byte Age { get; set; }
 
         public string Gender { get; set; }
@@ -40,6 +39,8 @@ namespace RHPsicotest.WebSite.Models
         public string Certificate { get; set; }
 
         public byte[] CurriculumVitae { get; set; }
+
+        public string FileName { get; set; }
 
         public string Direction { get; set; }
 

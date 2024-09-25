@@ -5,8 +5,9 @@ using RHPsicotest.WebSite.Models;
 using RHPsicotest.WebSite.Repositories.Contracts;
 using RHPsicotest.WebSite.Utilities;
 using RHPsicotest.WebSite.ViewModels;
+using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace RHPsicotest.WebSite.Repositories
@@ -20,7 +21,18 @@ namespace RHPsicotest.WebSite.Repositories
             this.context = context;
         }
 
-        public async Task<CandidateLoginDTO> GetCandidateLogin(Login login)
+        public async Task<(ClaimsIdentity, bool, bool)> GetAuthentication(Login userLogin)
+        {
+            if (await EmailExists(userLogin.Email, true))
+                return await GetCandidateLogin(userLogin);
+
+            if (await EmailExists(userLogin.Email, false))
+                return await GetUserLogin(userLogin);
+
+            throw new Exception("El correo no esta registrado");
+        }
+
+        private async Task<(ClaimsIdentity, bool, bool)> GetCandidateLogin(Login login)
         {
             Candidate candidate = await context.Candidates
                 .Include(c => c.Expedient)
@@ -28,48 +40,36 @@ namespace RHPsicotest.WebSite.Repositories
                 .Include(c => c.Position)
                 .FirstOrDefaultAsync(u => u.EmailNormalized == login.Email.Trim().ToUpper());
 
-            List<string> permissions = new List<string>();
+            if (candidate.Password != login.Password.Trim())
+                throw new Exception("La contraseña es incorrecta");
 
-            CandidateLoginDTO candidateLoginDTO = null;
+            List<string> permissions = await GetCandidatePermissions(candidate.IdRole);
 
-            bool isPassCorrect = candidate.Password == login.Password.Trim();
+            CandidateLoginDTO candidateLoginDTO = Conversion.ConvertToCandidateLoginDTO(candidate, permissions);
 
-            if (isPassCorrect)
-            {
-                permissions = await GetCandidatePermissions(candidate.IdRole);
-
-                candidateLoginDTO = Conversion.ConvertToCandidateLoginDTO(candidate, permissions);
-            }
-
-            return candidateLoginDTO;
+            return (Helper.CandidateAuthenticate(candidateLoginDTO), true, candidateLoginDTO.HasExpediente);
         }
 
-        public async Task<UserLoginDTO> GetUserLogin(Login login)
+        private async Task<(ClaimsIdentity, bool, bool)> GetUserLogin(Login login)
         {
             User user = await context.Users.Include(u => u.Roles).FirstOrDefaultAsync(u => u.Email == login.Email);
 
+            if (user.Password != Helper.EncryptMD5(login.Password.Trim()))
+                throw new Exception("La contraseña es incorrecta");
+
             List<string> roles = new List<string>();
-            List<string> permissions = new List<string>();
-
-            UserLoginDTO userLoginDTO = null;
-
-            bool isPassCorrect = user.Password == Helper.EncryptMD5(login.Password.Trim());
-
-            if (isPassCorrect)
+            foreach (Role_User roleUser in user.Roles)
             {
-                foreach (Role_User roleUser in user.Roles)
-                {
-                    Role role = await context.Roles.FirstOrDefaultAsync(r => r.IdRole == roleUser.IdRole);
+                Role role = await context.Roles.FirstOrDefaultAsync(r => r.IdRole == roleUser.IdRole);
 
-                    roles.Add(role.RoleName);
-                }
-
-                permissions = await GetUserPermissions(user);
-
-                userLoginDTO = Conversion.ConvertToUserLoginDTO(user, roles, permissions);
+                roles.Add(role.RoleName);
             }
- 
-            return userLoginDTO;
+
+            List<string> permissions = await GetUserPermissions(user);
+
+            UserLoginDTO userLoginDTO = Conversion.ConvertToUserLoginDTO(user, roles, permissions);
+
+            return (Helper.UserAuthenticate(userLoginDTO), false, false);
         }
 
         private async Task<List<string>> GetUserPermissions(User user)
@@ -111,7 +111,7 @@ namespace RHPsicotest.WebSite.Repositories
             return permissions;
         }
 
-        public async Task<bool> EmailExists(string email, bool isCandidate)
+        private async Task<bool> EmailExists(string email, bool isCandidate)
         {
             if (isCandidate)
             {

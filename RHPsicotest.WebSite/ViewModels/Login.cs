@@ -12,7 +12,5 @@ namespace RHPsicotest.WebSite.ViewModels
         [Display(Name = "Contraseña")]
         [Required(ErrorMessage = "La contraseña es obligatoria")]
         public string Password { get; set; }
-
-        public bool IsCandidate { get; set; }
     }
 }

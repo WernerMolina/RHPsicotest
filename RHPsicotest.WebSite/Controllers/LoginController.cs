@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
-using RHPsicotest.WebSite.DTOs;
 using RHPsicotest.WebSite.Repositories.Contracts;
-using RHPsicotest.WebSite.Utilities;
 using RHPsicotest.WebSite.ViewModels;
 using System;
 using System.Security.Claims;
@@ -45,83 +43,17 @@ namespace RHPsicotest.WebSite.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    ClaimsIdentity identity;
+                    (ClaimsIdentity, bool, bool) result = await loginRepository.GetAuthentication(userLogin);
 
-                    if (userLogin.IsCandidate)
-                    {
-                        bool emailCandidateExists = await loginRepository.EmailExists(userLogin.Email, true);
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                        new ClaimsPrincipal(result.Item1));
 
-                        if (!emailCandidateExists)
-                        {
-                            ViewBag.Error = "El correo no esta registrado";
-
-                            return View(userLogin);
-                        }
-
-                        CandidateLoginDTO candidateLoginDTO = await loginRepository.GetCandidateLogin(userLogin);
-
-                        if (candidateLoginDTO == null)
-                        {
-                            ViewBag.Error = "La contraseña es incorrecta";
-
-                            return View(userLogin);
-                        }
-
-                        identity = Helper.CandidateAuthenticate(candidateLoginDTO);
-
-                        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, 
-                                                      new ClaimsPrincipal(identity),
-                                                      new AuthenticationProperties
-                                                      {
-                                                          //AllowRefresh = true,
-                                                          //IsPersistent = true,
-                                                          //ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(1)
-                                                      });
-
-                        if (candidateLoginDTO.HasExpediente)
-                        {
-                            return RedirectToAction("AssignedTests", "Test");
-                        }
-                        else
-                        {
-                            return RedirectToAction("ConfirmPolicies", "Expedient");
-                        }
-                    }
+                    if (result.Item3)
+                        return RedirectToAction("AssignedTests", "Test");
+                    else if (result.Item2)
+                        return RedirectToAction("ConfirmPolicies", "Expedient");
                     else
-                    {
-                        bool emailCandidateExists = await loginRepository.EmailExists(userLogin.Email, true);
-
-                        if (emailCandidateExists)
-                        {
-                            ViewBag.Error = "Por favor, haga clic en el checkbox de arriba, que indica que es un candidato";
-
-                            return View(userLogin);
-                        }
-
-                        bool emailExists = await loginRepository.EmailExists(userLogin.Email, false);
-
-                        if (!emailExists)
-                        {
-                            ViewBag.Error = "El correo no esta registrado";
-
-                            return View(userLogin);
-                        }
-
-                        UserLoginDTO userLoginDTO = await loginRepository.GetUserLogin(userLogin);
-
-                        if (userLoginDTO == null)
-                        {
-                            ViewBag.Error = "La contraseña es incorrecta";
-
-                            return View(userLogin);
-                        }
-
-                        identity = Helper.UserAuthenticate(userLoginDTO);
-
-                        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
-
                         return RedirectToAction("Dashboard", "Home");
-                    }
                 }
 
                 return View(userLogin);
